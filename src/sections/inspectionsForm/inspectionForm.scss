@@ -1,0 +1,86 @@
+.inspection-form {
+  
+  padding: 80px 40px;
+
+  font-family: "Lato", serif;
+  font-size: 20px;
+  font-weight: 100;
+  font-style: normal;
+
+  h2 {
+    font-family: "Merriweather", serif;
+    font-size: 40px;
+    font-weight: 300;
+    font-style: normal;
+    margin-bottom: 45px;
+  }
+
+  .typ {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+
+    .prop{
+        width: 350px;
+      }
+      .klatki{
+        width: 100px;
+      }
+  }
+  .adres{
+    width: 350px;
+  }
+  .dane{
+    width: 100px;
+    margin-right: 25px;
+  }
+
+  .zakres {
+    
+    .opis{
+    margin-bottom: 25px;
+  }
+}
+  
+
+
+
+}
+.inspection-form div {
+  margin-bottom: 15px;
+}
+
+.inspection-form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.inspection-form input,
+.inspection-form select {
+  font-family: "Lato", serif;
+ 
+  padding: 8px;
+  
+}
+.checkbox{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.add-to-cart-btn,
+.submit-btn {
+  display: block;
+  width: 200px;
+  padding: 10px;
+  margin-top: 15px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.add-to-cart-btn:hover,
+.submit-btn:hover {
+  background-color: #45a049;
+}

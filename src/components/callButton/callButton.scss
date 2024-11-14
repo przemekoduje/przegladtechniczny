@@ -1,0 +1,35 @@
+.call-button {
+  text-decoration: none;
+
+  .main-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 35px;
+    padding: 5px 5px 5px 25px;
+    background-color: #677c59;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    span{
+        color: white;
+            letter-spacing: 1px;
+            font-family: "Lato", sans-serif;
+            font-weight: 300;
+            font-style: normal;
+            font-size: 20px;
+    }
+    .btn-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #ffffff;
+            border: none;
+            border-radius: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+  }
+}

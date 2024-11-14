@@ -1,0 +1,110 @@
+.main {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+
+  .panel{
+    position: absolute;
+    top: 95px;
+    right: -800px;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    width: 800px;
+    height: 450px;
+    display: flex;
+    transition: right 0.3s ease;
+    z-index: 11;
+  }
+
+  .menu-section {
+    position: fixed;
+    // width: 100%;
+    top: 0;
+
+    background-color: white;
+    z-index: 10;
+    height: 80px;
+
+    transition-property: opacity, transform;
+    transition-timing-function: ease-in-out;
+
+    &.hidden {
+      opacity: 0;
+      transform: translateY(-100%);
+      transition-duration: 0.2s;
+    }
+    &.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition-duration: 0.7s;
+    }
+  }
+
+  .bg_text_button {
+    position: absolute;
+    top: 80px;
+    width: 100%;
+    height: calc(100vh - 160px);
+    background-image: url("../../../public/images/color2.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 9;
+
+    .text_button {
+      position: absolute;
+      left: 50%;
+      top: 50px;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 50px;
+
+      .display01 {
+        color: #4a4a4a;
+        font-family: "Merriweather", serif;
+        font-size: 80px;
+        font-weight: 200;
+        font-style: normal;
+        text-align: center;
+      }
+      .main_button {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 35px;
+        padding: 5px 5px 5px 25px;
+        background-color: #677c59;
+        border: none;
+        border-radius: 25px;
+
+        span {
+          color: white;
+          letter-spacing: 2px;
+          font-family: "Lato", sans-serif;
+          font-weight: 300;
+          font-style: normal;
+        }
+        .btn-icon {
+          width: 40px;
+          height: 40px;
+          background-color: #ffffff;
+          border: none;
+          border-radius: 25px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+  }
+  .main-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: white;
+    z-index: 9;
+  }
+}
