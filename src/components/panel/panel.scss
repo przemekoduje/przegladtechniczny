@@ -2,31 +2,10 @@
 
   
   &.open {
-    right: 0;
+    top: 80px;
   }
 
-  .handler {
-    position: absolute;
-    background-color: #ff8686;
-    top: 0;
-    left: -30px;
-    width: 30px;
-    height: 150px;
-    border-top-left-radius: 5px;
-
-    span {
-      position: absolute;
-      top: 50px;
-      left: 0;
-      display: inline-block;
-      transform: rotate(-90deg);
-      color: rgb(250, 250, 250);
-      font-family: "Lato", serif;
-      font-weight: 500;
-      font-style: normal;
-    }
-  }
-
+  
   .left-panel {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;

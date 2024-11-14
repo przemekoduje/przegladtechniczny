@@ -4,9 +4,7 @@ import "./panel.scss";
 export default function Panel({ isOpen }) {
   return (
     <div className={`panel ${isOpen ? "open" : ""}`}>
-      <div className="handler">
-        <span>panel</span>
-      </div>
+      
       <div className="left-panel">
         <div className="head-account">
           <img src="images/profil.jpg" alt="" />
