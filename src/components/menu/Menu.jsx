@@ -1,16 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./menu.scss";
+import Panel from "../panel/Panel";
 
 
-export default function Menu({onBurgerClick}) {
+export default function Menu() {
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
   
+  
+  
+   // Funkcja obsługująca kliknięcie burgera
+   const togglePanel = () => {
+    setIsPanelOpen(!isPanelOpen);
+  };
+
+   
   return (
-    <div className="menu">
+    <>
+    <Panel isOpen={isPanelOpen}  />
+
+    <div className="menu" >
       
       <div className="logo">
         <span>przegladtechniczny.online</span>
       </div>
-      <div className="menu-burger" onClick={onBurgerClick} >
+      <div className="menu-burger" onClick={togglePanel} >
         <span class="material-icons-outlined">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -25,5 +38,6 @@ export default function Menu({onBurgerClick}) {
         </span>
       </div>
     </div>
+    </>
   );
 }

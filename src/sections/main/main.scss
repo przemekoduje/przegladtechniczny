@@ -4,24 +4,11 @@
   height: 100vh;
   overflow: hidden;
 
-  .panel{
-    position: absolute;
-    top: -100%;
-    right: 0;
-    border-top-left-radius: 50px;
-    border-bottom-left-radius: 50px;
-    width: 800px;
-    height: calc(100vh - 160px);
-    display: flex;
-    transition: top 0.3s ease;
-    z-index: 9;
-  }
 
   .menu-section {
     position: fixed;
     // width: 100%;
     top: 0;
-
     background-color: white;
     z-index: 10;
     height: 80px;
@@ -50,7 +37,7 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    z-index: 8;
+    z-index: 6;
 
     .text_button {
       position: absolute;
@@ -105,6 +92,6 @@
     bottom: 0;
     width: 100%;
     background-color: white;
-    z-index: 9;
+    z-index: 5;
   }
 }

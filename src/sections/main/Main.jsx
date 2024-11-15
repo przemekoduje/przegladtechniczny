@@ -8,7 +8,7 @@ import Panel from "../../components/panel/Panel";
 export default function Main() {
     const [isVisible, setIsVisible] = useState(true);
     const [lastScrollTop, setLastScrollTop] = useState(0);
-    const [isPanelOpen, setIsPanelOpen] = useState(false);
+    // const [isPanelOpen, setIsPanelOpen] = useState(false);
     let scrollTimeout;
   
     const handleScroll = () => {
@@ -66,18 +66,18 @@ export default function Main() {
     };
   }, []);
 
-  // Funkcja obsługująca kliknięcie burgera
-  const togglePanel = () => {
-    setIsPanelOpen(!isPanelOpen);
-  };
+//   // Funkcja obsługująca kliknięcie burgera
+//   const togglePanel = () => {
+//     setIsPanelOpen(!isPanelOpen);
+//   };
 
   
 
   return (
     <div className="main">
-        <Panel isOpen={isPanelOpen}/>
+        {/* <Panel isOpen={isPanelOpen}/> */}
       <div className={`menu-section ${isVisible ? "visible" : "hidden"}`}>
-        <Menu onBurgerClick={togglePanel} />
+        <Menu/>
       </div>
       <div className="bg_text_button">
         <div className="text_button">

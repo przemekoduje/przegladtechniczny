@@ -1,13 +1,16 @@
 .menu {
-//   position: fixed;
-//   background-color: white;
-//   width: 1440px;
-//   max-width: 1440px;
+  //   position: fixed;
+  //   background-color: white;
+  //   width: 1440px;
+  //   max-width: 1440px;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: white;
   height: 80px;
   padding: 0 40px;
+  
 
   .logo {
     span {
@@ -17,5 +20,8 @@
       font-style: normal;
       font-size: 20px;
     }
+  }
+  .menu-burger{
+    cursor: pointer;
   }
 }

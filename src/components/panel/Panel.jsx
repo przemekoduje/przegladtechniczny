@@ -3,7 +3,7 @@ import "./panel.scss";
 
 export default function Panel({ isOpen }) {
   return (
-    <div className={`panel ${isOpen ? "open" : ""}`}>
+    <div className={`panel ${isOpen ? "open" : ""}`} >
       
       <div className="left-panel">
         <div className="head-account">
@@ -27,8 +27,8 @@ export default function Panel({ isOpen }) {
           </button>
           <button className="reminder-btn">
             <div className="texts">
-              <span className="type">PRZEGLĄD BUDOWLANY</span>
-              <span className="adress">Gliwice, ul. Dworcowa 53</span>
+              <span className="type">PRZEGLĄD ELEKTRYCZNY</span>
+              <span className="adress">Gliwice, ul. Sobieskiego 84</span>
             </div>
 
             <div className="date-btn">
