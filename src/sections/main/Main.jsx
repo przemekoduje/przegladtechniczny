@@ -3,7 +3,6 @@ import "./main.scss";
 import Menu from "../../components/menu/Menu";
 import MainFooter from "../../components/main-footer/MainFooter";
 import Person2Icon from "@mui/icons-material/Person2";
-import Panel from "../../components/panel/Panel";
 
 export default function Main() {
     const [isVisible, setIsVisible] = useState(true);

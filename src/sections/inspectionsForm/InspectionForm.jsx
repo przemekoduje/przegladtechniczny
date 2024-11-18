@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./inspectionForm.scss";
 import CustomDropdown from "../../components/custonDropdown/CustomDropdown";
 import { auth } from "../../firebase";
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { GoogleAuthProvider, FacebookAuthProvider, signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const InspectionForm = () => {
-
   const [formData, setFormData] = useState({
     propertyType: "",
     numberOfBlocks: "",
@@ -25,6 +25,8 @@ const InspectionForm = () => {
   });
   const [cart, setCart] = useState([]);
   const [showCart, setShowCart] = useState(false);
+  const navigate = useNavigate();
+
 
   // Funkcja do obsługi zmiany wartości w formularzu
   const handleChange = (e) => {
@@ -120,12 +122,14 @@ const InspectionForm = () => {
 
   
 
+  // Funkcja logowania użytkownika
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
     try {
-      const result = await signInWithPopup(auth, provider);
-      console.log("Użytkownik zalogowany:", result.user);
+      await signInWithPopup(auth, provider);
+      console.log("Użytkownik zalogowany:", auth.currentUser);
       localStorage.setItem("isLoggedIn", "true");
+      navigate("/panel"); // Przekieruj do Panelu po zalogowaniu
     } catch (error) {
       console.error("Błąd logowania:", error);
     }
@@ -195,7 +199,7 @@ const InspectionForm = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="inspection-form">
+      <form  className="inspection-form">
         <h2>Złóż zapytanie o przegląd</h2>
         <p>
           Każdą nieruchomość przedstaw oddzielnie a następnie dodaj ją do

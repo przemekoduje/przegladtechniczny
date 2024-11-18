@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./menu.scss";
 import Panel from "../panel/Panel";
+import { auth } from "../../firebase";
 
 
 export default function Menu() {
@@ -12,7 +13,7 @@ export default function Menu() {
    const togglePanel = () => {
     setIsPanelOpen(!isPanelOpen);
   };
-  const isUserLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const isUserLoggedIn = localStorage.getItem("isLoggedIn") === "true" || auth.currentUser;
    
   return (
     <>
