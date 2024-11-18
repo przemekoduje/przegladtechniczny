@@ -12,11 +12,11 @@ export default function Menu() {
    const togglePanel = () => {
     setIsPanelOpen(!isPanelOpen);
   };
-
+  const isUserLoggedIn = localStorage.getItem("isLoggedIn") === "true";
    
   return (
     <>
-    <Panel isOpen={isPanelOpen}  />
+    {isUserLoggedIn && <Panel isOpen={isPanelOpen} />}
 
     <div className="menu" >
       
@@ -38,6 +38,8 @@ export default function Menu() {
         </span>
       </div>
     </div>
+
+
     </>
   );
 }

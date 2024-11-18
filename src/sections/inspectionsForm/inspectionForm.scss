@@ -1,86 +1,148 @@
 .inspection-form {
-  
   padding: 80px 40px;
 
   font-family: "Lato", serif;
   font-size: 20px;
-  font-weight: 100;
+  font-weight: 300;
   font-style: normal;
+
+  input::placeholder {
+    color: #a2a2a2; /* Zmien kolor na dowolny */
+    opacity: 1; /* Ustawienie pełnej przezroczystości */
+  }
 
   h2 {
     font-family: "Merriweather", serif;
     font-size: 40px;
     font-weight: 300;
     font-style: normal;
-    margin-bottom: 45px;
+  }
+
+  h3 {
+    margin: 40px 0 25px 0;
+  }
+  p{
+    margin-bottom: 35px;
   }
 
   .typ {
     display: flex;
     align-items: center;
     gap: 25px;
+    margin-bottom: 15px;
 
-    .prop{
-        width: 350px;
+    .prop {
+      width: 300px;
+
+      option {
+        color: rgb(174, 174, 174);
       }
-      .klatki{
-        width: 100px;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        max-height: 0;
       }
+      to {
+        opacity: 1;
+        max-height: 200px;
+      }
+    }
+
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+        max-height: 200px;
+      }
+      to {
+        opacity: 0;
+        max-height: 0;
+      }
+    }
+
+    .klatkiCounter {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      animation-duration: 0.5s;
+      animation-fill-mode: forwards;
+    }
+
+    .klatkiCounter.visible {
+      animation-name: fadeIn;
+    }
+
+    .klatkiCounter:not(.visible) {
+      animation-name: fadeOut;
+    }
+    .klatki {
+      width: 150px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid black;
+    }
   }
-  .adres{
-    width: 350px;
+
+  .adres {
+    width: 300px;
   }
-  .dane{
+  .dane {
     width: 100px;
     margin-right: 25px;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 15px;
   }
 
   .zakres {
-    
-    .opis{
-    margin-bottom: 25px;
+    .opis {
+      margin: 25px 0;
+    }
   }
-}
-  
-
-
-
-}
-.inspection-form div {
-  margin-bottom: 15px;
 }
 
 .inspection-form label {
   display: block;
-  margin-bottom: 5px;
+  margin: 15px 0 10px 0;
 }
 
 .inspection-form input,
 .inspection-form select {
   font-family: "Lato", serif;
- 
-  padding: 8px;
+  font-size: 16px;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-size: 16px;
   
 }
-.checkbox{
-    display: flex;
-    align-items: center;
-    gap: 20px;
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
-.add-to-cart-btn,
-.submit-btn {
-  display: block;
-  width: 200px;
-  padding: 10px;
-  margin-top: 15px;
-  background-color: #4caf50;
-  color: white;
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #677c59;
   border: none;
+  border-radius: 25px;
   cursor: pointer;
+  margin-top: 30px;
+  color: white;
+  width: 250px;
+  padding: 15px 25px;
+
+  font-family: "Lato", serif;
+  font-size: 16px;
+  font-weight: 300;
+  font-style: normal;
 }
 
-.add-to-cart-btn:hover,
-.submit-btn:hover {
-  background-color: #45a049;
+.termin {
+  margin-top: 25px;
 }
+

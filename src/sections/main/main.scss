@@ -4,7 +4,6 @@
   height: 100vh;
   overflow: hidden;
 
-
   .menu-section {
     position: fixed;
     // width: 100%;
@@ -50,6 +49,9 @@
       gap: 50px;
 
       .display01 {
+        .little {
+          font-size: 48px;
+        }
         color: #4a4a4a;
         font-family: "Merriweather", serif;
         font-size: 80px;
@@ -95,3 +97,24 @@
     z-index: 5;
   }
 }
+
+@media (max-width: 680px) {
+  .main {
+    .bg_text_button {
+      .text_button {
+        .display01 {
+          .little {
+            font-size: 26px;
+          }
+          color: #4a4a4a;
+          font-family: "Merriweather", serif;
+          font-size: 54px;
+          font-weight: 200;
+          font-style: normal;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+

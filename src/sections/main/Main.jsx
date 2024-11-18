@@ -14,7 +14,6 @@ export default function Main() {
     const handleScroll = () => {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-      console.log(scrollTop )
   
       // Jeśli użytkownik przesuwa stronę w górę o więcej niż 80px
       if (scrollTop > lastScrollTop + 10) {
@@ -82,7 +81,7 @@ export default function Main() {
       <div className="bg_text_button">
         <div className="text_button">
           <h1 className="display01">
-            <span style={{ fontSize: "48px" }}>Przeglądy</span> <br />
+            <span className="little">Przeglądy</span> <br />
             techniczne <br />
             nieruchomości
           </h1>
