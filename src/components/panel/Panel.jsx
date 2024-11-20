@@ -1,44 +1,86 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./panel.scss";
+import { auth, signOut } from "../../firebase.js";
 
-export default function Panel({ isOpen }) {
+export default function Panel({ isOpen, user }) {
+  const [userName, setUserName] = useState("");
+  const [userPhoto, setUserPhoto] = useState("images/default-profile.jpg");
+  const [userData, setUserData] = useState([]);
+
+  // Funkcja wylogowania
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      window.location.reload();
+    } catch (error) {
+      console.error("Błąd podczas wylogowywania:", error);
+    }
+  };
+
+
+  // Ustaw dane użytkownika na podstawie przekazanego `props.user`
+  useEffect(() => {
+    if (user) {
+      setUserName(user.displayName || "Użytkownik");
+      setUserPhoto(user.photoURL || "images/default-profile.jpg");
+
+      // Pobierz dane z `localStorage` (przeglądy)
+      const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
+      setUserData(savedCart);
+    }
+  }, [user]);
+
+
+
+  
+
   return (
-    <div className={`panel ${isOpen ? "open" : ""}`} >
-      
+    <div className={`panel ${isOpen ? "open" : ""}`}>
       <div className="left-panel">
-        <div className="head-account">
-          <img src="images/profil.jpg" alt="" />
-          <h3>Witaj Przemek</h3>
-        </div>
+        {user ? (
+          <>
+            {/* Nagłówek użytkownika */}
+            <div className="head-account">
+            <img src={userPhoto} alt="Profil" />
+              <h3>Witaj, {userName}</h3>
+          </div>
 
-        <div className="reminder-buttons">
-          <button className="reminder-btn">
-            <div className="texts">
-              <span className="type">PRZEGLĄD BUDOWLANY</span>
-              <span className="adress">Gliwice, ul. Dworcowa 53</span>
+            {/* Przeglądy z formularza */}
+            <div className="reminder-buttons">
+              {userData.length > 0 ? (
+                userData.map((item, index) => (
+                  <button key={index} className="reminder-btn">
+                    <div className="texts">
+                      <span className="type">{item.type.toUpperCase()}</span>
+                      <span className="adress">{item.address}</span>
+                    </div>
+                    <div className="date-btn">
+                      <span>{new Date().toLocaleDateString()}</span>
+                    </div>
+                  </button>
+                ))
+              ) : (
+                <p>Brak zapisanych przeglądów.</p>
+              )}
             </div>
 
-            <div className="date-btn">
-              <span>
-                2024 <br />
-                11/12
-              </span>
-            </div>
-          </button>
-          <button className="reminder-btn">
-            <div className="texts">
-              <span className="type">PRZEGLĄD ELEKTRYCZNY</span>
-              <span className="adress">Gliwice, ul. Sobieskiego 84</span>
-            </div>
-
-            <div className="date-btn">
-              <span>
-                2024 <br />
-                11/12
-              </span>
-            </div>
-          </button>
-        </div>
+            {/* Przycisk wylogowania */}
+            <button className="logout-btn" onClick={handleLogout}>
+              Wyloguj się
+            </button>
+          </>
+        ) : (
+          <>
+            {/* Widok dla niezalogowanego użytkownika */}
+            <h3>Zaloguj się, aby zobaczyć swoje dane</h3>
+            <button
+              className="login-btn"
+              // onClick={() => (window.location.href = "/login")}
+            >
+              Zaloguj się
+            </button>
+          </>
+        )}
       </div>
 
       <div className="right-panel">

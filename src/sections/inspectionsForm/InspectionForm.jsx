@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import "./inspectionForm.scss";
 import CustomDropdown from "../../components/custonDropdown/CustomDropdown";
 import { auth } from "../../firebase";
-import { GoogleAuthProvider, FacebookAuthProvider, signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword
+} from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 const InspectionForm = () => {
@@ -26,7 +32,6 @@ const InspectionForm = () => {
   const [cart, setCart] = useState([]);
   const [showCart, setShowCart] = useState(false);
   const navigate = useNavigate();
-
 
   // Funkcja do obsługi zmiany wartości w formularzu
   const handleChange = (e) => {
@@ -120,8 +125,6 @@ const InspectionForm = () => {
     saveToLocalStorage("formData", formData);
   }, [formData]);
 
-  
-
   // Funkcja logowania użytkownika
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
@@ -129,43 +132,44 @@ const InspectionForm = () => {
       await signInWithPopup(auth, provider);
       console.log("Użytkownik zalogowany:", auth.currentUser);
       localStorage.setItem("isLoggedIn", "true");
-      navigate("/panel"); // Przekieruj do Panelu po zalogowaniu
+      navigate("/");
     } catch (error) {
       console.error("Błąd logowania:", error);
     }
   };
 
-  // Funkcja do obsługi wysyłania formularza
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (cart.length === 0) {
-      alert("Koszyk jest pusty. Proszę dodać nieruchomość przed wysłaniem.");
-      return;
+  const handleSignUp = async (email, password) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      console.log("Utworzono nowego użytkownika:", userCredential.user);
+    } catch (error) {
+      console.error("Błąd rejestracji:", error);
     }
-  
-    /// Sprawdź, czy użytkownik jest zalogowany
-  const user = auth.currentUser;
-  if (!user) {
-    alert("Musisz się zalogować przed wysłaniem formularza.");
-    await handleLogin(); // Logowanie przez Google
-    return;
-  }
-
-  // Jeśli użytkownik jest zalogowany, wyślij dane formularza
-  console.log("Dane formularza:", formData);
-  console.log("Dane koszyka:", cart);
-
-
-
-    // Dodaj logikę wysyłki danych do backendu tutaj
   };
 
+  // Funkcja wysyłania formularza
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    const user = auth.currentUser; // Pobierz aktualnego użytkownika
 
+    if (!user) {
+      // Jeśli użytkownik nie jest zalogowany, zaloguj go
+      alert("Musisz się zalogować przed wysłaniem danych.");
+      try {
+        await handleLogin(); // Wywołaj logowanie przez Google
+      } catch (error) {
+        console.error("Błąd logowania:", error);
+        return; // Jeśli logowanie się nie powiedzie, przerwij
+      }
+    }
 
-
-
+    // Zapisz dane koszyka do localStorage po zalogowaniu
+    console.log("Zalogowany użytkownik:", auth.currentUser.displayName);
+    console.log("Zapisuję dane koszyka do localStorage...");
+    localStorage.setItem("cart", JSON.stringify(cart)); // Zapisz koszyk
+    alert("Dane zapisane pomyślnie!");
+  };
 
   useEffect(() => {
     // Zmien kolor pierwszej opcji w każdym <select>
@@ -196,10 +200,9 @@ const InspectionForm = () => {
   // Sprawdzamy, czy wybrano opcję "budynek wielorodzinny"
   const isMultiFamilyBuilding = formData.propertyType === "wielorodzinny";
 
-
   return (
     <>
-      <form  className="inspection-form">
+      <form className="inspection-form">
         <h2>Złóż zapytanie o przegląd</h2>
         <p>
           Każdą nieruchomość przedstaw oddzielnie a następnie dodaj ją do
@@ -335,8 +338,7 @@ const InspectionForm = () => {
           Dodaj do koszyka
         </button>
       </form>
-      
-      
+
       {/* Sekcja koszyka */}
       {showCart && (
         <div className="cart-section">

@@ -1,5 +1,5 @@
 import React from "react";
-import { auth } from "../firebase";
+import { auth } from "../../firebase";
 import { GoogleAuthProvider, FacebookAuthProvider, signInWithPopup, signInWithEmailAndPassword, signInWithRedirect } from "firebase/auth";
 
 const Login = () => {
@@ -8,7 +8,7 @@ const Login = () => {
     try {
       await signInWithPopup(auth, provider);
       localStorage.setItem("isLoggedIn", "true");
-      window.location.reload();
+      window.location.href = "/";
     } catch (error) {
       alert("Błąd logowania przez Google: " + error.message);
     }
@@ -18,7 +18,7 @@ const Login = () => {
     try {
       await signInWithPopup(auth, provider);
       localStorage.setItem("isLoggedIn", "true");
-      window.location.reload();
+      window.location.href = "/";
     } catch (error) {
       alert("Błąd logowania przez Facebook: " + error.message);
     }

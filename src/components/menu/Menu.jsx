@@ -1,46 +1,58 @@
 import React, { useEffect, useState } from "react";
 import "./menu.scss";
 import Panel from "../panel/Panel";
-import { auth } from "../../firebase";
-
+import { auth, onAuthStateChanged } from "../../firebase";
 
 export default function Menu() {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-  
-  
-  
-   // Funkcja obsługująca kliknięcie burgera
-   const togglePanel = () => {
+  const [user, setUser] = useState(null);
+
+  // Funkcja nasłuchująca zmiany stanu logowania
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser); // Ustawienie użytkownika, jeśli jest zalogowany
+    });
+
+    return () => unsubscribe(); // Sprzątanie nasłuchiwacza przy odmontowaniu
+  }, []);
+
+  const togglePanel = () => {
     setIsPanelOpen(!isPanelOpen);
   };
-  const isUserLoggedIn = localStorage.getItem("isLoggedIn") === "true" || auth.currentUser;
-   
+
+  // Dane użytkownika
+  const userName = user?.displayName || "Użytkownik";
+  const userPhoto = user?.photoURL || "images/default-profile.jpg";
+
   return (
     <>
-    {isUserLoggedIn && <Panel isOpen={isPanelOpen} />}
-
-    <div className="menu" >
-      
-      <div className="logo">
-        <span>przegladtechniczny.online</span>
+      <Panel
+        isOpen={isPanelOpen}
+        user={user}
+        isLoggedIn={!!user} // Czy użytkownik jest zalogowany
+        userName={userName}
+        userPhoto={userPhoto}
+      />
+      {/* {isLoggedIn && <Panel isOpen={isPanelOpen} />} */}
+      <div className="menu">
+        <div className="logo">
+          <span>przegladtechniczny.online</span>
+        </div>
+        <div className="menu-burger" onClick={togglePanel}>
+          <span class="material-icons-outlined">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 0 24 24"
+              width="24px"
+              fill="#5f6368"
+            >
+              <path d="M0 0h24v24H0V0z" fill="none" />
+              <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+            </svg>
+          </span>
+        </div>
       </div>
-      <div className="menu-burger" onClick={togglePanel} >
-        <span class="material-icons-outlined">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="24px"
-            viewBox="0 0 24 24"
-            width="24px"
-            fill="#5f6368"
-          >
-            <path d="M0 0h24v24H0V0z" fill="none" />
-            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
-          </svg>
-        </span>
-      </div>
-    </div>
-
-
     </>
   );
 }
