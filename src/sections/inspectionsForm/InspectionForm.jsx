@@ -10,6 +10,10 @@ import {
   createUserWithEmailAndPassword
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { collection, addDoc, getDocs } from "firebase/firestore";
+import { db } from "../../firebase";
+
+
 
 const InspectionForm = () => {
   const [formData, setFormData] = useState({
@@ -69,7 +73,7 @@ const InspectionForm = () => {
       const updatedCart = [...cart, newProperty];
       setCart(updatedCart);
       setShowCart(true);
-      saveToLocalStorage("cart", updatedCart);
+      
 
       // Resetowanie formularza po dodaniu do koszyka
       setFormData({
@@ -94,36 +98,56 @@ const InspectionForm = () => {
     }
   };
 
-  // Funkcja zapisywania do Local Storage
-  const saveToLocalStorage = (key, value) => {
-    localStorage.setItem(key, JSON.stringify(value));
-  };
+  // // Funkcja zapisywania do Local Storage
+  // const saveToLocalStorage = (key, value) => {
+  //   localStorage.setItem(key, JSON.stringify(value));
+  // };
 
-  // Funkcja odczytywania danych z Local Storage
-  const loadFromLocalStorage = (key) => {
-    const storedData = localStorage.getItem(key);
-    return storedData ? JSON.parse(storedData) : null;
-  };
+  // // Funkcja odczytywania danych z Local Storage
+  // const loadFromLocalStorage = (key) => {
+  //   const storedData = localStorage.getItem(key);
+  //   return storedData ? JSON.parse(storedData) : null;
+  // };
 
-  // Ładowanie danych z Local Storage przy pierwszym renderowaniu
+  // // Ładowanie danych z Local Storage przy pierwszym renderowaniu
+  // useEffect(() => {
+  //   const savedCart = loadFromLocalStorage("cart");
+  //   const savedFormData = loadFromLocalStorage("formData");
+
+  //   if (savedCart) {
+  //     setCart(savedCart);
+  //     setShowCart(savedCart.length > 0);
+  //   }
+
+  //   if (savedFormData) {
+  //     setFormData(savedFormData);
+  //   }
+  // }, []);
+
+  // // Zapisuj dane formularza przy każdej zmianie
+  // useEffect(() => {
+  //   saveToLocalStorage("formData", formData);
+  // }, [formData]);
+
+
   useEffect(() => {
-    const savedCart = loadFromLocalStorage("cart");
-    const savedFormData = loadFromLocalStorage("formData");
-
-    if (savedCart) {
-      setCart(savedCart);
-      setShowCart(savedCart.length > 0);
-    }
-
-    if (savedFormData) {
-      setFormData(savedFormData);
-    }
-  }, []);
-
-  // Zapisuj dane formularza przy każdej zmianie
-  useEffect(() => {
-    saveToLocalStorage("formData", formData);
-  }, [formData]);
+    const fetchCart = async () => {
+      if (auth.currentUser) {
+        const userCartRef = collection(db, "userCarts");
+        const snapshot = await getDocs(userCartRef);
+        const userCart = snapshot.docs
+          .map(doc => ({ id: doc.id, ...doc.data() }))
+          .find(cart => cart.userId === auth.currentUser.uid);
+  
+        if (userCart) {
+          setCart(userCart.cart);
+          setShowCart(userCart.cart.length > 0);
+        }
+      }
+    };
+  
+    fetchCart();
+  }, [auth.currentUser]);
 
   // Funkcja logowania użytkownika
   const handleLogin = async () => {
@@ -138,14 +162,7 @@ const InspectionForm = () => {
     }
   };
 
-  const handleSignUp = async (email, password) => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      console.log("Utworzono nowego użytkownika:", userCredential.user);
-    } catch (error) {
-      console.error("Błąd rejestracji:", error);
-    }
-  };
+ 
 
   // Funkcja wysyłania formularza
   const handleSubmit = async (e) => {
@@ -164,11 +181,43 @@ const InspectionForm = () => {
       }
     }
 
-    // Zapisz dane koszyka do localStorage po zalogowaniu
-    console.log("Zalogowany użytkownik:", auth.currentUser.displayName);
-    console.log("Zapisuję dane koszyka do localStorage...");
-    localStorage.setItem("cart", JSON.stringify(cart)); // Zapisz koszyk
-    alert("Dane zapisane pomyślnie!");
+    try {
+      const userCartRef = collection(db, "userCarts"); // Kolekcja w Firestore
+      await addDoc(userCartRef, {
+        userId: auth.currentUser.uid, // Powiązanie z użytkownikiem
+        cart: cart,
+        formData: formData, // Dane formularza
+        timestamp: new Date(),
+      });
+      alert("Dane zostały zapisane w bazie danych.");
+      setCart([]); // Opróżnienie koszyka
+      setFormData({
+        propertyType: "",
+        numberOfBlocks: "",
+        propertyAddress: "",
+        area: "",
+        volume: "",
+        floors: "",
+        inspections: {
+          construction: false,
+          gas: false,
+          electrical: false,
+          energy: false,
+        },
+        preferredDate: "",
+        contactName: "",
+        contactEmail: "",
+      }); // Resetuj formularz
+    } catch (error) {
+      console.error("Błąd podczas zapisywania danych:", error);
+      alert("Nie udało się zapisać danych.");
+    }
+
+    // // Zapisz dane koszyka do localStorage po zalogowaniu
+    // console.log("Zalogowany użytkownik:", auth.currentUser.displayName);
+    // console.log("Zapisuję dane koszyka do localStorage...");
+    // localStorage.setItem("cart", JSON.stringify(cart)); // Zapisz koszyk
+    // alert("Dane zapisane pomyślnie!");
   };
 
   useEffect(() => {

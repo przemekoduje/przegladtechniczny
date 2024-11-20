@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./panel.scss";
 import { auth, signOut } from "../../firebase.js";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "../../firebase";
+
 
 export default function Panel({ isOpen, user }) {
   const [userName, setUserName] = useState("");
@@ -18,21 +21,45 @@ export default function Panel({ isOpen, user }) {
   };
 
 
-  // Ustaw dane użytkownika na podstawie przekazanego `props.user`
+
+  // useEffect(() => {
+  //   const fetchUserData = () => {
+  //     const currentUser = auth.currentUser;
+  //     if (currentUser) {
+  //       setUserName(currentUser.displayName || "Użytkownik");
+  //       setUserPhoto(currentUser.photoURL || "images/default-profile.jpg");
+
+  //       // Aktualizuj zawartość koszyka z `localStorage`
+  //       const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
+  //       setUserData(savedCart);
+  //     }
+  //   };
+
+  //   if (isOpen) {
+  //     fetchUserData();
+  //   }
+  // }, [isOpen]);
+
   useEffect(() => {
-    if (user) {
-      setUserName(user.displayName || "Użytkownik");
-      setUserPhoto(user.photoURL || "images/default-profile.jpg");
-
-      // Pobierz dane z `localStorage` (przeglądy)
-      const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-      setUserData(savedCart);
-    }
-  }, [user]);
-
-
-
+    const fetchCartData = async () => {
+      if (user) {
+        const userCartRef = collection(db, "userCarts");
+        const snapshot = await getDocs(userCartRef);
+        const userCart = snapshot.docs
+          .map(doc => ({ id: doc.id, ...doc.data() }))
+          .find(cart => cart.userId === user.uid);
   
+        if (userCart) {
+          setUserData(userCart.cart);
+        }
+      }
+    };
+  
+    if (isOpen) {
+      fetchCartData();
+    }
+  }, [isOpen, user]);
+
 
   return (
     <div className={`panel ${isOpen ? "open" : ""}`}>
@@ -41,9 +68,9 @@ export default function Panel({ isOpen, user }) {
           <>
             {/* Nagłówek użytkownika */}
             <div className="head-account">
-            <img src={userPhoto} alt="Profil" />
+              <img src={userPhoto} alt="Profil" />
               <h3>Witaj, {userName}</h3>
-          </div>
+            </div>
 
             {/* Przeglądy z formularza */}
             <div className="reminder-buttons">
@@ -75,7 +102,7 @@ export default function Panel({ isOpen, user }) {
             <h3>Zaloguj się, aby zobaczyć swoje dane</h3>
             <button
               className="login-btn"
-              // onClick={() => (window.location.href = "/login")}
+              onClick={() => (window.location.href = "/login")}
             >
               Zaloguj się
             </button>

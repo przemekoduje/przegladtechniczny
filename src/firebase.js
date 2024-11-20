@@ -1,6 +1,7 @@
 // firebase.js
 import { initializeApp } from "firebase/app";
 import { getAuth,signOut, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: "AIzaSyC079iqi5vJd18ilZe3ZcBTKwOBl5JsztU",
@@ -17,4 +18,5 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 export { auth, signOut, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup, signInWithEmailAndPassword, onAuthStateChanged };
-
+export const db = getFirestore(app);
+console.log("Firestore zainicjowany:", db);
