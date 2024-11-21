@@ -180,12 +180,12 @@ const InspectionForm = () => {
 
     try {
       const userCartRef = collection(db, "userCarts"); // Kolekcja w Firestore
-      await addDoc(userCartRef, {
+      const docRef = await addDoc(userCartRef, {
         userId: auth.currentUser.uid, // Powiązanie z użytkownikiem
         cart: cart,
-        formData: formData, // Dane formularza
         timestamp: new Date(),
       });
+      console.log("Dodano dokument z id:", docRef.id); 
       alert("Dane zostały zapisane w bazie danych.");
       setCart([]); // Opróżnienie koszyka
       setFormData({

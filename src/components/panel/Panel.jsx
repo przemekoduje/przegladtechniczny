@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./panel.scss";
 import { auth, signOut } from "../../firebase.js";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
 
 
@@ -45,13 +45,24 @@ export default function Panel({ isOpen, user }) {
       }
     };
 
-    
+    console.log("Dane użytkownika:", userData);
   
     if (isOpen) {
       fetchCartData();
     }
   }, [isOpen, user]);
 
+  // Funkcja usuwania wpisu
+  const handleDelete = async (id) => {
+    try {
+      await deleteDoc(doc(db, "userCarts", id));
+      setUserData((prevData) => prevData.filter((item) => item.id !== id));
+      alert("Wpis został usunięty.");
+    } catch (error) {
+      console.error("Błąd podczas usuwania wpisu:", error);
+      alert("Nie udało się usunąć wpisu.");
+    }
+  };
 
   useEffect(() => {
     if (user) {
@@ -73,17 +84,23 @@ export default function Panel({ isOpen, user }) {
 
             {/* Przeglądy z formularza */}
             <div className="reminder-buttons">
-              {userData.length > 0 ? (
-                userData.map((item, index) => (
-                  <button key={index} className="reminder-btn">
+            {userData.length > 0 ? (
+                userData.map((item) => (
+                  <div key={item.id} className="reminder-btn">
                     <div className="texts">
-                      <span className="type">{item.type.toUpperCase()}</span>
+                      <span className="type">{item.type?.toUpperCase()}</span>
                       <span className="adress">{item.address}</span>
                     </div>
                     <div className="date-btn">
                       <span>{new Date().toLocaleDateString()}</span>
                     </div>
-                  </button>
+                    <button
+                      className="delete-btn"
+                      onClick={() => handleDelete(item.id)}
+                    >
+                     x
+                    </button>
+                  </div>
                 ))
               ) : (
                 <p>Brak zapisanych przeglądów.</p>
