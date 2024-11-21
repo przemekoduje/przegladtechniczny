@@ -22,44 +22,43 @@ export default function Panel({ isOpen, user }) {
 
 
 
-  // useEffect(() => {
-  //   const fetchUserData = () => {
-  //     const currentUser = auth.currentUser;
-  //     if (currentUser) {
-  //       setUserName(currentUser.displayName || "Użytkownik");
-  //       setUserPhoto(currentUser.photoURL || "images/default-profile.jpg");
-
-  //       // Aktualizuj zawartość koszyka z `localStorage`
-  //       const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-  //       setUserData(savedCart);
-  //     }
-  //   };
-
-  //   if (isOpen) {
-  //     fetchUserData();
-  //   }
-  // }, [isOpen]);
-
   useEffect(() => {
     const fetchCartData = async () => {
       if (user) {
         const userCartRef = collection(db, "userCarts");
         const snapshot = await getDocs(userCartRef);
+        
+        // Pobieranie wszystkich dokumentów użytkownika
         const userCart = snapshot.docs
-          .map(doc => ({ id: doc.id, ...doc.data() }))
-          .find(cart => cart.userId === user.uid);
-  
-        if (userCart) {
-          setUserData(userCart.cart);
+          .map((doc) => ({ id: doc.id, ...doc.data() }))
+          .filter((cart) => cart.userId === user.uid);
+
+          console.log(userCart)
+
+        
+        if (userCart.length > 0) {
+          // Aktualizacja stanu z listą koszyków
+          setUserData(userCart.map((cart) => cart.cart).flat());
+        } else {
+          setUserData([]);
         }
       }
     };
+
+    
   
     if (isOpen) {
       fetchCartData();
     }
   }, [isOpen, user]);
 
+
+  useEffect(() => {
+    if (user) {
+      setUserName(user.displayName || "Użytkownik");
+      setUserPhoto(user.photoURL || "images/default-profile.jpg");
+    }
+  }, [user]);
 
   return (
     <div className={`panel ${isOpen ? "open" : ""}`}>

@@ -1,9 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./customDropdown.scss";
 
-const CustomDropdown = ({ options, placeholder, onSelect }) => {
+const CustomDropdown = ({ options, placeholder, onSelect, selectedValue }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(null);
+
+  // Synchronizacja lokalnego stanu z props `selectedValue`
+  useEffect(() => {
+    if (selectedValue === null || selectedValue === "") {
+      setSelected(null);
+    } else {
+      const matchingOption = options.find(
+        (option) => option.value === selectedValue
+      );
+      setSelected(matchingOption || null);
+    }
+  }, [selectedValue, options]);
 
   const handleSelect = (option) => {
     setSelected(option);
@@ -23,12 +35,14 @@ const CustomDropdown = ({ options, placeholder, onSelect }) => {
         <ul className="dropdown-list">
           {options.map((option, index) => (
             <li
-              key={index}
-              className="dropdown-item"
-              onClick={() => handleSelect(option)}
-            >
-              {option.label}
-            </li>
+            key={index}
+            className={`dropdown-item ${
+              selected && selected.value === option.value ? "selected" : ""
+            }`}
+            onClick={() => handleSelect(option)}
+          >
+            {option.label}
+          </li>
           ))}
         </ul>
       )}

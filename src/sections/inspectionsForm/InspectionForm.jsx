@@ -7,13 +7,11 @@ import {
   FacebookAuthProvider,
   signInWithPopup,
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword
+  createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
-
-
 
 const InspectionForm = () => {
   const [formData, setFormData] = useState({
@@ -36,6 +34,8 @@ const InspectionForm = () => {
   const [cart, setCart] = useState([]);
   const [showCart, setShowCart] = useState(false);
   const navigate = useNavigate();
+  const [selectedType, setSelectedType] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
 
   // Funkcja do obsługi zmiany wartości w formularzu
   const handleChange = (e) => {
@@ -56,8 +56,6 @@ const InspectionForm = () => {
     }
   };
 
-  console.log(formData);
-
   // Funkcja do dodawania nieruchomości do koszyka
   const handleAddToCart = () => {
     const newProperty = {
@@ -73,7 +71,6 @@ const InspectionForm = () => {
       const updatedCart = [...cart, newProperty];
       setCart(updatedCart);
       setShowCart(true);
-      
 
       // Resetowanie formularza po dodaniu do koszyka
       setFormData({
@@ -93,6 +90,9 @@ const InspectionForm = () => {
         contactName: "",
         contactEmail: "",
       });
+      // Resetowanie pól CustomDropdown
+      setSelectedType(null);
+      setSelectedDate(null);
     } else {
       alert("Proszę wypełnić wszystkie wymagane pola.");
     }
@@ -129,23 +129,22 @@ const InspectionForm = () => {
   //   saveToLocalStorage("formData", formData);
   // }, [formData]);
 
-
   useEffect(() => {
     const fetchCart = async () => {
       if (auth.currentUser) {
         const userCartRef = collection(db, "userCarts");
         const snapshot = await getDocs(userCartRef);
         const userCart = snapshot.docs
-          .map(doc => ({ id: doc.id, ...doc.data() }))
-          .find(cart => cart.userId === auth.currentUser.uid);
-  
+          .map((doc) => ({ id: doc.id, ...doc.data() }))
+          .find((cart) => cart.userId === auth.currentUser.uid);
+
         if (userCart) {
           setCart(userCart.cart);
           setShowCart(userCart.cart.length > 0);
         }
       }
     };
-  
+
     fetchCart();
   }, [auth.currentUser]);
 
@@ -161,8 +160,6 @@ const InspectionForm = () => {
       console.error("Błąd logowania:", error);
     }
   };
-
- 
 
   // Funkcja wysyłania formularza
   const handleSubmit = async (e) => {
@@ -265,9 +262,11 @@ const InspectionForm = () => {
             <CustomDropdown
               options={options}
               placeholder="Wybierz typ nieruchomości"
-              onSelect={(option) =>
-                setFormData({ ...formData, propertyType: option.value })
-              }
+              onSelect={(option) => {
+                setFormData({ ...formData, propertyType: option.value });
+                setSelectedType(option.value);
+              }}
+              selectedValue={selectedType}
             />
           </div>
 
@@ -372,9 +371,11 @@ const InspectionForm = () => {
           <CustomDropdown
             options={options2}
             placeholder="dokonaj wyboru"
-            onSelect={(option) =>
-              setFormData({ ...formData, preferredDate: option.value })
-            }
+            onSelect={(option) => {
+              setFormData({ ...formData, preferredDate: option.value });
+              setSelectedDate(option.value); // Zapisuje wybraną opcję w stanie
+            }}
+            selectedValue={selectedDate}
           />
         </div>
 

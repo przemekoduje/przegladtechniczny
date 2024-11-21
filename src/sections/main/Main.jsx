@@ -3,44 +3,47 @@ import "./main.scss";
 import Menu from "../../components/menu/Menu";
 import MainFooter from "../../components/main-footer/MainFooter";
 import Person2Icon from "@mui/icons-material/Person2";
+// import { auth, signOut } from "../../firebase.js";
 
-export default function Main() {
-    const [isVisible, setIsVisible] = useState(true);
-    const [lastScrollTop, setLastScrollTop] = useState(0);
-    // const [isPanelOpen, setIsPanelOpen] = useState(false);
-    let scrollTimeout;
-  
-    const handleScroll = () => {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+export default function Main({ user }) {
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollTop, setLastScrollTop] = useState(0);
+  // const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [userPhoto, setUserPhoto] = useState("");
 
-  
-      // Jeśli użytkownik przesuwa stronę w górę o więcej niż 80px
-      if (scrollTop > lastScrollTop + 10) {
-        setIsVisible(false);
-      } else if (scrollTop < lastScrollTop) {
-        setIsVisible(true);
-      }
-  
-      // Aktualizujemy wartość ostatniego przesunięcia
-      setLastScrollTop(scrollTop);
-  
-      // Resetujemy timeout, aby opóźnić pojawienie się elementu po zatrzymaniu scrollowania
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        setIsVisible(true);
-      }, 300); // Opóźnienie 300ms
+  let scrollTimeout;
+
+  console.log(user);
+
+  const handleScroll = () => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    // Jeśli użytkownik przesuwa stronę w górę o więcej niż 80px
+    if (scrollTop > lastScrollTop + 10) {
+      setIsVisible(false);
+    } else if (scrollTop < lastScrollTop) {
+      setIsVisible(true);
+    }
+
+    // Aktualizujemy wartość ostatniego przesunięcia
+    setLastScrollTop(scrollTop);
+
+    // Resetujemy timeout, aby opóźnić pojawienie się elementu po zatrzymaniu scrollowania
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      setIsVisible(true);
+    }, 300); // Opóźnienie 300ms
+  };
+
+  useEffect(() => {
+    // Dodajemy nasłuchiwanie zdarzenia scroll
+    window.addEventListener("scroll", handleScroll);
+
+    // Sprzątanie: usuwamy nasłuchiwanie przy odmontowaniu komponentu
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
     };
-  
-    useEffect(() => {
-      // Dodajemy nasłuchiwanie zdarzenia scroll
-      window.addEventListener("scroll", handleScroll);
-  
-      // Sprzątanie: usuwamy nasłuchiwanie przy odmontowaniu komponentu
-      return () => {
-        window.removeEventListener("scroll", handleScroll);
-      };
-    }, [lastScrollTop]);
-  
+  }, [lastScrollTop]);
 
   const updateMenuWidth = () => {
     const parentWidth = document.querySelector(".main").offsetWidth;
@@ -64,18 +67,19 @@ export default function Main() {
     };
   }, []);
 
-//   // Funkcja obsługująca kliknięcie burgera
-//   const togglePanel = () => {
-//     setIsPanelOpen(!isPanelOpen);
-//   };
+  useEffect(() => {
+    if (user) {
+      setUserPhoto(user.photoURL || "images/default-profile.jpg");
+    }
+  }, [user]);
 
-  
+  console.log(userPhoto);
 
   return (
     <div className="main">
-        {/* <Panel isOpen={isPanelOpen}/> */}
+      {/* <Panel isOpen={isPanelOpen}/> */}
       <div className={`menu-section ${isVisible ? "visible" : "hidden"}`}>
-        <Menu/>
+        <Menu />
       </div>
       <div className="bg_text_button">
         <div className="text_button">
@@ -87,7 +91,7 @@ export default function Main() {
           <button className="main_button">
             <span>KONTYNUUJ</span>
             <div className="btn-icon">
-              <Person2Icon />
+              <img src={userPhoto} alt="Profil" />
             </div>
           </button>
         </div>
