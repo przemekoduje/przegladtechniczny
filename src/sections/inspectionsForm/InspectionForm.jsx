@@ -86,7 +86,6 @@ const InspectionForm = () => {
       const updatedCart = [...localCart, newProperty];
       setLocalCart(updatedCart); // Aktualizacja localCart
       saveLocalCartToStorage(updatedCart); // Zapis do localStorage
-      setShowCart(true);
   
       // Resetowanie formularza
       setFormData({
@@ -377,7 +376,7 @@ const InspectionForm = () => {
       </form>
 
       {/* Sekcja koszyka */}
-      {showCart && (
+      {localCart.length > 0 && (
         <div className="cart-section">
           <h3>Koszyk</h3>
           <ul>

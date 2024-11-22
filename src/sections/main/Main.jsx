@@ -74,7 +74,7 @@ export default function Main({ user }) {
   }, [user]);
 
   
-
+  console.log("userPhoto:", userPhoto);
   return (
     <div className="main">
       {/* <Panel isOpen={isPanelOpen}/> */}

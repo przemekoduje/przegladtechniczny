@@ -10,12 +10,14 @@ import {
   doc,
 } from "firebase/firestore";
 import { db } from "../../firebase";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 export default function Panel({ isOpen, user }) {
   const [userName, setUserName] = useState("");
   const [userPhoto, setUserPhoto] = useState("images/default-profile.jpg");
   const [userData, setUserData] = useState([]);
   const [cart, setCart] = useState([]); // Dane z serwera
+  const [activeMenu, setActiveMenu] = useState(null); // Śledzenie aktywnego dymka
 
   // Funkcja wylogowania
   const handleLogout = async () => {
@@ -51,22 +53,30 @@ export default function Panel({ isOpen, user }) {
 
   // Funkcja usuwania wpisu
   const handleDelete = async (id) => {
+    // Weryfikacja przed usunięciem
+    const confirmation = window.confirm("Czy na pewno chcesz usunąć ten wpis?");
+    if (!confirmation) {
+      return;
+    }
+
     try {
+      // Usunięcie wpisu z bazy danych
       await deleteDoc(doc(db, "userCarts", id));
-      setUserData((prevData) => prevData.filter((item) => item.id !== id));
+
+      // Usunięcie wpisu ze stanu `cart`
+      setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+
       alert("Wpis został usunięty.");
     } catch (error) {
       console.error("Błąd podczas usuwania wpisu:", error);
       alert("Nie udało się usunąć wpisu.");
     }
   };
+  const proposeNewDate = (id) => {
+    alert(`Zaproponowanie nowej daty dla wpisu o ID: ${id}`);
+    // Logika dla proponowania nowej daty zostanie dodana później
+  };
 
-  useEffect(() => {
-    if (user) {
-      setUserName(user.displayName || "Użytkownik");
-      setUserPhoto(user.photoURL || "images/default-profile.jpg");
-    }
-  }, [user]);
 
   return (
     <div className={`panel ${isOpen ? "open" : ""}`}>
@@ -84,10 +94,6 @@ export default function Panel({ isOpen, user }) {
               {cart.length > 0 ? (
                 cart.map((item) => (
                   <div key={item.id} className="reminder-btn">
-                    <div className="texts">
-                      <span className="type">{item.type?.toUpperCase()}</span>
-                      <span className="adress">{item.address}</span>
-                    </div>
                     <div className="date-btn">
                       <span>
                         {new Date(
@@ -95,12 +101,46 @@ export default function Panel({ isOpen, user }) {
                         ).toLocaleDateString()}
                       </span>
                     </div>
-                    <button
-                      className="delete-btn"
-                      onClick={() => handleDelete(item.id)}
-                    >
-                      x
-                    </button>
+                    <div className="texts">
+                      <span className="type">{item.type}</span>
+                      <span className="adress">{item.address}</span>
+                    </div>
+
+                    {/* Dots Button */}
+                    <div className="dots-wrapper">
+                      <button
+                        className="dots-btn"
+                        onClick={() =>
+                          setActiveMenu((prev) => (prev === item.id ? null : item.id))
+                        }
+                      >
+                        <MoreVertIcon />
+                      </button>
+
+                      {/* Dymek z opcjami */}
+                      {activeMenu === item.id && (
+                        <div className="menu-tooltip">
+                          <button
+                            className="tooltip-option"
+                            onClick={() => {
+                              handleDelete(item.id);
+                              setActiveMenu(null); // Zamknij dymek
+                            }}
+                          >
+                            Usuń
+                          </button>
+                          <button
+                            className="tooltip-option"
+                            onClick={() => {
+                              proposeNewDate(item.id);
+                              setActiveMenu(null); // Zamknij dymek
+                            }}
+                          >
+                            Zaproponuj nową datę
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 ))
               ) : (
