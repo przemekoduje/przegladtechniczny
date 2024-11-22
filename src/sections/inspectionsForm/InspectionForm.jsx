@@ -10,7 +10,8 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import { collection, addDoc, getDocs, query,
+  where, } from "firebase/firestore";
 import { db } from "../../firebase";
 
 const InspectionForm = () => {
@@ -36,7 +37,21 @@ const InspectionForm = () => {
   const navigate = useNavigate();
   const [selectedType, setSelectedType] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [localCart, setLocalCart] = useState([]); // Dane przechowywane lokalnie
 
+  const saveLocalCartToStorage = (cart) => {
+    localStorage.setItem("localCart", JSON.stringify(cart));
+  };
+  
+  const loadLocalCartFromStorage = () => {
+    const storedCart = localStorage.getItem("localCart");
+    return storedCart ? JSON.parse(storedCart) : [];
+  };
+  useEffect(() => {
+    const storedCart = loadLocalCartFromStorage();
+    setLocalCart(storedCart);
+  }, []);
+  
   // Funkcja do obsługi zmiany wartości w formularzu
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -66,13 +81,14 @@ const InspectionForm = () => {
       zakres: formData.inspections,
       termin: formData.preferredDate,
     };
-
+  
     if (newProperty.type && newProperty.address) {
-      const updatedCart = [...cart, newProperty];
-      setCart(updatedCart);
+      const updatedCart = [...localCart, newProperty];
+      setLocalCart(updatedCart); // Aktualizacja localCart
+      saveLocalCartToStorage(updatedCart); // Zapis do localStorage
       setShowCart(true);
-
-      // Resetowanie formularza po dodaniu do koszyka
+  
+      // Resetowanie formularza
       setFormData({
         propertyType: "",
         numberOfBlocks: "",
@@ -90,63 +106,35 @@ const InspectionForm = () => {
         contactName: "",
         contactEmail: "",
       });
-      // Resetowanie pól CustomDropdown
       setSelectedType(null);
       setSelectedDate(null);
     } else {
       alert("Proszę wypełnić wszystkie wymagane pola.");
     }
   };
-
-  // // Funkcja zapisywania do Local Storage
-  // const saveToLocalStorage = (key, value) => {
-  //   localStorage.setItem(key, JSON.stringify(value));
-  // };
-
-  // // Funkcja odczytywania danych z Local Storage
-  // const loadFromLocalStorage = (key) => {
-  //   const storedData = localStorage.getItem(key);
-  //   return storedData ? JSON.parse(storedData) : null;
-  // };
-
-  // // Ładowanie danych z Local Storage przy pierwszym renderowaniu
-  // useEffect(() => {
-  //   const savedCart = loadFromLocalStorage("cart");
-  //   const savedFormData = loadFromLocalStorage("formData");
-
-  //   if (savedCart) {
-  //     setCart(savedCart);
-  //     setShowCart(savedCart.length > 0);
-  //   }
-
-  //   if (savedFormData) {
-  //     setFormData(savedFormData);
-  //   }
-  // }, []);
-
-  // // Zapisuj dane formularza przy każdej zmianie
-  // useEffect(() => {
-  //   saveToLocalStorage("formData", formData);
-  // }, [formData]);
+  
 
   useEffect(() => {
     const fetchCart = async () => {
       if (auth.currentUser) {
         const userCartRef = collection(db, "userCarts");
-        const snapshot = await getDocs(userCartRef);
-        const userCart = snapshot.docs
-          .map((doc) => ({ id: doc.id, ...doc.data() }))
-          .find((cart) => cart.userId === auth.currentUser.uid);
-
+        const snapshot = await getDocs(query(userCartRef, where("userId", "==", auth.currentUser.uid)));
+  
+        const userCart = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  
         if (userCart) {
-          setCart(userCart.cart);
-          setShowCart(userCart.cart.length > 0);
+          // Jeśli userCart jest tablicą
+          setCart(userCart);
+          setShowCart(userCart.length > 0);
+        } else {
+          setCart([]); // Gdy brak danych
         }
       }
     };
-
+  
     fetchCart();
   }, [auth.currentUser]);
+  
 
   // Funkcja logowania użytkownika
   const handleLogin = async () => {
@@ -164,58 +152,57 @@ const InspectionForm = () => {
   // Funkcja wysyłania formularza
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const user = auth.currentUser; // Pobierz aktualnego użytkownika
-
+  
+    const user = auth.currentUser;
+  
     if (!user) {
-      // Jeśli użytkownik nie jest zalogowany, zaloguj go
       alert("Musisz się zalogować przed wysłaniem danych.");
       try {
-        await handleLogin(); // Wywołaj logowanie przez Google
+        await handleLogin();
       } catch (error) {
         console.error("Błąd logowania:", error);
-        return; // Jeśli logowanie się nie powiedzie, przerwij
+        return;
       }
     }
-
+  
     try {
-      const userCartRef = collection(db, "userCarts"); // Kolekcja w Firestore
-      const docRef = await addDoc(userCartRef, {
-        userId: auth.currentUser.uid, // Powiązanie z użytkownikiem
-        cart: cart,
-        timestamp: new Date(),
+      const userCartRef = collection(db, "userCarts");
+  
+      // Iteracja przez dane w `localCart` i zapisanie każdego wpisu jako osobny dokument
+      const savePromises = localCart.map(async (item) => {
+        const docRef = await addDoc(userCartRef, {
+          userId: user.uid,
+          type: item.type,
+          address: item.address,
+          klatki: item.klatki || null,
+          area: item.area || null,
+          termin: item.termin || null,
+          zakres: {
+            construction: item.zakres?.construction || false,
+            gas: item.zakres?.gas || false,
+            electrical: item.zakres?.electrical || false,
+            energy: item.zakres?.energy || false,
+          },
+          timestamp: new Date(),
+        });
+        console.log("Dodano dokument z id:", docRef.id);
+        return docRef.id;
       });
-      console.log("Dodano dokument z id:", docRef.id); 
-      alert("Dane zostały zapisane w bazie danych.");
-      setCart([]); // Opróżnienie koszyka
-      setFormData({
-        propertyType: "",
-        numberOfBlocks: "",
-        propertyAddress: "",
-        area: "",
-        volume: "",
-        floors: "",
-        inspections: {
-          construction: false,
-          gas: false,
-          electrical: false,
-          energy: false,
-        },
-        preferredDate: "",
-        contactName: "",
-        contactEmail: "",
-      }); // Resetuj formularz
+  
+      await Promise.all(savePromises);
+  
+      alert("Wszystkie dane zostały zapisane w bazie danych.");
+      setLocalCart([]); // Czyszczenie lokalnego koszyka
+      saveLocalCartToStorage([]); // Czyszczenie localStorage
+      setShowCart(false);
     } catch (error) {
       console.error("Błąd podczas zapisywania danych:", error);
       alert("Nie udało się zapisać danych.");
     }
-
-    // // Zapisz dane koszyka do localStorage po zalogowaniu
-    // console.log("Zalogowany użytkownik:", auth.currentUser.displayName);
-    // console.log("Zapisuję dane koszyka do localStorage...");
-    // localStorage.setItem("cart", JSON.stringify(cart)); // Zapisz koszyk
-    // alert("Dane zapisane pomyślnie!");
   };
+  
+  
+  
 
   useEffect(() => {
     // Zmien kolor pierwszej opcji w każdym <select>
@@ -394,42 +381,13 @@ const InspectionForm = () => {
         <div className="cart-section">
           <h3>Koszyk</h3>
           <ul>
-            {cart.map((item, index) => (
+            {localCart.map((item, index) => (
               <li key={index}>
                 {item.type} - {item.address}
               </li>
             ))}
           </ul>
-          {/* Formularz danych kontaktowych */}
-          <h3>Dane kontaktowe / logowanie</h3>
-          <div>
-            <label>Dane osoby do kontaktu</label>
-            <input
-              type="text"
-              name="contactName"
-              value={formData.contactName}
-              onChange={handleChange}
-              placeholder="wpisz dane"
-            />
-            <label>jeeli to osoba trzecia wpisz jej telefon</label>
-            <input
-              type="text"
-              name="contactTel"
-              value={formData.contactTel}
-              onChange={handleChange}
-              placeholder="wpisz dane"
-            />
-          </div>
-          <div>
-            <label>Adres email</label>
-            <input
-              type="email"
-              name="contactEmail"
-              value={formData.contactEmail}
-              onChange={handleChange}
-              placeholder="wpisz dane"
-            />
-          </div>
+          
           <button type="submit" className="submit-btn" onClick={handleSubmit}>
             Wyślij
           </button>

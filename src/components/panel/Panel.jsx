@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from "react";
 import "./panel.scss";
 import { auth, signOut } from "../../firebase.js";
-import { collection, query, where, getDocs, deleteDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 import { db } from "../../firebase";
-
 
 export default function Panel({ isOpen, user }) {
   const [userName, setUserName] = useState("");
   const [userPhoto, setUserPhoto] = useState("images/default-profile.jpg");
   const [userData, setUserData] = useState([]);
+  const [cart, setCart] = useState([]); // Dane z serwera
 
   // Funkcja wylogowania
   const handleLogout = async () => {
@@ -20,33 +27,23 @@ export default function Panel({ isOpen, user }) {
     }
   };
 
-
-
   useEffect(() => {
     const fetchCartData = async () => {
       if (user) {
         const userCartRef = collection(db, "userCarts");
-        const snapshot = await getDocs(userCartRef);
-        
-        // Pobieranie wszystkich dokumentów użytkownika
-        const userCart = snapshot.docs
-          .map((doc) => ({ id: doc.id, ...doc.data() }))
-          .filter((cart) => cart.userId === user.uid);
+        const snapshot = await getDocs(
+          query(userCartRef, where("userId", "==", user.uid))
+        );
 
-          console.log(userCart)
+        const userCart = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
 
-        
-        if (userCart.length > 0) {
-          // Aktualizacja stanu z listą koszyków
-          setUserData(userCart.map((cart) => cart.cart).flat());
-        } else {
-          setUserData([]);
-        }
+        setCart(userCart); // Dane serwerowe w `cart`
       }
     };
 
-    console.log("Dane użytkownika:", userData);
-  
     if (isOpen) {
       fetchCartData();
     }
@@ -84,21 +81,25 @@ export default function Panel({ isOpen, user }) {
 
             {/* Przeglądy z formularza */}
             <div className="reminder-buttons">
-            {userData.length > 0 ? (
-                userData.map((item) => (
+              {cart.length > 0 ? (
+                cart.map((item) => (
                   <div key={item.id} className="reminder-btn">
                     <div className="texts">
                       <span className="type">{item.type?.toUpperCase()}</span>
                       <span className="adress">{item.address}</span>
                     </div>
                     <div className="date-btn">
-                      <span>{new Date().toLocaleDateString()}</span>
+                      <span>
+                        {new Date(
+                          item.timestamp?.seconds * 1000
+                        ).toLocaleDateString()}
+                      </span>
                     </div>
                     <button
                       className="delete-btn"
                       onClick={() => handleDelete(item.id)}
                     >
-                     x
+                      x
                     </button>
                   </div>
                 ))

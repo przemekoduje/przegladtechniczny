@@ -13,7 +13,7 @@ export default function Main({ user }) {
 
   let scrollTimeout;
 
-  console.log(user);
+  
 
   const handleScroll = () => {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -73,7 +73,7 @@ export default function Main({ user }) {
     }
   }, [user]);
 
-  console.log(userPhoto);
+  
 
   return (
     <div className="main">
