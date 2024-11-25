@@ -10,8 +10,7 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { collection, addDoc, getDocs, query,
-  where, } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebase";
 
 const InspectionForm = () => {
@@ -31,6 +30,7 @@ const InspectionForm = () => {
     preferredDate: "",
     contactName: "",
     contactEmail: "",
+    contactPhone: "",
   });
   const [cart, setCart] = useState([]);
   const [showCart, setShowCart] = useState(false);
@@ -42,7 +42,7 @@ const InspectionForm = () => {
   const saveLocalCartToStorage = (cart) => {
     localStorage.setItem("localCart", JSON.stringify(cart));
   };
-  
+
   const loadLocalCartFromStorage = () => {
     const storedCart = localStorage.getItem("localCart");
     return storedCart ? JSON.parse(storedCart) : [];
@@ -51,7 +51,7 @@ const InspectionForm = () => {
     const storedCart = loadLocalCartFromStorage();
     setLocalCart(storedCart);
   }, []);
-  
+
   // Funkcja do obsługi zmiany wartości w formularzu
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -81,12 +81,12 @@ const InspectionForm = () => {
       zakres: formData.inspections,
       termin: formData.preferredDate,
     };
-  
+
     if (newProperty.type && newProperty.address) {
       const updatedCart = [...localCart, newProperty];
       setLocalCart(updatedCart); // Aktualizacja localCart
       saveLocalCartToStorage(updatedCart); // Zapis do localStorage
-  
+
       // Resetowanie formularza
       setFormData({
         propertyType: "",
@@ -111,16 +111,20 @@ const InspectionForm = () => {
       alert("Proszę wypełnić wszystkie wymagane pola.");
     }
   };
-  
 
   useEffect(() => {
     const fetchCart = async () => {
       if (auth.currentUser) {
         const userCartRef = collection(db, "userCarts");
-        const snapshot = await getDocs(query(userCartRef, where("userId", "==", auth.currentUser.uid)));
-  
-        const userCart = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-  
+        const snapshot = await getDocs(
+          query(userCartRef, where("userId", "==", auth.currentUser.uid))
+        );
+
+        const userCart = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
         if (userCart) {
           // Jeśli userCart jest tablicą
           setCart(userCart);
@@ -130,10 +134,9 @@ const InspectionForm = () => {
         }
       }
     };
-  
+
     fetchCart();
   }, [auth.currentUser]);
-  
 
   // Funkcja logowania użytkownika
   const handleLogin = async () => {
@@ -151,9 +154,9 @@ const InspectionForm = () => {
   // Funkcja wysyłania formularza
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const user = auth.currentUser;
-  
+
     if (!user) {
       alert("Musisz się zalogować przed wysłaniem danych.");
       try {
@@ -163,17 +166,20 @@ const InspectionForm = () => {
         return;
       }
     }
-  
+
     try {
       const userCartRef = collection(db, "userCarts");
-  
+
       // Iteracja przez dane w `localCart` i zapisanie każdego wpisu jako osobny dokument
       const savePromises = localCart.map(async (item) => {
         const docRef = await addDoc(userCartRef, {
           userId: user.uid,
+          email: user.email, // Dodaj email użytkownika
+          phone: formData.contactPhone || null, // Dodaj numer telefonu, jeśli istnieje
           type: item.type,
           address: item.address,
           klatki: item.klatki || null,
+          floors: item.floors || null,
           area: item.area || null,
           termin: item.termin || null,
           zakres: {
@@ -187,9 +193,9 @@ const InspectionForm = () => {
         console.log("Dodano dokument z id:", docRef.id);
         return docRef.id;
       });
-  
+
       await Promise.all(savePromises);
-  
+
       alert("Wszystkie dane zostały zapisane w bazie danych.");
       setLocalCart([]); // Czyszczenie lokalnego koszyka
       saveLocalCartToStorage([]); // Czyszczenie localStorage
@@ -199,9 +205,6 @@ const InspectionForm = () => {
       alert("Nie udało się zapisać danych.");
     }
   };
-  
-  
-  
 
   useEffect(() => {
     // Zmien kolor pierwszej opcji w każdym <select>
@@ -379,6 +382,7 @@ const InspectionForm = () => {
       {localCart.length > 0 && (
         <div className="cart-section">
           <h3>Koszyk</h3>
+
           <ul>
             {localCart.map((item, index) => (
               <li key={index}>
@@ -386,7 +390,17 @@ const InspectionForm = () => {
               </li>
             ))}
           </ul>
-          
+          <div>
+            <label>Numer telefonu (opcjonalnie):</label>
+            <input
+              type="text"
+              name="contactPhone"
+              value={formData.contactPhone || ""}
+              onChange={handleChange}
+              placeholder="Wpisz numer telefonu"
+            />
+          </div>
+
           <button type="submit" className="submit-btn" onClick={handleSubmit}>
             Wyślij
           </button>

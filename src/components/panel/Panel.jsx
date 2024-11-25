@@ -10,12 +10,11 @@ import {
   doc,
 } from "firebase/firestore";
 import { db } from "../../firebase";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 export default function Panel({ isOpen, user }) {
   const [userName, setUserName] = useState("");
   const [userPhoto, setUserPhoto] = useState("images/default-profile.jpg");
-  const [userData, setUserData] = useState([]);
   const [cart, setCart] = useState([]); // Dane z serwera
   const [activeMenu, setActiveMenu] = useState(null); // Śledzenie aktywnego dymka
 
@@ -53,30 +52,41 @@ export default function Panel({ isOpen, user }) {
 
   // Funkcja usuwania wpisu
   const handleDelete = async (id) => {
-    // Weryfikacja przed usunięciem
     const confirmation = window.confirm("Czy na pewno chcesz usunąć ten wpis?");
     if (!confirmation) {
       return;
     }
 
     try {
-      // Usunięcie wpisu z bazy danych
       await deleteDoc(doc(db, "userCarts", id));
-
-      // Usunięcie wpisu ze stanu `cart`
       setCart((prevCart) => prevCart.filter((item) => item.id !== id));
-
       alert("Wpis został usunięty.");
     } catch (error) {
       console.error("Błąd podczas usuwania wpisu:", error);
       alert("Nie udało się usunąć wpisu.");
     }
   };
+
   const proposeNewDate = (id) => {
     alert(`Zaproponowanie nowej daty dla wpisu o ID: ${id}`);
     // Logika dla proponowania nowej daty zostanie dodana później
   };
 
+  const getStatus = (item) => {
+    return item.scheduledDate
+      ? "ustalony termin przeglądu"
+      : "wysłano zapytanie";
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return null;
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+
+    return { day, month, year };
+  };
 
   return (
     <div className={`panel ${isOpen ? "open" : ""}`}>
@@ -92,57 +102,73 @@ export default function Panel({ isOpen, user }) {
             {/* Przeglądy z formularza */}
             <div className="reminder-buttons">
               {cart.length > 0 ? (
-                cart.map((item) => (
-                  <div key={item.id} className="reminder-btn">
-                    <div className="date-btn">
-                      <span>
-                        {new Date(
-                          item.timestamp?.seconds * 1000
-                        ).toLocaleDateString()}
-                      </span>
-                    </div>
-                    <div className="texts">
-                      <span className="type">{item.type}</span>
-                      <span className="adress">{item.address}</span>
-                    </div>
+                cart.map((item) => {
+                  const date =
+                    item.scheduledDate ||
+                    (item.timestamp?.seconds
+                      ? new Date(item.timestamp.seconds * 1000).toISOString()
+                      : null);
+                  const formattedDate = formatDate(date);
 
-                    {/* Dots Button */}
-                    <div className="dots-wrapper">
-                      <button
-                        className="dots-btn"
-                        onClick={() =>
-                          setActiveMenu((prev) => (prev === item.id ? null : item.id))
-                        }
-                      >
-                        <MoreVertIcon />
-                      </button>
+                  return (
+                    <div key={item.id} className="reminder-btn">
+                      <div className="date-btn">
+                        {formattedDate ? (
+                          <>
+                            <span>{`${formattedDate.day}.${formattedDate.month}`}</span>
+                            <span>{formattedDate.year}</span>
+                          </>
+                        ) : (
+                          <span>Brak daty</span>
+                        )}
+                      </div>
 
-                      {/* Dymek z opcjami */}
-                      {activeMenu === item.id && (
-                        <div className="menu-tooltip">
-                          <button
-                            className="tooltip-option"
-                            onClick={() => {
-                              handleDelete(item.id);
-                              setActiveMenu(null); // Zamknij dymek
-                            }}
-                          >
-                            Usuń
-                          </button>
-                          <button
-                            className="tooltip-option"
-                            onClick={() => {
-                              proposeNewDate(item.id);
-                              setActiveMenu(null); // Zamknij dymek
-                            }}
-                          >
-                            Zaproponuj nową datę
-                          </button>
-                        </div>
-                      )}
+                      <div className="texts">
+                        <span className="type">{item.type}</span>
+                        <span className="adress">{item.address}</span>
+                        <span className="status">Status: {getStatus(item)}</span>
+                      </div>
+
+                      {/* Dots Button */}
+                      <div className="dots-wrapper">
+                        <button
+                          className="dots-btn"
+                          onClick={() =>
+                            setActiveMenu((prev) =>
+                              prev === item.id ? null : item.id
+                            )
+                          }
+                        >
+                          <MoreVertIcon />
+                        </button>
+
+                        {/* Dymek z opcjami */}
+                        {activeMenu === item.id && (
+                          <div className="menu-tooltip">
+                            <button
+                              className="tooltip-option"
+                              onClick={() => {
+                                handleDelete(item.id);
+                                setActiveMenu(null); // Zamknij dymek
+                              }}
+                            >
+                              Usuń
+                            </button>
+                            <button
+                              className="tooltip-option"
+                              onClick={() => {
+                                proposeNewDate(item.id);
+                                setActiveMenu(null); // Zamknij dymek
+                              }}
+                            >
+                              Zaproponuj nową datę
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))
+                  );
+                })
               ) : (
                 <p>Brak zapisanych przeglądów.</p>
               )}

@@ -7,3 +7,9 @@
   max-width: 1440px;
   margin: auto;
 }
+.App.full-width {
+  max-width: none; /* Usuń ograniczenie szerokości */
+  width: 100%;     /* Zajmij całą szerokość przeglądarki */
+  margin: 0;       /* Usuń margines */
+}
+

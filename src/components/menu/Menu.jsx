@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import "./menu.scss";
 import Panel from "../panel/Panel";
 import { auth, onAuthStateChanged } from "../../firebase";
+import { useNavigate } from "react-router-dom";
 
 export default function Menu() {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   // Funkcja nasłuchująca zmiany stanu logowania
   useEffect(() => {
@@ -37,6 +39,9 @@ export default function Menu() {
       <div className="menu">
         <div className="logo">
           <span>przegladtechniczny.online</span>
+        </div>
+        <div className="admin" onClick={() => navigate("/adminDashboard")}>
+          Dashboard 
         </div>
         <div className="menu-burger" onClick={togglePanel}>
           <span class="material-icons-outlined">

@@ -21,6 +21,14 @@
       font-size: 20px;
     }
   }
+  .admin {
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  
+  .admin:hover {
+    color: #007bff;
+  }
   .menu-burger{
     cursor: pointer;
   }
