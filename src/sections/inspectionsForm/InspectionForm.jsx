@@ -155,17 +155,23 @@ const InspectionForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const user = auth.currentUser;
+    let user = auth.currentUser;
 
-    if (!user) {
-      alert("Musisz się zalogować przed wysłaniem danych.");
-      try {
-        await handleLogin();
-      } catch (error) {
-        console.error("Błąd logowania:", error);
+
+    // Jeśli użytkownik nie jest zalogowany
+  if (!user) {
+    try {
+      await handleLogin(); // Wywołaj funkcję logowania
+      user = auth.currentUser; // Zaktualizuj referencję użytkownika po zalogowaniu
+      if (!user) {
+        alert("Logowanie nie powiodło się. Spróbuj ponownie.");
         return;
       }
+    } catch (error) {
+      console.error("Błąd logowania:", error);
+      return;
     }
+  }
 
     try {
       const userCartRef = collection(db, "userCarts");
