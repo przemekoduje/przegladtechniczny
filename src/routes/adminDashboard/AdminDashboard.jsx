@@ -118,7 +118,6 @@ export default function AdminDashboard() {
 
   return (
     <div className="admindashboard">
-      <div className="admin-dashboard">
         <h1>Admin Dashboard</h1>
         <table>
           <thead>
@@ -167,7 +166,6 @@ export default function AdminDashboard() {
             ))}
           </tbody>
         </table>
-      </div>
       <div className="logout-btn" onClick={handleLogout}>
         Wyloguj
       </div>

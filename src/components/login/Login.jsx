@@ -14,12 +14,15 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 const Login = () => {
   const navigate = useNavigate();
 
+
+  
+
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
       localStorage.setItem("isLoggedIn", "true");
-      window.location.href = "/";
+      navigate("/", { state: { scrollTo: "inspectionForm" } });
     } catch (error) {
       alert("Błąd logowania przez Google: " + error.message);
     }
@@ -29,7 +32,7 @@ const Login = () => {
     try {
       await signInWithPopup(auth, provider);
       localStorage.setItem("isLoggedIn", "true");
-      window.location.href = "/";
+      navigate("/", { state: { scrollTo: "inspectionForm" } });
     } catch (error) {
       alert("Błąd logowania przez Facebook: " + error.message);
     }
@@ -39,7 +42,7 @@ const Login = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       localStorage.setItem("isLoggedIn", "true");
-      window.location.href = "/";
+      navigate("/", { state: { scrollTo: "inspectionForm" } });
     } catch (error) {
       alert("Błąd logowania: " + error.message);
     }

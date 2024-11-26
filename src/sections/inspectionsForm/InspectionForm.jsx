@@ -9,9 +9,10 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebase";
+
 
 const InspectionForm = () => {
   const [formData, setFormData] = useState({
@@ -38,6 +39,7 @@ const InspectionForm = () => {
   const [selectedType, setSelectedType] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [localCart, setLocalCart] = useState([]); // Dane przechowywane lokalnie
+  const location = useLocation();
 
   const saveLocalCartToStorage = (cart) => {
     localStorage.setItem("localCart", JSON.stringify(cart));
@@ -159,19 +161,12 @@ const InspectionForm = () => {
 
 
     // Jeśli użytkownik nie jest zalogowany
-  if (!user) {
-    try {
-      await handleLogin(); // Wywołaj funkcję logowania
-      user = auth.currentUser; // Zaktualizuj referencję użytkownika po zalogowaniu
-      if (!user) {
-        alert("Logowanie nie powiodło się. Spróbuj ponownie.");
-        return;
-      }
-    } catch (error) {
-      console.error("Błąd logowania:", error);
+    if (!user) {
+      // Przekierowanie na stronę logowania, jeśli użytkownik nie jest zalogowany
+      alert("Musisz się zalogować, aby wysłać dane.");
+      navigate("/login", { state: { from: "/" } }); // Przekazanie miejsca powrotu
       return;
     }
-  }
 
     try {
       const userCartRef = collection(db, "userCarts");
@@ -241,6 +236,15 @@ const InspectionForm = () => {
   // Sprawdzamy, czy wybrano opcję "budynek wielorodzinny"
   const isMultiFamilyBuilding = formData.propertyType === "wielorodzinny";
 
+  useEffect(() => {
+    const locationState = location.state;
+    if (locationState?.scrollTo === "inspectionForm") {
+      const inspectionFormElement = document.querySelector(".inspection-form");
+      if (inspectionFormElement) {
+        inspectionFormElement.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location.state]);
   return (
     <>
       <form className="inspection-form">
@@ -268,9 +272,8 @@ const InspectionForm = () => {
           {/* Liczba klatek */}
 
           <div
-            className={`klatkiCounter ${
-              isMultiFamilyBuilding ? "visible" : ""
-            }`}
+            className={`klatkiCounter ${isMultiFamilyBuilding ? "visible" : ""
+              }`}
           >
             <label>Liczba klatek</label>
             <input
@@ -285,7 +288,7 @@ const InspectionForm = () => {
         </div>
 
         {/* Adres nieruchomości */}
-        <div>
+        <div className="adres-box">
           <label>Adres nieruchomości</label>
           <input
             className="adres"
@@ -293,7 +296,7 @@ const InspectionForm = () => {
             name="propertyAddress"
             value={formData.propertyAddress}
             onChange={handleChange}
-            placeholder="wpisz dane"
+            placeholder="Miasto, ulica, nr "
           />
         </div>
 
@@ -382,36 +385,38 @@ const InspectionForm = () => {
         >
           Dodaj do koszyka
         </button>
-      </form>
 
-      {/* Sekcja koszyka */}
-      {localCart.length > 0 && (
-        <div className="cart-section">
-          <h3>Koszyk</h3>
 
-          <ul>
-            {localCart.map((item, index) => (
-              <li key={index}>
-                {item.type} - {item.address}
-              </li>
-            ))}
-          </ul>
-          <div>
-            <label>Numer telefonu (opcjonalnie):</label>
-            <input
-              type="text"
-              name="contactPhone"
-              value={formData.contactPhone || ""}
-              onChange={handleChange}
-              placeholder="Wpisz numer telefonu"
-            />
+        {/* Sekcja koszyka */}
+        {localCart.length > 0 && (
+          <div className="cart-section">
+
+
+            <ul>
+              {localCart.map((item, index) => (
+                <li key={index}>
+                  {item.type} - {item.address}
+                </li>
+              ))}
+            </ul>
+            <div>
+              <label>Numer telefonu (opcjonalnie):</label>
+              <input
+                type="text"
+                name="contactPhone"
+                value={formData.contactPhone || ""}
+                onChange={handleChange}
+                placeholder="Wpisz numer telefonu"
+              />
+            </div>
+
+            <button type="submit" className="submit-btn" onClick={handleSubmit}>
+            {auth.currentUser ? "Wyślij" : "Zaloguj i wyślij"}
+            </button>
           </div>
 
-          <button type="submit" className="submit-btn" onClick={handleSubmit}>
-            Wyślij
-          </button>
-        </div>
-      )}
+        )}
+      </form>
     </>
   );
 };
