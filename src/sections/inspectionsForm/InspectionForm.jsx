@@ -140,6 +140,10 @@ const InspectionForm = () => {
     fetchCart();
   }, [auth.currentUser]);
 
+
+
+
+  
   // Funkcja logowania użytkownika
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
@@ -155,16 +159,25 @@ const InspectionForm = () => {
 
   // Funkcja wysyłania formularza
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault(); // Upewnij się, że `e` istnieje, zanim go użyjesz
+    }
 
     let user = auth.currentUser;
 
 
+<<<<<<< HEAD
     // Jeśli użytkownik nie jest zalogowany
     if (!user) {
       // Przekierowanie na stronę logowania, jeśli użytkownik nie jest zalogowany
       alert("Musisz się zalogować, aby wysłać dane.");
       navigate("/login", { state: { from: "/" } }); // Przekazanie miejsca powrotu
+=======
+    if (!user) {
+      // Przekierowanie na stronę logowania, jeśli użytkownik nie jest zalogowany
+      alert("Musisz się zalogować, aby wysłać dane.");
+      navigate("/login", { state: { from: "/inspectionForm" } }); // Przekazanie miejsca powrotu
+>>>>>>> 3c3bc1c2c07e339c12057be1fc7073ccce21e806
       return;
     }
 
@@ -236,6 +249,7 @@ const InspectionForm = () => {
   // Sprawdzamy, czy wybrano opcję "budynek wielorodzinny"
   const isMultiFamilyBuilding = formData.propertyType === "wielorodzinny";
 
+<<<<<<< HEAD
   useEffect(() => {
     const locationState = location.state;
     if (locationState?.scrollTo === "inspectionForm") {
@@ -245,6 +259,18 @@ const InspectionForm = () => {
       }
     }
   }, [location.state]);
+=======
+  // useEffect(() => {
+  //   const unsubscribe = auth.onAuthStateChanged((user) => {
+  //     if (user && localCart.length > 0) {
+  //       handleSubmit(); // Automatycznie wyślij dane na serwer, jeśli zalogowano i koszyk nie jest pusty
+  //     }
+  //   });
+  //   return () => unsubscribe(); // Usuń nasłuchiwanie po odmontowaniu komponentu
+  // }, [localCart]); // Zależność od koszyka
+  
+
+>>>>>>> 3c3bc1c2c07e339c12057be1fc7073ccce21e806
   return (
     <>
       <form className="inspection-form">
