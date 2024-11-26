@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Home from './routes/home/Home.jsx';
 // import Register from './components/Register';
@@ -14,7 +14,16 @@ function App() {
 
   // Dodaj dynamiczną klasę, jeśli to jest strona bez ograniczeń
   const isFullWidthPage = ["/login", "/signUp", "/adminLogin"].includes(location.pathname);
-
+  useEffect(() => {
+    const locationState = location.state;
+    if (locationState?.scrollTo === "inspectionForm") {
+      const inspectionFormElement = document.querySelector(".inspection-form");
+      if (inspectionFormElement) {
+        inspectionFormElement.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location.state]);
+  
   return (
     <div className={`App ${isFullWidthPage ? "full-width" : ""}`}>
       <Routes>

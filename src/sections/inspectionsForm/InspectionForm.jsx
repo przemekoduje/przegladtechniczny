@@ -138,6 +138,10 @@ const InspectionForm = () => {
     fetchCart();
   }, [auth.currentUser]);
 
+
+
+
+  
   // Funkcja logowania użytkownika
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
@@ -153,25 +157,19 @@ const InspectionForm = () => {
 
   // Funkcja wysyłania formularza
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault(); // Upewnij się, że `e` istnieje, zanim go użyjesz
+    }
 
     let user = auth.currentUser;
 
 
-    // Jeśli użytkownik nie jest zalogowany
-  if (!user) {
-    try {
-      await handleLogin(); // Wywołaj funkcję logowania
-      user = auth.currentUser; // Zaktualizuj referencję użytkownika po zalogowaniu
-      if (!user) {
-        alert("Logowanie nie powiodło się. Spróbuj ponownie.");
-        return;
-      }
-    } catch (error) {
-      console.error("Błąd logowania:", error);
+    if (!user) {
+      // Przekierowanie na stronę logowania, jeśli użytkownik nie jest zalogowany
+      alert("Musisz się zalogować, aby wysłać dane.");
+      navigate("/login", { state: { from: "/inspectionForm" } }); // Przekazanie miejsca powrotu
       return;
     }
-  }
 
     try {
       const userCartRef = collection(db, "userCarts");
@@ -240,6 +238,16 @@ const InspectionForm = () => {
   // };
   // Sprawdzamy, czy wybrano opcję "budynek wielorodzinny"
   const isMultiFamilyBuilding = formData.propertyType === "wielorodzinny";
+
+  // useEffect(() => {
+  //   const unsubscribe = auth.onAuthStateChanged((user) => {
+  //     if (user && localCart.length > 0) {
+  //       handleSubmit(); // Automatycznie wyślij dane na serwer, jeśli zalogowano i koszyk nie jest pusty
+  //     }
+  //   });
+  //   return () => unsubscribe(); // Usuń nasłuchiwanie po odmontowaniu komponentu
+  // }, [localCart]); // Zależność od koszyka
+  
 
   return (
     <>
