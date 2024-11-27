@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Person2Icon from "@mui/icons-material/Person2";
 
 export default function Panel({ isOpen, user }) {
   const [userName, setUserName] = useState("");
@@ -88,6 +89,17 @@ export default function Panel({ isOpen, user }) {
     return { day, month, year };
   };
 
+  useEffect(() => {
+    console.log("User data:", user);
+    if (user) {
+      const emailName = user.email
+        ? user.email.split("@")[0]
+        : "Nieznany użytkownik";
+      setUserName(user.displayName || emailName);
+      setUserPhoto(user.photoURL || null); // Ustaw null, jeśli brak photoURL
+    }
+  }, [user]);
+
   return (
     <div className={`panel ${isOpen ? "open" : ""}`}>
       <div className="left-panel">
@@ -95,7 +107,11 @@ export default function Panel({ isOpen, user }) {
           <>
             {/* Nagłówek użytkownika */}
             <div className="head-account">
-              <img src={userPhoto} alt="Profil" />
+              {userPhoto ? (
+                <img src={userPhoto} alt="Profil" />
+              ) : (
+                <Person2Icon style={{ fontSize: 48 }} /> // Wyświetl ikonę, jeśli brak zdjęcia
+              )}
               <h3>Witaj, {userName}</h3>
             </div>
 
@@ -126,7 +142,9 @@ export default function Panel({ isOpen, user }) {
                       <div className="texts">
                         <span className="type">{item.type}</span>
                         <span className="adress">{item.address}</span>
-                        <span className="status">Status: {getStatus(item)}</span>
+                        <span className="status">
+                          Status: {getStatus(item)}
+                        </span>
                       </div>
 
                       {/* Dots Button */}

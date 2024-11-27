@@ -27,6 +27,9 @@ const SignUp = () => {
 
   return (
     <div className="signup-wrapper">
+      <div className="img-left">
+        <img src="/images/login_background.png" alt="" />
+      </div>
       <div className="sign-up-page">
         <h2>Zarejestruj się </h2>
 

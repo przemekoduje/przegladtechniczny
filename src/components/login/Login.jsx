@@ -11,25 +11,15 @@ import "./login.scss";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
 
-
-
-
 const Login = () => {
   const navigate = useNavigate();
-
-
-  
 
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
       localStorage.setItem("isLoggedIn", "true");
-<<<<<<< HEAD
       navigate("/", { state: { scrollTo: "inspectionForm" } });
-=======
-      navigate("/", { state: { scrollTo: "inspectionForm" } }); 
->>>>>>> 3c3bc1c2c07e339c12057be1fc7073ccce21e806
     } catch (error) {
       alert("Błąd logowania przez Google: " + error.message);
     }
@@ -39,11 +29,7 @@ const Login = () => {
     try {
       await signInWithPopup(auth, provider);
       localStorage.setItem("isLoggedIn", "true");
-<<<<<<< HEAD
       navigate("/", { state: { scrollTo: "inspectionForm" } });
-=======
-      navigate("/", { state: { scrollTo: "inspectionForm" } }); 
->>>>>>> 3c3bc1c2c07e339c12057be1fc7073ccce21e806
     } catch (error) {
       alert("Błąd logowania przez Facebook: " + error.message);
     }
@@ -53,11 +39,7 @@ const Login = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       localStorage.setItem("isLoggedIn", "true");
-<<<<<<< HEAD
       navigate("/", { state: { scrollTo: "inspectionForm" } });
-=======
-      navigate("/", { state: { scrollTo: "inspectionForm" } }); 
->>>>>>> 3c3bc1c2c07e339c12057be1fc7073ccce21e806
     } catch (error) {
       alert("Błąd logowania: " + error.message);
     }
@@ -65,6 +47,9 @@ const Login = () => {
 
   return (
     <div className="login-wrapper">
+      <div className="img-left">
+      <img src="/images/login_background.png" alt="" />
+      </div>
       <div className="login-page">
         <h2>Zaloguj się</h2>
 
