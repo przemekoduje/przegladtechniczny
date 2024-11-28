@@ -1,10 +1,18 @@
 /* home5.scss */
 .h5-QA {
   width: 100%;
-  padding: 50px 40px;
+  padding: 80px 40px;
+
+  h2{
+    font-family: "Merriweather", serif;
+    font-size: 50px;
+    font-weight: 300;
+    font-style: normal;
+  }
 
   .faq-list {
     color: #4a4a4a;
+    margin-top: 40px;
 
     .faq-item {
       margin-bottom: 10px;

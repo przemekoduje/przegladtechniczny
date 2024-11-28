@@ -3,3 +3,12 @@
     padding: 0;
     box-sizing: border-box;
 }
+body {
+    overflow: auto; /* Pozostaw możliwość przewijania */
+    scrollbar-width: none; /* Ukryj paski przewijania w Firefox */
+    
+  }
+  
+  ::-webkit-scrollbar {
+    display: none; /* Ukryj paski przewijania w przeglądarkach WebKit (Chrome, Safari) */
+  }

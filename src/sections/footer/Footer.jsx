@@ -5,10 +5,10 @@ export default function Footer() {
   return (
     <div className='footer'>
         <div className="texts">
-            <h1>przegladtechniczny.online</h1>
+            <h1>przeglad.online</h1>
             <span className="adres">
-                <p>44-121 Gliwice</p>
-                <p>ul. Myśliwska</p>
+                <p>Gliwice</p>
+                <p>ul. Księdza Norberta Bończyka 4a</p>
             </span>
             <span className="audytors">
                 <div className="audytor_prze">

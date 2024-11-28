@@ -330,42 +330,42 @@ const InspectionForm = () => {
 
         {/* Zakres przeglądu */}
         <div className="zakres">
-          <label className="opis">Zakres przeglądu</label>
-          <div className="checkbox">
+          <label className="opis">Określ zakres przeglądu</label>
+          <div className="checkbox custom-checkbox">
             <input
               type="checkbox"
               name="construction"
               checked={formData.inspections.construction}
               onChange={handleChange}
             />
-            <label>przegląd budowlany</label>
+            <label htmlFor="construction">przegląd budowlany</label>
           </div>
-          <div className="checkbox">
+          <div className="checkbox custom-checkbox">
             <input
               type="checkbox"
               name="gas"
               checked={formData.inspections.gas}
               onChange={handleChange}
             />
-            <label>przegląd instalacji gazowej</label>
+            <label htmlFor="gas">przegląd instalacji gazowej</label>
           </div>
-          <div className="checkbox">
+          <div className="checkbox custom-checkbox">
             <input
               type="checkbox"
               name="electrical"
               checked={formData.inspections.electrical}
               onChange={handleChange}
             />
-            <label>przegląd instalacji elektrycznej</label>
+            <label htmlFor="electrical">przegląd instalacji elektrycznej</label>
           </div>
-          <div className="checkbox">
+          <div className="checkbox custom-checkbox">
             <input
               type="checkbox"
               name="energy"
               checked={formData.inspections.energy}
               onChange={handleChange}
             />
-            <label>świadectwo charakterystyki energetycznej</label>
+            <label htmlFor="energy">świadectwo charakterystyki energetycznej</label>
           </div>
         </div>
 
@@ -406,7 +406,7 @@ const InspectionForm = () => {
               ))}
             </ul>
             <div>
-              <label>Numer telefonu (opcjonalnie):</label>
+              <label>Podaj numer telefonu do kontaktu w tej sprawie (opcjonalnie):</label>
               <input
                 type="text"
                 name="contactPhone"

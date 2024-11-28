@@ -9,16 +9,16 @@
 
   .greenscreamlogo {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     width: fit-content;
 
     img {
-      width: 25px;
-      height: 25px;
+      width: 40px;
+      height: 40px;
     }
     span {
-      font-size: 12px;
+      font-size: 20px;
       font-family: "Lato", sans-serif;
       font-weight: 100;
       font-style: normal;
