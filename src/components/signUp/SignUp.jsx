@@ -3,6 +3,8 @@ import { auth } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import "./signUp.scss";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -31,6 +33,9 @@ const SignUp = () => {
         <img src="/images/login_background.png" alt="" />
       </div>
       <div className="sign-up-page">
+      <div className="arrowBack" onClick={() => navigate("/")}>
+          <ArrowBackIcon style={{ fontSize: "36px" }} />
+        </div>
         <h2>Zarejestruj się </h2>
 
         <div className="signup-email">

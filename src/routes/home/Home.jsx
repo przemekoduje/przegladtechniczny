@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./home.scss"
+import "./home.scss";
 import Main from "../../sections/main/Main";
 import Explanations from "../../sections/explanations/Explanations";
 import InspectionForm from "../../sections/inspectionsForm/InspectionForm";
@@ -10,6 +10,7 @@ import { auth } from "../../firebase.js";
 
 export default function Home() {
   const [currentUser, setCurrentUser] = useState(null);
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -18,14 +19,27 @@ export default function Home() {
 
     return () => unsubscribe();
   }, []);
+
+  // Blokowanie przewijania, gdy panel jest otwarty
+  useEffect(() => {
+    if (isPanelOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto"; // Przywróć przewijanie przy odmontowaniu
+    };
+  }, [isPanelOpen]);
   return (
     <div className="home">
-      <Main user={currentUser}/>
-      <Explanations/>
-      <InspectionForm/>
-      <GoldHand/>
-      <Faq/>
-      <Footer/>
+      <Main user={currentUser} isPanelOpen={isPanelOpen} setIsPanelOpen={setIsPanelOpen} />
+      <Explanations />
+      <InspectionForm />
+      <GoldHand />
+      <Faq />
+      <Footer />
     </div>
   );
 }

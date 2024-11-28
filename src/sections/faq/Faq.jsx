@@ -59,7 +59,7 @@ export default function Faq() {
   };
 
   return (
-    <div className="h5-QA">
+    <div className="h5-QA" id="faq-section" >
       <div className="faq-list lato-regular">
         {faqs.map((faq, index) => (
           <QAItem

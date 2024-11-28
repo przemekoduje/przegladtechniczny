@@ -12,12 +12,32 @@ import {
 import { db } from "../../firebase";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Person2Icon from "@mui/icons-material/Person2";
+import { useNavigate } from "react-router-dom";
 
-export default function Panel({ isOpen, user }) {
+export default function Panel({ isOpen, setIsOpen, user }) {
   const [userName, setUserName] = useState("");
   const [userPhoto, setUserPhoto] = useState("images/default-profile.jpg");
   const [cart, setCart] = useState([]); // Dane z serwera
   const [activeMenu, setActiveMenu] = useState(null); // Śledzenie aktywnego dymka
+  const navigate = useNavigate();
+
+
+
+  const handleClosePanel = () => {
+    setIsOpen(false);
+  };
+
+  const handleCloseAndNavigate = (action) => {
+    // Zamknij panel
+    setIsOpen(false);
+
+    // Poczekaj na animację zamykania panelu (jeśli jest)
+    setTimeout(() => {
+      if (typeof action === "function") {
+        action(); // Wykonaj przesunięcie lub nawigację
+      }
+    }, 300); // Dopasuj czas do czasu animacji zamykania panelu
+  };
 
   // Funkcja wylogowania
   const handleLogout = async () => {
@@ -102,6 +122,8 @@ export default function Panel({ isOpen, user }) {
 
   return (
     <div className={`panel ${isOpen ? "open" : ""}`}>
+     
+
       <div className="left-panel">
         {user ? (
           <>
@@ -212,6 +234,25 @@ export default function Panel({ isOpen, user }) {
       </div>
 
       <div className="right-panel">
+        <div className="panel-menu">
+          <div className="admin" onClick={() => navigate("/adminDashboard")}>
+            Dashboard
+          </div>
+          <div
+            className="faq"
+            onClick={() =>
+              handleCloseAndNavigate(() => {
+                const faqSection = document.getElementById("faq-section");
+                if (faqSection) {
+                  faqSection.scrollIntoView({ behavior: "smooth" });
+                }
+              })
+            }
+          >
+            FAQ
+          </div>
+        </div>
+
         <img src="images/panel-right.png" alt="" />
       </div>
     </div>

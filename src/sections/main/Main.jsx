@@ -5,15 +5,13 @@ import MainFooter from "../../components/main-footer/MainFooter";
 import Person2Icon from "@mui/icons-material/Person2";
 // import { auth, signOut } from "../../firebase.js";
 
-export default function Main({ user }) {
+export default function Main({ user, isPanelOpen, setIsPanelOpen }) {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollTop, setLastScrollTop] = useState(0);
   // const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [userPhoto, setUserPhoto] = useState("");
 
   let scrollTimeout;
-
-  
 
   const handleScroll = () => {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -73,13 +71,18 @@ export default function Main({ user }) {
     }
   }, [user]);
 
-  
-  console.log("userPhoto:", userPhoto);
+  const scrollToInspectionForm = () => {
+    const formSection = document.getElementById("inspection-form");
+    if (formSection) {
+      formSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="main">
       {/* <Panel isOpen={isPanelOpen}/> */}
       <div className={`menu-section ${isVisible ? "visible" : "hidden"}`}>
-        <Menu />
+        <Menu isPanelOpen={isPanelOpen} setIsPanelOpen={setIsPanelOpen} />
       </div>
       <div className="bg_text_button">
         <div className="text_button">
@@ -88,7 +91,7 @@ export default function Main({ user }) {
             techniczne <br />
             nieruchomości
           </h1>
-          <button className="main_button">
+          <button className="main_button" onClick={scrollToInspectionForm}>
             <span>KONTYNUUJ</span>
             <div className="btn-icon">
               <img src={userPhoto} alt="Profil" />

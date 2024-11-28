@@ -253,11 +253,11 @@ const InspectionForm = () => {
   }, [location.state]);
   return (
     <>
-      <form className="inspection-form">
-        <h2>Złóż zapytanie o przegląd</h2>
+      <form className="inspection-form" id="inspection-form">
+        <h2>Wyślij zapytanie o przegląd</h2>
         <p>
           Każdą nieruchomość przedstaw oddzielnie a następnie dodaj ją do
-          koszyka
+          koszyka i wyślij
         </p>
 
         {/* Typ nieruchomości */}

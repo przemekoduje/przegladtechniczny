@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import "./login.scss";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -48,9 +49,12 @@ const Login = () => {
   return (
     <div className="login-wrapper">
       <div className="img-left">
-      <img src="/images/login_background.png" alt="" />
+        <img src="/images/login_background.png" alt="" />
       </div>
       <div className="login-page">
+        <div className="arrowBack" onClick={() => navigate("/")}>
+          <ArrowBackIcon style={{ fontSize: "36px" }} />
+        </div>
         <h2>Zaloguj się</h2>
 
         <div className="login-email">

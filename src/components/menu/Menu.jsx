@@ -3,9 +3,11 @@ import "./menu.scss";
 import Panel from "../panel/Panel";
 import { auth, onAuthStateChanged } from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 
-export default function Menu() {
-  const [isPanelOpen, setIsPanelOpen] = useState(false);
+export default function Menu({ isPanelOpen, setIsPanelOpen }) {
+  // const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
@@ -30,6 +32,7 @@ export default function Menu() {
     <>
       <Panel
         isOpen={isPanelOpen}
+        setIsOpen={setIsPanelOpen}
         user={user}
         isLoggedIn={!!user} // Czy użytkownik jest zalogowany
         userName={userName}
@@ -38,24 +41,11 @@ export default function Menu() {
       {/* {isLoggedIn && <Panel isOpen={isPanelOpen} />} */}
       <div className="menu">
         <div className="logo">
-          <span>przegladtechniczny.online</span>
+          <span>przeglad.online</span>
         </div>
-        <div className="admin" onClick={() => navigate("/adminDashboard")}>
-          Dashboard 
-        </div>
+
         <div className="menu-burger" onClick={togglePanel}>
-          <span class="material-icons-outlined">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 0 24 24"
-              width="24px"
-              fill="#5f6368"
-            >
-              <path d="M0 0h24v24H0V0z" fill="none" />
-              <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
-            </svg>
-          </span>
+        {isPanelOpen ? <CloseIcon /> : <MenuIcon />}
         </div>
       </div>
     </>
