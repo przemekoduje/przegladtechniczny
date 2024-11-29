@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 body {
-    overflow: auto; /* Pozostaw możliwość przewijania */
+  position: relative;
     scrollbar-width: none; /* Ukryj paski przewijania w Firefox */
     
   }

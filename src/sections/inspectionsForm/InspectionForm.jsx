@@ -335,37 +335,41 @@ const InspectionForm = () => {
             <input
               type="checkbox"
               name="construction"
+              id="construction"
               checked={formData.inspections.construction}
               onChange={handleChange}
             />
-            <label htmlFor="construction">przegląd budowlany</label>
+            <label for="construction">przegląd budowlany</label>
           </div>
           <div className="checkbox custom-checkbox">
             <input
               type="checkbox"
               name="gas"
+              id="gas"
               checked={formData.inspections.gas}
               onChange={handleChange}
             />
-            <label htmlFor="gas">przegląd instalacji gazowej</label>
+            <label for="gas">przegląd instalacji gazowej</label>
           </div>
           <div className="checkbox custom-checkbox">
             <input
               type="checkbox"
               name="electrical"
+              id="electrical"
               checked={formData.inspections.electrical}
               onChange={handleChange}
             />
-            <label htmlFor="electrical">przegląd instalacji elektrycznej</label>
+            <label for="electrical">przegląd instalacji elektrycznej</label>
           </div>
           <div className="checkbox custom-checkbox">
             <input
               type="checkbox"
               name="energy"
+              id="energy"
               checked={formData.inspections.energy}
               onChange={handleChange}
             />
-            <label htmlFor="energy">świadectwo charakterystyki energetycznej</label>
+            <label for="energy">świadectwo charakterystyki energetycznej</label>
           </div>
         </div>
 

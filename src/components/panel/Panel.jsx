@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import ReactDOM from 'react-dom';
 import "./panel.scss";
 import { auth, signOut } from "../../firebase.js";
 import {
@@ -20,8 +21,6 @@ export default function Panel({ isOpen, setIsOpen, user }) {
   const [cart, setCart] = useState([]); // Dane z serwera
   const [activeMenu, setActiveMenu] = useState(null); // Śledzenie aktywnego dymka
   const navigate = useNavigate();
-
-
 
   const handleClosePanel = () => {
     setIsOpen(false);
@@ -120,10 +119,21 @@ export default function Panel({ isOpen, setIsOpen, user }) {
     }
   }, [user]);
 
+  const showTooltip = (event, id) => {
+    const rect = event.currentTarget.getBoundingClientRect(); // Pobierz współrzędne przycisku
+    
+    setActiveMenu({
+      id,
+      position: {
+        top: rect.bottom + window.scrollY, // Pozycja względem strony
+        left: rect.left + window.scrollX,
+      },
+    });
+  };
+  
+
   return (
     <div className={`panel ${isOpen ? "open" : ""}`}>
-     
-
       <div className="left-panel">
         {user ? (
           <>
@@ -173,38 +183,48 @@ export default function Panel({ isOpen, setIsOpen, user }) {
                       <div className="dots-wrapper">
                         <button
                           className="dots-btn"
-                          onClick={() =>
-                            setActiveMenu((prev) =>
-                              prev === item.id ? null : item.id
-                            )
-                          }
+                          onClick={(event) => showTooltip(event, item.id)}
                         >
                           <MoreVertIcon />
                         </button>
 
-                        {/* Dymek z opcjami */}
-                        {activeMenu === item.id && (
-                          <div className="menu-tooltip">
-                            <button
-                              className="tooltip-option"
-                              onClick={() => {
-                                handleDelete(item.id);
-                                setActiveMenu(null); // Zamknij dymek
+                        {/* Tooltip przeniesiony do portalu */}
+                        {activeMenu?.id === item.id &&
+                          ReactDOM.createPortal(
+                            <div
+                              className="menu-tooltip"
+                              style={{
+                                position: "absolute",
+                                top: `${activeMenu.position.top}px`,
+                                left: `${activeMenu.position.left}px`,
+                                zIndex: 9999,
+                                background: "white",
+                                border: "1px solid #ddd",
+                                boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
+                                padding: "10px",
                               }}
                             >
-                              Usuń
-                            </button>
-                            <button
-                              className="tooltip-option"
-                              onClick={() => {
-                                proposeNewDate(item.id);
-                                setActiveMenu(null); // Zamknij dymek
-                              }}
-                            >
-                              Zaproponuj nową datę
-                            </button>
-                          </div>
-                        )}
+                              <button
+                                className="tooltip-option"
+                                onClick={() => {
+                                  handleDelete(item.id);
+                                  setActiveMenu(null); // Zamknij dymek
+                                }}
+                              >
+                                Usuń
+                              </button>
+                              <button
+                                className="tooltip-option"
+                                onClick={() => {
+                                  proposeNewDate(item.id);
+                                  setActiveMenu(null); // Zamknij dymek
+                                }}
+                              >
+                                Zaproponuj nową datę
+                              </button>
+                            </div>,
+                            document.body // Portal przenosi menu-tooltip poza ograniczenia
+                          )}
                       </div>
                     </div>
                   );
