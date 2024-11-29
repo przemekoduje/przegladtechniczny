@@ -143,7 +143,7 @@ const InspectionForm = () => {
 
 
 
-  
+
   // Funkcja logowania użytkownika
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
@@ -251,6 +251,8 @@ const InspectionForm = () => {
       }
     }
   }, [location.state]);
+
+
   return (
     <>
       <form className="inspection-form" id="inspection-form">
@@ -307,25 +309,28 @@ const InspectionForm = () => {
         </div>
 
         {/* Powierzchnia, kubatura i liczba kondygnacji */}
-        <div>
+        <div className="pow_kond">
           <label>Powierzchnia całkowita oraz ilość kondygnacji</label>
-          <input
-            className="dane"
-            type="text"
-            name="area"
-            value={formData.area}
-            onChange={handleChange}
-            placeholder="pow. [m2]"
-          />
+          <div className="danes">
+            <input
+              className="dane"
+              type="text"
+              name="area"
+              value={formData.area}
+              onChange={handleChange}
+              placeholder="pow. [m2]"
+            />
 
-          <input
-            className="dane"
-            type="text"
-            name="floors"
-            value={formData.floors}
-            onChange={handleChange}
-            placeholder="kond. [szt]"
-          />
+            <input
+              className="dane"
+              type="text"
+              name="floors"
+              value={formData.floors}
+              onChange={handleChange}
+              placeholder="kond. [szt]"
+            />
+          </div>
+
         </div>
 
         {/* Zakres przeglądu */}
@@ -421,7 +426,7 @@ const InspectionForm = () => {
             </div>
 
             <button type="submit" className="submit-btn" onClick={handleSubmit}>
-            {auth.currentUser ? "Wyślij" : "Zaloguj i wyślij"}
+              {auth.currentUser ? "Wyślij" : "Zaloguj i wyślij"}
             </button>
           </div>
 

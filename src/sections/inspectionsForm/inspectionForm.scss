@@ -1,6 +1,5 @@
 .inspection-form {
   padding: 80px 40px;
-
   font-family: "Lato", serif;
   font-size: 20px;
   font-weight: 300;
@@ -37,7 +36,8 @@
   }
 
   p {
-    margin-bottom: 30px;
+    margin-bottom: 0;
+    font-size: 16px;
   }
 
   .typ {
@@ -250,4 +250,47 @@
 
     }
   }
+}
+
+
+
+@media (max-width: 680px) {
+  
+
+  .inspection-form{
+    padding: 80px 15px;
+    h2 {
+      font-family: "Merriweather", serif;
+      font-size: 25px;
+      font-weight: 300;
+      font-style: normal;
+      margin-bottom: 10px;
+    }
+
+    .custom-dropdown{
+      width: 100%;
+    }
+    .pow_kond{
+      
+      .danes{
+        display: flex;
+        gap: 25px;
+        .dane{
+          width: 50%;
+          margin-right: 0;
+  
+        }
+      }
+
+      
+    }
+
+    .adres-box{
+      .adres {
+        width: 100%;
+      }
+    }
+    
+  }
+  
 }

@@ -120,8 +120,14 @@ export default function Panel({ isOpen, setIsOpen, user }) {
   }, [user]);
 
   const showTooltip = (event, id) => {
+    // Jeśli tooltip dla tego elementu już jest aktywny, zamknij go
+    if (activeMenu?.id === id) {
+      setActiveMenu(null);
+      return;
+    }
+  
     const rect = event.currentTarget.getBoundingClientRect(); // Pobierz współrzędne przycisku
-    
+  
     setActiveMenu({
       id,
       position: {
@@ -196,12 +202,8 @@ export default function Panel({ isOpen, setIsOpen, user }) {
                               style={{
                                 position: "absolute",
                                 top: `${activeMenu.position.top}px`,
-                                left: `${activeMenu.position.left}px`,
-                                zIndex: 9999,
-                                background: "white",
-                                border: "1px solid #ddd",
-                                boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
-                                padding: "10px",
+                                left: `${activeMenu.position.left+20}px`,
+                                
                               }}
                             >
                               <button

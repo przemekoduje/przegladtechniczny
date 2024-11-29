@@ -74,3 +74,52 @@
     }
   }
 }
+@media (max-width: 680px) {
+
+  .h5-QA{
+    padding: 80px 20px;
+
+    h2{
+      font-family: "Merriweather", serif;
+      font-size: 32px;
+      font-weight: 300;
+      font-style: normal;
+    }
+    .faq-list {
+      margin-top: 20px;
+
+      .faq-item {
+        margin-bottom: 10px;
+  
+        .faq-question {
+          
+          margin-bottom: 0px;
+          font-size: 16px;
+          font-weight: 600;
+          //   background-color: #f7f7f7;
+          padding: 0;
+          font-family: "Lato", serif;
+          font-weight: 300;
+          font-style: normal;
+  
+          transition: background-color 0.3s ease;
+
+          .faq-toggle-icon {
+            display: inline-block;
+            transition: transform 0.6s ease; /* Płynna animacja */
+            font-size: 12px;
+  
+            &.open {
+              transform: rotate(0deg); /* Obróć o 90 stopni */
+            }
+          }
+
+        }
+      }
+    }
+  }
+    
+    
+
+}
+

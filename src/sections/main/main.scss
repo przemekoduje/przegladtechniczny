@@ -108,15 +108,18 @@
     .bg_text_button {
       .text_button {
         .display01 {
-          .little {
-            font-size: 26px;
-          }
+
+          
           color: #4a4a4a;
           font-family: "Merriweather", serif;
-          font-size: 54px;
+          font-size: 36px;
           font-weight: 200;
           font-style: normal;
           text-align: center;
+
+          .little {
+            font-size: 26px;
+          }
         }
       }
     }
