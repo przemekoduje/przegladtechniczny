@@ -41,7 +41,7 @@
     .text_button {
       position: absolute;
       left: 50%;
-      top: 50px;
+      top: 120px;
       transform: translateX(-50%);
       display: flex;
       flex-direction: column;
@@ -64,18 +64,19 @@
         align-items: center;
         justify-content: space-between;
         gap: 35px;
-        padding: 5px 5px 5px 25px;
+        padding: 10px 10px 10px 25px;
         background-color: #677c59;
         border: none;
-        border-radius: 25px;
+        border-radius: 35px;
         cursor: pointer;
 
         span {
           color: white;
           letter-spacing: 2px;
           font-family: "Lato", sans-serif;
-          font-weight: 400;
+          font-weight: 300;
           font-style: normal;
+          font-size: 22px;
         }
         .btn-icon {
           width: 40px;
