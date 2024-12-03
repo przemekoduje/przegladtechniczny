@@ -26,6 +26,28 @@
     padding: 50px 0;
     gap: 20px;
 
+    .panel-menu {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      align-self: flex-end;
+      margin-right: 40px;
+      gap: 40px;
+      font-family: "Lato", serif;
+      font-weight: 300;
+      font-style: normal;
+
+      .admin,
+      .faq {
+        cursor: pointer;
+
+        &:hover {
+          color: rgb(194, 194, 194);
+        }
+      }
+    }
+
     .head-account {
       display: flex;
       flex-direction: column;
@@ -34,8 +56,8 @@
       margin-bottom: 50px;
 
       img {
-        width: 100px;
-        height: 100px;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
       }
 
@@ -48,7 +70,7 @@
 
     .reminder-buttons {
       max-height: 500px;
-      
+
       display: flex;
       flex-direction: column;
       gap: 20px;
@@ -124,8 +146,6 @@
             font-weight: 300;
             font-style: normal;
           }
-
-          
         }
       }
     }
@@ -171,32 +191,9 @@
       object-fit: cover;
       object-position: left;
     }
-
-    .panel-menu {
-      display: flex;
-      align-self: flex-end;
-      margin-right: 40px;
-      gap: 40px;
-      font-family: "Lato", serif;
-      font-weight: 300;
-      font-style: normal;
-
-      .admin,
-      .faq {
-        cursor: pointer;
-
-        &:hover {
-          color: rgb(194, 194, 194);
-        }
-      }
-    }
   }
 
   .menu-tooltip {
-
-
-
-            
     /* Animacja pojawiania się */
     @keyframes fadeIn {
       from {
@@ -223,6 +220,39 @@
 
     .tooltip-option:hover {
       background-color: #f5f5f5;
+    }
+  }
+}
+
+@media (max-width: 680px) {
+  .panel {
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+    .left-panel {
+      .head-account {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 50px;
+        
+
+        
+      }
+      h3 {
+        text-align: center;
+        
+
+        span{
+          text-align: center;
+          margin-bottom: 40px;
+          
+
+        };
+      }
+      
+    }
+    .right-panel {
+      display: none;
     }
   }
 }

@@ -2,12 +2,18 @@
 .h5-QA {
   width: 100%;
   padding: 80px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-  h2{
+  h2 {
     font-family: "Merriweather", serif;
-    font-size: 50px;
+
     font-weight: 300;
     font-style: normal;
+    font-size: 128px;
+    color: rgb(80, 80, 80);
+    letter-spacing: 5px;
   }
 
   .faq-list {
@@ -15,14 +21,16 @@
     margin-top: 40px;
 
     .faq-item {
-      margin-bottom: 10px;
+      margin-bottom: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
       .faq-question {
-        display: flex;
-        justify-content: space-between;
+        text-align: center;
         cursor: pointer;
         margin-bottom: 15px;
-        font-size: 24px;
+        font-size: 18px;
         font-weight: 600;
         //   background-color: #f7f7f7;
         padding: 15px 15px;
@@ -31,15 +39,6 @@
         font-style: normal;
 
         transition: background-color 0.3s ease;
-
-        .faq-toggle-icon {
-          display: inline-block;
-          transition: transform 0.6s ease; /* Płynna animacja */
-
-          &.open {
-            transform: rotate(0deg); /* Obróć o 90 stopni */
-          }
-        }
       }
 
       .faq-answer {
@@ -51,35 +50,62 @@
         font-family: "Lato", serif;
         font-weight: 300;
         font-style: normal;
+        font-size: 28px;
 
         &.open {
-          max-height: 200px; /* Maksymalna wysokość dla rozwiniętej odpowiedzi (dostosuj do swoich potrzeb) */
+          max-height: 1500px; /* Maksymalna wysokość dla rozwiniętej odpowiedzi (dostosuj do swoich potrzeb) */
           opacity: 1; /* Odpowiedź widoczna */
         }
-        .faq-answer-content{
-            line-height: 25px;
+        .faq-answer-content {
+          line-height: 35px;
         }
-        p{
-            line-height: 25px;
+        p {
+          line-height: 25px;
         }
-        ul{
-            padding-left: 30px;
+        ul {
+          padding-left: 30px;
 
-            li{
-                line-height: 25px;
-            }
-            
+          li {
+            line-height: 35px;
+          }
         }
+      }
+      .faq-answer.open {
+        position: relative; /* Ustaw pozycję dla pseudo-elementu */
+        width: 900px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .faq-answer.open::before {
+        content: ""; /* Pseudo-element musi mieć zawartość */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%; /* Dopasowanie szerokości do rodzica */
+        height: 100%; /* Dopasowanie wysokości do rodzica */
+        // background-image: url('../../../public/images/faq-back.png');
+        background-size: cover; /* Dopasowanie rozmiaru obrazu */
+        background-position: center; /* Pozycjonowanie obrazu */
+        z-index: -1; /* Tło za tekstem */
+        transform: rotate(1deg); /* Obrót o zadany kąt */
+        transform-origin: center; /* Punkt obrotu */
+        transition: transform 0.3s ease; /* Animacja obrotu */
+      }
+
+      /* Opcjonalnie: obrót przy zamknięciu */
+      .faq-answer:not(.open)::before {
+        transform: rotate(0deg); /* Brak obrotu */
       }
     }
   }
 }
 @media (max-width: 680px) {
-
-  .h5-QA{
+  .h5-QA {
     padding: 80px 20px;
 
-    h2{
+    h2 {
       font-family: "Merriweather", serif;
       font-size: 32px;
       font-weight: 300;
@@ -89,37 +115,47 @@
       margin-top: 20px;
 
       .faq-item {
-        margin-bottom: 10px;
-  
+        margin-bottom: 30px;
+        display: flex;
+        align-items: flex-start;
+
         .faq-question {
+          text-align: left !important;
           
-          margin-bottom: 0px;
+          margin-bottom: 10px;
           font-size: 16px;
           font-weight: 600;
-          //   background-color: #f7f7f7;
+          background-color: #ffffff;
           padding: 0;
           font-family: "Lato", serif;
           font-weight: 300;
           font-style: normal;
-  
-          transition: background-color 0.3s ease;
 
-          .faq-toggle-icon {
-            display: inline-block;
-            transition: transform 0.6s ease; /* Płynna animacja */
-            font-size: 12px;
-  
-            &.open {
-              transform: rotate(0deg); /* Obróć o 90 stopni */
+          transition: background-color 0.3s ease;
+        }
+
+        .faq-answer {
+          padding-left: 0px;
+          font-size: 20px;
+
+          &.open {
+            width: 100%;
+            .faq-answer-content {
+              line-height: 35px;
+            }
+            p {
+              line-height: 25px;
+            }
+            ul {
+              padding-left: 30px;
+
+              li {
+                line-height: 35px;
+              }
             }
           }
-
         }
       }
     }
   }
-    
-    
-
 }
-

@@ -7,7 +7,7 @@
 
   label {
     display: block;
-    margin: 35px 0 10px 0;
+    margin: 45px 0 5px 0;
   }
 
   input,
@@ -15,28 +15,32 @@
     font-family: "Lato", serif;
     font-size: 16px;
     padding: 10px;
-    border: 1px solid black;
-    border-radius: 5px;
+    border: none;
+    border-bottom: 1px solid black;
+    
     font-size: 16px;
 
   }
 
   input::placeholder {
-    color: #a2a2a2;
+    color: #dadada;
+    font-size: 16px;
     /* Zmien kolor na dowolny */
     opacity: 1;
     /* Ustawienie pełnej przezroczystości */
   }
 
   h2 {
+    
+    font-size: 48px;
     font-family: "Merriweather", serif;
-    font-size: 50px;
+    
     font-weight: 300;
     font-style: normal;
   }
 
   p {
-    margin-bottom: 0;
+    margin-top: 10px;
     font-size: 16px;
   }
 
@@ -115,9 +119,8 @@
 
 
   .dane {
-    width: 100px;
+    width: 300px;
     margin-right: 25px;
-    border-radius: 5px;
     padding: 10px;
     font-size: 16px;
     margin-bottom: 15px;

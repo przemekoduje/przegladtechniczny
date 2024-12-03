@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
 import "./panel.scss";
 import { auth, signOut } from "../../firebase.js";
 import {
@@ -125,9 +125,9 @@ export default function Panel({ isOpen, setIsOpen, user }) {
       setActiveMenu(null);
       return;
     }
-  
+
     const rect = event.currentTarget.getBoundingClientRect(); // Pobierz współrzędne przycisku
-  
+
     setActiveMenu({
       id,
       position: {
@@ -136,21 +136,41 @@ export default function Panel({ isOpen, setIsOpen, user }) {
       },
     });
   };
-  
 
   return (
     <div className={`panel ${isOpen ? "open" : ""}`}>
       <div className="left-panel">
+        <div className="panel-menu">
+          <div className="admin" onClick={() => navigate("/adminDashboard")}>
+            Dashboard
+          </div>
+          <div
+            className="faq"
+            onClick={() =>
+              handleCloseAndNavigate(() => {
+                const faqSection = document.getElementById("faq-section");
+                if (faqSection) {
+                  faqSection.scrollIntoView({ behavior: "smooth" });
+                }
+              })
+            }
+          >
+            FAQ
+          </div>
+        </div>
         {user ? (
           <>
             {/* Nagłówek użytkownika */}
             <div className="head-account">
               {userPhoto ? (
-                <img src={userPhoto} alt="Profil" />
+                <img src={userPhoto || "images/user-50.png"} alt="Profil" />
               ) : (
-                <Person2Icon style={{ fontSize: 48 }} /> // Wyświetl ikonę, jeśli brak zdjęcia
+                <img src="images/user-50.png" alt="Profil Domyślny" />
               )}
-              <h3>Witaj, {userName}</h3>
+              <h3>
+                Witaj, <br />
+                {userName}
+              </h3>
             </div>
 
             {/* Przeglądy z formularza */}
@@ -202,8 +222,7 @@ export default function Panel({ isOpen, setIsOpen, user }) {
                               style={{
                                 position: "absolute",
                                 top: `${activeMenu.position.top}px`,
-                                left: `${activeMenu.position.left+20}px`,
-                                
+                                left: `${activeMenu.position.left + 20}px`,
                               }}
                             >
                               <button
@@ -232,21 +251,28 @@ export default function Panel({ isOpen, setIsOpen, user }) {
                   );
                 })
               ) : (
-                <p>Brak zapisanych przeglądów.</p>
+                <p>Nie masz zapisanych przeglądów.</p>
               )}
             </div>
 
             {/* Przycisk wylogowania */}
-            <button className="logout-btn" onClick={handleLogout}>
+            <button className="main_button_2" onClick={handleLogout}>
               Wyloguj się
             </button>
           </>
         ) : (
           <>
             {/* Widok dla niezalogowanego użytkownika */}
-            <h3>Zaloguj się, aby zobaczyć swoje dane</h3>
+            <h3>
+              <span style={{ fontSize: "30px" }}>
+                panel użytkownika <br />
+              </span>
+              <span style={{ fontSize: "16px" }}>
+                tylko z dobrymi wiadomościami
+              </span>
+            </h3>
             <button
-              className="login-btn"
+              className="main_button_2"
               onClick={() => (window.location.href = "/login")}
             >
               Zaloguj się
@@ -256,25 +282,6 @@ export default function Panel({ isOpen, setIsOpen, user }) {
       </div>
 
       <div className="right-panel">
-        <div className="panel-menu">
-          <div className="admin" onClick={() => navigate("/adminDashboard")}>
-            Dashboard
-          </div>
-          <div
-            className="faq"
-            onClick={() =>
-              handleCloseAndNavigate(() => {
-                const faqSection = document.getElementById("faq-section");
-                if (faqSection) {
-                  faqSection.scrollIntoView({ behavior: "smooth" });
-                }
-              })
-            }
-          >
-            FAQ
-          </div>
-        </div>
-
         <img src="images/panel-right.png" alt="" />
       </div>
     </div>

@@ -56,22 +56,22 @@
         font-family: "Merriweather", serif;
         font-size: 80px;
         font-weight: 200;
-        font-style: normal;
+        font-style: i;
         text-align: center;
       }
       .main_button {
+        
+
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 35px;
         padding: 10px 10px 10px 25px;
-        background-color: #677c59;
-        border: none;
-        border-radius: 35px;
-        cursor: pointer;
+
 
         span {
-          color: white;
+          
+          color: #000000;;
           letter-spacing: 2px;
           font-family: "Lato", sans-serif;
           font-weight: 300;
@@ -79,14 +79,15 @@
           font-size: 22px;
         }
         .btn-icon {
+         
           width: 40px;
           height: 40px;
           border: none;
           border-radius: 50%;
-          
           display: flex;
           justify-content: center;
           align-items: center;
+
           img{
             width: 100%;
             border-radius: 50%;

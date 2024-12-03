@@ -23,35 +23,41 @@
     top: 210px;
     left: 977px;
     width: 310px;
+    line-height: 32px;
   }
   .exp2 {
     position: absolute;
     top: 570px;
     left: 735px;
     width: 520px;
+    line-height: 32px;
   }
   .exp3 {
     position: absolute;
     top: 900px;
     left: 152px;
     width: 580px;
+    line-height: 32px;
   }
   .exp4 {
     position: absolute;
     top: 1000px;
     left: 845px;
     width: 546px;
+    line-height: 32px;
   }
   .exp5 {
     position: absolute;
     top: 1270px;
     left: 845px;
     width: 546px;
+    line-height: 32px;
   }
   .exp6 {
     position: absolute;
     top: 1600px;
     left: 152px;
+    line-height: 32px;
   }
   img {
     position: absolute;
@@ -71,11 +77,13 @@
     background-color: #bcd7ff;
     padding: 40px 40px;
     margin-top: 50px;
+    
 
     h2 {
       font-family: "Merriweather", serif;
       font-size: 96px;
       font-weight: 300;
+      color: rgb(61, 61, 61);
     }
     .zatem {
       align-self: flex-end;
@@ -258,7 +266,7 @@
   .explanations {
     position: relative;
     font-family: "Lato", serif;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 300;
     font-style: normal;
     display: flex;

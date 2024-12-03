@@ -225,9 +225,9 @@ const InspectionForm = () => {
   }, []);
 
   const options = [
-    { value: "dom", label: "dom jednorodzinny" },
-    { value: "wielorodzinny", label: "budynek wielorodzinny" },
-    { value: "komercja", label: "nieruchomość komercyjna" },
+    { value: "dom jednorodzinny", label: "dom jednorodzinny" },
+    { value: "budynek wielorodzinny", label: "budynek wielorodzinny" },
+    { value: "nieruchomość komercyjna", label: "nieruchomość komercyjna" },
   ];
   const options2 = [
     { value: "szybko", label: "jak najszybciej" },
@@ -240,7 +240,7 @@ const InspectionForm = () => {
   //   setFormData({ ...formData, propertyType: option });
   // };
   // Sprawdzamy, czy wybrano opcję "budynek wielorodzinny"
-  const isMultiFamilyBuilding = formData.propertyType === "wielorodzinny";
+  const isMultiFamilyBuilding = formData.propertyType === "budynek wielorodzinny";
 
   useEffect(() => {
     const locationState = location.state;
@@ -256,7 +256,7 @@ const InspectionForm = () => {
   return (
     <>
       <form className="inspection-form" id="inspection-form">
-        <h2>Wyślij zapytanie o przegląd</h2>
+        <h2>Zapytanie o przegląd</h2>
         <p>
           Każdą nieruchomość przedstaw oddzielnie a następnie dodaj ją do
           koszyka i wyślij
@@ -310,16 +310,16 @@ const InspectionForm = () => {
 
         {/* Powierzchnia, kubatura i liczba kondygnacji */}
         <div className="pow_kond">
-          <label>Powierzchnia całkowita oraz ilość kondygnacji</label>
+          <label>Ilość kondygnacji</label>
           <div className="danes">
-            <input
+            {/* <input
               className="dane"
               type="text"
               name="area"
               value={formData.area}
               onChange={handleChange}
               placeholder="pow. [m2]"
-            />
+            /> */}
 
             <input
               className="dane"
@@ -395,7 +395,7 @@ const InspectionForm = () => {
         {/* Przycisk dodaj do koszyka */}
         <button
           type="button"
-          className="add-to-cart-btn"
+          className="main_button_2"
           onClick={handleAddToCart}
         >
           Dodaj do koszyka
@@ -425,7 +425,7 @@ const InspectionForm = () => {
               />
             </div>
 
-            <button type="submit" className="submit-btn" onClick={handleSubmit}>
+            <button type="submit" className="main_button_2" onClick={handleSubmit}>
               {auth.currentUser ? "Wyślij" : "Zaloguj i wyślij"}
             </button>
           </div>

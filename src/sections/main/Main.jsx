@@ -10,6 +10,7 @@ export default function Main({ user, isPanelOpen, setIsPanelOpen }) {
   const [lastScrollTop, setLastScrollTop] = useState(0);
   // const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [userPhoto, setUserPhoto] = useState("");
+  
 
   let scrollTimeout;
 
@@ -67,7 +68,9 @@ export default function Main({ user, isPanelOpen, setIsPanelOpen }) {
 
   useEffect(() => {
     if (user) {
-      setUserPhoto(user.photoURL || "images/default-profile.jpg");
+      setUserPhoto(user.photoURL || "images/user-50.png");
+    } else {
+      setUserPhoto("images/user-50.png");
     }
   }, [user]);
 
@@ -87,8 +90,8 @@ export default function Main({ user, isPanelOpen, setIsPanelOpen }) {
       <div className="bg_text_button">
         <div className="text_button">
           <h1 className="display01">
-            <span className="little">Przeglądy</span> <br />
-            techniczne <br />
+            <span className="little">Przegląd</span> <br />
+            techniczny <br />
             nieruchomości
           </h1>
           <button className="main_button" onClick={scrollToInspectionForm}>
