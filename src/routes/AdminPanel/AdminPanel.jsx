@@ -6,7 +6,7 @@ import "quill/dist/quill.snow.css";
 import ImageResize from "quill-image-resize";
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { db, storage } from "../../firebase.js";
+import { db, storage } from "../../firebase";
 
 Quill.register("modules/imageResize", ImageResize);
 
@@ -235,7 +235,7 @@ export default function AdminPanel() {
             />
           </div>
           <div>
-            <label>Typ:</label>
+            <label>Typek:</label>
             <select
               value={form.type}
               onChange={(e) => setForm({ ...form, type: e.target.value })}
