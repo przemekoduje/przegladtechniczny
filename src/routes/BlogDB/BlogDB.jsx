@@ -17,6 +17,17 @@ export default function BlogDB() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedPost, setSelectedPost] = useState(null);
 
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    // Funkcja do aktualizacji windowWidth
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    // Nasłuchujemy zdarzeń resize
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Pobieranie postów z Firebase
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -30,62 +41,51 @@ export default function BlogDB() {
         console.error("Error fetching posts:", error);
       }
     };
-
     fetchPosts();
   }, []);
 
-  const openPost = (post) => {
-    setSelectedPost(post);
-  };
+  // Otwieranie i zamykanie posta w popupie
+  const openPost = (post) => setSelectedPost(post);
+  const closePost = () => setSelectedPost(null);
 
-  const closePost = () => {
-    setSelectedPost(null);
-  };
-
+  // Wyznaczanie unikalnych kategorii
   const allCategories = posts.reduce((acc, post) => {
-    if (post.categories && Array.isArray(post.categories)) {
+    if (Array.isArray(post.categories)) {
       return acc.concat(post.categories);
     }
     return acc;
   }, []);
-
   const uniqueCategories = [...new Set(allCategories)];
 
-  const shuffleArray = (array) => {
-    return array.sort(() => Math.random() - 0.5);
-  };
-
+  // Losowanie podzbioru kategorii (do wyświetlania w CategoriesPost)
+  const shuffleArray = (array) => array.sort(() => Math.random() - 0.5);
   const randomCategories = shuffleArray(uniqueCategories).slice(0, 5);
 
+  // Filtrowanie i sortowanie postów
   const finalPosts = useMemo(() => {
-    const categoriesPost = posts.find((post) => post.type === "CategoriesPost");
-
+    const categoriesPost = posts.find((p) => p.type === "CategoriesPost");
     const sortedPosts = posts
-      .filter((post) => post.type !== "CategoriesPost")
+      .filter((p) => p.type !== "CategoriesPost")
       .sort((a, b) => {
-        const aHasCat =
-          selectedCategory && a.categories.includes(selectedCategory);
-        const bHasCat =
-          selectedCategory && b.categories.includes(selectedCategory);
-
+        const aHasCat = selectedCategory && a.categories?.includes(selectedCategory);
+        const bHasCat = selectedCategory && b.categories?.includes(selectedCategory);
         if (aHasCat && !bHasCat) return -1;
         if (!aHasCat && bHasCat) return 1;
-
         return new Date(b.date) - new Date(a.date);
       });
-
+    // Wstawiamy CategoriesPost (jeśli istnieje) na 5. pozycję
     if (categoriesPost) {
       const indexToInsert = Math.min(4, sortedPosts.length);
       sortedPosts.splice(indexToInsert, 0, categoriesPost);
     }
-
     return sortedPosts;
   }, [selectedCategory, posts]);
 
+  // Początkowe layouty dla różnych rozmiarów ekranu
   const [layouts, setLayouts] = useState({
     lg: finalPosts.map((item, index) => ({
       i: item.id,
-      x: (index % 4) * item.w,
+      x: (index % 4),
       y: Math.floor(index / 4),
       w: item.w,
       h: item.h,
@@ -93,61 +93,35 @@ export default function BlogDB() {
     })),
   });
 
+  // Uaktualnianie layoutów po zmianie listy postów
   useEffect(() => {
-    const newLayoutLg = finalPosts.map((post, index) => ({
-      i: post.id,
-      x: index % 4,
-      y: Math.floor(index / 4),
-      w: post.w,
-      h: post.h,
-      static: false,
-    }));
-
-    const newLayoutMd = finalPosts.map((post, index) => ({
-      i: post.id,
-      x: index % 3,
-      y: Math.floor(index / 3),
-      w: post.w,
-      h: post.h,
-      static: false,
-    }));
-
-    const newLayoutSm = finalPosts.map((post, index) => ({
-      i: post.id,
-      x: index % 2,
-      y: Math.floor(index / 2),
-      w: post.w,
-      h: post.h,
-      static: false,
-    }));
-
-    const newLayoutXs = finalPosts.map((post, index) => ({
-      i: post.id,
-      x: index % 1,
-      y: Math.floor(index / 1),
-      w: post.w,
-      h: post.h,
-      static: false,
-    }));
-
+    const createLayout = (cols) => {
+      return finalPosts.map((post, index) => ({
+        i: post.id,
+        x: index % cols,
+        y: Math.floor(index / cols),
+        w: post.w,
+        h: post.h,
+        static: false,
+      }));
+    };
     setLayouts((prev) => ({
       ...prev,
-      lg: newLayoutLg,
-      md: newLayoutMd,
-      sm: newLayoutSm,
-      xs: newLayoutXs,
+      lg: createLayout(4),
+      md: createLayout(3),
+      sm: createLayout(2),
+      xs: createLayout(1),
     }));
   }, [finalPosts]);
 
-  const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
-  };
+  const handleCategoryClick = (category) => setSelectedCategory(category);
+
+  // 2. Wyznaczamy, czy obecnie jesteśmy na mobile (np. < 768px)
+  const isMobile = windowWidth < 768;
 
   return (
     <div className="masonry-grid-container">
-      <div>
-        <Menu />
-      </div>
+      <Menu />
       <ResponsiveGridLayout
         className="layout"
         layouts={layouts}
@@ -157,6 +131,12 @@ export default function BlogDB() {
         onLayoutChange={(layout, allLayouts) => setLayouts(allLayouts)}
         compactType="vertical"
         preventCollision={false}
+        // Ważne: kliknięcie w .postTitle nie będzie rozpoczynać drag
+        draggableCancel=".postTitle, .corner-btn-large, .category-button"
+
+        // 3. Wyłączamy drag i resize na mobile
+        isDraggable={!isMobile}
+        isResizable={!isMobile}
       >
         {finalPosts.map((post) => (
           <div
@@ -169,11 +149,7 @@ export default function BlogDB() {
               title={post.title}
               content={post.content}
               type={post.type}
-              categories={
-                post.type === "CategoriesPost"
-                  ? randomCategories
-                  : post.categories
-              }
+              categories={post.type === "CategoriesPost" ? randomCategories : post.categories}
               borderRadius={post.borderRadius}
               specialCorner={post.specialCorner}
               date={post.date}
@@ -184,9 +160,7 @@ export default function BlogDB() {
           </div>
         ))}
       </ResponsiveGridLayout>
-      {selectedPost && (
-        <SinglePostPopup post={selectedPost} onClose={closePost} />
-      )}
+      {selectedPost && <SinglePostPopup post={selectedPost} onClose={closePost} />}
     </div>
   );
 }

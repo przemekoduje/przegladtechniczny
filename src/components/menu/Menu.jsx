@@ -23,10 +23,7 @@ export default function Menu({ isPanelOpen, setIsPanelOpen }) {
   const togglePanel = () => {
     setIsPanelOpen(!isPanelOpen);
   };
-  // Funkcja do przejścia do przewodnika
-  const goToGuide = () => {
-    navigate("/przewodnik"); // Przejście do ścieżki /przewodnik
-  };
+  
 
   // Dane użytkownika
   const userName = user?.displayName || "Użytkownik";
@@ -48,9 +45,7 @@ export default function Menu({ isPanelOpen, setIsPanelOpen }) {
         <div className="logo" onClick={() => navigate("/")}>
           <span>przeglad.online</span>
         </div>
-        <button className="przewodnik" onClick={goToGuide}>
-          PRZEWODNIK_temp
-        </button>
+       
         <div className="menu-burger" onClick={togglePanel}>
           {isPanelOpen ? <CloseIcon /> : <MenuIcon />}
         </div>

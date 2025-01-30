@@ -47,7 +47,10 @@ export default function Panel({ isOpen, setIsOpen, user }) {
       console.error("Błąd podczas wylogowywania:", error);
     }
   };
-
+  
+  const goToGuide = () => {
+    navigate("/przewodnik"); // Przejście do ścieżki /przewodnik
+  };
   useEffect(() => {
     const fetchCartData = async () => {
       if (user) {
@@ -141,6 +144,9 @@ export default function Panel({ isOpen, setIsOpen, user }) {
     <div className={`panel ${isOpen ? "open" : ""}`}>
       <div className="left-panel">
         <div className="panel-menu">
+        <button className="przewodnik" onClick={goToGuide}>
+          PRZEWODNIK
+        </button>
         <div className="blog" onClick={() => navigate("/admin")}>
             BlogAdmin
           </div>

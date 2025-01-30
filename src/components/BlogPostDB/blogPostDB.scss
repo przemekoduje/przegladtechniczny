@@ -13,6 +13,7 @@
 .standard-post {
   overflow: hidden;
 }
+
 /* Stylizacja dla StandardPost */
 .standard-post img {
   width: 100%;
@@ -37,25 +38,36 @@
   width: 70%;
   display: flex;
   flex-direction: column;
+  gap: 10px;
 
   .cat {
     font-family: "Quicksand", serif;
     font-weight: 200;
-    font-size: 16px;
+    font-size: 14px;
     display: flex;
     gap: 15px;
+
+    .cat-item {
+      background-color: rgba(0, 0, 0, 0.4);
+      color: white;
+      padding: 2p 5px;
+    }
   }
 }
 
 .standard-post h2 {
   font-size: 22px;
-  color: #000000;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  padding: 2px 5px;
+
   margin: 0;
   font-family: "Quicksand", serif;
   font-weight: 200;
 
   &:hover {
-    text-decoration: underline; /* Podkreślenie na hover */
+    text-decoration: underline;
+    /* Podkreślenie na hover */
   }
 }
 
@@ -84,8 +96,10 @@
   color: #000000;
   font-family: "Quicksand", serif;
   font-weight: 200;
+
   &:hover {
-    text-decoration: underline; /* Podkreślenie na hover */
+    text-decoration: underline;
+    /* Podkreślenie na hover */
   }
 }
 
@@ -103,11 +117,13 @@
   height: 100%;
   display: flex;
 }
+
 .sticky-categories {
   position: sticky;
   top: 0;
   z-index: 10;
-  background-color: #fff; /* Opcjonalne tło */
+  background-color: #fff;
+  /* Opcjonalne tło */
 }
 
 .categories-buttons {

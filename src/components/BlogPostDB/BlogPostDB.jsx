@@ -1,4 +1,4 @@
-// Aktualizacja pliku BlogPostDB.jsx na potrzeby pracy z Firebase i zapobieganie konfliktowi przesuwania
+// Aktualizacja pliku BlogPostDB.jsx
 import React from "react";
 import PropTypes from "prop-types";
 import "./blogPostDB.scss";
@@ -25,19 +25,31 @@ const BlogPostDB = ({
   hasSvg,
   onTitleClick,
 }) => {
-  const getPastelColor = (id) => {
-    const index = parseInt(id, 10) % pastelColors.length;
+  // Funkcja wyznaczająca pastelowy kolor tła
+  const getPastelColor = (postId) => {
+    const index = parseInt(postId, 10) % pastelColors.length;
     return pastelColors[index];
   };
+
+  // Obsługa kliknięcia w tytuł, by nie uruchamiał się drag
+  const handleTitleClick = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    if (onTitleClick) {
+      onTitleClick();
+    }
+  };
+
+  // Wybór koloru tła dla TextPost
   let postBgColor;
   if (type === "TextPost") {
     postBgColor = getPastelColor(id);
   }
+
   const borderRadiusStyle =
     typeof borderRadius === "string" ? { borderRadius } : borderRadius;
 
-
-    // Renderowanie różnych layoutów w zależności od typu posta
+  // Różne layouty w zależności od typu posta
   if (type === "StandardPost") {
     return (
       <div className="post standard-post" style={borderRadiusStyle}>
@@ -53,10 +65,12 @@ const BlogPostDB = ({
           <div className="post-content">
             <span className="cat">
               {categories.map((cat, i) => (
-                <span key={i}>{cat}</span>
+                <span className="cat-item" key={i}>{cat}</span>
               ))}
             </span>
-            <h2 onClick={onTitleClick}>{title}</h2>
+            <h2 className="postTitle" onClick={handleTitleClick}>
+              {title}
+            </h2>
           </div>
         </div>
       </div>
@@ -75,10 +89,11 @@ const BlogPostDB = ({
             position: "relative",
             zIndex: 1,
           }}
-          
         >
           <div className="post-content">
-            <h2 onClick={onTitleClick}>{title}</h2>
+            <h2 className="postTitle" onClick={handleTitleClick}>
+              {title}
+            </h2>
             <p>{content}</p>
           </div>
         </div>
@@ -87,7 +102,7 @@ const BlogPostDB = ({
             className="corner-wrapper"
             style={{
               position: "absolute",
-              zIndex: 10, // Wyższy z-index
+              zIndex: 10,
             }}
           >
             <div
@@ -98,10 +113,15 @@ const BlogPostDB = ({
                 borderRight: "none",
                 borderTop: "none",
               }}
-            ></div>
+            />
             <button
               className="corner-btn-large"
               style={{ backgroundColor: postBgColor, zIndex: 12 }}
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                // Tu można dodać logikę kliknięcia w "corner" (jeśli jest potrzebna)
+              }}
             >
               <span className="corner-icon">+</span>
             </button>
@@ -113,7 +133,7 @@ const BlogPostDB = ({
 
   if (type === "CategoriesPost") {
     return (
-      <div className="post categories-post " style={borderRadiusStyle}>
+      <div className="post categories-post" style={borderRadiusStyle}>
         <div className="categories-buttons">
           {categories.slice(0, 10).map((category, index) => (
             <button
@@ -128,30 +148,18 @@ const BlogPostDB = ({
       </div>
     );
   }
-  
-  
-  const handleTitleClick = (event) => {
-    event.stopPropagation(); // Zapobiega propagacji kliknięcia na rodzica
-    event.preventDefault(); // Zapobiega przypadkowemu uruchomieniu innych eventów
-    if (onTitleClick) {
-      onTitleClick({ id, title, content, src, categories });
-    }
-  };
 
+  // Fallback – jeśli type nie jest rozpoznany (np. StandardPost domyślnie)
   return (
     <div className="post standard-post" style={borderRadiusStyle}>
       <img src={src} alt={title} loading="lazy" />
       <div className="post-content">
-      <h2 onClick={handleTitleClick} style={{ cursor: "pointer", userSelect: "none" }}>
-            {title}
-          </h2>
+        <h2 className="postTitle" onClick={handleTitleClick}>
+          {title}
+        </h2>
       </div>
     </div>
   );
-
-
-  
-  
 };
 
 BlogPostDB.propTypes = {
@@ -159,8 +167,7 @@ BlogPostDB.propTypes = {
   src: PropTypes.string,
   title: PropTypes.string.isRequired,
   content: PropTypes.string,
-  type: PropTypes.oneOf(["StandardPost", "TextPost"])
-    .isRequired,
+  type: PropTypes.oneOf(["StandardPost", "TextPost"]),
   categories: PropTypes.arrayOf(PropTypes.string),
   borderRadius: PropTypes.oneOfType([
     PropTypes.string,
@@ -174,6 +181,7 @@ BlogPostDB.propTypes = {
   specialCorner: PropTypes.bool,
   onCategoryClick: PropTypes.func,
   onTitleClick: PropTypes.func,
+  hasSvg: PropTypes.bool,
 };
 
 BlogPostDB.defaultProps = {
@@ -182,6 +190,7 @@ BlogPostDB.defaultProps = {
   categories: [],
   borderRadius: "18px",
   specialCorner: false,
+  hasSvg: false,
 };
 
 export default BlogPostDB;
