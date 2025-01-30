@@ -29,10 +29,107 @@ const BlogPostDB = ({
     const index = parseInt(id, 10) % pastelColors.length;
     return pastelColors[index];
   };
-
+  let postBgColor;
+  if (type === "TextPost") {
+    postBgColor = getPastelColor(id);
+  }
   const borderRadiusStyle =
     typeof borderRadius === "string" ? { borderRadius } : borderRadius;
 
+
+    // Renderowanie różnych layoutów w zależności od typu posta
+  if (type === "StandardPost") {
+    return (
+      <div className="post standard-post" style={borderRadiusStyle}>
+        <img src={src} alt={title} loading="lazy" />
+        <div
+          className="wrapper"
+          style={{
+            background: hasSvg
+              ? 'url("/images/Subtract.svg") no-repeat bottom left / contain'
+              : "none",
+          }}
+        >
+          <div className="post-content">
+            <span className="cat">
+              {categories.map((cat, i) => (
+                <span key={i}>{cat}</span>
+              ))}
+            </span>
+            <h2 onClick={onTitleClick}>{title}</h2>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (type === "TextPost") {
+    const backgroundColor = getPastelColor(id);
+    return (
+      <>
+        <div
+          className="post text-post"
+          style={{
+            border: `3px solid ${backgroundColor}`,
+            ...borderRadiusStyle,
+            position: "relative",
+            zIndex: 1,
+          }}
+          
+        >
+          <div className="post-content">
+            <h2 onClick={onTitleClick}>{title}</h2>
+            <p>{content}</p>
+          </div>
+        </div>
+        {specialCorner && (
+          <div
+            className="corner-wrapper"
+            style={{
+              position: "absolute",
+              zIndex: 10, // Wyższy z-index
+            }}
+          >
+            <div
+              className="corner-square"
+              style={{
+                zIndex: 11,
+                border: `3px solid ${backgroundColor}`,
+                borderRight: "none",
+                borderTop: "none",
+              }}
+            ></div>
+            <button
+              className="corner-btn-large"
+              style={{ backgroundColor: postBgColor, zIndex: 12 }}
+            >
+              <span className="corner-icon">+</span>
+            </button>
+          </div>
+        )}
+      </>
+    );
+  }
+
+  if (type === "CategoriesPost") {
+    return (
+      <div className="post categories-post " style={borderRadiusStyle}>
+        <div className="categories-buttons">
+          {categories.slice(0, 10).map((category, index) => (
+            <button
+              key={index}
+              className="category-button"
+              onClick={() => onCategoryClick(category)}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+  
+  
   const handleTitleClick = (event) => {
     event.stopPropagation(); // Zapobiega propagacji kliknięcia na rodzica
     event.preventDefault(); // Zapobiega przypadkowemu uruchomieniu innych eventów
@@ -42,37 +139,19 @@ const BlogPostDB = ({
   };
 
   return (
-    <div
-      className={`post ${type.toLowerCase()}-post`}
-      style={borderRadiusStyle}
-      onMouseDown={(e) => e.stopPropagation()} // Blokuje propagację eventu kliknięcia
-    >
-      {src && <img src={src} alt={title} loading="lazy" />}
-      <div
-        className="wrapper"
-        style={{
-          background: hasSvg
-            ? 'url("/images/Subtract.svg") no-repeat bottom left / contain'
-            : "none",
-        }}
-      >
-        <div className="post-content">
-          {categories && categories.length > 0 && (
-            <span className="cat">
-              {categories.map((cat, i) => (
-                <span key={i} onClick={(e) => { e.stopPropagation(); onCategoryClick && onCategoryClick(cat); }}>
-                  {cat}
-                </span>
-              ))}
-            </span>
-          )}
-          <h2 onClick={handleTitleClick} style={{ cursor: "pointer", userSelect: "none" }}>
+    <div className="post standard-post" style={borderRadiusStyle}>
+      <img src={src} alt={title} loading="lazy" />
+      <div className="post-content">
+      <h2 onClick={handleTitleClick} style={{ cursor: "pointer", userSelect: "none" }}>
             {title}
           </h2>
-        </div>
       </div>
     </div>
   );
+
+
+  
+  
 };
 
 BlogPostDB.propTypes = {

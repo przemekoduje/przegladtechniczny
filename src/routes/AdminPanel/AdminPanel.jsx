@@ -33,7 +33,8 @@ export default function AdminPanel() {
       title: post.title,
       content: post.content,
       content2: post.content2 || "",
-      categories: post.categories.join(", "),
+      categories: Array.isArray(post.categories) ? post.categories.join(", ") : "", // Poprawka: zawsze tablica
+
       type: post.type,
       src: post.src || null,
       w: post.w,
@@ -52,10 +53,13 @@ export default function AdminPanel() {
         const postsArray = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
+          categories: Array.isArray(doc.data().categories) ? doc.data().categories : [], // Poprawka: zawsze tablica
+
         }));
         setPosts(postsArray);
       } catch (error) {
         console.error("Error fetching posts:", error);
+        
       }
     };
 
@@ -85,6 +89,16 @@ export default function AdminPanel() {
         const snapshot = await uploadBytes(imageRef, form.src);
         imageUrl = await getDownloadURL(snapshot.ref);
       }
+      const postData = {
+        title: form.title,
+        content: form.content,
+        content2: form.content2,
+        categories: form.categories ? form.categories.split(",").map((cat) => cat.trim()) : [],
+        type: form.type,
+        src: imageUrl,
+        w: form.w,
+        h: form.h,
+      };
 
       if (editingPost) {
         const postRef = doc(db, "posts", editingPost.id);
@@ -103,6 +117,7 @@ export default function AdminPanel() {
             post.id === editingPost.id ? { ...post, ...form, src: imageUrl } : post
           )
         );
+        
       } else {
         const docRef = await addDoc(collection(db, "posts"), {
           title: form.title,
@@ -185,7 +200,8 @@ export default function AdminPanel() {
             {posts.map((post) => (
               <tr key={post.id}>
                 <td>{post.title}</td>
-                <td>{post.categories.join(", ")}</td>
+                <td>{Array.isArray(post.categories) ? post.categories.join(", ") : "Brak kategorii"}</td> {/* Poprawka: zawsze tablica */}
+
                 <td>{post.type}</td>
                 <td>
                   <button onClick={() => startEditing(post)}>Edytuj</button>
@@ -196,10 +212,26 @@ export default function AdminPanel() {
           </tbody>
         </table>
       </section>
-
       <section className="post-form">
         <h2>Dodaj Nowy Wpis</h2>
         <form onSubmit={handleSubmit}>
+          
+           <div>
+            <label>Szerokosc (w)</label>
+            <input
+              type="number"
+              value={form.w}
+              onChange={(e) => setForm({ ...form, w: parseInt(e.target.value, 10) || 0 })}
+            />
+          </div>
+          <div>
+            <label>Wysokosc (h)</label>
+            <input
+              type="number"
+              value={form.h}
+              onChange={(e) => setForm({ ...form, h: parseInt(e.target.value, 10) || 0 })}
+            />
+          </div>
           <div>
             <label>Tytuł:</label>
             <input
@@ -235,7 +267,7 @@ export default function AdminPanel() {
             />
           </div>
           <div>
-            <label>Typek:</label>
+            <label>Typ:</label>
             <select
               value={form.type}
               onChange={(e) => setForm({ ...form, type: e.target.value })}
