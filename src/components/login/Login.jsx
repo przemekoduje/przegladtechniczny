@@ -6,7 +6,7 @@ import {
   signInWithPopup,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./login.scss";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -14,23 +14,47 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation(); 
 
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
       localStorage.setItem("isLoggedIn", "true");
-      navigate("/", { state: { scrollTo: "inspectionForm" } });
+  
+      const params = new URLSearchParams(location.search);
+      const redirect = params.get("redirect");
+      const postId = params.get("postId");
+      const afterLogin = params.get("afterLogin"); // np. "1" lub null
+  
+      if (redirect === "blogPost" && postId) {
+        navigate(`/BlogDB?openPost=${postId}${afterLogin ? `&afterLogin=${afterLogin}` : ""}`);
+      } else {
+        navigate("/", { state: { scrollTo: "inspectionForm" } });
+      }
     } catch (error) {
       alert("Błąd logowania przez Google: " + error.message);
     }
   };
+  
+  // analogicznie w handleFacebookLogin
+  
   const handleFacebookLogin = async () => {
     const provider = new FacebookAuthProvider();
     try {
       await signInWithPopup(auth, provider);
       localStorage.setItem("isLoggedIn", "true");
-      navigate("/", { state: { scrollTo: "inspectionForm" } });
+
+      const params = new URLSearchParams(location.search);
+      const redirect = params.get("redirect");
+      const postId = params.get("postId");
+      const afterLogin = params.get("afterLogin"); // np. "1" lub null
+
+      if (redirect === "blogPost" && postId) {
+        navigate(`/BlogDB?openPost=${postId}${afterLogin ? `&afterLogin=${afterLogin}` : ""}`);
+      } else {
+        navigate("/", { state: { scrollTo: "inspectionForm" } });
+      }
     } catch (error) {
       alert("Błąd logowania przez Facebook: " + error.message);
     }
@@ -40,11 +64,26 @@ const Login = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       localStorage.setItem("isLoggedIn", "true");
-      navigate("/", { state: { scrollTo: "inspectionForm" } });
+  
+      // Sprawdzamy, czy w URL jest redirect=blogPost i postId=XYZ
+      const params = new URLSearchParams(location.search);
+      const redirect = params.get("redirect");
+      const postId = params.get("postId");
+      const afterLogin = params.get("afterLogin"); // np. "1" lub null
+
+  
+      if (redirect === "blogPost" && postId) {
+        // wracamy do BlogDB z otwartym postem
+        navigate(`/BlogDB?openPost=${postId}${afterLogin ? `&afterLogin=${afterLogin}` : ""}`);
+      } else {
+        // stara logika: powrót do / z anchorem "inspectionForm"
+        navigate("/", { state: { scrollTo: "inspectionForm" } });
+      }
     } catch (error) {
       alert("Błąd logowania: " + error.message);
     }
   };
+  
 
   return (
     <div className="login-wrapper">

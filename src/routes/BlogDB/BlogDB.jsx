@@ -9,15 +9,53 @@ import SinglePostPopup from "../../components/singlePostPopup/SinglePostPopup";
 import Menu from "../../components/menu/Menu";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../firebase";
+import { useLocation } from "react-router-dom";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 export default function BlogDB() {
+  const location = useLocation();
   const [posts, setPosts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedPost, setSelectedPost] = useState(null);
+  const [user, setUser] = useState(null);
+  const [scrollToComments, setScrollToComments] = useState(false);
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const openPostId = params.get("openPost");
+    const afterLogin = params.get("afterLogin");
+
+    if (openPostId && posts.length > 0) {
+      // Znajdujemy w pobranych postach ten o ID == openPostId
+      const foundPost = posts.find((p) => p.id === openPostId);
+      if (foundPost) {
+        setSelectedPost(foundPost);
+        setScrollToComments(afterLogin === "1");
+      }
+    }
+  }, [location, posts]);
+
+  useEffect(() => {
+    // 1. Nasłuchuj zmian stanu logowania
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        // Zalogowano
+        setUser(currentUser);
+      } else {
+        // Wylogowano
+        setUser(null);
+      }
+    });
+    // Sprzątanie
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     // Funkcja do aktualizacji windowWidth
@@ -67,8 +105,10 @@ export default function BlogDB() {
     const sortedPosts = posts
       .filter((p) => p.type !== "CategoriesPost")
       .sort((a, b) => {
-        const aHasCat = selectedCategory && a.categories?.includes(selectedCategory);
-        const bHasCat = selectedCategory && b.categories?.includes(selectedCategory);
+        const aHasCat =
+          selectedCategory && a.categories?.includes(selectedCategory);
+        const bHasCat =
+          selectedCategory && b.categories?.includes(selectedCategory);
         if (aHasCat && !bHasCat) return -1;
         if (!aHasCat && bHasCat) return 1;
         return new Date(b.date) - new Date(a.date);
@@ -85,7 +125,7 @@ export default function BlogDB() {
   const [layouts, setLayouts] = useState({
     lg: finalPosts.map((item, index) => ({
       i: item.id,
-      x: (index % 4),
+      x: index % 4,
       y: Math.floor(index / 4),
       w: item.w,
       h: item.h,
@@ -121,7 +161,7 @@ export default function BlogDB() {
 
   return (
     <div className="masonry-grid-container">
-      <Menu />
+      <Menu isPanelOpen={isPanelOpen} setIsPanelOpen={setIsPanelOpen} />
       <ResponsiveGridLayout
         className="layout"
         layouts={layouts}
@@ -133,7 +173,6 @@ export default function BlogDB() {
         preventCollision={false}
         // Ważne: kliknięcie w .postTitle nie będzie rozpoczynać drag
         draggableCancel=".postTitle, .corner-btn-large, .category-button"
-
         // 3. Wyłączamy drag i resize na mobile
         isDraggable={!isMobile}
         isResizable={!isMobile}
@@ -141,7 +180,9 @@ export default function BlogDB() {
         {finalPosts.map((post) => (
           <div
             key={post.id}
-            className={`grid-item ${post.w === 2 ? "wide" : ""} ${post.h === 2 ? "tall" : ""}`}
+            className={`grid-item ${post.w === 2 ? "wide" : ""} ${
+              post.h === 2 ? "tall" : ""
+            }`}
           >
             <BlogPostDB
               id={post.id}
@@ -149,7 +190,11 @@ export default function BlogDB() {
               title={post.title}
               content={post.content}
               type={post.type}
-              categories={post.type === "CategoriesPost" ? randomCategories : post.categories}
+              categories={
+                post.type === "CategoriesPost"
+                  ? randomCategories
+                  : post.categories
+              }
               borderRadius={post.borderRadius}
               specialCorner={post.specialCorner}
               date={post.date}
@@ -160,7 +205,14 @@ export default function BlogDB() {
           </div>
         ))}
       </ResponsiveGridLayout>
-      {selectedPost && <SinglePostPopup post={selectedPost} onClose={closePost} />}
+      {selectedPost && (
+        <SinglePostPopup
+          post={selectedPost}
+          onClose={closePost}
+          user={user}
+          scrollToComments={scrollToComments}
+        />
+      )}
     </div>
   );
 }

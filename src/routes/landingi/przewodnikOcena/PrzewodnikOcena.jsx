@@ -3,9 +3,14 @@ import "./przewodnikOcena.scss";
 import { Parallax } from "react-parallax";
 import "intersection-observer";
 import MainText from "./MainText/MainText";
+import Menu from "../../../components/menu/Menu";
+import CloseIcon from "@mui/icons-material/Close";
+import { useNavigate } from "react-router-dom";
+
 
 export default function PrzewodnikOcena() {
-  const [visibleTextIndexes, setVisibleTextIndexes] = useState([]); // Śledzenie widocznych elementów
+  const [visibleTextIndexes, setVisibleTextIndexes] = useState([]); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -33,33 +38,33 @@ export default function PrzewodnikOcena() {
     return () => observer.disconnect(); // Sprzątanie po odmontowaniu
   }, [visibleTextIndexes]);
 
-//   useEffect(() => {
-//     const updateScale = () => {
-//       const bgImage = document.querySelector(".react-parallax-bgimage");
-//       if (bgImage) {
-//         const currentTransform = bgImage.style.transform || "";
-//         if (!currentTransform.includes("scale")) {
-//           bgImage.style.transform = `${currentTransform} scale(1)`.trim();
+  //   useEffect(() => {
+  //     const updateScale = () => {
+  //       const bgImage = document.querySelector(".react-parallax-bgimage");
+  //       if (bgImage) {
+  //         const currentTransform = bgImage.style.transform || "";
+  //         if (!currentTransform.includes("scale")) {
+  //           bgImage.style.transform = `${currentTransform} scale(1)`.trim();
 
-//         }
-//       }
-//     };
+  //         }
+  //       }
+  //     };
 
-//     // Wywołaj na początku
-//     updateScale();
+  //     // Wywołaj na początku
+  //     updateScale();
 
-//     // Ustaw nasłuchiwanie, aby w razie potrzeby aktualizować
-//     const observer = new MutationObserver(updateScale);
-//     const bgImage = document.querySelector(".react-parallax-bgimage");
-//     if (bgImage) {
-//       observer.observe(bgImage, {
-//         attributes: true,
-//         attributeFilter: ["style"],
-//       });
-//     }
+  //     // Ustaw nasłuchiwanie, aby w razie potrzeby aktualizować
+  //     const observer = new MutationObserver(updateScale);
+  //     const bgImage = document.querySelector(".react-parallax-bgimage");
+  //     if (bgImage) {
+  //       observer.observe(bgImage, {
+  //         attributes: true,
+  //         attributeFilter: ["style"],
+  //       });
+  //     }
 
-//     return () => observer.disconnect();
-//   }, []);
+  //     return () => observer.disconnect();
+  //   }, []);
 
   const handleButtonClick = () => {
     window.location.href = "/#inspection-form";
@@ -353,7 +358,12 @@ export default function PrzewodnikOcena() {
 
   return (
     <div className="przewodnikOcena">
+      <div className="close_przewodnik" onClick={() => navigate("/")}>
+        <CloseIcon />
+      </div>
+
       {/* Sekcja okładki */}
+
       <div className="okladka">
         <div className="rect-back01"></div>
         <div className="okladka-background">
@@ -391,7 +401,6 @@ export default function PrzewodnikOcena() {
                 width: "100%",
                 transform: "scale(0.7)",
               }}
-              
             >
               <div
                 className="cta-section"
@@ -418,27 +427,29 @@ export default function PrzewodnikOcena() {
 
         // Domyślne renderowanie dla powtarzalnej sekcji
         return (
-          <Parallax
-            key={section.id}
-            bgImage={section.bgImage}
-            strength={400}
-            bgImageStyle={{
-            //   objectFit: "cover",
-            //   height: "100%",
-            //   width: "100%",
-              
-            }}
-            
-          >
-            <div className="parallax-section">
-              <div className="parallax-content">
-                <div className="page-number">{section.pgnr}</div>
-                <div className="szyld">{section.szyld}</div>
+          <>
+            <Parallax
+              key={section.id}
+              bgImage={section.bgImage}
+              strength={400}
+              bgImageStyle={
+                {
+                  //   objectFit: "cover",
+                  //   height: "100%",
+                  //   width: "100%",
+                }
+              }
+            >
+              <div className="parallax-section">
+                <div className="parallax-content">
+                  <div className="page-number">{section.pgnr}</div>
+                  <div className="szyld">{section.szyld}</div>
 
-                <MainText content={section.mainText} />
+                  <MainText content={section.mainText} />
+                </div>
               </div>
-            </div>
-          </Parallax>
+            </Parallax>
+          </>
         );
       })}
     </div>

@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <div className='footer'>
         <div className="texts">
-            <h1>przeglad.online</h1>
+            <h1>przegladbudowlany.eu</h1>
             <span className="adres">
                 
             </span>

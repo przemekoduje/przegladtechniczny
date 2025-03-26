@@ -1,9 +1,18 @@
 .przewodnikOcena {
+  
   width: 100%;
   height: 900vh;
   scroll-snap-type: y mandatory; /* Włącza snap scrolling w osi Y */
   overflow-y: scroll; /* Włącza przewijanie w pionie */
   scroll-behavior: smooth;
+
+  .close_przewodnik{
+    position: fixed;
+    right: 40px;
+    top: 30px;
+    z-index: 1000;
+    cursor: pointer;
+  }
 
   .okladka {
     scroll-snap-align: start;

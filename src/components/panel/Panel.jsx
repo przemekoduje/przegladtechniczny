@@ -20,6 +20,7 @@ export default function Panel({ isOpen, setIsOpen, user }) {
   const [userPhoto, setUserPhoto] = useState("images/default-profile.jpg");
   const [cart, setCart] = useState([]); // Dane z serwera
   const [activeMenu, setActiveMenu] = useState(null); // Śledzenie aktywnego dymka
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
   const handleClosePanel = () => {
@@ -47,10 +48,38 @@ export default function Panel({ isOpen, setIsOpen, user }) {
       console.error("Błąd podczas wylogowywania:", error);
     }
   };
-  
+
   const goToGuide = () => {
     navigate("/przewodnik"); // Przejście do ścieżki /przewodnik
   };
+
+  // Sprawdzamy w Firestore, czy user jest w kolekcji admins
+  useEffect(() => {
+    const checkIfAdmin = async () => {
+      if (user) {
+        const adminsRef = collection(db, "admins");
+        const q = query(
+          adminsRef,
+          where("email", "==", user.email),
+          where("isActive", "==", true)
+        );
+        const querySnapshot = await getDocs(q);
+
+        // Jeśli zapytanie zwraca dokument, to znaczy że user jest adminem
+        if (!querySnapshot.empty) {
+          setIsAdmin(true);
+        } else {
+          setIsAdmin(false);
+        }
+      } else {
+        setIsAdmin(false);
+      }
+    };
+
+    checkIfAdmin();
+  }, [user]);
+
+  // Pobieranie wpisów z userCarts
   useEffect(() => {
     const fetchCartData = async () => {
       if (user) {
@@ -144,17 +173,25 @@ export default function Panel({ isOpen, setIsOpen, user }) {
     <div className={`panel ${isOpen ? "open" : ""}`}>
       <div className="left-panel">
         <div className="panel-menu">
-        <button className="przewodnik" onClick={goToGuide}>
-          PRZEWODNIK
-        </button>
-        <div className="blog" onClick={() => navigate("/admin")}>
-            BlogAdmin
-          </div>
-        <div className="blog" onClick={() => navigate("/BlogDB")}>
+          <button className="przewodnik" onClick={goToGuide}>
+            PRZEWODNIK
+          </button>
+
+          {/* Pokazuj "BlogAdmin" i "Dashboard" tylko adminom */}
+          {isAdmin && (
+            <>
+              <div className="blog" onClick={() => navigate("/admin")}>
+                BlogAdmin
+              </div>
+              <div className="blog" onClick={() => navigate("/adminDashboard")}>
+                Dashboard
+              </div>
+            </>
+          )}
+          
+          
+          <div className="blog" style={{cursor: "pointer"}} onClick={() => navigate("/BlogDB")}>
             Blog
-          </div>
-          <div className="admin" onClick={() => navigate("/adminDashboard")}>
-            Dashboard
           </div>
           <div
             className="faq"

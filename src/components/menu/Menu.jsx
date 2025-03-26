@@ -43,7 +43,8 @@ export default function Menu({ isPanelOpen, setIsPanelOpen }) {
       <div className="menu">
         
         <div className="logo" onClick={() => navigate("/")}>
-          <span>przeglad.online</span>
+          <img src="/images/logo_ciasteczko.png" alt="Logo" style={{width: "20px"}} />
+          <span>przegladbudowlany.eu</span>
         </div>
        
         <div className="menu-burger" onClick={togglePanel}>
