@@ -1,439 +1,561 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./inspectionForm.scss";
 import CustomDropdown from "../../components/custonDropdown/CustomDropdown";
-import { auth } from "../../firebase";
-import {
-  GoogleAuthProvider,
-  FacebookAuthProvider,
-  signInWithPopup,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-} from "firebase/auth";
-import { useNavigate, useLocation } from "react-router-dom";
-import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebase";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
+import { auth } from "../../firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
+const InspectionFormSlide = () => {
+  const [submittedProperties, setSubmittedProperties] = useState([]);
+  const [showSummary, setShowSummary] = useState(false);
+  const [showList, setShowList] = useState(false);
+  const [selectedType, setSelectedType] = useState(null);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [currentUser, setCurrentUser] = useState(null);
 
-const InspectionForm = () => {
   const [formData, setFormData] = useState({
     propertyType: "",
     numberOfBlocks: "",
     propertyAddress: "",
+    nearestCity: "",
     area: "",
     volume: "",
     floors: "",
     inspections: {
-      construction: false,
       gas: false,
+      construction: false,
       electrical: false,
+      chimney: false,
       energy: false,
     },
     preferredDate: "",
     contactName: "",
     contactEmail: "",
     contactPhone: "",
+    selectAll: false,
+    remindMe: false,
+    acceptPrivacy: false,
+    acceptTerms: false,
   });
-  const [cart, setCart] = useState([]);
-  const [showCart, setShowCart] = useState(false);
-  const navigate = useNavigate();
-  const [selectedType, setSelectedType] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [localCart, setLocalCart] = useState([]); // Dane przechowywane lokalnie
-  const location = useLocation();
 
-  const saveLocalCartToStorage = (cart) => {
-    localStorage.setItem("localCart", JSON.stringify(cart));
-  };
-
-  const loadLocalCartFromStorage = () => {
-    const storedCart = localStorage.getItem("localCart");
-    return storedCart ? JSON.parse(storedCart) : [];
-  };
   useEffect(() => {
-    const storedCart = loadLocalCartFromStorage();
-    setLocalCart(storedCart);
+    const user = JSON.parse(localStorage.getItem("firebaseUser"));
+    if (user?.email) {
+      setFormData((prev) => ({
+        ...prev,
+        contactEmail: user.email,
+      }));
+    }
   }, []);
 
-  // Funkcja do obsługi zmiany wartości w formularzu
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    if (type === "checkbox") {
-      setFormData((prevData) => ({
-        ...prevData,
-        inspections: {
-          ...prevData.inspections,
-          [name]: checked,
-        },
-      }));
-    } else {
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    }
-  };
-
-  // Funkcja do dodawania nieruchomości do koszyka
-  const handleAddToCart = () => {
-    const newProperty = {
-      type: formData.propertyType,
-      klatki: formData.numberOfBlocks,
-      address: formData.propertyAddress,
-      area: formData.area,
-      zakres: formData.inspections,
-      termin: formData.preferredDate,
-    };
-
-    if (newProperty.type && newProperty.address) {
-      const updatedCart = [...localCart, newProperty];
-      setLocalCart(updatedCart); // Aktualizacja localCart
-      saveLocalCartToStorage(updatedCart); // Zapis do localStorage
-
-      // Resetowanie formularza
-      setFormData({
-        propertyType: "",
-        numberOfBlocks: "",
-        propertyAddress: "",
-        area: "",
-        volume: "",
-        floors: "",
-        inspections: {
-          construction: false,
-          gas: false,
-          electrical: false,
-          energy: false,
-        },
-        preferredDate: "",
-        contactName: "",
-        contactEmail: "",
-      });
-      setSelectedType(null);
-      setSelectedDate(null);
-    } else {
-      alert("Proszę wypełnić wszystkie wymagane pola.");
-    }
-  };
-
   useEffect(() => {
-    const fetchCart = async () => {
-      if (auth.currentUser) {
-        const userCartRef = collection(db, "userCarts");
-        const snapshot = await getDocs(
-          query(userCartRef, where("userId", "==", auth.currentUser.uid))
-        );
-
-        const userCart = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        if (userCart) {
-          // Jeśli userCart jest tablicą
-          setCart(userCart);
-          setShowCart(userCart.length > 0);
-        } else {
-          setCart([]); // Gdy brak danych
-        }
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setCurrentUser(user);
       }
-    };
-
-    fetchCart();
-  }, [auth.currentUser]);
-
-
-
-
-
-  // Funkcja logowania użytkownika
-  const handleLogin = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
-      console.log("Użytkownik zalogowany:", auth.currentUser);
-      localStorage.setItem("isLoggedIn", "true");
-      navigate("/");
-    } catch (error) {
-      console.error("Błąd logowania:", error);
-    }
-  };
-
-  // Funkcja wysyłania formularza
-  const handleSubmit = async (e) => {
-    if (e) {
-      e.preventDefault(); // Upewnij się, że `e` istnieje, zanim go użyjesz
-    }
-
-    let user = auth.currentUser;
-
-
-    // Jeśli użytkownik nie jest zalogowany
-    if (!user) {
-      // Przekierowanie na stronę logowania, jeśli użytkownik nie jest zalogowany
-      alert("Musisz się zalogować, aby wysłać dane.");
-      navigate("/login", { state: { from: "/" } }); // Przekazanie miejsca powrotu
-      return;
-    }
-
-    try {
-      const userCartRef = collection(db, "userCarts");
-
-      // Iteracja przez dane w `localCart` i zapisanie każdego wpisu jako osobny dokument
-      const savePromises = localCart.map(async (item) => {
-        const docRef = await addDoc(userCartRef, {
-          userId: user.uid,
-          email: user.email, // Dodaj email użytkownika
-          phone: formData.contactPhone || null, // Dodaj numer telefonu, jeśli istnieje
-          type: item.type,
-          address: item.address,
-          klatki: item.klatki || null,
-          floors: item.floors || null,
-          area: item.area || null,
-          termin: item.termin || null,
-          zakres: {
-            construction: item.zakres?.construction || false,
-            gas: item.zakres?.gas || false,
-            electrical: item.zakres?.electrical || false,
-            energy: item.zakres?.energy || false,
-          },
-          timestamp: new Date(),
-        });
-        console.log("Dodano dokument z id:", docRef.id);
-        return docRef.id;
-      });
-
-      await Promise.all(savePromises);
-
-      alert("Wszystkie dane zostały zapisane w bazie danych.");
-      setLocalCart([]); // Czyszczenie lokalnego koszyka
-      saveLocalCartToStorage([]); // Czyszczenie localStorage
-      setShowCart(false);
-    } catch (error) {
-      console.error("Błąd podczas zapisywania danych:", error);
-      alert("Nie udało się zapisać danych.");
-    }
-  };
-
-  useEffect(() => {
-    // Zmien kolor pierwszej opcji w każdym <select>
-    const selects = document.querySelectorAll("select");
-    selects.forEach((select) => {
-      select.style.color = select.value === "" ? "#888" : "#000";
-      select.addEventListener("change", () => {
-        select.style.color = select.value === "" ? "#888" : "#000";
-      });
     });
+  
+    return () => unsubscribe();
+  }, []);
+
+  // 1. Odczyt danych po powrocie z logowania
+  useEffect(() => {
+    const savedProps = localStorage.getItem("pendingProperties");
+    const savedContact = localStorage.getItem("pendingContact");
+
+    if (savedProps) {
+      setSubmittedProperties(JSON.parse(savedProps));
+      setShowSummary(true);
+      localStorage.removeItem("pendingProperties");
+    }
+
+    if (savedContact) {
+      const contact = JSON.parse(savedContact);
+      setFormData((prev) => ({
+        ...prev,
+        contactName: contact.name,
+        contactEmail: contact.email,
+        contactPhone: contact.phone,
+        remindMe: contact.remindMe,
+        acceptPrivacy: contact.acceptPrivacy,
+        acceptTerms: contact.acceptTerms,
+      }));
+      localStorage.removeItem("pendingContact");
+    }
+
+    // 2. Przewiń do #inspectionForm
+    const hash = window.location.hash;
+    if (hash === "#inspectionForm") {
+      const section = document.querySelector(hash);
+      if (section) {
+        setTimeout(() => section.scrollIntoView({ behavior: "smooth" }), 300);
+      }
+    }
   }, []);
 
   const options = [
-    { value: "dom jednorodzinny", label: "dom jednorodzinny" },
-    { value: "budynek wielorodzinny", label: "budynek wielorodzinny" },
-    { value: "nieruchomość komercyjna", label: "nieruchomość komercyjna" },
+    { value: "dom jednorodzinny", label: "Dom jednorodzinny" },
+    { value: "budynek wielorodzinny", label: "Budynek wielorodzinny" },
+    { value: "nieruchomość komercyjna", label: "Nieruchomość komercyjna" },
   ];
-  const options2 = [
-    { value: "szybko", label: "jak najszybciej" },
+  const optionsTime = [
+    { value: "pilne", label: "jak najszybciej" },
     { value: "miesiac", label: "w przyszłym miesiącu" },
-    { value: "termin", label: "w innym terminie" },
+    { value: "inny", label: "w innym terminie" },
   ];
 
-  // // Funkcja do obsługi wyboru opcji w CustomDropdown
-  // const handleSelect = (option) => {
-  //   setFormData({ ...formData, propertyType: option });
-  // };
-  // Sprawdzamy, czy wybrano opcję "budynek wielorodzinny"
-  const isMultiFamilyBuilding = formData.propertyType === "budynek wielorodzinny";
+  const next = () => {
+    if (currentStep < steps.length - 1) setCurrentStep((prev) => prev + 1);
+  };
 
-  useEffect(() => {
-    const locationState = location.state;
-    if (locationState?.scrollTo === "inspectionForm") {
-      const inspectionFormElement = document.querySelector(".inspection-form");
-      if (inspectionFormElement) {
-        inspectionFormElement.scrollIntoView({ behavior: "smooth" });
-      }
+  const prev = () => {
+    if (currentStep > 0) setCurrentStep((prev) => prev - 1);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmitProperty = () => {
+    const newEntry = {
+      propertyType: formData.propertyType,
+      numberOfBlocks: formData.numberOfBlocks,
+      propertyAddress: formData.propertyAddress,
+      nearestCity: formData.nearestCity,
+      area: formData.area,
+      volume: formData.volume,
+      floors: formData.floors,
+      inspections: formData.inspections,
+      preferredDate: formData.preferredDate,
+      contact: {
+        name: formData.contactName,
+        email: formData.contactEmail,
+        phone: formData.contactPhone,
+      },
+    };
+
+    setSubmittedProperties((prev) => [...prev, newEntry]);
+    setShowList(true);
+    setCurrentStep(0);
+    setFormData((prev) => ({
+      ...prev,
+      propertyType: "",
+      numberOfBlocks: "",
+      propertyAddress: "",
+      nearestCity: "",
+      area: "",
+      volume: "",
+      floors: "",
+      inspections: {
+        gas: false,
+        construction: false,
+        electrical: false,
+        chimney: false,
+        energy: false,
+      },
+      preferredDate: "",
+    }));
+    setSelectedType(null);
+  };
+
+  const handleSendAndShowSummary = () => {
+    handleSubmitProperty();
+    setShowList(false);
+    setShowSummary(true);
+  };
+
+  const handleFinalSubmit = async () => {
+    if (!formData.acceptPrivacy || !formData.acceptTerms) {
+      alert("Musisz zaakceptować wymagane zgody.");
+      return;
     }
-  }, [location.state]);
+  
+    const isLoggedIn = !!localStorage.getItem("userToken");
+  
+    if (!isLoggedIn) {
+      localStorage.setItem("pendingProperties", JSON.stringify(submittedProperties));
+      localStorage.setItem(
+        "pendingContact",
+        JSON.stringify({
+          name: formData.contactName,
+          email: formData.contactEmail,
+          phone: formData.contactPhone,
+          remindMe: formData.remindMe,
+          acceptPrivacy: formData.acceptPrivacy,
+          acceptTerms: formData.acceptTerms,
+        })
+      );
+      localStorage.setItem("redirectAfterLogin", "/#inspectionForm");
+      window.location.href = "/login";
+      return;
+    }
+  
+    try {
+      if (!currentUser) {
+        alert("Nie rozpoznano zalogowanego użytkownika.");
+        return;
+      }
+      
+      const userId = currentUser.uid;
+  
+      for (const property of submittedProperties) {
+        await addDoc(collection(db, "userCarts"), {
+          userId,
+          createdAt: Timestamp.now(),
+          property, // jedna nieruchomość na wpis
+          contact: {
+            name: formData.contactName,
+            email: formData.contactEmail,
+            phone: formData.contactPhone,
+          },
+          zgody: {
+            remindMe: formData.remindMe,
+            acceptPrivacy: formData.acceptPrivacy,
+            acceptTerms: formData.acceptTerms,
+          },
+          status: "Zgłoszenie przyjęte",
+        });
+      }
+  
+      alert("Wszystkie zgłoszenia zostały zapisane i wysłane do wykonawcy!");
+      setSubmittedProperties([]);
+      setShowSummary(false);
+    } catch (error) {
+      console.error("Błąd zapisu do bazy:", error);
+      alert("Wystąpił błąd podczas zapisu. Spróbuj ponownie później.");
+    }
+  };
+  
 
-
-  return (
-    <>
-      <form className="inspection-form" id="inspection-form">
-        <h2>Złóż zapytanie o przegląd</h2>
-        <p>
-          Każdą nieruchomość przedstaw oddzielnie a następnie dodaj ją do
-          koszyka i wyślij
-        </p>
-
-        {/* Typ nieruchomości */}
-        <div className="typ">
-          <div>
-            <label>Jaki typ nieruchomości chcesz zgłosić do przeglądu?</label>
-            <CustomDropdown
-              options={options}
-              placeholder="Wybierz typ nieruchomości"
-              onSelect={(option) => {
-                setFormData({ ...formData, propertyType: option.value });
-                setSelectedType(option.value);
-              }}
-              selectedValue={selectedType}
-            />
-          </div>
-
-          {/* Liczba klatek */}
-
-          <div
-            className={`klatkiCounter ${isMultiFamilyBuilding ? "visible" : ""
-              }`}
-          >
-            <label>Liczba klatek</label>
-            <input
-              className="klatki"
-              type="number"
-              name="numberOfBlocks"
-              value={formData.numberOfBlocks}
-              onChange={handleChange}
-              placeholder="wpisz dane"
-            />
-          </div>
+  const steps = [
+    {
+      title: "Wybierz rodzaj nieruchomości",
+      content: (
+        <CustomDropdown
+          className="slide-version"
+          options={options}
+          placeholder="Wybierz typ nieruchomości"
+          onSelect={(option) => {
+            setFormData((prev) => ({ ...prev, propertyType: option.value }));
+            setSelectedType(option.value);
+          }}
+          selectedValue={selectedType}
+        />
+      ),
+    },
+    {
+      title: "Podaj liczbę klatek",
+      condition: formData.propertyType === "budynek wielorodzinny",
+      content: (
+        <input
+          type="number"
+          name="numberOfBlocks"
+          value={formData.numberOfBlocks}
+          onChange={handleChange}
+          placeholder="np. 3"
+        />
+      ),
+    },
+    {
+      title: "Wybierz zakres przeglądów",
+      content: (
+        <div className="inspection-checklist">
+          {[
+            {
+              key: "gas",
+              title: "Przegląd instalacji gazowej",
+              desc: "co 1 rok",
+              newPrice: "250–450zł",
+            },
+            {
+              key: "construction",
+              title: "Przegląd budowlany",
+              desc: "co 5 lat",
+              newPrice: "450–850zł",
+            },
+            {
+              key: "electrical",
+              title: "Przegląd instalacji elektrycznej",
+              desc: "co 5 lat",
+              newPrice: "450–950zł",
+            },
+            {
+              key: "chimney",
+              title: "Przegląd wentylacji",
+              desc: "co 1 rok",
+              newPrice: "250–450zł",
+            },
+          ].map((item) => (
+            <label key={item.key} className="inspection-option">
+              <input
+                type="checkbox"
+                name={item.key}
+                checked={formData.inspections[item.key]}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    inspections: {
+                      ...prev.inspections,
+                      [item.key]: e.target.checked,
+                    },
+                  }))
+                }
+              />
+              <div className="label-texts">
+                <span className="title">{item.title}</span>
+                <span className="desc">{item.desc}</span>
+              </div>
+              <div className="price">
+                <span className="new">{item.newPrice}</span>
+              </div>
+            </label>
+          ))}
         </div>
-
-        {/* Adres nieruchomości */}
-        <div className="adres-box">
-          <label>Adres nieruchomości</label>
+      ),
+    },
+    {
+      title: "Adres nieruchomości",
+      content: (
+        <div className="contact-form">
           <input
-            className="adres"
             type="text"
             name="propertyAddress"
             value={formData.propertyAddress}
             onChange={handleChange}
-            placeholder="Miasto, ulica, nr "
+            placeholder="Adres budynku/ulica *"
+            required
+          />
+          <input
+            type="text"
+            name="nearestCity"
+            value={formData.nearestCity || ""}
+            onChange={handleChange}
+            placeholder="Miasto *"
+            required
           />
         </div>
+      ),
+    },
+    {
+      title: "Jak pilne jest przeprowadzenie przeglądu?",
+      isFinalStep: true,
+      content: (
+        <CustomDropdown
+          className="slide-version"
+          options={optionsTime}
+          placeholder="Wybierz termin"
+          onSelect={(option) => {
+            setFormData((prev) => ({ ...prev, preferredDate: option.value }));
+          }}
+          selectedValue={formData.preferredDate}
+        />
+      ),
+    },
+  ];
 
-        {/* Powierzchnia, kubatura i liczba kondygnacji */}
-        <div className="pow_kond">
-          <label>Ilość kondygnacji</label>
-          <div className="danes">
-            {/* <input
-              className="dane"
-              type="text"
-              name="area"
-              value={formData.area}
-              onChange={handleChange}
-              placeholder="pow. [m2]"
-            /> */}
+  const filteredSteps = steps.filter((step) => step.condition !== false);
+  const step = filteredSteps[currentStep];
 
-            <input
-              className="dane"
-              type="text"
-              name="floors"
-              value={formData.floors}
-              onChange={handleChange}
-              placeholder="kond. [szt]"
-            />
-          </div>
+  return (
+    <div className="inspection-form-wrapper" id="inspectionForm">
+      <div className="inspection-form-slide">
+        <h3>{step.title}</h3>
+        <div className="form-content">{step.content}</div>
 
+        <div className="form-navigation">
+          {currentStep > 0 && (
+            <button className="prev" onClick={prev}>
+              Wstecz
+            </button>
+          )}
+          <div className="spacer" />
+          {step.isFinalStep ? (
+            <>
+              <button className="next" onClick={handleSubmitProperty}>
+                Dodaj kolejną nieruchomość
+              </button>
+              <button className="next" onClick={handleSendAndShowSummary}>
+                Wyślij!
+              </button>
+            </>
+          ) : (
+            <button className="next" onClick={next}>
+              Dalej
+            </button>
+          )}
         </div>
+      </div>
 
-        {/* Zakres przeglądu */}
-        <div className="zakres">
-          <label className="opis">Określ zakres przeglądu</label>
-          <div className="checkbox custom-checkbox">
-            <input
-              type="checkbox"
-              name="construction"
-              id="construction"
-              checked={formData.inspections.construction}
-              onChange={handleChange}
-            />
-            <label for="construction">przegląd budowlany</label>
-          </div>
-          <div className="checkbox custom-checkbox">
-            <input
-              type="checkbox"
-              name="gas"
-              id="gas"
-              checked={formData.inspections.gas}
-              onChange={handleChange}
-            />
-            <label for="gas">przegląd instalacji gazowej</label>
-          </div>
-          <div className="checkbox custom-checkbox">
-            <input
-              type="checkbox"
-              name="electrical"
-              id="electrical"
-              checked={formData.inspections.electrical}
-              onChange={handleChange}
-            />
-            <label for="electrical">przegląd instalacji elektrycznej</label>
-          </div>
-          <div className="checkbox custom-checkbox">
-            <input
-              type="checkbox"
-              name="energy"
-              id="energy"
-              checked={formData.inspections.energy}
-              onChange={handleChange}
-            />
-            <label for="energy">świadectwo charakterystyki energetycznej</label>
-          </div>
+      {showList && (
+        <div className="summary-section">
+          <h3>Dodane nieruchomości:</h3>
+          <ul className="property-list">
+            {submittedProperties.map((property, index) => (
+              <li key={index} className="property-item">
+                <strong>{property.propertyType}</strong> –{" "}
+                {property.propertyAddress}, {property.nearestCity}
+                <br />
+                <small>
+                  Kondygnacje: {property.floors || "brak"} | Termin:{" "}
+                  {property.preferredDate}
+                </small>
+              </li>
+            ))}
+          </ul>
         </div>
+      )}
 
-        {/* Termin przeglądu */}
-        <div className="termin">
-          <label>W jakim terminie najlepiej przeprowadzić przegląd?</label>
-          <CustomDropdown
-            options={options2}
-            placeholder="dokonaj wyboru"
-            onSelect={(option) => {
-              setFormData({ ...formData, preferredDate: option.value });
-              setSelectedDate(option.value); // Zapisuje wybraną opcję w stanie
-            }}
-            selectedValue={selectedDate}
-          />
-        </div>
-
-        {/* Przycisk dodaj do koszyka */}
-        <button
-          type="button"
-          className="main_button"
-          onClick={handleAddToCart}
-        >
-          Dodaj do koszyka
-        </button>
-
-
-        {/* Sekcja koszyka */}
-        {localCart.length > 0 && (
-          <div className="cart-section">
-
-
-            <ul>
-              {localCart.map((item, index) => (
-                <li key={index}>
-                  {item.type} - {item.address}
+      {showSummary && (
+        <>
+          <div className="summary-section">
+            <h3>Dodane nieruchomości:</h3>
+            <ul className="property-list">
+              {submittedProperties.map((property, index) => (
+                <li key={index} className="property-item">
+                  <strong>{property.propertyType}</strong> –{" "}
+                  {property.propertyAddress}, {property.nearestCity}
+                  <br />
+                  <small>
+                    Zakres:{" "}
+                    {Object.entries(property.inspections)
+                      .filter(([_, checked]) => checked)
+                      .map(([key]) => {
+                        switch (key) {
+                          case "gas":
+                            return "gaz";
+                          case "construction":
+                            return "budowlany";
+                          case "electrical":
+                            return "elektryczny";
+                          case "chimney":
+                            return "wentylacja";
+                          case "energy":
+                            return "energetyczny";
+                          default:
+                            return key;
+                        }
+                      })
+                      .join(", ") || "brak"}
+                  </small>
                 </li>
               ))}
             </ul>
-            <div>
-              <label>Podaj numer telefonu do kontaktu w tej sprawie (opcjonalnie):</label>
-              <input
-                type="text"
-                name="contactPhone"
-                value={formData.contactPhone || ""}
-                onChange={handleChange}
-                placeholder="Wpisz numer telefonu"
-              />
-            </div>
-
-            <button type="submit" className="main_button" onClick={handleSubmit}>
-              {auth.currentUser ? "Wyślij" : "Zaloguj i wyślij"}
-            </button>
           </div>
 
-        )}
-      </form>
-    </>
+          <div className="consents">
+            <label>
+              <input
+                type="checkbox"
+                checked={formData.selectAll}
+                onChange={(e) => {
+                  const checked = e.target.checked;
+                  setFormData((prev) => ({
+                    ...prev,
+                    selectAll: checked,
+                    remindMe: checked,
+                    acceptPrivacy: checked,
+                    acceptTerms: checked,
+                  }));
+                }}
+              />{" "}
+              Zaznacz wszystkie
+            </label>
+
+            <label>
+              <input
+                type="checkbox"
+                checked={formData.remindMe}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    remindMe: e.target.checked,
+                  }))
+                }
+              />{" "}
+              Przypomnij mi o dacie kolejnego przeglądu
+            </label>
+
+            <label>
+              <input
+                type="checkbox"
+                checked={formData.acceptPrivacy}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    acceptPrivacy: e.target.checked,
+                  }))
+                }
+              />{" "}
+              Zgadzam się na przekazanie danych zgodnie z{" "}
+              <a
+                href="/polityka-prywatnosci"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                polityką prywatności
+              </a>{" "}
+              (wymagane)
+            </label>
+
+            <label>
+              <input
+                type="checkbox"
+                checked={formData.acceptTerms}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    acceptTerms: e.target.checked,
+                  }))
+                }
+              />{" "}
+              Akceptuję{" "}
+              <a href="/regulamin" target="_blank" rel="noopener noreferrer">
+                regulamin
+              </a>{" "}
+              serwisu (wymagane)
+            </label>
+
+            <div className="contactData">
+              <h4>Pozostaw swoje dane do dalszego kontaktu</h4>
+              <div className="contactData-name">
+                <label>
+                  <input
+                    type="name"
+                    name="contactName"
+                    value={formData.contactName}
+                    onChange={handleChange}
+                    placeholder="Twoje imię(opcjonalnie)"
+                  />
+                </label>
+              </div>
+              <div className="contactData-phone">
+                <label>
+                  <input
+                    type="tel"
+                    name="contactPhone"
+                    value={formData.contactPhone}
+                    onChange={handleChange}
+                    placeholder="Numer telefonu (opcjonalnie)"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div className="form-navigation">
+            <button className="next" onClick={handleFinalSubmit}>
+              Wyślij zapytanie do Wykonawcy
+            </button>
+          </div>
+        </>
+      )}
+    </div>
   );
 };
 
-export default InspectionForm;
+export default InspectionFormSlide;

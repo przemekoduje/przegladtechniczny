@@ -4,28 +4,7 @@
   height: 100vh;
   overflow: hidden;
 
-  .menu-section {
-    position: fixed;
-    // width: 100%;
-    top: 0;
-    background-color: white;
-    z-index: 10;
-    height: 80px;
-
-    transition-property: opacity, transform;
-    transition-timing-function: ease-in-out;
-
-    &.hidden {
-      opacity: 0;
-      transform: translateY(-100%);
-      transition-duration: 0.2s;
-    }
-    &.visible {
-      opacity: 1;
-      transform: translateY(0);
-      transition-duration: 0.7s;
-    }
-  }
+  
 
   .bg_text_button {
     position: absolute;

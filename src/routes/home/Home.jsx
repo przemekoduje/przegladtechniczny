@@ -7,6 +7,7 @@ import GoldHand from "../../sections/goldHand/GoldHand";
 import Faq from "../../sections/faq/Faq";
 import Footer from "../../sections/footer/Footer";
 import { auth } from "../../firebase.js";
+import InspectionFormSlide from "../../sections/inspectionsForm/InspectionForm";
 
 export default function Home() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -47,7 +48,7 @@ export default function Home() {
     <div className="home">
       <Main user={currentUser} isPanelOpen={isPanelOpen} setIsPanelOpen={setIsPanelOpen} />
       <Explanations />
-      <InspectionForm />
+      <InspectionFormSlide />
       <GoldHand />
       <Faq />
       <Footer />

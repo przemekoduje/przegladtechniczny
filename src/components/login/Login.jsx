@@ -14,31 +14,53 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const Login = () => {
   const navigate = useNavigate();
-  const location = useLocation(); 
+  const location = useLocation();
 
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
-      localStorage.setItem("isLoggedIn", "true");
-  
+      localStorage.setItem("userToken", "true");
+
+      const user = auth.currentUser;
+      if (user) {
+        localStorage.setItem(
+          "firebaseUser",
+          JSON.stringify({
+            email: user.email,
+            name: user.displayName || "",
+          })
+        );
+      }
+
+      const redirectPath = localStorage.getItem("redirectAfterLogin");
+      if (redirectPath) {
+        localStorage.removeItem("redirectAfterLogin");
+        window.location.href = redirectPath;
+        return;
+      }
+
       const params = new URLSearchParams(location.search);
       const redirect = params.get("redirect");
       const postId = params.get("postId");
       const afterLogin = params.get("afterLogin"); // np. "1" lub null
-  
+
       if (redirect === "blogPost" && postId) {
-        navigate(`/BlogDB?openPost=${postId}${afterLogin ? `&afterLogin=${afterLogin}` : ""}`);
+        navigate(
+          `/BlogDB?openPost=${postId}${
+            afterLogin ? `&afterLogin=${afterLogin}` : ""
+          }`
+        );
       } else {
-        navigate("/", { state: { scrollTo: "inspectionForm" } });
+        navigate("/dashboard");
       }
     } catch (error) {
       alert("Błąd logowania przez Google: " + error.message);
     }
   };
-  
+
   // analogicznie w handleFacebookLogin
-  
+
   const handleFacebookLogin = async () => {
     const provider = new FacebookAuthProvider();
     try {
@@ -51,9 +73,13 @@ const Login = () => {
       const afterLogin = params.get("afterLogin"); // np. "1" lub null
 
       if (redirect === "blogPost" && postId) {
-        navigate(`/BlogDB?openPost=${postId}${afterLogin ? `&afterLogin=${afterLogin}` : ""}`);
+        navigate(
+          `/BlogDB?openPost=${postId}${
+            afterLogin ? `&afterLogin=${afterLogin}` : ""
+          }`
+        );
       } else {
-        navigate("/", { state: { scrollTo: "inspectionForm" } });
+        navigate("/");
       }
     } catch (error) {
       alert("Błąd logowania przez Facebook: " + error.message);
@@ -64,26 +90,28 @@ const Login = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       localStorage.setItem("isLoggedIn", "true");
-  
+
       // Sprawdzamy, czy w URL jest redirect=blogPost i postId=XYZ
       const params = new URLSearchParams(location.search);
       const redirect = params.get("redirect");
       const postId = params.get("postId");
       const afterLogin = params.get("afterLogin"); // np. "1" lub null
 
-  
       if (redirect === "blogPost" && postId) {
         // wracamy do BlogDB z otwartym postem
-        navigate(`/BlogDB?openPost=${postId}${afterLogin ? `&afterLogin=${afterLogin}` : ""}`);
+        navigate(
+          `/BlogDB?openPost=${postId}${
+            afterLogin ? `&afterLogin=${afterLogin}` : ""
+          }`
+        );
       } else {
         // stara logika: powrót do / z anchorem "inspectionForm"
-        navigate("/", { state: { scrollTo: "inspectionForm" } });
+        navigate("/");
       }
     } catch (error) {
       alert("Błąd logowania: " + error.message);
     }
   };
-  
 
   return (
     <div className="login-wrapper">
@@ -99,7 +127,8 @@ const Login = () => {
         <div className="login-email">
           <input type="email" placeholder="Email" id="email" />
           <input type="password" placeholder="Hasło" id="password" />
-          <div className="main_button"
+          <div
+            className="main_button"
             onClick={() =>
               handleEmailLogin(
                 document.getElementById("email").value,

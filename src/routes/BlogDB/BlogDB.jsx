@@ -161,7 +161,6 @@ export default function BlogDB() {
 
   return (
     <div className="masonry-grid-container">
-      <Menu isPanelOpen={isPanelOpen} setIsPanelOpen={setIsPanelOpen} />
       <ResponsiveGridLayout
         className="layout"
         layouts={layouts}

@@ -1,0 +1,314 @@
+.inspection-form {
+  padding: 80px 40px;
+  font-family: "Lato", serif;
+  font-size: 20px;
+  font-weight: 300;
+  font-style: normal;
+
+  label {
+    display: block;
+    margin: 45px 0 5px 0;
+  }
+
+  input,
+  select {
+    font-family: "Lato", serif;
+    font-size: 16px;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid black;
+    
+    font-size: 16px;
+
+  }
+
+  input::placeholder {
+    color: #dadada;
+    font-size: 16px;
+    /* Zmien kolor na dowolny */
+    opacity: 1;
+    /* Ustawienie pełnej przezroczystości */
+  }
+
+  h2 {
+    
+    font-size: 98px;
+    color: rgb(80, 80, 80);
+    font-family: "Merriweather", serif;
+    
+    font-weight: 300;
+    font-style: normal;
+  }
+
+  p {
+    margin-top: 10px;
+    font-size: 16px;
+  }
+
+  .typ {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+  
+
+
+    .prop {
+      width: 400px;
+
+      option {
+        color: rgb(19, 19, 19);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        max-height: 0;
+      }
+
+      to {
+        opacity: 1;
+        max-height: 200px;
+      }
+    }
+
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+        max-height: 200px;
+      }
+
+      to {
+        opacity: 0;
+        max-height: 0;
+      }
+    }
+
+    .klatkiCounter {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      animation-duration: 0.5s;
+      animation-fill-mode: forwards;
+    }
+
+    .klatkiCounter.visible {
+      animation-name: fadeIn;
+    }
+
+    .klatkiCounter:not(.visible) {
+      animation-name: fadeOut;
+    }
+
+    .klatki {
+      width: 100px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid black;
+    }
+  }
+
+  .adres-box {
+
+    display: flex;
+    flex-direction: column;
+
+    .adres {
+      width: 300px;
+    }
+  }
+
+
+  .dane {
+    width: 300px;
+    margin-right: 25px;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+
+  .zakres {
+
+    label {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    .opis {
+      margin: 25px 0;
+    }
+  }
+
+
+
+
+  .checkbox {
+    display: flex;
+    align-items: center;
+    
+    margin-bottom: 30px;
+  }
+
+  /* Kontener dla checkboxa */
+  .custom-checkbox {
+    position: relative;
+    display: flex;
+    align-items: center;
+    
+    /* Odstęp między checkboxem a tekstem */
+  }
+
+  /* Ukryj standardowy checkbox */
+  .custom-checkbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  /* Styl niestandardowego checkboxa */
+  .custom-checkbox label {
+    position: relative;
+    padding-left: 45px;
+    /* Odstęp na ikonę checkboxa */
+    cursor: pointer;
+    font-size: 18px;
+    // line-height: 20px;
+    color: #000000;
+  }
+
+  /* Dodaj kwadrat jako checkbox */
+  .custom-checkbox label::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    /* Rozmiar kwadratu */
+    height: 20px;
+    background-color: #fff;
+    border: 2px solid #979797;
+    /* Kolor ramki */
+    border-radius: 4px;
+    /* Zaokrąglone rogi (jeśli chcesz) */
+    transition: all 0.2s ease;
+  }
+
+  /* Po zaznaczeniu dodaj tło i ikonę */
+  .custom-checkbox input[type="checkbox"]:checked+label::before {
+    background-color: #000000;
+    /* Kolor tła po zaznaczeniu */
+    border-color: #677c59;
+  }
+
+  .custom-checkbox input[type="checkbox"]:checked+label::after {
+    content: "";
+    /* Ikona zaznaczenia */
+    position: absolute;
+    left: 7px;
+    top: -7px;
+    // transform: translateY(-50%);
+    font-size: 25px;
+    color: #040404;
+    /* Kolor zaznaczenia */
+  }
+
+  /* Opcjonalnie: efekt hover */
+  .custom-checkbox label:hover::before {
+    border-color: #000000;
+    /* Kolor ramki w hover */
+  }
+
+  .main_button{
+    width: 300px;
+    margin-top: 30px;
+  }
+  .add-to-cart-btn,
+  .submit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #677c59;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 30px;
+    color: white;
+    width: 250px;
+    padding: 15px 25px;
+
+    font-family: "Lato", serif;
+    font-size: 16px;
+    font-weight: 300;
+    font-style: normal;
+  }
+
+  .termin {
+    margin-top: 25px;
+  }
+
+  .cart-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    ul {
+      margin-top: 40px;
+      list-style-type: none;
+
+    }
+  }
+}
+@media (max-width: 1440px) {
+
+  .inspection-form{
+   
+    
+  h2{
+    font-size: 64px;
+  }
+}
+}
+
+
+
+@media (max-width: 680px) {
+  
+
+  .inspection-form{
+    padding: 80px 15px;
+    h2 {
+      font-family: "Merriweather", serif;
+      font-size: 25px;
+      font-weight: 300;
+      font-style: normal;
+      margin-bottom: 10px;
+    }
+
+    .custom-dropdown{
+      width: 100%;
+    }
+    .pow_kond{
+      
+      .danes{
+        display: flex;
+        gap: 25px;
+        .dane{
+          width: 50%;
+          margin-right: 0;
+  
+        }
+      }
+
+      
+    }
+
+    .adres-box{
+      .adres {
+        width: 100%;
+      }
+    }
+    
+  }
+  
+}

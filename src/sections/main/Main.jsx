@@ -83,10 +83,6 @@ export default function Main({ user, isPanelOpen, setIsPanelOpen }) {
 
   return (
     <div className="main">
-      {/* <Panel isOpen={isPanelOpen}/> */}
-      <div className={`menu-section ${isVisible ? "visible" : "hidden"}`}>
-        <Menu isPanelOpen={isPanelOpen} setIsPanelOpen={setIsPanelOpen} />
-      </div>
       <div className="bg_text_button">
         <div className="text_button">
           <h1 className="display01">
