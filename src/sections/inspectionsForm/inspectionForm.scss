@@ -38,6 +38,7 @@
           color: #888;
           font-size: 16px; // <<< większa czcionka placeholdera
         }
+
         &:hover {
           background-color: #eee;
         }
@@ -64,6 +65,7 @@
 
             flex-direction: column;
           }
+
           .price {
             display: flex;
             flex-direction: column;
@@ -71,6 +73,7 @@
           }
         }
       }
+
       .contact-form {
         display: flex;
         flex-direction: column;
@@ -104,6 +107,10 @@
         background-color: #3d5134;
       }
 
+      &.next {
+        margin-left: 15px;
+      }
+
       &.prev {
         background-color: #ccc;
         color: #333;
@@ -112,6 +119,13 @@
         &:hover {
           background-color: #bbb;
         }
+      }
+
+      &.disabled {
+        background-color: #ccc;
+        color: #666;
+        cursor: not-allowed;
+        pointer-events: auto;
       }
     }
   }
@@ -158,6 +172,7 @@
       flex-direction: row;
       gap: 10px;
     }
+
     .checkbox_2 {
       input {
         margin-right: 10px;
@@ -177,6 +192,7 @@
         color: #333;
         text-align: left;
       }
+
       input {
         width: 100%;
         border: none;
@@ -189,6 +205,7 @@
           color: #888;
           font-size: 16px; // <<< większa czcionka placeholdera
         }
+
         &:focus {
           outline: none;
           background-color: #fff;

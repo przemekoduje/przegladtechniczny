@@ -55,7 +55,7 @@ const InspectionFormSlide = () => {
         setCurrentUser(user);
       }
     });
-  
+
     return () => unsubscribe();
   }, []);
 
@@ -105,8 +105,42 @@ const InspectionFormSlide = () => {
     { value: "inny", label: "w innym terminie" },
   ];
 
+  const isCurrentStepValid = () => {
+    const step = filteredSteps[currentStep];
+
+    if (step.title === "Wybierz rodzaj nieruchomości") {
+      return formData.propertyType !== "";
+    }
+
+    if (step.title === "Podaj liczbę klatek") {
+      return formData.numberOfBlocks !== "";
+    }
+
+    if (step.title === "Wybierz zakres przeglądów") {
+      return Object.values(formData.inspections).some((v) => v === true);
+    }
+
+    if (step.title === "Adres nieruchomości") {
+      return formData.propertyAddress.trim() !== "" && formData.nearestCity.trim() !== "";
+    }
+
+    if (step.title === "Jak pilne jest przeprowadzenie przeglądu?") {
+      return formData.preferredDate !== "";
+    }
+
+    return true;
+  };
+
+
   const next = () => {
-    if (currentStep < steps.length - 1) setCurrentStep((prev) => prev + 1);
+    if (!isCurrentStepValid()) {
+      alert("Uzupełnij wymagane dane przed przejściem dalej.");
+      return;
+    }
+
+    if (currentStep < steps.length - 1) {
+      setCurrentStep((prev) => prev + 1);
+    }
   };
 
   const prev = () => {
@@ -141,6 +175,7 @@ const InspectionFormSlide = () => {
 
     setSubmittedProperties((prev) => [...prev, newEntry]);
     setShowList(true);
+    setShowSummary(false);
     setCurrentStep(0);
     setFormData((prev) => ({
       ...prev,
@@ -174,10 +209,12 @@ const InspectionFormSlide = () => {
       alert("Musisz zaakceptować wymagane zgody.");
       return;
     }
-  
+
     const isLoggedIn = !!localStorage.getItem("userToken");
-  
+
     if (!isLoggedIn) {
+      alert("Aby wysłać zapytanie, musisz być zalogowany. Zostaniesz teraz przekierowany na stronę logowania.");
+      
       localStorage.setItem("pendingProperties", JSON.stringify(submittedProperties));
       localStorage.setItem(
         "pendingContact",
@@ -194,15 +231,15 @@ const InspectionFormSlide = () => {
       window.location.href = "/login";
       return;
     }
-  
+
     try {
       if (!currentUser) {
         alert("Nie rozpoznano zalogowanego użytkownika.");
         return;
       }
-      
+
       const userId = currentUser.uid;
-  
+
       for (const property of submittedProperties) {
         await addDoc(collection(db, "userCarts"), {
           userId,
@@ -221,7 +258,7 @@ const InspectionFormSlide = () => {
           status: "Zgłoszenie przyjęte",
         });
       }
-  
+
       alert("Wszystkie zgłoszenia zostały zapisane i wysłane do wykonawcy!");
       setSubmittedProperties([]);
       setShowSummary(false);
@@ -230,7 +267,7 @@ const InspectionFormSlide = () => {
       alert("Wystąpił błąd podczas zapisu. Spróbuj ponownie później.");
     }
   };
-  
+
 
   const steps = [
     {
@@ -384,7 +421,11 @@ const InspectionFormSlide = () => {
               </button>
             </>
           ) : (
-            <button className="next" onClick={next}>
+            <button
+              className={`next ${!isCurrentStepValid() ? "disabled" : ""}`}
+              onClick={next}
+              disabled={!isCurrentStepValid()}
+            >
               Dalej
             </button>
           )}
@@ -401,9 +442,28 @@ const InspectionFormSlide = () => {
                 {property.propertyAddress}, {property.nearestCity}
                 <br />
                 <small>
-                  Kondygnacje: {property.floors || "brak"} | Termin:{" "}
-                  {property.preferredDate}
+                  Zakres:{" "}
+                  {Object.entries(property.inspections)
+                    .filter(([_, checked]) => checked)
+                    .map(([key]) => {
+                      switch (key) {
+                        case "gas":
+                          return "gaz";
+                        case "construction":
+                          return "budowlany";
+                        case "electrical":
+                          return "elektryczny";
+                        case "chimney":
+                          return "wentylacja";
+                        case "energy":
+                          return "energetyczny";
+                        default:
+                          return key;
+                      }
+                    })
+                    .join(", ") || "brak"}
                 </small>
+
               </li>
             ))}
           </ul>
