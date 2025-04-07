@@ -54,11 +54,11 @@ export default function Panel({ isOpen, setIsOpen }) {
         <div className="middle">
           <p onClick={() => goTo("/BlogDB")}>Blog</p>
           <p onClick={() => scrollToSection("faq-section")}>FAQ</p>
-          <p onClick={() => goTo("/dashboard")}>Dashboard</p>
+          <p onClick={() => goTo("/dashboard")}>Panel Klienta</p>
         </div>
 
         <button className="przewodnik" onClick={() => goTo("/przewodnik")}>
-          przewodnik
+          PRZEWODNIK
           <span className="podpis">
             <br />
             samodzielnej oceny stanu technicznego budynku

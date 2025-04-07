@@ -86,9 +86,10 @@ export default function Main({ user, isPanelOpen, setIsPanelOpen }) {
       <div className="bg_text_button">
         <div className="text_button">
           <h1 className="display01">
-            <span className="little">Przegląd</span> <br />
-            techniczny <br />
-            nieruchomości
+            <span className="little">Obowiązkowe</span> <br />
+            <span>Przeglądy </span><br />
+            <span>Techniczne</span> <br/>
+            <span>Budynku</span>
           </h1>
           <button className="main_button" onClick={scrollToInspectionForm}>
             <span>KONTYNUUJ</span>

@@ -7,7 +7,7 @@ export default function MainFooter() {
         <div className="greenscreamlogo">
             
             <span>by przemokoduje.online</span>
-            <img src="/images/logo.png"alt="" />
+            {/* <img src="/images/logo.png"alt="" /> */}
         </div>
         
     </div>

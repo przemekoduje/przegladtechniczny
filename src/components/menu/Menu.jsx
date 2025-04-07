@@ -48,7 +48,7 @@ export default function Menu({ isPanelOpen, setIsPanelOpen }) {
         </div>
        
         <div className="menu-burger" onClick={togglePanel}>
-          {isPanelOpen ? <CloseIcon /> : <MenuIcon />}
+          {isPanelOpen ? <CloseIcon style={{width: "40px",  height: "40px", zIndex: "16"}}/> : <MenuIcon style={{width: "40px",  height: "40px", zIndex: "16"}}/>}
         </div>
       </div>
     </>

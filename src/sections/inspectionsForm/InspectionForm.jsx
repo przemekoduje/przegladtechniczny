@@ -5,6 +5,10 @@ import { db } from "../../firebase";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { auth } from "../../firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import PopupModal from "../../components/popModal/PopModal";
+import InfoIcon from "@mui/icons-material/Info";
+import EventNoteIcon from "@mui/icons-material/EventNote";
+import HouseIcon from "@mui/icons-material/House";
 
 const InspectionFormSlide = () => {
   const [submittedProperties, setSubmittedProperties] = useState([]);
@@ -13,6 +17,7 @@ const InspectionFormSlide = () => {
   const [selectedType, setSelectedType] = useState(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [currentUser, setCurrentUser] = useState(null);
+  const [popupMessage, setPopupMessage] = useState(null);
 
   const [formData, setFormData] = useState({
     propertyType: "",
@@ -121,7 +126,10 @@ const InspectionFormSlide = () => {
     }
 
     if (step.title === "Adres nieruchomości") {
-      return formData.propertyAddress.trim() !== "" && formData.nearestCity.trim() !== "";
+      return (
+        formData.propertyAddress.trim() !== "" &&
+        formData.nearestCity.trim() !== ""
+      );
     }
 
     if (step.title === "Jak pilne jest przeprowadzenie przeglądu?") {
@@ -130,7 +138,6 @@ const InspectionFormSlide = () => {
 
     return true;
   };
-
 
   const next = () => {
     if (!isCurrentStepValid()) {
@@ -199,7 +206,10 @@ const InspectionFormSlide = () => {
   };
 
   const handleSendAndShowSummary = () => {
-    handleSubmitProperty();
+    if (formData.propertyAddress || formData.nearestCity) {
+      handleSubmitProperty(); // tylko jeśli mamy coś wpisane
+    }
+
     setShowList(false);
     setShowSummary(true);
   };
@@ -213,9 +223,14 @@ const InspectionFormSlide = () => {
     const isLoggedIn = !!localStorage.getItem("userToken");
 
     if (!isLoggedIn) {
-      alert("Aby wysłać zapytanie, musisz być zalogowany. Zostaniesz teraz przekierowany na stronę logowania.");
-      
-      localStorage.setItem("pendingProperties", JSON.stringify(submittedProperties));
+      setPopupMessage(
+        "Aby wysłać zapytanie, musisz być zalogowany. Zostaniesz teraz przekierowany."
+      );
+
+      localStorage.setItem(
+        "pendingProperties",
+        JSON.stringify(submittedProperties)
+      );
       localStorage.setItem(
         "pendingContact",
         JSON.stringify({
@@ -228,7 +243,7 @@ const InspectionFormSlide = () => {
         })
       );
       localStorage.setItem("redirectAfterLogin", "/#inspectionForm");
-      window.location.href = "/login";
+
       return;
     }
 
@@ -258,8 +273,23 @@ const InspectionFormSlide = () => {
           status: "Zgłoszenie przyjęte",
         });
       }
+      setPopupMessage(
+        <>
+          <p>Zgłoszenie zostało zapisane i wysłane do wykonawcy.</p>
+          <p>
+            Szczegóły Twojego zgłoszenia znajdziesz w&nbsp;
+            <a
+              href="/dashboard"
+              style={{ color: "#506446", textDecoration: "underline" }}
+            >
+              panelu klienta
+            </a>
+            .
+          </p>
+        </>
+      );
 
-      alert("Wszystkie zgłoszenia zostały zapisane i wysłane do wykonawcy!");
+      // alert("Wszystkie zgłoszenia zostały zapisane i wysłane do wykonawcy!");
       setSubmittedProperties([]);
       setShowSummary(false);
     } catch (error) {
@@ -268,21 +298,68 @@ const InspectionFormSlide = () => {
     }
   };
 
+  const getStepIcon = () => {
+    if (step.title === " ") {
+      return <InfoIcon style={{ color: "#395840", fontSize: 60 }} />;
+    }
+
+    if (step.isFinalStep) {
+      return <HouseIcon style={{ color: "#395840", fontSize: 60 }} />;
+    }
+
+    return <EventNoteIcon style={{ color: "#395840", fontSize: 60 }} />;
+  };
 
   const steps = [
     {
+      title: " ",
+      noValidation: true, // brak walidacji
+      content: (
+        <div className="form-steps">
+          <div className="info-content">
+            <h2>
+              Złóż zapytanie o bezpłatną wycenę przeglądów technicznych budynku
+            </h2>
+            <ul>
+              <li>
+                <span>1</span>
+                Wybierz typ nieruchomości, lokalizację i uzupełnij formularz –
+                Twoje zgłoszenie trafi do sprawdzonych specjalistów.
+              </li>
+              <li>
+                <span>2</span>W ciągu kilku godzin otrzymasz odpowiedzi od
+                wykonawców wraz z indywidualnymi ofertami.
+              </li>
+              <li>
+                <span>3</span>
+                Gdy wybierzesz najdogodniejszą propozycję, umawiasz dogodny
+                termin realizacji.
+              </li>
+              <li>
+                <span>4</span>Po wykonaniu usługi otrzymujesz komplet dokumentów
+                i rozliczasz się bezpośrednio z wykonawcą.
+              </li>
+            </ul>
+            {/* <button className="start-button" onClick={next}>Zaczynamy!</button> */}
+          </div>
+        </div>
+      ),
+    },
+    {
       title: "Wybierz rodzaj nieruchomości",
       content: (
-        <CustomDropdown
-          className="slide-version"
-          options={options}
-          placeholder="Wybierz typ nieruchomości"
-          onSelect={(option) => {
-            setFormData((prev) => ({ ...prev, propertyType: option.value }));
-            setSelectedType(option.value);
-          }}
-          selectedValue={selectedType}
-        />
+        <div className="form-steps">
+          <CustomDropdown
+            className="slide-version"
+            options={options}
+            placeholder="Wybierz typ nieruchomości"
+            onSelect={(option) => {
+              setFormData((prev) => ({ ...prev, propertyType: option.value }));
+              setSelectedType(option.value);
+            }}
+            selectedValue={selectedType}
+          />
+        </div>
       ),
     },
     {
@@ -393,6 +470,20 @@ const InspectionFormSlide = () => {
         />
       ),
     },
+    {
+      title: "Co dalej?",
+      isDecisionStep: true,
+      content: (
+        <div className="form-steps">
+          <p>
+            W następnym kroku podsumujemy wprowadzone dane nieruchomości.
+            <br />
+            Jeśli chcesz zgłosić kolejną nieruchomość, kliknij odpowiedni
+            przycisk.
+          </p>
+        </div>
+      ),
+    },
   ];
 
   const filteredSteps = steps.filter((step) => step.condition !== false);
@@ -400,38 +491,48 @@ const InspectionFormSlide = () => {
 
   return (
     <div className="inspection-form-wrapper" id="inspectionForm">
-      <div className="inspection-form-slide">
-        <h3>{step.title}</h3>
-        <div className="form-content">{step.content}</div>
+      {!showSummary && (
+        <div className="inspection-form-slide">
+          <div className="icon-wrapper">{getStepIcon()}</div>
 
-        <div className="form-navigation">
-          {currentStep > 0 && (
-            <button className="prev" onClick={prev}>
-              Wstecz
-            </button>
-          )}
-          <div className="spacer" />
-          {step.isFinalStep ? (
-            <>
-              <button className="next" onClick={handleSubmitProperty}>
-                Dodaj kolejną nieruchomość
-              </button>
-              <button className="next" onClick={handleSendAndShowSummary}>
-                Wyślij!
-              </button>
-            </>
-          ) : (
-            <button
-              className={`next ${!isCurrentStepValid() ? "disabled" : ""}`}
-              onClick={next}
-              disabled={!isCurrentStepValid()}
-            >
-              Dalej
-            </button>
-          )}
-        </div>
-      </div>
+          {step.title.trim() !== "" ? <h3>{step.title}</h3> : null}
+          <div className="form-content">{step.content}</div>
 
+          <div className="form-navigation">
+            {currentStep > 0 && !step.isDecisionStep && (
+              <button className="prev" onClick={prev}>
+                Wstecz
+              </button>
+            )}
+            <div className="spacer" />
+            {step.isDecisionStep ? (
+              <>
+                <button
+                  className="prev"
+                  onClick={() => {
+                    handleSubmitProperty();
+                    setCurrentStep(1); // pomijamy step 0 (intro)
+                  }}
+                >
+                  Dodaj nieruchomość
+                </button>
+                <div className="spacer" />
+                <button className="next" onClick={handleSendAndShowSummary}>
+                  Dalej
+                </button>
+              </>
+            ) : (
+              <button
+                className={`next ${!isCurrentStepValid() ? "disabled" : ""}`}
+                onClick={next}
+                disabled={!isCurrentStepValid()}
+              >
+                Dalej
+              </button>
+            )}
+          </div>
+        </div> // zamknięcie inspection-form-slide
+      )}
       {showList && (
         <div className="summary-section">
           <h3>Dodane nieruchomości:</h3>
@@ -463,7 +564,6 @@ const InspectionFormSlide = () => {
                     })
                     .join(", ") || "brak"}
                 </small>
-
               </li>
             ))}
           </ul>
@@ -613,6 +713,15 @@ const InspectionFormSlide = () => {
             </button>
           </div>
         </>
+      )}
+      {popupMessage && (
+        <PopupModal
+          message={popupMessage}
+          onClose={() => {
+            setPopupMessage(null);
+            window.location.href = "/login";
+          }}
+        />
       )}
     </div>
   );

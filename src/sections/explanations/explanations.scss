@@ -5,7 +5,7 @@
   font-weight: 300;
   font-style: normal;
 
-  margin-top: 10px;
+  margin-top: 50px;
   padding-bottom: 2150px;
   h1 {
     position: absolute;
@@ -193,7 +193,7 @@
       padding: 40px 40px;
       .display2 {
         h2 {
-          font-family: "Merriweather", serif;
+          ffont-family: 'ProductSans', serif;
           font-size: 60px;
           font-weight: 300;
           
@@ -205,7 +205,7 @@
 @media (max-width: 685px) and (min-width: 520px) {
   .explanations {
     position: relative;
-    font-family: "Lato", serif;
+    font-family: 'ProductSans', serif;
     font-size: 24px;
     font-weight: 300;
     font-style: normal;
@@ -217,7 +217,7 @@
     h1 {
       position: relative;
       padding: 0 40px;
-      font-family: "Merriweather", serif;
+      font-family: 'ProductSans', serif;
       font-size: 64px;
       font-weight: 300;
       font-style: normal;
@@ -265,13 +265,13 @@
 @media (max-width: 520px) {
   .explanations {
     position: relative;
-    font-family: "Lato", serif;
+    font-family: 'ProductSans', sans-serif;
     font-size: 20px;
-    font-weight: 300;
+    font-weight: 100;
     font-style: normal;
     display: flex;
     flex-direction: column;
-    margin-top: 0;
+    margin-top: 80px;
     padding: 0;
 
     h1 {
@@ -296,11 +296,12 @@
     .exp6,
     .exp-footer {
       position: relative;
+      margin-top: 15px;
       padding: 0 40px;
       top: 0;
       left: 0;
       width: 100%;
-      margin-bottom: 15px;
+      // margin-bottom: 15px;
       transition: top 0.5s ease, left 0.5s ease, width 0.5s ease,
         height 0.5s ease;
     }

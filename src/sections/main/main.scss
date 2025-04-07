@@ -4,8 +4,6 @@
   height: 100vh;
   overflow: hidden;
 
-  
-
   .bg_text_button {
     position: absolute;
     top: 80px;
@@ -32,33 +30,28 @@
           font-size: 48px;
         }
         color: #4a4a4a;
-        font-family: "Merriweather", serif;
+        font-family: 'ProductSans', sans-serif;
         font-size: 80px;
         font-weight: 200;
         font-style: i;
         text-align: center;
       }
       .main_button {
-        
-
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 35px;
         padding: 10px 10px 10px 25px;
 
-
         span {
-          
-          color: #000000;;
+          color: #000000;
           letter-spacing: 2px;
-          font-family: "Lato", sans-serif;
+          font-family: 'ProductSans', sans-serif;
           font-weight: 300;
           font-style: normal;
           font-size: 22px;
         }
         .btn-icon {
-         
           width: 40px;
           height: 40px;
           border: none;
@@ -67,7 +60,7 @@
           justify-content: center;
           align-items: center;
 
-          img{
+          img {
             width: 100%;
             border-radius: 50%;
           }
@@ -87,23 +80,40 @@
 @media (max-width: 680px) {
   .main {
     .bg_text_button {
+      top: 0;
+      height: 100vh;
+      background-image: url("../../../public/images/v2/hh_mobile.png");
+      z-index: 5;
       .text_button {
         .display01 {
-
-          
+          .little {
+            font-size: 34px;
+          }
           color: #4a4a4a;
-          font-family: "Merriweather", serif;
-          font-size: 36px;
-          font-weight: 200;
-          font-style: normal;
+          font-family: 'ProductSans', sans-serif;
+          font-size: 62px;
+          font-weight: 100;
           text-align: center;
 
-          .little {
-            font-size: 26px;
+          span{
+            margin-bottom: 10px
+          };
+        }
+        .main_button{
+          background-color: transparent;
+          border: 1px solid black;
+          
+          span{
+            font-family: 'ProductSans', sans-serif;
+          
           }
         }
       }
     }
+
+    .main-footer {
+      z-index: 7;
+      background-color: transparent;
+    }
   }
 }
-

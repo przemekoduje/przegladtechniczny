@@ -1,4 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Chewy&family=Fredoka:wght@300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Quicksand:wght@300..700&display=swap');
+@font-face {
+  font-family: 'ProductSans';
+  src: url('../src/assets/fonts/ProductSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'ProductSans';
+  src: url('../src/assets/fonts/ProductSans-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ProductSans';
+  src: url('../src/assets/fonts/ProductSans-Light.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'ProductSans';
+  src: url('../src/assets/fonts/ProductSans-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}
+
 
 
 *{

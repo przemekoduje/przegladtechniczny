@@ -4,7 +4,7 @@
   max-width: 1440px;
   top: 0;
   background-color: white;
-  z-index: 10;
+  z-index: 12;
   height: 80px;
 
   transition-property: opacity, transform;
@@ -19,5 +19,10 @@
     opacity: 1;
     transform: translateY(0);
     transition-duration: 0.7s;
+  }
+}
+@media (max-width: 680px) {
+  .menu-section {
+    background-color: transparent;
   }
 }
