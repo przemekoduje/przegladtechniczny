@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  // justify-content: center;
+  justify-content: center;
   font-family: "ProductSans" sans-serif;
   color: #333;
   background-color: #fdf8ea;
@@ -32,7 +32,7 @@
   // }
 
   .inspection-form-slide {
-    width: 100%;
+    width: 700px;
     background-color: #fdf8ea;
     font-family: "ProductSans", sans-serif;
     font-weight: 100;
@@ -61,7 +61,7 @@
     }
 
     .form-content {
-      width: 500px;
+      width: 700px;
       display: flex;
       flex-direction: column;
       align-items: stretch;
@@ -89,26 +89,36 @@
       }
 
       .form-steps {
+
+        p{
+          font-family: 'ProductSans';
+          font-size: 18px;
+        }
         .info-content {
           h2 {
+            font-family: 'ProductSans';
             margin-bottom: 35px;
+            font-size: 36px;
           }
           ul {
             display: flex;
             flex-direction: column;
             gap: 20px;
             li {
+              font-family: 'ProductSans';
+              font-size: 18px;
               background-color: #c3d4b6;
               list-style: none;
               width: 100%;
-              padding: 10px;
+              padding: 25px 20px;
               display: flex;
-              justify-content: center;
+              justify-content: flex-start;
               align-items: center;
               gap: 30px;
               border-radius: 10px;
 
               span {
+                
                 width: 20px;
                 height: 28px;
                 background-color: #395840;
@@ -116,7 +126,7 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                font-size: 16px;
+                font-size: 18px;
                 font-weight: 200;
                 border-radius: 10px;
                 flex-shrink: 0;
@@ -159,6 +169,108 @@
     }
   }
 
+  
+
+  
+
+  .summary-section {
+    font-family: 'ProductSans';
+    width: 700px;
+    margin: 40px auto;
+
+    h3 {
+      margin-bottom: 20px;
+      font-size: 32px;
+    }
+
+    .property-list {
+      list-style: none;
+      padding: 0;
+
+      .property-item {
+        font-family: 'ProductSans';
+        font-size: 18px;
+        padding: 10px 0;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+
+        strong {
+          color: #506446;
+        }
+
+        small {
+          color: #777;
+        }
+      }
+    }
+  }
+
+  .consents {
+    width: 700px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    // border: 1px solid red;
+
+    
+    label{
+      font-family: 'ProductSans';
+
+      input{
+        margin-right: 20px;
+        font-family: 'ProductSans';
+        font-weight: 100;
+      }
+    }
+    
+
+    .checkbox {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+    }
+
+    .checkbox_2 {
+      input {
+        margin-right: 20px;
+        
+      }
+    }
+
+    .contactData {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      h4 {
+        font-family: 'ProductSans';
+        font-size: 22px;
+        font-weight: 500;
+        margin-bottom: 10px;
+        color: #333;
+        text-align: left;
+      }
+
+      input {
+        width: 100%;
+        border: 0.5px solid black;
+        border-radius: 30px;
+        padding: 10px;
+        font-size: 18px;
+
+        &::placeholder {
+          color: #888;
+          font-size: 16px; // <<< większa czcionka placeholdera
+        }
+
+        &:focus {
+          outline: none;
+          background-color: #fff;
+        }
+      }
+    }
+  }
   .form-navigation {
     display: flex;
     justify-content: flex-end;
@@ -172,7 +284,7 @@
 
     button {
       padding: 14px 22px;
-      font-size: 16px;
+      font-size: 18px;
       background-color: #506446;
       color: #fff;
       border: none;
@@ -181,7 +293,8 @@
       transition: background-color 0.3s ease;
 
       &:hover {
-        background-color: #3d5134;
+        background-color: #c3d4b4;
+        color: #506446;
       }
 
       &.next {
@@ -206,92 +319,21 @@
       }
     }
   }
+}
 
-  .summary-section {
-    max-width: 600px;
-    width: 500px;
-    margin: 40px auto;
-
-    h3 {
-      margin-bottom: 20px;
-      font-size: 24px;
-    }
-
-    .property-list {
-      list-style: none;
-      padding: 0;
-
-      .property-item {
-        padding: 10px 0;
-        border-bottom: 1px solid #ddd;
-
-        strong {
-          color: #506446;
-        }
-
-        small {
-          color: #777;
-        }
-      }
-    }
-  }
-
-  .consents {
-    max-width: 600px;
-    width: 500px;
+@media (max-width: 1440px) {
+  .inspection-form-wrapper {
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-    // border: 1px solid red;
-
-    .checkbox {
-      display: flex;
-      flex-direction: row;
-      gap: 10px;
-    }
-
-    .checkbox_2 {
-      input {
-        margin-right: 10px;
-      }
-    }
-
-    .contactData {
-      margin-top: 30px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-
-      h4 {
-        font-size: 22px;
-        font-weight: 500;
-        margin-bottom: 10px;
-        color: #333;
-        text-align: left;
-      }
-
-      input {
-        width: 100%;
-        border: none;
-        border-bottom: 1px solid black;
-        padding: 10px;
-        font-size: 16px;
-
-        &::placeholder {
-          color: #888;
-          font-size: 16px; // <<< większa czcionka placeholdera
-        }
-
-        &:focus {
-          outline: none;
-          background-color: #fff;
-        }
-      }
+    justify-content: center;
+    align-items: center;
+    .inspection-form-slide{
+      max-width: 700px;
     }
   }
 }
 
-@media (max-width: 680px) {
+@media (max-width: 768px) {
   .inspection-form-wrapper {
     width: 100%;
     background-color: #fdf8ea;
@@ -310,7 +352,7 @@
     }
     .summary-section {
       width: 100%;
-      margin: 120px auto;
+      margin: 80px auto 50px auto;
       padding: 0 20px;
 
       h3 {
@@ -330,8 +372,10 @@
       }
     }
     .consents {
+      width: 100%;
       font-family: "ProductSans";
       font-weight: 100;
+      padding: 0 20px;
 
       label {
         input {

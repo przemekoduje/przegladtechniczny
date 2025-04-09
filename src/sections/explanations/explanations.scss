@@ -127,7 +127,7 @@
       top: 0;
       left: 0;
       width: 100%;
-      margin-bottom: 15px;
+      // margin-bottom: 15px;
       transition: top 0.5s ease, left 0.5s ease, width 0.5s ease,
         height 0.5s ease;
     }
@@ -180,7 +180,7 @@
       top: 0;
       left: 0;
       width: 100%;
-      margin-bottom: 15px;
+      // margin-bottom: 15px;
       transition: top 0.5s ease, left 0.5s ease, width 0.5s ease,
         height 0.5s ease;
     }
@@ -202,7 +202,7 @@
     }
   }
 }
-@media (max-width: 685px) and (min-width: 520px) {
+@media (max-width: 768px) and (min-width: 520px) {
   .explanations {
     position: relative;
     font-family: 'ProductSans', serif;
@@ -240,7 +240,7 @@
       top: 0;
       left: 0;
       width: 100%;
-      margin-bottom: 15px;
+      // margin-bottom: 15px;
       transition: top 0.5s ease, left 0.5s ease, width 0.5s ease,
         height 0.5s ease;
     }
