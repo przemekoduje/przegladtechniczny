@@ -27,7 +27,7 @@ const PrzegladB = ({ user }) => {
             <div className="right">
               <div className="steps">
                 <p>Cały proces w kilku prostych krokach:</p>
-                <ol>
+                <ul>
                   <li>
                     Wypełnij prosty formularz i wyślij zapytanie bezpośrednio do
                     naszych specjalistów. Masz wątpliwości lub pytania? Nasza
@@ -44,7 +44,7 @@ const PrzegladB = ({ user }) => {
                     Po wykonaniu usługi otrzymasz protokół, na podstawie którego
                     łatwo rozliczysz się z wykonawcą.
                   </li>
-                </ol>
+                </ul>
               </div>
             </div>
           </div>

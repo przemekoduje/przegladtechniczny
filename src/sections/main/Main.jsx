@@ -44,27 +44,27 @@ export default function Main({ user, isPanelOpen, setIsPanelOpen }) {
     };
   }, [lastScrollTop]);
 
-  const updateMenuWidth = () => {
-    const parentWidth = document.querySelector(".main").offsetWidth;
-    const menuSection = document.querySelector(".menu-section");
+  // const updateMenuWidth = () => {
+  //   const parentWidth = document.querySelector(".main").offsetWidth;
+  //   const menuSection = document.querySelector(".menu-section");
 
-    if (menuSection) {
-      menuSection.style.width = `${parentWidth}px`;
-    }
-  };
+  //   if (menuSection) {
+  //     menuSection.style.width = `${parentWidth}px`;
+  //   }
+  // };
 
-  // Używamy useEffect, aby dodać event listener na resize
-  useEffect(() => {
-    updateMenuWidth(); // Ustaw szerokość początkową
+  // // Używamy useEffect, aby dodać event listener na resize
+  // useEffect(() => {
+  //   updateMenuWidth(); // Ustaw szerokość początkową
 
-    // Dodajemy nasłuchiwanie na zmianę rozmiaru okna
-    window.addEventListener("resize", updateMenuWidth);
+  //   // Dodajemy nasłuchiwanie na zmianę rozmiaru okna
+  //   window.addEventListener("resize", updateMenuWidth);
 
-    // Sprzątanie: usuwamy nasłuchiwanie przy odmontowaniu komponentu
-    return () => {
-      window.removeEventListener("resize", updateMenuWidth);
-    };
-  }, []);
+  //   // Sprzątanie: usuwamy nasłuchiwanie przy odmontowaniu komponentu
+  //   return () => {
+  //     window.removeEventListener("resize", updateMenuWidth);
+  //   };
+  // }, []);
 
   useEffect(() => {
     if (user) {

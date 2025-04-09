@@ -80,7 +80,7 @@
           margin-bottom: 10px;
         }
 
-        ol {
+        ul {
           padding-left: 20px;
 
           li {
@@ -111,18 +111,16 @@
       font-size: 20px;
       margin-bottom: 50px;
 
-
-      p{
+      p {
         font-size: 20px;
         font-weight: 400;
         margin-bottom: 10px;
         text-align: center;
-      };
-      span{
+      }
+      span {
         font-size: 24px;
         font-weight: 100;
         margin-bottom: 10px;
-        
       }
       .cta {
         background-color: #506446;
@@ -153,14 +151,14 @@
     width: 100vw;
     margin-left: calc(-50vw + 50%);
     padding: 60px 120px;
-    
-    h2{
+
+    h2 {
       font-size: 64px;
       font-family: "ProductSans";
       font-weight: 400;
       margin-bottom: 40px;
     }
-    p{
+    p {
       font-size: 32px;
       max-width: 1000px;
       font-family: "ProductSans";
@@ -172,44 +170,41 @@
     flex-direction: column;
     padding: 100px 40px;
     gap: 40px;
-    .blog{
+    .blog {
       display: flex;
       gap: 30px;
-      .blog_left{
+      .blog_left {
         display: flex;
-        img{
+        img {
           width: 300px;
+          height: auto;
         }
       }
 
-      .blog_right{
+      .blog_right {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
 
-        h3{
+        h3 {
           font-family: "ProductSans";
           font-weight: 400;
           font-size: 26px;
         }
-        p{
+        p {
           font-family: "ProductSans";
           font-weight: 100;
           font-size: 16px;
         }
-        button{
-          background-color: #BCD7FF;
+        button {
+          background-color: #bcd7ff;
           border: none;
           margin: 0 0 0 auto;
           padding: 8px 45px;
           border-radius: 20px;
-
         }
       }
     }
-
-
-
   }
 }
 
@@ -219,12 +214,79 @@
     align-items: center;
     padding: 40px 20px;
 
-    .right {
-      max-width: 100%;
-      margin-top: 30px;
+    .container_info {
+      padding: 80px 0px;
+      gap: 20px;
 
-      .placeholder {
-        height: 250px;
+      h1 {
+        font-size: 64px;
+        margin-bottom: 10px;
+      }
+
+      .textsAndButton {
+        flex-direction: column;
+        align-items: center;
+
+        .left {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          padding: 0;
+
+          .description {
+            font-size: 24px;
+            margin-bottom: 40px;
+            text-align: left;
+          }
+          .cta {
+            // align-self: flex-end;
+          }
+        }
+        .right {
+          padding: 0;
+          // text-align: center;
+          margin-top: 50px;
+
+          .steps {
+            font-size: 18px;
+            text-align: left;
+          }
+        }
+      }
+    }
+
+    .container_faq {
+      margin-top: 0px;
+    }
+
+    .container_warning {
+      padding: 60px 40px;
+      margin-left: 0;
+      h2 {
+        font-size: 42px;
+      }
+      p {
+        font-size: 22px;
+      }
+    }
+
+    .container_blog {
+      .blog {
+        flex-direction: column;
+        gap: 30px;
+        .blog_left {
+          img {
+            width: 100%;
+            height: auto;
+          }
+        }
+        .blog_right {
+          gap: 10px;
+
+          h3 {
+            font-size: 22px;
+          }
+        }
       }
     }
   }
