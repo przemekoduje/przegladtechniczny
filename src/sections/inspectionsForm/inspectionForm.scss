@@ -337,17 +337,29 @@
   .inspection-form-wrapper {
     width: 100%;
     background-color: #fdf8ea;
-    padding: 0 0 60px 0;
+    padding: 0 20px 0px 20px;
 
     .inspection-form-slide {
+      width: 100%;
       height: 100%;
-      padding: 120px 20px;
+      padding: 120px 20px 60px;
 
-      h3 {
+      .icon-wrapper{
+        margin-bottom: 20px;
       }
       .form-content {
         height: 100%;
         width: 100%;
+
+
+        .form-steps{
+          .info-content{
+            width: 100%;
+            h2{
+              padding: 0 10px;
+            }
+          }
+        }
       }
     }
     .summary-section {

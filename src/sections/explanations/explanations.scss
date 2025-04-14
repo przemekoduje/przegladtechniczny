@@ -1,6 +1,6 @@
 .explanations {
   position: relative;
-  font-family: "Lato", serif;
+  font-family: 'ProductSans';
   font-size: 24px;
   font-weight: 300;
   font-style: normal;
@@ -9,7 +9,7 @@
   padding-bottom: 2150px;
   h1 {
     position: absolute;
-    font-family: "Merriweather", serif;
+    font-family: 'ProductSans';
     font-size: 128px;
     font-weight: 300;
     font-style: normal;
@@ -80,7 +80,7 @@
     
 
     h2 {
-      font-family: "Merriweather", serif;
+      font-family: 'ProductSans';
       font-size: 96px;
       font-weight: 300;
       color: rgb(61, 61, 61);
@@ -94,18 +94,18 @@
 @media (max-width: 1440px) and (min-width: 1051px) {
   .explanations {
     position: relative;
-    font-family: "Lato", serif;
+    font-family: 'ProductSans';
     font-size: 24px;
     font-weight: 300;
     font-style: normal;
     display: flex;
     flex-direction: column;
-    margin-top: 0;
+    margin-top: 50px;
     padding: 0 40px;
 
     h1 {
       position: relative;
-      font-family: "Merriweather", serif;
+      font-family: 'ProductSans';
       font-size: 64px;
       font-weight: 300;
       font-style: normal;
@@ -151,13 +151,13 @@
     font-style: normal;
     display: flex;
     flex-direction: column;
-    margin-top: 0;
+    margin-top: 50px;
     padding: 0 ;
 
     h1 {
       position: relative;
       padding: 0 40px;
-      font-family: "Merriweather", serif;
+      font-family: 'ProductSans';
       font-size: 64px;
       font-weight: 300;
       font-style: normal;
@@ -193,7 +193,7 @@
       padding: 40px 40px;
       .display2 {
         h2 {
-          ffont-family: 'ProductSans', serif;
+          font-family: 'ProductSans', serif;
           font-size: 60px;
           font-weight: 300;
           
@@ -211,7 +211,7 @@
     font-style: normal;
     display: flex;
     flex-direction: column;
-    margin-top: 0;
+    margin-top: 50px;
     padding: 0;
 
     h1 {
@@ -253,7 +253,7 @@
       padding: 40px 40px;
       .display2 {
         h2 {
-          font-family: "Merriweather", serif;
+          font-family: 'ProductSans';
           font-size: 42px;
           font-weight: 300;
         }
@@ -277,7 +277,7 @@
     h1 {
       position: relative;
       padding: 0 40px;
-      font-family: "Merriweather", serif;
+      font-family: 'ProductSans';
       font-size: 64px;
       font-weight: 300;
       font-style: normal;
@@ -314,7 +314,7 @@
       padding: 40px 40px;
       .display2 {
         h2 {
-          font-family: "Merriweather", serif;
+          font-family: 'ProductSans';
           font-size: 36px;
           font-weight: 300;
         }

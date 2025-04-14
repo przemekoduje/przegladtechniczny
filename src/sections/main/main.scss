@@ -6,10 +6,10 @@
 
   .bg_text_button {
     position: absolute;
-    top: 80px;
+    top: 0;
     width: 100%;
-    height: calc(100vh - 160px);
-    background-image: url("../../../public/images/color2.png");
+    height: 100vh;
+    background-image: url("../../../public/images/v2/hh_desktop.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -72,8 +72,8 @@
     position: absolute;
     bottom: 0;
     width: 100%;
-    background-color: white;
-    z-index: 5;
+    background-color: transparent;
+    z-index: 7;
   }
 }
 
