@@ -10,6 +10,15 @@
   transition-property: opacity, transform;
   transition-timing-function: ease-in-out;
 
+  .menu-burger{
+    position: fixed;
+    right: 40px;
+    top: 18px;
+    z-index: 16;
+    cursor: pointer;
+  }
+
+
   &.hidden {
     opacity: 0;
     transform: translateY(-100%);
@@ -20,9 +29,12 @@
     transform: translateY(0);
     transition-duration: 0.7s;
   }
-}
+
+  }
+
 @media (max-width: 680px) {
   .menu-section {
     background-color: transparent;
   }
+
 }

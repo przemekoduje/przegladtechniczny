@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import Menu from "../components/menu/Menu";
 import './layout.scss';
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function Layout({ children, user }) {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
@@ -40,6 +42,13 @@ export default function Layout({ children, user }) {
   return (
     <>
       <div className={`menu-section ${isVisible ? "visible" : "hidden"}`}>
+        <div className="menu-burger" onClick={() => setIsPanelOpen(!isPanelOpen)}>
+          {isPanelOpen ? (
+            <CloseIcon style={{ width: "40px", height: "40px" }} />
+          ) : (
+            <MenuIcon style={{ width: "40px", height: "40px" }} />
+          )}
+        </div>
         <Menu isPanelOpen={isPanelOpen} setIsPanelOpen={setIsPanelOpen} />
       </div>
 
