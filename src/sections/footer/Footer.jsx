@@ -5,19 +5,19 @@ export default function Footer() {
   return (
     <div className='footer'>
         <div className="texts">
-            <h1>przeglady-domu.com</h1>
+            <h1>przeglady-domu.online</h1>
             <span className="adres">
                 
             </span>
             <span className="audytors">
                 <div className="audytor_prze">
-                    <p>Przemysław Rakotny, tel. 6900029414</p>
+                    <p>Przemysław Rakotny, tel. 690 029 414</p>
                     
                     <p style={{fontStyle: "italic"}}>Uprawnienia budowlane: SLK/2122/OWOK/08</p>
                     <p style={{fontStyle: "italic"}}>Nr wpisu 38909 /Centralny Rejestr Charakterystyki Energetycznej Budynku/</p>
                 </div>
                 <div className="audytor_mar">
-                    <p>Marcin Wróbel</p>
+                    <p>Marcin Wróbel, tel. 502 212 512</p>
                     <p style={{fontStyle: "italic"}}>Uprawnienia elektryczne</p>
                 </div>
             </span>

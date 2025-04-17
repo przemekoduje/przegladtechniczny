@@ -23,6 +23,7 @@ import PrzegladG from "./routes/przegladG/PrzegladG";
 import PrzegladE from "./routes/przegladE/PrzegladE";
 import PrzegladW from "./routes/przegladW/PrzegladW";
 import Layout from "./layouts/Layout.jsx";
+import FormLanding from "./routes/formLanding/FormLanding";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -73,11 +74,14 @@ function App() {
         <Route path="/adminLogin" element={<AdminLogin />} />
         <Route path="/adminDashboard" element={<AdminDashboard />} />
         <Route path="/przewodnik" element={<PrzewodnikOcena />} />
-        <Route path="/blogDB" element={
+        <Route
+          path="/blogDB"
+          element={
             <Layout user={user}>
               <BlogDB />
             </Layout>
-          } />
+          }
+        />
         <Route path="/admin" element={<AdminPanel />} />
         <Route
           path="/dashboard"
@@ -119,6 +123,14 @@ function App() {
           element={
             <Layout user={user}>
               <PrzegladE />
+            </Layout>
+          }
+        />
+        <Route
+          path="/form"
+          element={
+            <Layout user={user}>
+              <FormLanding user={user} />
             </Layout>
           }
         />

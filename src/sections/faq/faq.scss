@@ -7,7 +7,7 @@
   align-items: center;
 
   h2 {
-    font-family: "Merriweather", serif;
+    font-family: 'ProductSans';
 
     font-weight: 300;
     font-style: normal;
@@ -34,7 +34,7 @@
         font-weight: 600;
         //   background-color: #f7f7f7;
         padding: 15px 15px;
-        font-family: "Lato", serif;
+        font-family: 'ProductSans';
         font-weight: 300;
         font-style: normal;
 
@@ -47,7 +47,7 @@
         overflow: hidden; /* Ukryj zawartość poza max-height */
         transition: max-height 0.8s ease, opacity 0.8s ease; /* Płynne rozwijanie odpowiedzi */
         padding-left: 20px;
-        font-family: "Lato", serif;
+        font-family: 'ProductSans';
         font-weight: 300;
         font-style: normal;
         font-size: 28px;

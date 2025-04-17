@@ -490,7 +490,7 @@ const InspectionFormSlide = () => {
   const step = filteredSteps[currentStep];
 
   return (
-    <div className="inspection-form-wrapper" id="inspectionForm">
+    <div className="inspection-form-wrapper" id="inspection-form">
       {!showSummary && (
         <div className="inspection-form-slide">
           <div className="icon-wrapper">{getStepIcon()}</div>

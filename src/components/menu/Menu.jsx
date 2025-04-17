@@ -44,7 +44,7 @@ export default function Menu({ isPanelOpen, setIsPanelOpen }) {
         
         <div className="logo" onClick={() => navigate("/")}>
           <img src="/images/v2/logo_check.png" alt="Logo" style={{width: "20px"}} />
-          <span>przeglady-domu.com</span>
+          <span>przeglady-domu.online</span>
         </div>
        
         {/* <div className="menu-burger" onClick={togglePanel}>
