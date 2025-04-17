@@ -44,9 +44,9 @@ export default function Layout({ children, user }) {
       <div className={`menu-section ${isVisible ? "visible" : "hidden"}`}>
         <div className="menu-burger" onClick={() => setIsPanelOpen(!isPanelOpen)}>
           {isPanelOpen ? (
-            <CloseIcon style={{ width: "40px", height: "40px" }} />
+            <CloseIcon style={{ width: "30px", height: "30px" }} />
           ) : (
-            <MenuIcon style={{ width: "40px", height: "40px" }} />
+            <MenuIcon style={{ width: "30px", height: "30px" }} />
           )}
         </div>
         <Menu isPanelOpen={isPanelOpen} setIsPanelOpen={setIsPanelOpen} />

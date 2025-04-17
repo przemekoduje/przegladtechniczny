@@ -19,6 +19,7 @@ export default function Footer() {
                 <div className="audytor_mar">
                     <p>Marcin Wróbel, tel. 502 212 512</p>
                     <p style={{fontStyle: "italic"}}>Uprawnienia elektryczne</p>
+                    <p style={{fontStyle: "italic"}}>Nr E-1/1276/691/22, D-1/1277/691/22</p>
                 </div>
             </span>
         </div>

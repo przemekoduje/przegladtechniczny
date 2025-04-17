@@ -262,7 +262,7 @@
   }
 }
 
-@media (max-width: 520px) {
+@media (max-width: 420px) {
   .explanations {
     position: relative;
     font-family: 'ProductSans', sans-serif;
@@ -276,7 +276,7 @@
 
     h1 {
       position: relative;
-      padding: 0 40px;
+      padding: 0 15px;
       font-family: 'ProductSans';
       font-size: 64px;
       font-weight: 300;
@@ -296,8 +296,8 @@
     .exp6,
     .exp-footer {
       position: relative;
-      margin-top: 15px;
-      padding: 0 40px;
+      margin-top: 25px;
+      padding: 0 15px;
       top: 0;
       left: 0;
       width: 100%;

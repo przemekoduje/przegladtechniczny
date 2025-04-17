@@ -4,7 +4,7 @@
   padding: 40px 40px 40px 346px;
 
   h1 {
-    font-family: "Merriweather", serif;
+    font-family: 'ProductSans';
     font-weight: 300;
     font-style: normal;
     margin-bottom: 25px;
@@ -12,7 +12,7 @@
     font-size: 96px;
   }
   p {
-    font-family: "Lato", serif;
+    font-family: 'ProductSans';
     font-weight: 300;
     font-style: normal;
     font-size: 20px;
@@ -22,17 +22,75 @@
     margin-top: 25px;
 
     a{
+      font-family: 'ProductSans';
       text-decoration: none; /* Usunięcie podkreślenia */
       color: inherit; 
     }
   }
 }
+@media (max-width: 1024px) {
 
-@media (max-width: 680px) {
+  .goldHand {
+    
+    padding: 40px 40px 40px 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    h1 {
+      
+      margin-bottom: 25px;
+      color: #4a4a4a;
+      font-size: 32px;
+    }
+    p {
+      
+      font-size: 20px;
+      line-height: 25px;
+    }
+    .buttons{
+      margin-top: 25px;
+    }
+  }
+
+}
+
+
+@media (max-width: 768px) {
 
   .goldHand {
     
     padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h1 {
+      
+      margin-bottom: 25px;
+      color: #4a4a4a;
+      font-size: 32px;
+    }
+    p {
+      
+      font-size: 20px;
+      line-height: 25px;
+    }
+    .buttons{
+      margin-top: 25px;
+    }
+  }
+
+}
+
+@media (max-width: 420px) {
+
+  .goldHand {
+    
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     h1 {
       
