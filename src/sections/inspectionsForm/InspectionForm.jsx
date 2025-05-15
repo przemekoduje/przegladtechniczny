@@ -300,14 +300,14 @@ const InspectionFormSlide = () => {
 
   const getStepIcon = () => {
     if (step.title === " ") {
-      return <InfoIcon style={{ color: "#395840", fontSize: 60 }} />;
+      return <InfoIcon style={{ color: "#395840", fontSize: 40 }} />;
     }
 
     if (step.isFinalStep) {
-      return <HouseIcon style={{ color: "#395840", fontSize: 60 }} />;
+      return <HouseIcon style={{ color: "#395840", fontSize: 40 }} />;
     }
 
-    return <EventNoteIcon style={{ color: "#395840", fontSize: 60 }} />;
+    return <EventNoteIcon style={{ color: "#395840", fontSize: 40 }} />;
   };
 
   const steps = [

@@ -23,20 +23,21 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-   
+
 
     .icon-wrapper {
       background-color: #c3d4b6;
-      height: 100px;
-      width: 100px;
+      height: 80px;
+      width: 80px;
       display: flex;
       justify-content: center;
       align-items: center;
       border-radius: 20px;
-      margin-bottom: 70px;
+      margin-bottom: 40px;
     }
+
     h3 {
-      font-size: 32px;
+      font-size: 28px;
       font-weight: 500;
       margin-bottom: 40px;
       color: #333;
@@ -73,20 +74,23 @@
 
       .form-steps {
 
-        p{
+        p {
           font-family: 'ProductSans';
           font-size: 18px;
         }
+
         .info-content {
           h2 {
             font-family: 'ProductSans';
             margin-bottom: 35px;
-            font-size: 36px;
+            font-size: 28x;
           }
+
           ul {
             display: flex;
             flex-direction: column;
             gap: 20px;
+
             li {
               font-family: 'ProductSans';
               font-size: 18px;
@@ -101,7 +105,7 @@
               border-radius: 10px;
 
               span {
-                
+
                 width: 20px;
                 height: 28px;
                 background-color: #395840;
@@ -152,9 +156,9 @@
     }
   }
 
-  
 
-  
+
+
 
   .summary-section {
     font-family: 'ProductSans';
@@ -195,17 +199,17 @@
     gap: 15px;
     // border: 1px solid red;
 
-    
-    label{
+
+    label {
       font-family: 'ProductSans';
 
-      input{
+      input {
         margin-right: 20px;
         font-family: 'ProductSans';
         font-weight: 100;
       }
     }
-    
+
 
     .checkbox {
       display: flex;
@@ -216,7 +220,7 @@
     .checkbox_2 {
       input {
         margin-right: 20px;
-        
+
       }
     }
 
@@ -254,6 +258,7 @@
       }
     }
   }
+
   .form-navigation {
     display: flex;
     justify-content: flex-end;
@@ -311,9 +316,9 @@
     justify-content: center;
     align-items: center;
 
-    
-    .inspection-form-slide{
-      max-width: 700px;
+
+    .inspection-form-slide {
+      max-width: 650px;
     }
   }
 }
@@ -328,24 +333,27 @@
       width: 100%;
       height: 100%;
 
-      .icon-wrapper{
+      .icon-wrapper {
         margin-bottom: 20px;
       }
+
       .form-content {
         height: 100%;
         width: 100%;
 
 
-        .form-steps{
-          .info-content{
+        .form-steps {
+          .info-content {
             width: 100%;
-            h2{
+
+            h2 {
               padding: 0 10px;
             }
           }
         }
       }
     }
+
     .summary-section {
       width: 100%;
       margin: 80px auto 50px auto;
@@ -357,16 +365,19 @@
         margin-bottom: 20px;
         font-size: 24px;
       }
+
       ul {
         li {
           font-family: "ProductSans";
           font-weight: 100;
+
           strong {
             font-weight: 700;
           }
         }
       }
     }
+
     .consents {
       width: 100%;
       font-family: "ProductSans";
@@ -378,10 +389,12 @@
           margin-right: 10px;
         }
       }
+
       .contactData {
         font-family: "ProductSans";
 
-        .contactData-name, .contactData-phone {
+        .contactData-name,
+        .contactData-phone {
           label {
             input {
               border: 0.5px solid black;
@@ -399,43 +412,55 @@
   .inspection-form-wrapper {
     width: 100%;
     background-color: #fdf8ea;
-    padding: 120px 15px 60px 15px;
+    padding: 160px 25px 30px 25px;
 
     .inspection-form-slide {
       width: 100%;
       height: 100%;
-      
 
-      .icon-wrapper{
+
+      .icon-wrapper {
         margin-bottom: 20px;
+        height: 60px;
+        width: 60px;
+        border-radius: 10px;
+
+        svg {
+          font-size: 40px;
+        }
       }
+
       .form-content {
         height: 100%;
         width: 100%;
 
 
-        .form-steps{
-          .info-content{
+        .form-steps {
+          .info-content {
             width: 100%;
-            h2{
-              margin-bottom: 15px;
-              font-size: 24px;
-            }
-            ul{
 
-              li{
-                font-size: 16px;
-                padding: 15px;
-                min-height: 90px;
+            h2 {
+              margin-bottom: 15px;
+              font-size: 18px;
+            }
+
+            ul {
+              gap: 10px;
+
+              li {
+                font-size: 14px;
+                padding: 10px 15px;
+                min-height: 80px;
               }
             }
           }
         }
       }
     }
+
     .summary-section {
       width: 100%;
-      margin: 0 auto ;
+      margin: 40px auto 0;
       padding: 0 20px;
 
       h3 {
@@ -444,16 +469,19 @@
         margin-bottom: 20px;
         font-size: 24px;
       }
+
       ul {
         li {
           font-family: "ProductSans";
           font-weight: 100;
+
           strong {
             font-weight: 700;
           }
         }
       }
     }
+
     .consents {
       width: 100%;
       font-family: "ProductSans";
@@ -465,10 +493,13 @@
           margin-right: 10px;
         }
       }
+
+
       .contactData {
         font-family: "ProductSans";
 
-        .contactData-name, .contactData-phone {
+        .contactData-name,
+        .contactData-phone {
           label {
             input {
               border: 0.5px solid black;
@@ -477,6 +508,9 @@
           }
         }
       }
+    }
+    .form-navigation{
+      margin-top: 20px;
     }
   }
 }
