@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./przegladG.scss"; // Używamy ten sam SCSS
 import PersonIcon from "@mui/icons-material/Person";
-import Menu from "../../components/Menu/Menu";
+import Menu from "../../components/menu/Menu";
 import { useNavigate } from "react-router-dom";
 
 const PrzegladG = ({ user, isPanelOpen, setIsPanelOpen }) => {

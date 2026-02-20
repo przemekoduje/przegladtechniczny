@@ -1,5 +1,6 @@
 import React from "react";
-import { auth } from "../../firebase";
+import { auth, db } from "../../firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import {
   GoogleAuthProvider,
   FacebookAuthProvider,
@@ -16,13 +17,42 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const checkAdminAndRedirect = async (user, redirect, postId, afterLogin, defaultRoute) => {
+    let userIsAdmin = false;
+    if (user && user.email) {
+      try {
+        const adminsRef = collection(db, "admins");
+        const q = query(adminsRef, where("email", "==", user.email), where("isActive", "==", true));
+        const querySnapshot = await getDocs(q);
+        userIsAdmin = !querySnapshot.empty;
+      } catch (error) {
+        console.error("Error checking admin statuse:", error);
+      }
+    }
+
+    if (userIsAdmin || redirect === "admin") {
+      navigate("/admin");
+    } else if (redirect === "blogPost" && postId) {
+      navigate(`/BlogDB?openPost=${postId}${afterLogin ? `&afterLogin=${afterLogin}` : ""}`);
+    } else {
+      const savedRedirect = localStorage.getItem("redirectAfterLogin");
+      if (savedRedirect) {
+        localStorage.removeItem("redirectAfterLogin");
+        // Use window.location.href for hash links to ensure jumping to the element
+        window.location.href = savedRedirect;
+      } else {
+        navigate(defaultRoute);
+      }
+    }
+  };
+
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
       localStorage.setItem("userToken", "true");
 
-      const user = auth.currentUser;
+      const user = result.user;
       if (user) {
         localStorage.setItem(
           "firebaseUser",
@@ -33,27 +63,13 @@ const Login = () => {
         );
       }
 
-      const redirectPath = localStorage.getItem("redirectAfterLogin");
-      if (redirectPath) {
-        localStorage.removeItem("redirectAfterLogin");
-        window.location.href = redirectPath;
-        return;
-      }
-
       const params = new URLSearchParams(location.search);
       const redirect = params.get("redirect");
       const postId = params.get("postId");
-      const afterLogin = params.get("afterLogin"); // np. "1" lub null
+      const afterLogin = params.get("afterLogin");
 
-      if (redirect === "blogPost" && postId) {
-        navigate(
-          `/BlogDB?openPost=${postId}${
-            afterLogin ? `&afterLogin=${afterLogin}` : ""
-          }`
-        );
-      } else {
-        navigate("/dashboard");
-      }
+      await checkAdminAndRedirect(user, redirect, postId, afterLogin, "/dashboard");
+
     } catch (error) {
       alert("Błąd logowania przez Google: " + error.message);
     }
@@ -64,23 +80,16 @@ const Login = () => {
   const handleFacebookLogin = async () => {
     const provider = new FacebookAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
       localStorage.setItem("isLoggedIn", "true");
 
       const params = new URLSearchParams(location.search);
       const redirect = params.get("redirect");
       const postId = params.get("postId");
-      const afterLogin = params.get("afterLogin"); // np. "1" lub null
+      const afterLogin = params.get("afterLogin");
 
-      if (redirect === "blogPost" && postId) {
-        navigate(
-          `/BlogDB?openPost=${postId}${
-            afterLogin ? `&afterLogin=${afterLogin}` : ""
-          }`
-        );
-      } else {
-        navigate("/");
-      }
+      await checkAdminAndRedirect(result.user, redirect, postId, afterLogin, "/dashboard");
+
     } catch (error) {
       alert("Błąd logowania przez Facebook: " + error.message);
     }
@@ -88,26 +97,16 @@ const Login = () => {
 
   const handleEmailLogin = async (email, password) => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const result = await signInWithEmailAndPassword(auth, email, password);
       localStorage.setItem("isLoggedIn", "true");
 
-      // Sprawdzamy, czy w URL jest redirect=blogPost i postId=XYZ
       const params = new URLSearchParams(location.search);
       const redirect = params.get("redirect");
       const postId = params.get("postId");
-      const afterLogin = params.get("afterLogin"); // np. "1" lub null
+      const afterLogin = params.get("afterLogin");
 
-      if (redirect === "blogPost" && postId) {
-        // wracamy do BlogDB z otwartym postem
-        navigate(
-          `/BlogDB?openPost=${postId}${
-            afterLogin ? `&afterLogin=${afterLogin}` : ""
-          }`
-        );
-      } else {
-        // stara logika: powrót do / z anchorem "inspectionForm"
-        navigate("/");
-      }
+      await checkAdminAndRedirect(result.user, redirect, postId, afterLogin, "/dashboard");
+
     } catch (error) {
       alert("Błąd logowania: " + error.message);
     }

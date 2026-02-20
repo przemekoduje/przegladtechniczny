@@ -1,0 +1,10 @@
+﻿
+> przegladtechniczny@0.1.0 build
+> react-scripts build && react-snap
+
+Creating an optimized production build...
+Failed to compile.
+
+Module not found: Error: Can't resolve 'react-helmet-async' in 'C:\Users\Admin\Desktop\przemokoduje\kodowanie\przegladtechniczny\src'
+
+

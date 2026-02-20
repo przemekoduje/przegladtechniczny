@@ -9,23 +9,22 @@ import {
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 
 // --- IMPORTY STRON I KOMPONENTÓW ---
-import Home from "./routes/Home/Home.jsx";
-import Login from "./components/Login/Login.jsx";
-import AdminDashboard from "./routes/AdminDashboard/AdminDashboard.jsx";
-import AdminLogin from "./components/Login/AdminLogin/AdminLogin.jsx";
-import SignUp from "./components/SignUp/SignUp.jsx";
-import PrzewodnikOcena from "./routes/Landingi/PrzewodnikOcena/PrzewodnikOcena.jsx";
+import Home from "./routes/home/Home.jsx";
+import Login from "./components/login/Login.jsx";
+import AdminRoute from "./components/AdminRoute/AdminRoute.jsx";
+import SignUp from "./components/signUp/SignUp.jsx";
+import PrzewodnikOcena from "./routes/landingi/przewodnikOcena/PrzewodnikOcena.jsx";
 import BlogDB from "./routes/BlogDB/BlogDB.jsx";
 import AdminPanel from "./routes/AdminPanel/AdminPanel.jsx";
-import UserDashboard from "./routes/UserDashboard/UserDashboard";
-import PrzegladB from "./routes/PrzegladB/PrzegladB";
-import PrzegladG from "./routes/PrzegladG/PrzegladG";
-import PrzegladE from "./routes/PrzegladE/PrzegladE";
-import PrzegladW from "./routes/PrzegladW/PrzegladW";
+import UserDashboard from "./routes/userDashboard/UserDashboard";
+import PrzegladB from "./routes/przegladB/PrzegladB";
+import PrzegladG from "./routes/przegladG/PrzegladG";
+import PrzegladE from "./routes/przegladE/PrzegladE";
+import PrzegladW from "./routes/przegladW/PrzegladW";
 import Layout from "./layouts/Layout.jsx";
-import FormLanding from "./routes/FormLanding/FormLanding";
-import Terms from "./routes/Legal/Terms.jsx";
-import PrivacyPolicy from "./routes/Legal/PrivacyPolicy.jsx";
+import FormLanding from "./routes/formLanding/FormLanding";
+import Terms from "./routes/legal/Terms.jsx";
+import PrivacyPolicy from "./routes/legal/PrivacyPolicy.jsx";
 import HeroSnapScroller from "./fachowiec/pages/Mobile/HeroSnapScroller/HeroSnapScroller";
 import Fachowiec from "./fachowiec/pages/Fachowiec";
 import SingleBlogPost from "./routes/SingleBlogPost/SingleBlogPost";
@@ -94,25 +93,23 @@ function AppContent() {
         {/* --- AUTH & ADMIN --- */}
         <Route path="/login" element={<Login />} />
         <Route path="/signUp" element={<SignUp />} />
-        <Route path="/adminLogin" element={<AdminLogin />} />
-        <Route path="/adminDashboard" element={<AdminDashboard />} />
-        <Route path="/admin" element={<AdminPanel />} />
-        {/* <Route
-            path="/dashboard"
-            element={
-              // loadingUser ? (
-              //   <p>Ładowanie użytkownika...</p>
-              // ) : (
-                <UserDashboard user={user} />
-              // )
-            }
-          /> */}
-         <Route
-            path="/dashboard"
-            element={
-                <UserDashboard user={user} />
-            }
-          />
+
+        {/* Protected Admin Routes */}
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <AdminPanel />
+            </AdminRoute>
+          }
+        />
+
+        <Route
+          path="/dashboard"
+          element={
+            <UserDashboard user={user} />
+          }
+        />
 
 
         {/* --- LANDINGI SPECJALNE --- */}

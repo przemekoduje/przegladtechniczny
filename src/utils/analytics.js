@@ -11,11 +11,56 @@ const getTodayDateString = () => {
   return `${year}-${month}-${day}`;
 };
 
+let isCheckingIp = null; // Prevent concurrent checks
+
+export const checkIsIpIgnored = async () => {
+  const cachedStatus = sessionStorage.getItem("is_ip_ignored");
+  if (cachedStatus !== null) {
+    return cachedStatus === 'true';
+  }
+
+  if (isCheckingIp) return isCheckingIp;
+
+  if (window.location.hostname === "localhost") {
+    return true; // Zawsze ignoruj wejścia z localhost
+  }
+
+  isCheckingIp = (async () => {
+    try {
+      const response = await fetch("https://api.ipify.org?format=json");
+      const data = await response.json();
+      const currentIp = data.ip;
+      sessionStorage.setItem("current_ip", currentIp);
+
+      const settingsDocRef = doc(db, "settings", "analytics");
+      const settingsDoc = await getDoc(settingsDocRef);
+      let ignoredIps = [];
+      if (settingsDoc.exists()) {
+        ignoredIps = settingsDoc.data().ignoredIps || [];
+      }
+
+      const isIgnored = ignoredIps.includes(currentIp);
+      sessionStorage.setItem("is_ip_ignored", isIgnored.toString());
+      return isIgnored;
+    } catch (error) {
+      console.warn("Could not check IP exclusion status.", error.message);
+      return false; // Default to not ignoring if error occurs (e.g. permission denied)
+    } finally {
+      isCheckingIp = null;
+    }
+  })();
+
+  return isCheckingIp;
+};
+
 /**
  * Tracks a page view for the current day.
  * Uses sessionStorage to prevent counting multiple views in the same browser session.
  */
 export const trackPageView = async () => {
+  const isIgnored = await checkIsIpIgnored();
+  if (isIgnored) return;
+
   try {
     const sessionKey = "has_visited_today";
     const today = getTodayDateString();
@@ -53,6 +98,9 @@ export const trackPageView = async () => {
  */
 export const trackSectionTime = async (sectionId, timeInSeconds) => {
   if (timeInSeconds < 1) return; // Ignore very short glimpses
+
+  const isIgnored = await checkIsIpIgnored();
+  if (isIgnored) return;
 
   try {
     const today = getTodayDateString();
@@ -116,7 +164,7 @@ export const useSectionTracker = (sectionId) => {
         const timeSpent = (Date.now() - startTimeRef.current) / 1000;
         accumulatedTimeRef.current += timeSpent;
       }
-      
+
       const roundedTime = Math.round(accumulatedTimeRef.current);
       if (roundedTime > 0) {
         trackSectionTime(sectionId, roundedTime);

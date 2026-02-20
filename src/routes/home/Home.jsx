@@ -18,10 +18,22 @@ import InspectionsTimeline from "../../components/InspectionsTimeline/Inspection
 import HeroParallaxWrapper from "../../components/HeroParallaxWrapper/HeroParallaxWrapper";
 import { useNavigate } from "react-router-dom";
 import { useSectionTracker } from "../../utils/analytics";
+import CachedIcon from '@mui/icons-material/Cached'; // Stylized loading spinner
+
+// Helper to preload a single critical image
+const preloadImage = (src) => {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.src = src;
+    img.onload = resolve;
+    img.onerror = resolve; // Resolve even on error so we don't break the page
+  });
+};
 
 export default function Home() {
   const [currentUser, setCurrentUser] = useState(null);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [isHeroLoaded, setIsHeroLoaded] = useState(false);
 
   // Analityka - Śledzenie czasu na sekcjach
   const heroRef = useSectionTracker("hero_section");
@@ -31,34 +43,57 @@ export default function Home() {
   const timelineRef = useSectionTracker("timeline_section");
   const faqRef = useSectionTracker("faq_section");
 
-
-
   const location = useLocation();
 
+  // Hero Image Preloader
   useEffect(() => {
-    if (location.hash) {
-      // Small delay to allow layout to stabilize
-      setTimeout(() => {
-        const id = location.hash.replace("#", "");
-        const element = document.getElementById(id);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      }, 800);
-    } else {
-      window.scrollTo(0, 0);
-    }
-  }, [location]);
+    const loadHeroContent = async () => {
+      // Obraz tła zdefiniowany w main.scss (.hero-bg-image) to:
+      // ../../../public/images/v2/hh_desktop6.png -> /images/v2/hh_desktop6.png jako public root URL.
+      const heroImageUrl = "/images/v2/hh_desktop6.png";
+
+      try {
+        const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 8000));
+        await Promise.race([preloadImage(heroImageUrl), timeoutPromise]);
+      } catch (error) {
+        console.error("Failed to preload hero image:", error);
+      } finally {
+        setIsHeroLoaded(true);
+      }
+    };
+
+    loadHeroContent();
+  }, []);
 
   useEffect(() => {
-    const scrollToId = location.state?.scrollTo;
-    if (scrollToId) {
-      const el = document.getElementById(scrollToId);
-      if (el) {
-        setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 200);
+    // Only attempt scrolling after hero is loaded so layout is complete
+    if (isHeroLoaded) {
+      if (location.hash) {
+        // Small delay to allow layout to stabilize
+        setTimeout(() => {
+          const id = location.hash.replace("#", "");
+          const element = document.getElementById(id);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }, 800);
+      } else if (!location.state?.scrollTo) {
+        window.scrollTo(0, 0);
       }
     }
-  }, [location]);
+  }, [location.hash, isHeroLoaded]);
+
+  useEffect(() => {
+    if (isHeroLoaded) {
+      const scrollToId = location.state?.scrollTo;
+      if (scrollToId) {
+        const el = document.getElementById(scrollToId);
+        if (el) {
+          setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 200);
+        }
+      }
+    }
+  }, [location.state, isHeroLoaded]);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -80,6 +115,16 @@ export default function Home() {
       document.body.style.overflow = "auto"; // Przywróć przewijanie przy odmontowaniu
     };
   }, [isPanelOpen]);
+
+  if (!isHeroLoaded) {
+    return (
+      <div className="home-preloader">
+        <CachedIcon className="spinner-icon" />
+        <p>Inicjowanie aplikacji...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="home">
       {/* SEKCJA 1 i 2 połączone efektem Parallax */}

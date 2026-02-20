@@ -13,7 +13,7 @@ const {
   notifyAdminAboutConfirmation,
 } = require("./calendarManager");
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || "dummy_key_for_firebase_deploy" });
 
 // NARZĘDZIA
 const tool_Book = {
@@ -229,12 +229,12 @@ exports.chatAgent = functions.https.onRequest((req, res) => {
         if (fnName === "check_availability") {
           const result = await checkAvailability(args.dateStart);
           if (result.available) {
-            
+
             // === ZMIANA: WYMUSZENIE STANU EMAIL ===
             // Skoro termin jest wolny, manualnie przestawiamy stan, 
             // aby frontend wiedział, że ma otworzyć formularz.
-            nextAction.state = STATES.EMAIL; 
-            
+            nextAction.state = STATES.EMAIL;
+
             // Nowa instrukcja warunkowa dla AI
             aiResult = `STATUS: WOLNE. 
               Sprawdź w historii czy masz już email klienta.
@@ -244,9 +244,8 @@ exports.chatAgent = functions.https.onRequest((req, res) => {
             aiResult = `STATUS: ZAJĘTE. Powód: ${result.reason}. Zaproponuj inny termin.`;
           }
         } else if (fnName === "book_appointment") {
-          const fullAddress = `${currentContext.city || ""}, ${
-            currentContext.street || ""
-          }`;
+          const fullAddress = `${currentContext.city || ""}, ${currentContext.street || ""
+            }`;
           const bookingData = {
             summary: args.summary,
             dateStart: args.dateStart,

@@ -1,7 +1,7 @@
 import React from "react";
 import "./mainFooter.scss";
 import { fontSize } from "@mui/system";
-import CallButton from "../CallButton/CallButton";
+import CallButton from "../callButton/CallButton";
 
 export default function MainFooter() {
   return (

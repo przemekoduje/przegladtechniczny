@@ -1,6 +1,36 @@
 .home {
   // position: relative;
   width: 100%;
-  
-  
+
+
+}
+
+// Preloader Section
+.home-preloader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #ffffff;
+
+  .spinner-icon {
+    font-size: 3rem;
+    color: #b11919; // Primary color
+    animation: spin 1.5s linear infinite;
+    margin-bottom: 16px;
+  }
+
+  p {
+    color: #555555;
+    font-family: 'ProductSans', sans-serif;
+    font-size: 1.1rem;
+  }
+
+  @keyframes spin {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 }

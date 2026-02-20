@@ -1,135 +1,541 @@
+.user-dashboard-wrapper {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
 .user-dashboard {
-    width: 100%;
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
-    font-family: "Lato", serif;
-    background-color: #ffffff;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
-    border-radius: 15px;
-  
-    .header {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px;
+  font-family: 'ProductSans', sans-serif;
+  background-color: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 15px;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eaeaea;
+
+    .header-titles {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-  
+      flex-direction: column;
+      gap: 4px;
+
       h2 {
-        font-family: "Merriweather", serif;
-        font-weight: 300;
-        font-size: 26px;
+        font-family: 'Domine', serif;
+        font-weight: 700;
+        font-size: 28px;
+        color: #333;
+        margin: 0;
       }
-  
-      button {
-        padding: 10px 20px;
-        background-color: #677c59;
-        color: #fff;
-        border: none;
-        border-radius: 25px;
-        cursor: pointer;
-        font-size: 14px;
-  
-        &:hover {
-          background-color: #506446;
+
+      .user-email {
+        margin: 0;
+        font-size: 15px;
+        color: #666;
+
+        strong {
+          font-weight: 600;
+          color: #222;
         }
       }
     }
-  
-    .submissions {
+
+    .header-actions {
       display: flex;
-      flex-direction: column;
-      gap: 20px;
-  
-      .submission {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px 20px;
-        border-radius: 40px;
-        background-color: #ffffff;
-        box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.15);
-        position: relative;
-  
-        .submission-info {
-          flex: 1;
-          font-weight: 300;
-          color: #000;
-  
-          strong {
-            font-weight: 900;
+      gap: 15px;
+
+      button {
+        padding: 10px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        border: none;
+      }
+
+      .btn-home {
+        background-color: transparent;
+        color: #b11919;
+        border: 1px solid #b11919;
+
+        &:hover {
+          background-color: #fcf1f1;
+        }
+      }
+
+      .btn-logout {
+        background-color: #b11919;
+        color: #fff;
+
+        &:hover {
+          background-color: #8c1212;
+          box-shadow: 0 2px 8px rgba(177, 25, 25, 0.3);
+        }
+      }
+    }
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 50px 20px;
+    background: #fdfdfd;
+    border: 1px dashed #ccc;
+    border-radius: 10px;
+
+    p {
+      font-size: 18px;
+      color: #666;
+      margin-bottom: 25px;
+    }
+
+    .btn-cta {
+      background-color: #b11919;
+      color: #fff;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+
+      &:hover {
+        background-color: #8c1212;
+        transform: translateY(-2px);
+      }
+    }
+  }
+
+  .submissions {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .submission {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 25px;
+      border-radius: 12px;
+      background-color: #ffffff;
+      border: 1px solid #eee;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+      position: relative;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      }
+
+      .submission-info {
+        flex: 1;
+        color: #444;
+
+        strong {
+          font-size: 18px;
+          color: #222;
+          display: block;
+          margin-bottom: 8px;
+        }
+
+        p {
+          margin: 5px 0;
+          font-size: 15px;
+          color: #666;
+        }
+
+        .status-badge {
+          display: inline-block;
+          padding: 5px 12px;
+          border-radius: 20px;
+          font-size: 13px;
+          font-weight: bold;
+          margin-top: 10px;
+
+          &.pending {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
           }
-  
-          p {
-            margin: 5px 0;
+
+          &.pending-action {
+            background-color: #feebc8; // orange-100
+            color: #dd6b20; // orange-500
+            border: 1px solid #fbd38d; // orange-200
+            animation: pulse-border 2s infinite;
+          }
+
+          &.needs-attention {
+            background-color: #fed7d7; // red-100
+            color: #e53e3e; // red-600
+            border: 1px solid #feb2b2; // red-300
+          }
+
+          &.confirmed {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
           }
         }
-  
-        .submission-actions {
-          position: relative;
-  
-          button {
+
+        .scheduled-date-container {
+          margin-top: 15px;
+          padding: 15px;
+          background: #f8f9fa;
+          border-radius: 8px;
+          border: 1px solid #eaeaea;
+
+          .btn-propose-inline {
+            margin-top: 10px;
             background: none;
-            border: none;
+            border: 1px dashed #506446;
+            color: #506446;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
             cursor: pointer;
-            font-size: 20px;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+
+            &:hover {
+              background-color: #f6f8f6;
+              border-style: solid;
+            }
           }
-  
-          .submission-menu {
-            position: absolute;
-            top: 30px;
-            right: 0;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-            z-index: 10;
-            min-width: 180px;
-  
+
+          .scheduled-date {
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: #333;
+
+            strong {
+              display: inline;
+              color: #b11919;
+              font-size: 16px;
+            }
+          }
+
+          .date-approval-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+
             button {
-              width: 100%;
-              padding: 10px;
-              text-align: left;
-              font-size: 14px;
-              color: #333;
-  
+              padding: 8px 16px;
+              border-radius: 6px;
+              font-size: 13px;
+              font-weight: bold;
+              cursor: pointer;
+              transition: 0.2s ease-in-out;
+              display: flex;
+              align-items: center;
+              gap: 6px;
+
+              &.btn-accept {
+                background-color: #38a169; // green
+                color: white;
+                border: 1px solid #2f855a;
+
+                &:hover {
+                  background-color: #2f855a;
+                  transform: translateY(-2px);
+                  box-shadow: 0 4px 10px rgba(56, 161, 105, 0.3);
+                }
+              }
+
+              &.btn-reject {
+                background-color: transparent;
+                color: #e53e3e; // red
+                border: 1px solid #e53e3e;
+
+                &:hover {
+                  background-color: #fff5f5;
+                  transform: translateY(-2px);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .submission-actions {
+        position: relative;
+
+        button {
+          background: none;
+          border: none;
+          cursor: pointer;
+          color: #777;
+          padding: 5px;
+          border-radius: 50%;
+          transition: background 0.2s;
+
+          &:hover {
+            background-color: #f0f0f0;
+            color: #333;
+          }
+        }
+
+        .submission-menu {
+          position: absolute;
+          top: 40px;
+          right: 0;
+          background-color: #fff;
+          border: 1px solid #eaeaea;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          z-index: 10;
+          min-width: 200px;
+          overflow: hidden;
+
+          button {
+            width: 100%;
+            padding: 12px 15px;
+            text-align: left;
+            font-size: 14px;
+            color: #333;
+            border-radius: 0;
+
+            &:hover {
+              background-color: #f8f9fa;
+            }
+
+            &.danger {
+              color: #dc3545;
+
               &:hover {
-                background-color: #f5f5f5;
+                background-color: #fdf1f2;
               }
             }
           }
         }
       }
     }
-  
-    p {
-      font-size: 16px;
-      font-weight: 300;
-      color: #555;
-      text-align: center;
-      margin-top: 30px;
+  }
+
+  // Logged Out State
+  h3 {
+    text-align: center;
+
+    span.title {
+      font-family: 'Domine', serif;
     }
   }
-  
-  @media (max-width: 680px) {
-    .user-dashboard {
-      margin: 20px 10px;
-      padding: 15px;
-  
-      .header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
+
+  .main_button {
+    display: block;
+    margin: 20px auto 0;
+    padding: 12px 30px;
+    background-color: #b11919;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #8c1212;
+    }
+  }
+
+  .secondary_button {
+    display: block;
+    margin: 15px auto 0;
+    padding: 12px 30px;
+    background-color: transparent;
+    color: #666;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f5f5f5;
+      color: #333;
+    }
+  }
+}
+
+/* MODAL OVERLAY */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+
+  .modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    animation: modalFadeIn 0.3s ease;
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+
+      h3 {
+        margin: 0;
+        font-family: 'Domine', serif;
+        font-size: 22px;
       }
-  
-      .submission {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-  
-        .submission-actions {
-          align-self: flex-end;
+
+      .close-icon {
+        cursor: pointer;
+        color: #888;
+        transition: 0.2s;
+
+        &:hover {
+          color: #333;
+        }
+      }
+    }
+
+    .modal-desc {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 25px;
+      line-height: 1.5;
+      text-align: left;
+    }
+
+    .date-picker-input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-bottom: 25px;
+      box-sizing: border-box;
+      font-family: 'ProductSans', sans-serif;
+
+      &:focus {
+        outline: none;
+        border-color: #b11919;
+        box-shadow: 0 0 0 2px rgba(177, 25, 25, 0.1);
+      }
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+
+      button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+        transition: 0.2s;
+      }
+
+      .btn-cancel {
+        background-color: #f1f1f1;
+        color: #555;
+
+        &:hover {
+          background-color: #e4e4e4;
+        }
+      }
+
+      .btn-save {
+        background-color: #b11919;
+        color: white;
+
+        &:hover {
+          background-color: #8c1212;
         }
       }
     }
   }
-  
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-border {
+  0% {
+    box-shadow: 0 0 0 0 rgba(221, 107, 32, 0.4);
+  }
+
+  70% {
+    box-shadow: 0 0 0 6px rgba(221, 107, 32, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(221, 107, 32, 0);
+  }
+}
+
+@media (max-width: 680px) {
+  .user-dashboard-wrapper {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .user-dashboard {
+    margin: 10px;
+    padding: 20px;
+
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 15px;
+
+      .header-actions {
+        width: 100%;
+        flex-direction: column;
+
+        button {
+          width: 100%;
+        }
+      }
+    }
+
+    .submission {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 15px;
+
+      .submission-actions {
+        align-self: flex-end;
+      }
+    }
+  }
+}

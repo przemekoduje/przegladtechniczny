@@ -1,0 +1,200 @@
+﻿> przegladtechniczny@0.1.0 build
+> react-scripts build && react-snap
+
+Creating an optimized production build...
+npm : Browserslist: bro
+wsers data (caniuse-lit
+e) is 16 months old. Pl
+ease run:
+At line:1 char:1
++ npm run build > build
+_verify.log 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (Browserslist:   
+  b...ld. Please ru    
+n::String) [], Rem    o
+teException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+  npx update-browsersli
+st-db@latest
+  Why you should do it 
+regularly: https://gith
+ub.com/browserslist/upd
+ate-db#readme
+[0;33mOne of your depe
+ndencies, babel-preset-
+react-app, is importing
+ the
+"@babel/plugin-proposal
+-private-property-in-ob
+ject" package without
+declaring it in its dep
+endencies. This is curr
+ently working because
+"@babel/plugin-proposal
+-private-property-in-ob
+ject" is already in you
+r
+node_modules folder for
+ unrelated reasons, but
+ it [1mmay break at an
+y time[0;33m.
+
+babel-preset-react-app 
+is part of the create-r
+eact-app project, [1mw
+hich
+is not maintianed anymo
+re[0;33m. It is thus u
+nlikely that this bug w
+ill
+ever be fixed. Add "@ba
+bel/plugin-proposal-pri
+vate-property-in-object
+" to
+your devDependencies to
+ work around this error
+. This will make this m
+essage
+go away.[0m
+  
+Browserslist: browsers 
+data (caniuse-lite) is 
+16 months old. Please r
+un:
+  npx update-browsersli
+st-db@latest
+  Why you should do it 
+regularly: https://gith
+ub.com/browserslist/upd
+ate-db#readme
+Compiled with warnings.
+
+[eslint] 
+src\App.js
+  Line 42:10:  'showFlyout' is assigned a value but never used  no-unused-vars
+
+src\components\MainFooter\MainFooter.jsx
+  Line 3:10:  'fontSize' is defined but never used  no-unused-vars
+
+src\components\Menu\Menu.jsx
+  Line 1:17:  'useEffect' is defined but never used    no-unused-vars
+  Line 1:28:  'useState' is defined but never used     no-unused-vars
+  Line 6:23:  'useLocation' is defined but never used  no-unused-vars
+
+src\fachowiec\pages\Mobile\FachowiecIntro\FachowiecIntro.jsx
+  Line 1:35:   'useEffect' is defined but never used      no-unused-vars
+  Line 10:10:  'flip' is assigned a value but never used  no-unused-vars
+
+src\fachowiec\pages\Mobile\HeroSnapScroller\HeroSnapScroller.jsx
+  Line 1:17:  'useState' is defined but never used  no-unused-vars
+
+src\fachowiec\pages\components\PopupForm\PopupForm.jsx
+  Line 1:17:  'useState' is defined but never used  no-unused-vars
+
+src\helpers\citiesData.js
+  Line 2:8:   'iconB2B' is defined but never used             no-unused-vars
+  Line 3:8:   'iconHouse' is defined but never used           no-unused-vars
+  Line 4:8:   'iconGas' is defined but never used             no-unused-vars
+  Line 11:8:  'iconModernBuilding' is defined but never used  no-unused-vars
+
+src\layouts\Layout.jsx
+  Line 31:6:  React Hook useEffect has a missing dependency: 'handleScroll'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+src\routes\AdminPanel\AnalyticsView.jsx
+  Line 37:12:  'currentDateInterval' is assigned a value but never used     no-unused-vars
+  Line 37:33:  'setCurrentDateInterval' is assigned a value but never used  no-unused-vars
+
+src\routes\BlogDB\BlogDB.jsx
+  Line 4:8:  'BlogPostDB' is defined but never used  no-unused-vars
+
+src\routes\adminDashboard\AdminDashboard.jsx
+  Line 43:6:  React Hook useEffect has a missing dependency: 'navigate'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+src\routes\home\Home.jsx
+  Line 4:8:    'Explanations' is defined but never used    no-unused-vars
+  Line 5:8:    'InspectionForm' is defined but never used  no-unused-vars
+  Line 14:10:  'Pickaxe' is defined but never used         no-unused-vars
+  Line 14:19:  'Building' is defined but never used        no-unused-vars
+  Line 14:29:  'Droplets' is defined but never used        no-unused-vars
+  Line 14:39:  'MapPin' is defined but never used          no-unused-vars
+  Line 19:10:  'useNavigate' is defined but never used     no-unused-vars
+
+src\routes\landingi\przewodnikOcena\PrzewodnikOcena.jsx
+  Line 6:8:  'Menu' is defined but never used  no-unused-vars
+
+src\routes\przegladB\PrzegladB.jsx
+  Line 3:8:   'Menu' is defined but never used                   no-unused-vars
+  Line 7:10:  'isVisible' is assigned a value but never used     no-unused-vars
+  Line 7:21:  'setIsVisible' is assigned a value but never used  no-unused-vars
+
+src\routes\przegladE\PrzegladE.jsx
+  Line 3:8:   'PersonIcon' is defined but never used             no-unused-vars
+  Line 4:8:   'Menu' is defined but never used                   no-unused-vars
+  Line 8:10:  'isVisible' is assigned a value but never used     no-unused-vars
+  Line 8:21:  'setIsVisible' is assigned a value but never used  no-unused-vars
+
+src\routes\przegladG\PrzegladG.jsx
+  Line 3:8:   'PersonIcon' is defined but never used             no-unused-vars
+  Line 4:8:   'Menu' is defined but never used                   no-unused-vars
+  Line 8:10:  'isVisible' is assigned a value but never used     no-unused-vars
+  Line 8:21:  'setIsVisible' is assigned a value but never used  no-unused-vars
+
+src\routes\przegladW\PrzegladW.jsx
+  Line 3:8:   'PersonIcon' is defined but never used             no-unused-vars
+  Line 4:8:   'Menu' is defined but never used                   no-unused-vars
+  Line 8:10:  'isVisible' is assigned a value but never used     no-unused-vars
+  Line 8:21:  'setIsVisible' is assigned a value but never used  no-unused-vars
+
+src\sections\ctabanner\CtaBanner.jsx
+  Line 8:10:  'isVisible' is assigned a value but never used                                                                   no-unused-vars
+  Line 34:6:  React Hook useEffect has a missing dependency: 'handleScroll'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+src\sections\main\Main.jsx
+  Line 8:10:  'isVisible' is assigned a value but never used                                                                   no-unused-vars
+  Line 17:9:  'titleText' is assigned a value but never used                                                                   no-unused-vars
+  Line 43:6:  React Hook useEffect has a missing dependency: 'handleScroll'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+File sizes after gzip:
+
+  1.23 MB   build\static\js\main.8b34b30f.js
+  36.21 kB  build\static\css\main.636933dd.css
+
+The bundle size is significantly larger than recommended.
+Consider reducing it with code splitting: https://goo.gl/9VhYWB
+You can also analyze the project dependencies: https://goo.gl/LeUzfb
+
+The project was built assuming it is hosted at /.
+You can control this with the homepage field in your package.json.
+
+The build folder is ready to be deployed.
+You may serve it with a static server:
+
+  npm install -g serve
+  serve -s build
+
+Find out more about deployment here:
+
+  https://cra.link/deployment
+
+­čöą  pageerror at /kontakt: SyntaxError: Unexpected token '.'
+
+­čöą  pageerror at /: SyntaxError: Unexpected token '.'
+
+­čöą  pageerror at /cennik: SyntaxError: Unexpected token '.'
+
+ÔÜá´ŞĆ  warning: 404 page title does not contain "404" string
+Ôťů  crawled 1 out of 4 (/404.html)
+Ôťů  crawled 2 out of 4 (/cennik)
+Ôťů  crawled 3 out of 4 (/kontakt)
+Ôťů  crawled 4 out of 4 (/)
+

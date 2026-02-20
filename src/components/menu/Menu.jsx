@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./menu.scss";
-import Panel from "../Panel/Panel";
+import Panel from "../panel/Panel";
 // import { auth, onAuthStateChanged } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate, useLocation } from "react-router-dom"; // Dodaj useLocation jeśli planujesz nawigację między stronami
@@ -8,7 +8,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import OrderButton from "../../components/OrderButton/OrderButton";
 
 export default function Menu({ isPanelOpen, setIsPanelOpen, isTransparent }) {
-  const { currentUser: user } = useAuth();
+  const { currentUser: user, isAdmin } = useAuth();
   // const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
@@ -37,6 +37,18 @@ export default function Menu({ isPanelOpen, setIsPanelOpen, isTransparent }) {
   const handleBlogClick = (e) => {
     e.stopPropagation();
     navigate("/blogDB");
+    setIsPanelOpen(false);
+  };
+
+  const handleDashboardClick = (e) => {
+    e.stopPropagation();
+    if (!user) {
+      navigate("/login");
+    } else if (isAdmin) {
+      navigate("/admin");
+    } else {
+      navigate("/dashboard");
+    }
     setIsPanelOpen(false);
   };
 
@@ -77,6 +89,7 @@ export default function Menu({ isPanelOpen, setIsPanelOpen, isTransparent }) {
           <span onClick={(e) => scrollToSection(e, "scope-container")}>co robimy</span>
           <span onClick={(e) => scrollToSection(e, "h5-QA")}>warto wiedzieć</span>
           <span onClick={handleBlogClick}>poradniki</span>
+          <span onClick={handleDashboardClick}>{user ? "panel klienta" : "zaloguj"}</span>
 
           <div className="mobile-btn-wrapper">
             <OrderButton
@@ -103,6 +116,7 @@ export default function Menu({ isPanelOpen, setIsPanelOpen, isTransparent }) {
             <span onClick={(e) => scrollToSection(e, "scope-container")}>co robimy</span>
             <span onClick={(e) => scrollToSection(e, "h5-QA")}>warto wiedzieć</span>
             <span onClick={handleBlogClick}>poradniki</span>
+            <span onClick={handleDashboardClick}>{user ? "panel klienta" : "zaloguj"}</span>
             <div onClick={(e) => e.stopPropagation()}>
               <OrderButton
                 showIcon={false}

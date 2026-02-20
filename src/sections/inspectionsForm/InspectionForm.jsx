@@ -7,7 +7,7 @@ import { collection, addDoc, Timestamp } from "firebase/firestore";
 // import { auth } from "../../firebase";
 // import { onAuthStateChanged } from "firebase/auth";
 import { useAuth } from "../../contexts/AuthContext";
-import PopupModal from "../../components/PopModal/PopModal";
+import PopupModal from "../../components/popModal/PopModal";
 import InfoIcon from "@mui/icons-material/Info";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import HouseIcon from "@mui/icons-material/House";
@@ -226,7 +226,7 @@ const InspectionFormSlide = () => {
       return;
     }
 
-    const isLoggedIn = !!localStorage.getItem("userToken");
+    const isLoggedIn = !!currentUser;
 
     if (!isLoggedIn) {
       setPopupMessage(
@@ -260,10 +260,12 @@ const InspectionFormSlide = () => {
       }
 
       const userId = currentUser.uid;
+      const userEmail = currentUser.email;
 
       for (const property of submittedProperties) {
         await addDoc(collection(db, "userCarts"), {
           userId,
+          userEmail,
           createdAt: Timestamp.now(),
           property, // jedna nieruchomość na wpis
           contact: {
@@ -748,7 +750,11 @@ const InspectionFormSlide = () => {
           message={popupMessage}
           onClose={() => {
             setPopupMessage(null);
-            window.location.href = "/login";
+            if (currentUser) {
+              window.location.href = "/";
+            } else {
+              window.location.href = "/login";
+            }
           }}
         />
       )}

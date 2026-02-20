@@ -8,10 +8,29 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import deburr from "lodash/deburr";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import CachedIcon from '@mui/icons-material/Cached'; // For spinner
+
+// Helper to preload an array of image URLs
+const preloadImages = (srcArray) => {
+  const promises = srcArray.map((src) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = resolve;
+      img.onerror = resolve; // Resolve even on error to not block everything
+    });
+  });
+
+  // Adding a timeout so we don't wait forever if a server is very slow
+  const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 8000));
+
+  return Promise.race([Promise.all(promises), timeoutPromise]);
+};
 
 export default function BlogDB() {
   const [posts, setPosts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("Wszystkie");
+  const [imagesLoaded, setImagesLoaded] = useState(false);
   const navigate = useNavigate();
 
   const createSlug = (title) =>
@@ -20,9 +39,9 @@ export default function BlogDB() {
       .replace(/[^a-z0-9\s]/gi, "")
       .replace(/\s+/g, "-");
 
-  // Fetch posts from Firebase
+  // Fetch posts from Firebase & Preload Images
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchDataAndImages = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "posts"));
         const postsArray = querySnapshot.docs.map((doc) => ({
@@ -30,11 +49,23 @@ export default function BlogDB() {
           ...doc.data(),
         }));
         setPosts(postsArray);
+
+        // Preload images
+        const imageUrls = postsArray
+          .map(p => p.src || "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=600")
+          .filter(Boolean); // Filter out empty just in case
+
+        if (imageUrls.length > 0) {
+          await preloadImages(imageUrls);
+        }
+
       } catch (error) {
         console.error("Error fetching posts:", error);
+      } finally {
+        setImagesLoaded(true); // Always reveal content, even if error
       }
     };
-    fetchPosts();
+    fetchDataAndImages();
   }, []);
 
   const openPost = (post) => {
@@ -60,13 +91,6 @@ export default function BlogDB() {
       return dateB - dateA;
     });
   }, [selectedCategory, posts]);
-
-  console.log("BlogDB Debug:", {
-    postsCount: posts.length,
-    selectedCategory,
-    filteredCount: filteredPosts.length,
-    firstPost: filteredPosts[0]
-  });
 
   // Hero Post (First valid one)
   const validHeroIndex = filteredPosts.findIndex(p => p.src && p.title && p.content);
@@ -97,54 +121,61 @@ export default function BlogDB() {
         </div>
       </div>
 
-      <div className="blog-content">
-        {/* Hero Section */}
-        {heroPost && (
-          <section className="hero-post-section" onClick={() => openPost(heroPost)}>
-            <div className="hero-image-wrapper">
-              <img
-                src={heroPost.src || "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=1200"}
-                alt={heroPost.title}
-              />
-              <div className="hero-overlay">
-                <div className="hero-content">
-                  <div className="hero-tags">
-                    {heroPost.categories?.map(c => <span key={c} className="tag">{c}</span>)}
-                  </div>
-                  <h1>{heroPost.title}</h1>
-                  <p>{heroPost.content?.replace(/(<([^>]+)>)/gi, "").slice(0, 200)}...</p>
-                  <button className="read-more-btn">
-                    Czytaj dalej <ArrowForwardIcon />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* Grid Section */}
-        <section className="posts-grid">
-          {gridPosts.map((post) => (
-            <div key={post.id} className="grid-post-card" onClick={() => openPost(post)}>
-              <div className="card-image">
+      {!imagesLoaded ? (
+        <div className="blog-preloader">
+          <CachedIcon className="spinner-icon" />
+          <p>Przygotowujemy artykuły...</p>
+        </div>
+      ) : (
+        <div className="blog-content">
+          {/* Hero Section */}
+          {heroPost && (
+            <section className="hero-post-section" onClick={() => openPost(heroPost)}>
+              <div className="hero-image-wrapper">
                 <img
-                  src={post.src || "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=600"}
-                  alt={post.title}
-                  loading="lazy"
+                  src={heroPost.src || "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=1200"}
+                  alt={heroPost.title}
                 />
-                <div className="card-tags">
-                  {post.categories?.slice(0, 2).map(c => <span key={c} className="mini-tag">{c}</span>)}
+                <div className="hero-overlay">
+                  <div className="hero-content">
+                    <div className="hero-tags">
+                      {heroPost.categories?.map(c => <span key={c} className="tag">{c}</span>)}
+                    </div>
+                    <h1>{heroPost.title}</h1>
+                    <p>{heroPost.content?.replace(/(<([^>]+)>)/gi, "").slice(0, 200)}...</p>
+                    <button className="read-more-btn">
+                      Czytaj dalej <ArrowForwardIcon />
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div className="card-content">
-                <h3>{post.title}</h3>
-                <p>{post.content?.replace(/(<([^>]+)>)/gi, "").slice(0, 100)}...</p>
-                <span className="read-link">Czytaj więcej</span>
+            </section>
+          )}
+
+          {/* Grid Section */}
+          <section className="posts-grid">
+            {gridPosts.map((post) => (
+              <div key={post.id} className="grid-post-card" onClick={() => openPost(post)}>
+                <div className="card-image">
+                  <img
+                    src={post.src || "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=600"}
+                    alt={post.title}
+                    loading="lazy"
+                  />
+                  <div className="card-tags">
+                    {post.categories?.slice(0, 2).map(c => <span key={c} className="mini-tag">{c}</span>)}
+                  </div>
+                </div>
+                <div className="card-content">
+                  <h3>{post.title}</h3>
+                  <p>{post.content?.replace(/(<([^>]+)>)/gi, "").slice(0, 100)}...</p>
+                  <span className="read-link">Czytaj więcej</span>
+                </div>
               </div>
-            </div>
-          ))}
-        </section>
-      </div>
+            ))}
+          </section>
+        </div>
+      )}
     </div>
   );
 }

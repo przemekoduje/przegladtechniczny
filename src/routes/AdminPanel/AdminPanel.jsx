@@ -17,7 +17,15 @@ import {
   Save,
   Type,
   Grid,
-  BarChart
+  BarChart,
+  Inbox,
+  Calendar,
+  MapPin,
+  Clock,
+  LogOut,
+  Mail,
+  User,
+  Phone
 } from "lucide-react";
 import {
   collection,
@@ -28,9 +36,11 @@ import {
   doc,
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { db, storage } from "../../firebase";
-import ButtonBlot from "../../components/Quill/ButtonBlot.js";
+import { db, storage, auth } from "../../firebase";
+import { signOut } from "firebase/auth";
+import ButtonBlot from "../../components/quill/ButtonBlot.js";
 import AnalyticsView from "./AnalyticsView";
+import { useNavigate } from "react-router-dom";
 
 Quill.register("modules/imageResize", ImageResize);
 Quill.register("formats/button", ButtonBlot);
@@ -38,11 +48,17 @@ Quill.register("formats/button", ButtonBlot);
 export default function AdminPanel() {
   const editorRef = useRef(null);
   const quillRef = useRef(null);
+  const navigate = useNavigate();
 
   const [posts, setPosts] = useState([]);
-  const [activeTab, setActiveTab] = useState("list"); // "list" | "form"
+  const [clientRequests, setClientRequests] = useState([]); // NOWE ZGŁOSZENIA
+  const [activeTab, setActiveTab] = useState("requests"); // "list" | "form" | "analytics" | "requests"
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedback, setFeedback] = useState(null); // { type: 'success' | 'error', message: '' }
+
+  // Appointment scheduling
+  const [editRequestId, setEditRequestId] = useState(null);
+  const [proposedDate, setProposedDate] = useState("");
 
   const [form, setForm] = useState({
     title: "",
@@ -58,6 +74,13 @@ export default function AdminPanel() {
     buttonOnClick: ""
   });
   const [editingPost, setEditingPost] = useState(null);
+
+  const formatDateTime = (dateString) => {
+    if (!dateString) return null;
+    const date = new Date(dateString);
+    if (isNaN(date)) return dateString;
+    return `${date.getDate().toString().padStart(2, "0")}.${(date.getMonth() + 1).toString().padStart(2, "0")}.${date.getFullYear()} ${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
+  };
 
   const showFeedback = (type, message) => {
     setFeedback({ type, message });
@@ -123,8 +146,33 @@ export default function AdminPanel() {
         console.error("Error fetching posts:", error);
       }
     };
+
+    const fetchRequests = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "userCarts"));
+        const reqArray = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setClientRequests(reqArray);
+      } catch (error) {
+        console.error("Błąd podczas pobierania zgłoszeń:", error);
+      }
+    };
+
     fetchPosts();
+    fetchRequests();
   }, []);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate("/");
+    } catch (error) {
+      console.error("Błąd wylogowania:", error);
+      showFeedback("error", "Nie udało się wylogować.");
+    }
+  };
 
   const handleDelete = async (id) => {
     if (!window.confirm("Czy na pewno chcesz usunąć ten post?")) return;
@@ -135,6 +183,84 @@ export default function AdminPanel() {
     } catch (error) {
       showFeedback("error", "Błąd podczas usuwania wpisu.");
     }
+  };
+
+  const handleDeleteRequest = async (id) => {
+    if (!window.confirm("Czy na pewno chcesz usunąć to ZGŁOSZENIE (przepadnie)?")) return;
+    try {
+      await deleteDoc(doc(db, "userCarts", id));
+      setClientRequests((prev) => prev.filter((req) => req.id !== id));
+      showFeedback("success", "Zgłoszenie zostało usunięte z bazy.");
+    } catch (error) {
+      showFeedback("error", "Błąd podczas usuwania zgłoszenia.");
+    }
+  };
+
+  const handleProposeDate = async (id) => {
+    if (!proposedDate) {
+      alert("Wybierz datę przed zapisaniem.");
+      return;
+    }
+
+    try {
+      const itemRef = doc(db, "userCarts", id);
+      await updateDoc(itemRef, {
+        scheduledDate: proposedDate,
+        status: "OCZEKUJE NA AKCEPTACJĘ"
+      });
+
+      setClientRequests((prev) =>
+        prev.map((req) =>
+          req.id === id ? { ...req, scheduledDate: proposedDate, status: "OCZEKUJE NA AKCEPTACJĘ" } : req
+        )
+      );
+
+      setEditRequestId(null);
+      setProposedDate("");
+      showFeedback("success", "Zaproponowano termin klientowi.");
+    } catch (error) {
+      showFeedback("error", "Błąd podczas zapisu terminu.");
+    }
+  };
+
+  const handleAcceptClientDate = async (id) => {
+    try {
+      const itemRef = doc(db, "userCarts", id);
+      await updateDoc(itemRef, { status: "ZATWIERDZONY" });
+      setClientRequests((prev) =>
+        prev.map((req) =>
+          req.id === id ? { ...req, status: "ZATWIERDZONY" } : req
+        )
+      );
+      showFeedback("success", "Termin zaproponowany przez klienta został zatwierdzony.");
+    } catch (error) {
+      console.error("Error accepting client date:", error);
+      showFeedback("error", "Nie udało się zatwierdzić terminu.");
+    }
+  };
+
+  const getPreferredDateLabel = (val) => {
+    if (val === "pilne") return "jak najszybciej";
+    if (val === "miesiac") return "w przyszłym miesiącu";
+    if (val === "inny") return "w innym terminie";
+    return val || "brak sugestii";
+  };
+
+  const getInspectionsList = (inspections) => {
+    if (!inspections) return "brak";
+    return Object.entries(inspections)
+      .filter(([_, checked]) => checked)
+      .map(([key]) => {
+        switch (key) {
+          case "specjalista": return "odbiór techniczny";
+          case "budowlany": return "przegląd budowlany";
+          case "gaz": return "instalacja gazowa";
+          case "elektryka": return "instalacja elektryczna";
+          case "wentylacja": return "wentylacja";
+          default: return key;
+        }
+      })
+      .join(", ") || "brak";
   };
 
   const handleSubmit = async (e) => {
@@ -228,6 +354,12 @@ export default function AdminPanel() {
         </div>
         <nav className="sidebar-nav">
           <button
+            className={activeTab === "requests" ? "active" : ""}
+            onClick={() => setActiveTab("requests")}
+          >
+            <Inbox size={18} /> Zgłoszenia użytkowników
+          </button>
+          <button
             className={activeTab === "list" ? "active" : ""}
             onClick={() => setActiveTab("list")}
           >
@@ -245,6 +377,12 @@ export default function AdminPanel() {
           >
             <BarChart size={18} /> Analityka
           </button>
+
+          <div style={{ marginTop: "auto", paddingTop: "2rem" }}>
+            <button onClick={handleLogout} style={{ color: "#f56565", width: "100%" }}>
+              <LogOut size={18} /> Wyloguj się
+            </button>
+          </div>
         </nav>
       </aside>
 
@@ -252,14 +390,16 @@ export default function AdminPanel() {
         <header className="admin-header">
           <div className="header-title">
             <h2>
-              {activeTab === "list" ? "Baza wpisów blogowych" :
-                activeTab === "analytics" ? "Analityka i Statystyki" :
-                  editingPost ? "Edycja wpisu" : "Nowy wpis"}
+              {activeTab === "requests" ? "Zgłoszenia Użytkowników" :
+                activeTab === "list" ? "Baza wpisów blogowych" :
+                  activeTab === "analytics" ? "Analityka i Statystyki" :
+                    editingPost ? "Edycja wpisu" : "Nowy wpis"}
             </h2>
             <p>
-              {activeTab === "list" ? `W systemie znajduje się ${posts.length} wpisów` :
-                activeTab === "analytics" ? "Przeglądaj dane o ruchu na Twojej stronie" :
-                  "Wypełnij pola poniżej, aby opublikować wpis"}
+              {activeTab === "requests" ? `Liczba rezerwacji w systemie: ${clientRequests.length}` :
+                activeTab === "list" ? `W systemie znajduje się ${posts.length} wpisów` :
+                  activeTab === "analytics" ? "Przeglądaj dane o ruchu na Twojej stronie" :
+                    "Wypełnij pola poniżej, aby opublikować wpis"}
             </p>
           </div>
           {activeTab === "form" && (
@@ -279,6 +419,72 @@ export default function AdminPanel() {
         <div className="admin-content">
           {activeTab === "analytics" ? (
             <AnalyticsView />
+          ) : activeTab === "requests" ? (
+            <section className="requests-container">
+              {clientRequests.length === 0 ? (
+                <div className="empty-state">Brak aktualnych zgłoszeń systemowych.</div>
+              ) : (
+                <div className="requests-grid">
+                  {clientRequests.map((req) => (
+                    <div key={req.id} className={`request-card ${req.status === "DO ZMIANY" ? "needs-attention" : ""}`}>
+                      <div className="req-header">
+                        <span className={`status-pill ${req.status === "ZATWIERDZONY" ? "confirmed" :
+                          req.status === "OCZEKUJE NA AKCEPTACJĘ" ? "pending-user" :
+                            req.status === "KLIENT PROPONUJE TERMIN" ? "pending-action" :
+                              req.status === "DO ZMIANY" ? "needs-attention" : "pending"
+                          }`}>
+                          {req.status || (req.scheduledDate ? "ZATWIERDZONO (stare)" : "NOWE ZGŁOSZENIE")}
+                        </span>
+                        <div className="req-actions">
+                          <button onClick={() => handleDeleteRequest(req.id)} className="action-delete" title="Usuń zgłoszenie">
+                            <Trash2 size={18} />
+                          </button>
+                        </div>
+                      </div>
+                      <div className="req-body">
+                        <div className="req-row">
+                          <strong><Calendar size={16} /> Termin:</strong>{" "}
+                          {editRequestId === req.id ? (
+                            <div className="date-propose-row">
+                              <input
+                                type="datetime-local"
+                                value={proposedDate}
+                                onChange={(e) => setProposedDate(e.target.value)}
+                                className="date-input"
+                              />
+                              <button onClick={() => handleProposeDate(req.id)} className="btn-save-sm">Zapisz</button>
+                              <button onClick={() => setEditRequestId(null)} className="btn-cancel-sm">Anuluj</button>
+                            </div>
+                          ) : (
+                            <>
+                              <span style={{ marginRight: '10px' }}>{formatDateTime(req.scheduledDate) || "Brak / nieustalony"}</span>
+                              {req.status === "KLIENT PROPONUJE TERMIN" && (
+                                <button onClick={() => handleAcceptClientDate(req.id)} className="btn-accept" style={{ marginRight: '10px' }}>
+                                  Zatwierdź
+                                </button>
+                              )}
+                              {req.status !== "ZATWIERDZONY" && (
+                                <button onClick={() => { setEditRequestId(req.id); setProposedDate(req.scheduledDate || ""); }} className="btn-propose">
+                                  {req.scheduledDate ? "Zmień / Zaproponuj nowy" : "Zaproponuj termin"}
+                                </button>
+                              )}
+                            </>
+                          )}
+                        </div>
+                        <div className="req-row"><strong><MapPin size={16} /> Adres:</strong> {req.property?.propertyAddress || "Brak"}, {req.property?.nearestCity}</div>
+                        <div className="req-row"><strong><Layout size={16} /> Typ budynku:</strong> {req.property?.propertyType}</div>
+                        <div className="req-row"><strong><FileText size={16} /> Zakres prac:</strong> {getInspectionsList(req.property?.inspections)}</div>
+                        <div className="req-row"><strong><Clock size={16} /> Preferowany czas:</strong> {getPreferredDateLabel(req.property?.preferredDate)}</div>
+                        <div className="req-row"><strong><Mail size={16} /> Email klienta:</strong> {req.userEmail || req.contact?.email || "Brak"}</div>
+                        {req.contact?.name && <div className="req-row"><strong><User size={16} /> Imię:</strong> {req.contact.name}</div>}
+                        {req.contact?.phone && <div className="req-row"><strong><Phone size={16} /> Telefon:</strong> {req.contact.phone}</div>}
+                        <div className="req-row"><strong><Clock size={16} /> Utworzono:</strong> {req.createdAt ? new Date(req.createdAt.seconds * 1000).toLocaleString() : "Brak danych o czasie"}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
           ) : activeTab === "list" ? (
             <section className="posts-container">
               {posts.map((post) => (

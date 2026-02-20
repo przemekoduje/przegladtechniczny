@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./przegladB.scss"; // stylizacja w osobnym pliku
-import Menu from "../../components/Menu/Menu";
+import Menu from "../../components/menu/Menu";
 import { useNavigate } from "react-router-dom";
 
 const PrzegladB = ({ user }) => {

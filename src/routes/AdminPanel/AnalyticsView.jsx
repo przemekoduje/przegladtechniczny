@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, limit, doc, getDoc, setDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { db } from '../../firebase';
 import {
     LineChart,
@@ -17,7 +17,7 @@ import {
     Pie,
     Cell
 } from 'recharts';
-import { Activity, Clock, Users, Calendar } from 'lucide-react';
+import { Activity, Clock, Users, Calendar, Shield, Trash2, Plus } from 'lucide-react';
 import './analyticsView.scss';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#a855f7', '#ef4444'];
@@ -35,6 +35,10 @@ export default function AnalyticsView() {
     const [sectionTime, setSectionTime] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentDateInterval, setCurrentDateInterval] = useState('7 dni');
+
+    const [ignoredIps, setIgnoredIps] = useState([]);
+    const [currentIp, setCurrentIp] = useState("");
+    const [newIp, setNewIp] = useState("");
 
     useEffect(() => {
         const fetchAnalyticsData = async () => {
@@ -70,8 +74,69 @@ export default function AnalyticsView() {
             }
         };
 
+        const fetchSettings = async () => {
+            try {
+                const settingsDoc = await getDoc(doc(db, "settings", "analytics"));
+                if (settingsDoc.exists()) {
+                    setIgnoredIps(settingsDoc.data().ignoredIps || []);
+                }
+
+                const cachedIp = sessionStorage.getItem("current_ip");
+                if (cachedIp) {
+                    setCurrentIp(cachedIp);
+                } else {
+                    const response = await fetch("https://api.ipify.org?format=json");
+                    const data = await response.json();
+                    setCurrentIp(data.ip);
+                    sessionStorage.setItem("current_ip", data.ip);
+                }
+            } catch (error) {
+                console.error("Błąd pobierania ustawień analityki:", error);
+            }
+        };
+
         fetchAnalyticsData();
+        fetchSettings();
     }, []);
+
+    const handleAddIp = async (ipToAdd) => {
+        if (!ipToAdd.trim()) return;
+        try {
+            const docRef = doc(db, "settings", "analytics");
+            const docSnap = await getDoc(docRef);
+            if (!docSnap.exists()) {
+                await setDoc(docRef, { ignoredIps: [ipToAdd] });
+            } else {
+                await updateDoc(docRef, {
+                    ignoredIps: arrayUnion(ipToAdd)
+                });
+            }
+            setIgnoredIps(prev => [...new Set([...prev, ipToAdd])]);
+            setNewIp("");
+            if (ipToAdd === currentIp) {
+                sessionStorage.setItem("is_ip_ignored", "true");
+            }
+        } catch (error) {
+            console.error("Błąd dodawania IP:", error);
+            alert("Wystąpił błąd podczas dodawania IP. Sprawdź logi by poznać szczegóły.");
+        }
+    };
+
+    const handleRemoveIp = async (ipToRemove) => {
+        try {
+            const docRef = doc(db, "settings", "analytics");
+            await updateDoc(docRef, {
+                ignoredIps: arrayRemove(ipToRemove)
+            });
+            setIgnoredIps(prev => prev.filter(ip => ip !== ipToRemove));
+            if (ipToRemove === currentIp) {
+                sessionStorage.setItem("is_ip_ignored", "false");
+            }
+        } catch (error) {
+            console.error("Błąd usuwania IP:", error);
+            alert("Wystąpił błąd podczas usuwania IP.");
+        }
+    };
 
     // Aggregate Section Time Data for Chart
     const getAggregatedSectionTime = () => {
@@ -203,6 +268,60 @@ export default function AnalyticsView() {
                 </div>
 
             </div>
+
+            <div className="ip-filtering-section-wrapper">
+                <h3><Shield size={18} /> Filtrowanie ruchu (Wykluczenia IP)</h3>
+                <p className="section-desc">Ruch z poniższych adresów IP nie będzie wliczany do statystyk analitycznych.</p>
+
+                <div className="ip-controls">
+                    <div className="ip-box current-ip-box">
+                        <p className="ip-box-title">Twój obecny adres IP:</p>
+                        <strong className="ip-value">{currentIp || "Ładowanie..."}</strong>
+                        {currentIp && !ignoredIps.includes(currentIp) && (
+                            <button onClick={() => handleAddIp(currentIp)} className="btn-add-ip">
+                                Wyklucz mój IP
+                            </button>
+                        )}
+                        {currentIp && ignoredIps.includes(currentIp) && (
+                            <div className="ip-status-badge">Odporny na śledzenie</div>
+                        )}
+                    </div>
+
+                    <div className="ip-box manual-ip-box">
+                        <p className="ip-box-title">Dodaj inny adres IP:</p>
+                        <div className="ip-input-group">
+                            <input
+                                type="text"
+                                placeholder="Np. 192.168.1.1"
+                                value={newIp}
+                                onChange={(e) => setNewIp(e.target.value)}
+                            />
+                            <button onClick={() => handleAddIp(newIp)} disabled={!newIp.trim()}>
+                                <Plus size={16} /> Dodaj
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="ignored-ips-list">
+                    <h4>Zignorowane adresy ({ignoredIps.length})</h4>
+                    {ignoredIps.length === 0 ? (
+                        <p className="empty-text">Brak wykluczonych adresów IP.</p>
+                    ) : (
+                        <ul>
+                            {ignoredIps.map(ip => (
+                                <li key={ip}>
+                                    <span>{ip} {ip === currentIp && <span className="current-tag">(Twój IP)</span>}</span>
+                                    <button onClick={() => handleRemoveIp(ip)} title="Usuń wykluczenie" className="btn-remove">
+                                        <Trash2 size={16} />
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+            </div>
         </div>
     );
 }
+
