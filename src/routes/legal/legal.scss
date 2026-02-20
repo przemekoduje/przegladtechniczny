@@ -1,0 +1,36 @@
+// legal.scss
+.legal-page {
+    max-width: 800px;
+    margin: 100px auto;
+    padding: 40px;
+    font-family: "Lato", sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    color: #333;
+  
+    h1 {
+      font-size: 40px;
+      margin-bottom: 30px;
+      color: #506446;
+    }
+  
+    h2 {
+      margin-top: 30px;
+      font-size: 24px;
+      color: #4a4a4a;
+    }
+  
+    ul {
+      padding-left: 20px;
+      margin-top: 10px;
+      li {
+        list-style-type: disc;
+      }
+    }
+  
+    a {
+      color: #395840;
+      text-decoration: underline;
+    }
+  }
+  

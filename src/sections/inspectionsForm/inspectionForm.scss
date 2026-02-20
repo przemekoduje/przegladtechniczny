@@ -1,0 +1,552 @@
+@import "../../styles/variables.scss";
+
+.inspection-form-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  font-family: $font-primary;
+  color: $color-text-main;
+  background-color: $color-cream-bg;
+  padding-top: 120px;
+  padding-bottom: 120px;
+
+
+  .inspection-form-slide {
+    width: 700px;
+    background-color: $color-cream-bg;
+    font-family: $font-primary;
+    font-weight: 100;
+    transition: all 0.3s ease-in-out;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+
+    .icon-wrapper {
+      background-color: $color-sage-light;
+      height: 80px;
+      width: 80px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 20px;
+      margin-bottom: 40px;
+    }
+
+    h3 {
+      font-size: 45px;
+      font-weight: 500;
+      margin-bottom: 40px;
+      color: $color-text-main;
+      text-align: center;
+    }
+
+    .form-content {
+      width: 700px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+
+      input {
+        border: 1px solid $color-border-input;
+        border-radius: 12px;
+        padding: 12px 16px;
+        font-size: 16px;
+        transition: all 0.2s ease-in-out;
+
+        &::placeholder {
+          color: #888;
+          font-size: 16px;
+        }
+
+        &:hover {
+          background-color: #eee;
+        }
+
+        &:focus {
+          outline: none;
+          background-color: #fff;
+          border-color: $color-primary-green;
+          box-shadow: 0 0 0 3px rgba($color-primary-green, 0.1);
+        }
+      }
+
+      .form-steps {
+
+        p {
+          font-family: $font-primary;
+          font-size: 18px;
+        }
+
+        .info-content {
+          h2 {
+            font-family: $font-primary;
+            margin-bottom: 35px;
+            font-size: 34px;
+          }
+
+          ul {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            li {
+              font-family: $font-primary;
+              font-size: 18px;
+              background-color: $color-sage-light;
+              list-style: none;
+              width: 100%;
+              padding: 25px 20px;
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+              gap: 30px;
+              border-radius: 10px;
+
+              span {
+
+                width: 20px;
+                height: 28px;
+                background-color: $color-dark-green;
+                color: white;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 18px;
+                font-weight: 200;
+                border-radius: 10px;
+                flex-shrink: 0;
+              }
+            }
+          }
+        }
+      }
+
+      .inspection-checklist {
+        display: flex;
+        flex-direction: column;
+        gap: 15px; /* Mniejszy odstęp między wierszami wygląda schludniej */
+      }
+      
+      .inspection-option {
+        display: grid;
+        /* Definiujemy 3 kolumny: 
+           1. Checkbox (stała szerokość np. 30px)
+           2. Tekst (reszta miejsca - 1fr)
+           3. Cena (stała szerokość lub dopasowana do treści, np. 120px) */
+        grid-template-columns: 30px 1fr 140px; 
+        align-items: center; /* Wyśrodkowanie w pionie - wygląda profesjonalniej */
+        gap: 15px;
+        
+        padding: 10px 0; /* Opcjonalnie: lekki oddech góra/dół */
+        border-bottom: 1px solid #eee; /* Opcjonalnie: linie oddzielające */
+      }
+      
+      /* Stylizacja tekstów */
+      .inspection-option .label-texts {
+        font-size: 16px;
+        line-height: 1.4;
+        color: $color-text-main; /* Zadbaj o kontrast */
+      }
+      
+      /* Stylizacja ceny - kluczowa naprawa */
+      .inspection-option .price {
+        font-weight: bold;
+        text-align: right; /* Cena wyrównana do prawej w swojej kolumnie */
+        white-space: nowrap; /* ZABRANIA łamania ceny do nowej linii */
+        color: #555;
+      }
+
+      .contact-form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  }
+
+
+  .summary-section {
+    font-family: $font-primary;
+    width: 700px;
+    margin: 40px auto;
+
+    h3 {
+      margin-bottom: 20px;
+      font-size: 32px;
+    }
+
+    .property-list {
+      list-style: none;
+      padding: 0;
+
+      .property-item {
+        font-family: $font-primary;
+        font-size: 18px;
+        padding: 10px 0;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+
+        strong {
+          color: $color-primary-green;
+        }
+
+        small {
+          color: #777;
+        }
+      }
+    }
+  }
+
+  .consents {
+    width: 100%;             /* Zmieniamy z 700px na 100% */
+    max-width: 700px;        /* ...ale nie szersze niż 700px */
+    margin: 0 auto;          /* Wyśrodkowanie całego kontenera */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;               /* Odstępy między wierszami zgód */
+  
+    /* Stylizacja każdego wiersza ze zgodą (label) */
+    label {
+      display: flex;         /* Flexbox układa checkbox obok tekstu */
+      align-items: flex-start; /* KLUCZOWE: Wyrównuje do GÓRY (gdy tekst ma 2 linie) */
+      gap: 15px;             /* Odstęp między checkboxem a tekstem */
+      cursor: pointer;       /* Łapka po najechaniu */
+      font-family: $font-primary;
+      color: $color-text-main;
+      line-height: 1.5;      /* Lepsza czytelność tekstu */
+  
+      /* Stylizacja samego kwadracika checkboxa */
+      input[type="checkbox"] {
+        appearance: none;    /* Resetujemy domyślny styl przeglądarki */
+        -webkit-appearance: none;
+        min-width: 22px;     /* Sztywna szerokość - żeby się nie zgniatał! */
+        width: 22px;
+        height: 22px;
+        border: 1px solid #8f9e8a; /* Kolor ramki pasujący do strony */
+        border-radius: 4px;  /* Lekkie zaokrąglenie rogów */
+        display: grid;
+        place-content: center;
+        margin-top: 2px;     /* Optyczne wyrównanie z pierwszą linią tekstu */
+        background-color: #fff;
+        
+        /* Co się dzieje po zaznaczeniu */
+        &:checked {
+          background-color: $color-accent-green; /* Twój zielony kolor firmowy */
+          border-color: $color-accent-green;
+        }
+  
+        /* "Ptaszek" w środku (robiony przez CSS) */
+        &:checked::before {
+          content: "";
+          width: 12px;
+          height: 12px;
+          box-shadow: inset 1em 1em white;
+          transform-origin: center;
+          clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+        }
+      }
+  
+      /* Styl dla linków wewnątrz zgód (regulamin, polityka) */
+      a {
+        color: #0056b3; /* Profesjonalny niebieski */
+        text-decoration: underline;
+        font-weight: 500;
+        
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+  
+    /* Sekcja z polami tekstowymi (Imię, Telefon) */
+    .contactData {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+  
+      input {
+        width: 100%;
+        border: 1px solid #ccc; /* 1px wygląda lepiej niż 0.5px */
+        border-radius: 8px;     /* Mniejsze zaokrąglenie wygląda nowocześniej */
+        padding: 12px 16px;     /* Więcej oddechu w środku */
+        font-size: 16px;
+        font-family: $font-primary;
+        transition: border-color 0.3s ease;
+        background-color: #f9f9f9; /* Lekkie tło */
+  
+        &::placeholder {
+          color: #999;
+        }
+  
+        &:focus {
+          outline: none;
+          border-color: $color-accent-green; /* Zielony border po kliknięciu */
+          background-color: #fff;
+          box-shadow: 0 0 0 3px rgba($color-accent-green, 0.1); /* Delikatna poświata */
+        }
+      }
+    }
+  }
+
+  .form-navigation {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 40px;
+    min-height: 60px;
+
+    .spacer {
+      flex: 1;
+    }
+
+    button {
+      padding: 14px 22px;
+      font-size: 18px;
+      background-color: $color-primary-green;
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: $color-sage-light;
+        color: $color-primary-green;
+      }
+
+      &.next {
+        margin-left: 15px;
+      }
+
+      &.prev {
+        background-color: #ccc;
+        color: #333;
+        margin-right: auto;
+
+        &:hover {
+          background-color: #bbb;
+        }
+      }
+
+      &.disabled {
+        background-color: #ccc;
+        color: #666;
+        cursor: not-allowed;
+        pointer-events: auto;
+      }
+    }
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1440px) {
+  .inspection-form-wrapper {
+    width: 100%;
+    display: flex;
+    
+    align-items: center;
+
+
+    .inspection-form-slide {
+      max-width: 650px;
+    }
+  }
+}
+
+@media (min-width: 427px) and (max-width: 768px) {
+  .inspection-form-wrapper {
+    width: 100%;
+    background-color: $color-cream-bg;
+    padding: 120px 20px 120px 20px;
+
+    .inspection-form-slide {
+      width: 100%;
+      height: 100%;
+
+      .icon-wrapper {
+        margin-bottom: 20px;
+      }
+
+      .form-content {
+        height: 100%;
+        width: 100%;
+
+
+        .form-steps {
+          .info-content {
+            width: 100%;
+
+            h2 {
+              padding: 0 10px;
+            }
+          }
+        }
+      }
+    }
+
+    .summary-section {
+      width: 100%;
+      margin: 80px auto 50px auto;
+      padding: 0 20px;
+
+      h3 {
+        font-family: $font-primary;
+        font-weight: 100;
+        margin-bottom: 20px;
+        font-size: 24px;
+      }
+
+      ul {
+        li {
+          font-family: $font-primary;
+          font-weight: 100;
+
+          strong {
+            font-weight: 700;
+          }
+        }
+      }
+    }
+
+    .consents {
+      width: 100%;
+      font-family: $font-primary;
+      font-weight: 100;
+      padding: 0 20px;
+
+      label {
+        input {
+          margin-right: 10px;
+        }
+      }
+
+      .contactData {
+        font-family: $font-primary;
+
+        .contactData-name,
+        .contactData-phone {
+          label {
+            input {
+              border: 0.5px solid black;
+              border-radius: 20px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+@media (max-width: 425px) {
+  .inspection-form-wrapper {
+    width: 100%;
+    background-color: $color-cream-bg;
+    padding: 100px 25px 30px 25px;
+
+    .inspection-form-slide {
+      width: 100%;
+      height: 100%;
+
+
+      .icon-wrapper {
+        margin-bottom: 20px;
+        height: 60px;
+        width: 60px;
+        border-radius: 10px;
+
+        svg {
+          font-size: 40px;
+        }
+      }
+
+      .form-content {
+        height: 100%;
+        width: 100%;
+
+
+        .form-steps {
+          .info-content {
+            width: 100%;
+
+            h2 {
+              margin-bottom: 15px;
+              font-size: 18px;
+            }
+
+            ul {
+              gap: 10px;
+
+              li {
+                font-size: 14px;
+                padding: 10px 15px;
+                min-height: 80px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .summary-section {
+      width: 100%;
+      margin: 40px auto 0;
+      padding: 0 20px;
+
+      h3 {
+        font-family: $font-primary;
+        font-weight: 400;
+        margin-bottom: 20px;
+        font-size: 24px;
+      }
+
+      ul {
+        li {
+          font-family: $font-primary;
+          font-weight: 100;
+
+          strong {
+            font-weight: 700;
+          }
+        }
+      }
+    }
+
+    .consents {
+      width: 100%;
+      font-family: $font-primary;
+      font-weight: 100;
+      padding: 20px 20px;
+
+      label {
+        input {
+          margin-right: 10px;
+        }
+      }
+
+
+      .contactData {
+        font-family: $font-primary;
+
+        .contactData-name,
+        .contactData-phone {
+          label {
+            input {
+              border: 0.5px solid black;
+              border-radius: 20px;
+            }
+          }
+        }
+      }
+    }
+    .form-navigation{
+      margin-top: 20px;
+    }
+  }
+}

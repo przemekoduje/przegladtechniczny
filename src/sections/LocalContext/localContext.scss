@@ -1,0 +1,194 @@
+/* localContext.scss - Styl spójny z Scope/Why */
+
+/* --- ZMIENNE --- */
+$primary-orange: #f97316;
+$bg-light-orange: #fff7ed; // Tło pod ikonami
+$border-color: #e5e7eb;
+$text-dark: #505050;       // Zgodne z Scope
+$text-gray: #6b7280;       // Zgodne z Scope
+
+.local-context-section {
+  background-color: #ffffff;
+  padding: 4rem 1rem; // Mobile padding
+  font-family: 'ProductSans', sans-serif;
+  // Opcjonalnie border-bottom, jeśli oddzielasz sekcje
+  // border-bottom: 1px solid $border-color; 
+}
+
+.local-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* --- GÓRA (TEKST + MAPA) --- */
+.local-header-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  margin-bottom: 4rem;
+  align-items: center; // Centrowanie na mobile
+}
+
+.local-text-content {
+  width: 100%;
+  text-align: center; // Centrowanie tekstu na mobile
+}
+
+.local-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center; // Centrowanie na mobile
+  gap: 8px;
+  color: $primary-orange; // Kolor wiodący
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 1rem;
+  
+  svg {
+    color: $primary-orange;
+  }
+}
+
+.local-title {
+  font-size: 32px; // Rozmiar mobile
+  font-weight: 700; // Pogrubiony element (miasto)
+  color: $text-dark;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+
+  .light {
+    display: block; // Na mobile w nowej linii (opcjonalnie) lub inline
+    font-weight: 300; // Cieńsza waga dla reszty zdania
+    color: $text-dark; 
+  }
+  
+  @media (min-width: 768px) {
+     .light { display: inline; }
+  }
+}
+
+.local-description {
+  font-size: 20px; // Zgodne z .description w Scope
+  line-height: 1.6;
+  color: $text-gray;
+  max-width: 600px;
+  margin: 0 auto; // Wycentrowanie bloku tekstu
+}
+
+/* --- KONTENER MAPY --- */
+.local-map-visual {
+  width: 100%;
+  height: 300px; // Wysokość na mobile
+  border-radius: 12px; // Zaokrąglenie zgodne z kartami
+  overflow: hidden;
+  border: 1px solid $border-color; // Ramka zamiast cienia
+  position: relative;
+  
+  /* Tu przyjdzie Twój komponent mapy */
+  background-color: #f9f9f9; // Placeholder tła
+}
+
+/* --- DOLNY GRID (KARTY ZAGROŻEŃ) --- */
+.local-risks-grid {
+  display: grid;
+  grid-template-columns: 1fr; // Mobile: 1 kolumna
+  gap: 2rem;
+}
+
+/* KARTA - STYL 'SCOPE' / 'WHY' */
+.risk-card {
+  background: #ffffff;
+  border: 1px solid $border-color;
+  border-radius: 12px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; // Wyrównanie do lewej wewnątrz karty
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  /* Efekt Hover identyczny jak w Scope */
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border-color: rgba($primary-orange, 0.5); // Opcjonalnie subtelny kolor ramki
+  }
+}
+
+.risk-icon-wrapper {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  
+  .risk-icon-img {
+    height: 64px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  svg {
+    width: 28px;
+    height: 28px;
+    color: $primary-orange;
+  }
+}
+
+.risk-title {
+  font-size: 1.35rem; // Zbliżone do H3 w Scope
+  font-weight: 700;
+  color: $text-dark;
+  margin-bottom: 0.75rem;
+}
+
+.risk-desc {
+  font-size: 1rem; // ~16px
+  color: $text-gray;
+  line-height: 1.5;
+}
+
+/* --- MEDIA QUERY: DESKTOP (>= 992px) --- */
+@media (min-width: 992px) {
+  .local-context-section {
+    padding: 6rem 2rem; // Desktop padding
+  }
+
+  .local-header-wrapper {
+    flex-direction: row; // Obok siebie
+    justify-content: space-between;
+    align-items: center;
+    gap: 4rem;
+    text-align: left;
+  }
+
+  .local-text-content {
+    flex: 1;
+    text-align: left; // Resetowanie centrowania
+    max-width: 500px;
+  }
+
+  .local-label {
+    justify-content: flex-start; // Reset centrowania
+  }
+
+  .local-title {
+    font-size: 48px; // Rozmiar Desktop
+    margin-bottom: 1.5rem;
+  }
+
+  .local-description {
+    margin: 0; // Reset marginesu auto
+    font-size: 20px;
+  }
+
+  .local-map-visual {
+    flex: 1.2; // Mapa szersza niż tekst
+    height: 400px; // Wyższa na desktopie
+  }
+
+  .local-risks-grid {
+    grid-template-columns: repeat(3, 1fr); // 3 kolumny
+  }
+}

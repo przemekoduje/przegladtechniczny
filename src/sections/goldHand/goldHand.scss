@@ -1,0 +1,53 @@
+.goldHand {
+  width: 100%;
+  background-color: #bcd7ff;
+  padding: 40px 40px 40px 346px;
+
+  h1 {
+    font-family: "ProductSans";
+    font-weight: 300;
+    font-style: normal;
+    margin-bottom: 25px;
+    color: #4a4a4a;
+    font-size: 96px;
+  }
+  p {
+    font-family: "ProductSans";
+    font-weight: 300;
+    font-style: normal;
+    font-size: 28px;
+    line-height: 38px;
+  }
+  .buttons{
+    margin-top: 25px;
+
+    a{
+      text-decoration: none; /* Usunięcie podkreślenia */
+      color: inherit; 
+    }
+  }
+}
+
+@media (max-width: 680px) {
+
+  .goldHand {
+    
+    padding: 40px 20px;
+
+    h1 {
+      
+      margin-bottom: 25px;
+      color: #4a4a4a;
+      font-size: 32px;
+    }
+    p {
+      
+      font-size: 20px;
+      line-height: 25px;
+    }
+    .buttons{
+      margin-top: 25px;
+    }
+  }
+
+}

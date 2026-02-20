@@ -1,0 +1,316 @@
+/* Timeline.scss - Spójny styl */
+
+/* --- ZMIENNE (Dopasowane do projektu) --- */
+$primary-orange: #f97316; // Główny kolor projektu
+$bg-light: #f9f9f9;
+$text-dark: #505050;   // Zgodne z Scope
+$text-gray: #6b7280;   // Zgodne z Scope
+$border-color: #e5e7eb; // Zgodne z Scope
+$timeline-line-color: #e5e7eb; // Jasnoszary dla linii
+
+.timeline-section {
+  background-color: #ffffff;
+  padding: 5rem 1rem; // Standardowy padding sekcji
+  position: relative;
+  overflow: hidden;
+  font-family: 'Product Sans', sans-serif;
+  // border-bottom: 1px solid $border-color; // Opcjonalne oddzielenie
+}
+
+/* Nagłówek sekcji - spójny z Scope/WhyImportant */
+.timeline-header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+
+  h2 {
+    font-size: 48px; // Standaryzowany rozmiar H2
+    font-weight: 300; // Standaryzowana waga (lżejsza)
+    color: $text-dark;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 22px; // Standaryzowany rozmiar podtytułu
+    color: $text-gray;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+/* Kontener osi */
+.timeline-container {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Główna pionowa linia */
+.timeline-line-center {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: $timeline-line-color;
+  transform: translateX(-50%);
+  z-index: 0;
+}
+
+/* Grupa (Znacznik czasu + Karty) */
+.timeline-group {
+  position: relative;
+  margin-bottom: 60px;
+  z-index: 1;
+}
+
+/* Znacznik czasu (Pastylka) */
+.timeline-period-marker {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 2;
+
+  span {
+    background-color: $primary-orange; // Użycie głównego koloru
+    color: white;
+    padding: 8px 24px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    // Opcjonalnie: usunięcie cienia lub zmiana na bardziej subtelny
+    box-shadow: 0 4px 6px -1px rgba(249, 115, 22, 0.3); 
+  }
+}
+
+.timeline-items-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Pojedynczy element (Wrapper na kartę) */
+.timeline-item {
+  width: 50%;
+  margin-bottom: 30px;
+  position: relative;
+  padding: 0 40px; /* Odstęp od linii środkowej */
+  box-sizing: border-box;
+
+  /* Kropka na osi */
+  .timeline-dot {
+    position: absolute;
+    top: 24px; /* Dopasuj do środka nagłówka karty */
+    width: 14px; // Nieco większa kropka
+    height: 14px;
+    background-color: white;
+    border: 3px solid $primary-orange; // Kolor obramowania kropki
+    border-radius: 50%;
+    z-index: 2;
+    box-shadow: 0 0 0 2px white; // Dodatkowy biały obrys dla lepszego kontrastu z linią
+  }
+
+  /* Logika Lewo / Prawo */
+  &.left {
+    left: 0;
+    // text-align: right; // Wyrównanie tekstu wewnątrz wrapper'a (opcjonalne)
+    .timeline-dot {
+        right: -7px; // Połowa szerokości kropki (14px / 2)
+    }
+  }
+
+  &.right {
+    left: 50%;
+    text-align: left;
+    .timeline-dot {
+        left: -7px;
+    }
+  }
+}
+
+/* Karta - spójny styl z scope-card */
+.timeline-card {
+  background: white;
+  border-radius: 12px; // Zaokrąglenie zgodne z Scope
+  border: 1px solid $border-color; // Płaska ramka zamiast cienia
+  box-shadow: none; // Usunięcie domyślnego cienia
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  overflow: hidden;
+  text-align: left; /* Resetujemy wyrównanie wewnątrz karty */
+  position: relative;
+
+  /* Efekt Hover - spójny z scope-card */
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border-color: $primary-orange; // Opcjonalnie: zmiana koloru ramki przy hover
+  }
+}
+
+/* Nagłówek Karty */
+.card-header {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  .icon-box {
+    color: $primary-orange; // Główny kolor ikony
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: #fff7ed; // Bardzo jasny pomarańczowy tła
+    border-radius: 8px;
+    flex-shrink: 0;
+    
+    svg {
+        width: 24px;
+        height: 24px;
+    }
+  }
+
+  h3 {
+    flex-grow: 1;
+    font-size: 1.15rem; // Nieco większy rozmiar
+    font-weight: 700; // Waga zgodna z nagłówkami kart w Scope
+    margin: 0;
+    color: $text-dark;
+  }
+
+  .arrow-icon {
+    color: $text-gray;
+    transition: transform 0.3s ease;
+
+    &.rotated {
+      transform: rotate(180deg);
+      color: $primary-orange;
+    }
+  }
+}
+
+/* Rozwijana treść */
+.card-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-out;
+  background-color: #ffffff; // Tło białe, spójne z kartą
+
+  &.open {
+    max-height: 600px; /* Zwiększony limit */
+    border-top: 1px solid $border-color;
+  }
+}
+
+.card-content {
+  padding: 20px;
+  font-size: 0.95rem;
+  color: #4b5563; // Spójny kolor tekstu (odpowiednik $text-gray)
+  line-height: 1.6;
+}
+
+.info-block {
+  margin-bottom: 16px;
+
+  strong {
+    display: block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: $text-gray;
+    margin-bottom: 6px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  p {
+    margin: 0;
+    color: $text-dark; // Ciemniejszy kolor dla głównej treści
+  }
+
+  &.legal p {
+    font-family: monospace;
+    background: #f3f4f6; // Jasnoszary tło
+    padding: 6px 10px;
+    border-radius: 6px;
+    display: inline-block;
+    font-size: 0.85rem;
+    border: 1px solid #e5e7eb;
+  }
+}
+
+// Styl przycisku wewnątrz karty
+.cta-button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  background-color: $primary-orange;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: darken($primary-orange, 5%); // Nieco ciemniejszy przy hover
+  }
+}
+
+/* --- RESPANSYWNOŚĆ (Mobile) --- */
+@media (max-width: 768px) {
+  .timeline-section {
+    padding: 4rem 1rem; // Mniejszy padding na mobile
+  }
+
+  .timeline-header {
+    margin-bottom: 2.5rem;
+    h2 {
+      font-size: 32px; // Mniejszy nagłówek na mobile
+    }
+    p {
+        font-size: 18px;
+    }
+  }
+
+  .timeline-line-center {
+    left: 20px; /* Przesuwamy linię na lewo */
+    transform: none;
+  }
+
+  .timeline-period-marker {
+    text-align: left;
+    margin-left: 0; /* Wyrównanie do linii */
+    padding-left: 40px; // Miejsce na linię
+    margin-bottom: 30px;
+
+    span {
+       // Ewentualne dopasowanie stylu pastylki na mobile
+    }
+  }
+
+  .timeline-item {
+    width: 100%; /* Karta na całą szerokość */
+    padding-left: 50px; /* Miejsce na linię z lewej */
+    padding-right: 0;
+    margin-bottom: 20px;
+
+    /* Resetujemy pozycjonowanie dla "right" i "left" */
+    &.left, 
+    &.right {
+      left: 0;
+      text-align: left;
+
+      /* Przesuwamy kropkę na linię po lewej */
+      .timeline-dot {
+        left: 13px; /* Dopasowanie do środka linii (20px) - połowa kropki */
+        right: auto;
+      }
+    }
+  }
+  
+  .card-header h3 {
+      font-size: 1.1rem;
+  }
+}

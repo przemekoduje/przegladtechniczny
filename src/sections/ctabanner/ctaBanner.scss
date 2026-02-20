@@ -1,0 +1,136 @@
+/* Jeśli nie masz zdefiniowanych zmiennych globalnie, odkomentuj poniższy blok :root */
+/* :root {
+  --primary-orange: #f97316;
+} */
+
+.cta-section {
+  background-color: var(--primary-orange, #f97316);
+  /* Używamy rem dla paddingów - skalują się z tekstem */
+  padding: 4rem 1.5rem;
+  text-align: center;
+  /* Dobra praktyka: dodanie standardowych fontów systemowych jako fallback */
+  font-family: "ProductSans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.cta-container {
+  width: 100%;
+  /* Konwersja 800px -> 50rem. Elastyczna szerokość maksymalna. */
+  max-width: 50rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Typografia */
+.cta-title {
+  color: #ffffff;
+  /* Konwersja 38px -> 2.375rem. Duży tekst na mobile. */
+  font-size: 2.375rem;
+  font-weight: 300;
+  margin: 0 0 1rem 0;
+  line-height: 1.2;
+}
+
+.cta-subtitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.125rem; /* Lekko powiększone z 1.1rem dla lepszej czytelności (~18px) */
+  margin: 0 0 2.5rem 0;
+  font-weight: 300;
+  /* Opcjonalnie: ograniczenie szerokości tekstu dla lepszej czytelności na szerokich ekranach */
+  max-width: 35rem;
+}
+
+/* Kontener na przyciski */
+.cta-buttons-wrapper {
+  display: flex;
+  flex-direction: column; /* Mobile First: jeden pod drugim */
+  gap: 1rem;
+  width: 100%;
+  /* Konwersja 600px -> 37.5rem */
+  max-width: 37.5rem;
+  /* Zastanów się czy z-index: 50 jest tu na pewno potrzebny. 
+     Jeśli nic na siebie nie nachodzi, można usunąć. */
+  z-index: 50;
+}
+
+/* Wspólne style przycisków */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* POPRAWKA: Zwiększony padding dla lepszego dotyku na mobile (było 5px) */
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: 2px solid transparent; /* Rezerwujemy miejsce na border, żeby uniknąć skakania przy hover */
+}
+
+/* Przycisk biały (Telefon) */
+.btn-white {
+  background-color: #ffffff;
+  color: var(--primary-orange, #f97316);
+  border-color: #ffffff;
+}
+
+.btn-white:hover {
+  background-color: #f3f4f6;
+  border-color: #f3f4f6;
+}
+
+/* Przycisk ciemny (Formularz) */
+.btn-dark {
+  background-color: #111827;
+  color: #ffffff;
+  border-color: #111827;
+  /* POPRAWKA: Usunięto max-height: 50px.
+     Wysokość powinna wynikać z paddingu i wielkości fonta. 
+     Sztywna wysokość psuje przycisk, gdy tekst jest dłuższy lub font większy. */
+}
+
+.btn-dark:hover {
+  background-color: #1f2937;
+  border-color: #1f2937;
+}
+
+/* Ikona w przycisku */
+.icon-placeholder {
+  margin-right: 10px;
+  /* Konwersja 20px -> 1.25rem */
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+/* Wersja na Tablet i Desktop (>= 768px) */
+@media (min-width: 48rem) { /* 48rem = 768px */
+  
+  .cta-section {
+     /* Na większych ekranach możemy dać trochę więcej oddechu */
+    padding: 6rem 2rem;
+  }
+
+  .cta-title {
+    /* Powiększamy tytuł na desktopie */
+    font-size: 48px; /* 48px */
+  }
+  .cta-subtitle {
+    font-size: 22px; /* Lekko powiększone z 1.1rem dla lepszej czytelności (~18px) */
+  }
+
+  .cta-buttons-wrapper {
+    flex-direction: row; /* Przyciski obok siebie */
+    justify-content: center;
+    width: auto;
+    max-width: none;
+    gap: 1.5rem; /* Większy odstęp */
+  }
+
+  .btn {
+    /* Konwersja 200px -> 12.5rem */
+    min-width: 12.5rem;
+  }
+}

@@ -1,0 +1,337 @@
+.explanations {
+  position: relative;
+  font-family: 'ProductSans';
+  font-size: 24px;
+  font-weight: 300;
+  font-style: normal;
+  margin-top: 50px;
+  padding-bottom: 2400px;
+  h1 {
+    position: absolute;
+    font-family: 'ProductSans';
+    font-size: 128px;
+    font-weight: 300;
+    font-style: normal;
+    margin-bottom: 45px;
+    width: 674px;
+    left: 152px;
+    top: 0px;
+  }
+  .exp1 {
+    position: absolute;
+    top: 140px;
+    left: 977px;
+    width: 450px;
+    line-height: 32px;
+  }
+  .exp2 {
+    position: absolute;
+    top: 470px;
+    left: 735px;
+    width: 520px;
+    line-height: 32px;
+  }
+  .exp3 {
+    position: absolute;
+    top: 900px;
+    left: 145px;
+    width: 580px;
+    line-height: 32px;
+  }
+  .exp4 {
+    position: absolute;
+    top: 1000px;
+    left: 845px;
+    width: 546px;
+    line-height: 32px;
+  }
+  .exp5 {
+    position: absolute;
+    top: 1270px;
+    left: 845px;
+    width: 546px;
+    line-height: 32px;
+  }
+  .exp6 {
+    position: absolute;
+    top: 1600px;
+    left: 152px;
+    line-height: 32px;
+  }
+  // img {
+  //   position: absolute;
+  //   width: 400px;
+  //   height: 400px;
+  //   top: 1335px;
+  //   left: 272px;
+  // }
+
+  .exp7 {
+    position: absolute;
+    top: 1800px;
+    left: 152px;
+    line-height: 32px;
+  }
+
+  .exp-footer {
+    position: absolute;
+    top: 1900px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 450px;
+    background-color: #bcd7ff;
+    padding: 40px 40px;
+    margin-top: 50px;
+    
+
+    h2 {
+      font-family: 'ProductSans';
+      font-size: 96px;
+      font-weight: 300;
+      color: rgb(61, 61, 61);
+    }
+    .zatem {
+      align-self: flex-end;
+    }
+  }
+}
+
+@media (max-width: 1440px) and (min-width: 1051px) {
+  .explanations {
+    position: relative;
+    font-family: 'ProductSans';
+    font-size: 24px;
+    font-weight: 300;
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    padding: 0 40px;
+
+    h1 {
+      position: relative;
+      font-family: 'ProductSans';
+      font-size: 64px;
+      font-weight: 300;
+      font-style: normal;
+      margin-bottom: 45px;
+      width: auto;
+      left: 0;
+      top: 0;
+      transition: top 0.5s ease, left 0.5s ease, font-size 0.5s ease;
+    }
+
+    .exp1,
+    .exp2,
+    .exp3,
+    .exp4,
+    .exp5,
+    .exp6,
+    .exp7,
+    .exp-footer {
+      position: relative;
+      top: 0;
+      left: 0;
+      width: 100%;
+      // margin-bottom: 15px;
+      transition: top 0.5s ease, left 0.5s ease, width 0.5s ease,
+        height 0.5s ease;
+    }
+    img {
+      display: none;
+    }
+
+    .exp-footer {
+      height: 430px;
+      padding: 40px 40px;
+    }
+  }
+}
+
+@media (max-width: 1050px) and (min-width: 686px)  {
+  .explanations {
+    position: relative;
+    font-family: "Lato", serif;
+    font-size: 24px;
+    font-weight: 300;
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    padding: 0 ;
+
+    h1 {
+      position: relative;
+      padding: 0 40px;
+      font-family: 'ProductSans';
+      font-size: 64px;
+      font-weight: 300;
+      font-style: normal;
+      margin-bottom: 45px;
+      width: auto;
+      left: 0;
+      top: 0;
+      transition: top 0.5s ease, left 0.5s ease, font-size 0.5s ease;
+    }
+
+    .exp1,
+    .exp2,
+    .exp3,
+    .exp4,
+    .exp5,
+    .exp6,
+    .exp7,
+    .exp-footer {
+      position: relative;
+      padding: 0 40px;
+      top: 0;
+      left: 0;
+      width: 100%;
+      // margin-bottom: 15px;
+      transition: top 0.5s ease, left 0.5s ease, width 0.5s ease,
+        height 0.5s ease;
+    }
+    img {
+      display: none;
+    }
+    .exp-footer {
+      height: 300px;
+      width: 100%;
+      padding: 40px 40px;
+      .display2 {
+        h2 {
+          font-family: 'ProductSans', serif;
+          font-size: 60px;
+          font-weight: 300;
+          
+        }
+      }
+    }
+  }
+}
+@media (max-width: 768px) and (min-width: 520px) {
+  .explanations {
+    position: relative;
+    font-family: 'ProductSans', serif;
+    font-size: 24px;
+    font-weight: 300;
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    padding: 0;
+
+    h1 {
+      position: relative;
+      padding: 0 40px;
+      font-family: 'ProductSans', serif;
+      font-size: 64px;
+      font-weight: 300;
+      font-style: normal;
+      margin-bottom: 45px;
+      width: auto;
+      left: 0;
+      top: 0;
+      transition: top 0.5s ease, left 0.5s ease, font-size 0.5s ease;
+    }
+
+    .exp1,
+    .exp2,
+    .exp3,
+    .exp4,
+    .exp5,
+    .exp6,
+    .exp7,
+    .exp-footer {
+      position: relative;
+      padding: 0 40px;
+      top: 0;
+      left: 0;
+      width: 100%;
+      // margin-bottom: 15px;
+      transition: top 0.5s ease, left 0.5s ease, width 0.5s ease,
+        height 0.5s ease;
+    }
+    img {
+      display: none;
+    }
+    .exp-footer {
+      height: 250px;
+      width: 100%;
+      padding: 40px 40px;
+      .display2 {
+        h2 {
+          font-family: 'ProductSans';
+          font-size: 42px;
+          font-weight: 300;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 520px) {
+  .explanations {
+    position: relative;
+    font-family: 'ProductSans', sans-serif;
+    font-size: 20px;
+    font-weight: 100;
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    margin-top: 60px;
+    padding: 0;
+
+    h1 {
+      position: relative;
+      padding: 0 20px;
+      font-family: 'ProductSans';
+      font-size: 64px;
+      font-weight: 300;
+      font-style: normal;
+      margin-bottom: 30px;
+      width: auto;
+      left: 0;
+      top: 0;
+      transition: top 0.5s ease, left 0.5s ease, font-size 0.5s ease;
+    }
+
+    .exp1,
+    .exp2,
+    .exp3,
+    .exp4,
+    .exp5,
+    .exp6,
+    .exp7,
+    .exp-footer {
+      position: relative;
+      margin-top: 15px;
+      padding: 0 20px;
+      top: 0;
+      left: 0;
+      width: 100%;
+      // margin-bottom: 15px;
+      transition: top 0.5s ease, left 0.5s ease, width 0.5s ease,
+        height 0.5s ease;
+    }
+    img {
+      display: none;
+    }
+    .exp-footer {
+      height: 250px;
+      width: 100%;
+      padding: 40px 40px;
+      .display2 {
+        h2 {
+          font-family: 'ProductSans';
+          font-size: 36px;
+          font-weight: 300;
+        }
+      }
+    }
+  }
+}
+
+
+

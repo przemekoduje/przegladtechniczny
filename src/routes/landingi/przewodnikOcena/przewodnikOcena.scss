@@ -1,0 +1,596 @@
+.przewodnikOcena {
+  
+  width: 100%;
+  height: 900vh;
+  scroll-snap-type: y mandatory; /* Włącza snap scrolling w osi Y */
+  overflow-y: scroll; /* Włącza przewijanie w pionie */
+  scroll-behavior: smooth;
+
+  .close_przewodnik{
+    position: fixed;
+    right: 40px;
+    top: 30px;
+    z-index: 1000;
+    cursor: pointer;
+  }
+
+  .okladka {
+    scroll-snap-align: start;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: #f5f5f5;
+    display: flex;
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 400px; /* Wysokość gradientu */
+      background: linear-gradient(
+        to bottom,
+        rgba(245, 245, 245, 0) 0%,
+        #ffffff 100%
+      );
+      pointer-events: none; /* Ignoruj kliknięcia */
+      z-index: 3; /* Upewnij się, że gradient jest nad tłem */
+    }
+
+    .rect-back01 {
+      position: absolute;
+      flex: 60%;
+      left: 20px;
+      top: 0;
+      min-width: 450px;
+      width: 50%;
+      height: 100%;
+      background-color: white;
+      z-index: 1;
+    }
+
+    .okladka-background {
+      position: absolute;
+      right: 0;
+      top: 0;
+      flex: 60%;
+      height: 100%;
+      z-index: 2;
+
+      .fullscreen-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        /* Dopasowuje obraz, zachowując proporcje */
+        object-position: center;
+      }
+    }
+
+    .okladka-text {
+      position: absolute;
+      left: 158px;
+      bottom: 170px;
+      width: 50%;
+      font-family: "Inter", serif;
+      font-weight: 200;
+      font-size: 36px;
+      position: absolute;
+      z-index: 3;
+      line-height: 64px;
+
+      .okladka-text-bold {
+        font-weight: 600;
+        font-size: 68px;
+      }
+    }
+  }
+  //   .react-parallax-bgimage {
+  //     transform: scale(0.8) !important; /* Skalowanie obrazu */
+  //     transform-origin: center center; /* Punkt odniesienia */
+  //     object-fit: cover; /* Dopasowanie obrazu */
+  //   }
+  .cta-section {
+    scroll-snap-align: start;
+
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+
+    .cta-content {
+      max-width: 800px;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .headline {
+        font-family: "Merriweather", serif;
+        font-size: 56px;
+        font-weight: 300;
+        margin-bottom: 20px;
+      }
+
+      .main_button_2 {
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-bottom: 20px;
+
+        &:hover {
+          background-color: #e64a19;
+          color: white;
+        }
+      }
+
+      .cta-phone {
+        font-family: "Inter", serif;
+
+        font-size: 32px;
+        font-weight: 300;
+      }
+
+      .cta-info {
+        margin-top: 90px;
+        font-family: "Inter", serif;
+        font-style: italic;
+        font-size: 20px;
+        font-weight: 300;
+        line-height: 28px;
+        color: #666;
+      }
+    }
+  }
+
+  .react-parallax {
+    scroll-snap-align: start;
+
+    .react-parallax-bgimage {
+      object-fit: cover;
+      object-position: right bottom;
+      width: 100%;
+      height: 100% !important;
+
+      @media (max-width: 425px) {
+        position: absolute;
+        width: 150% !important; /* Skalowanie dla małych ekranów */
+        height: 100% !important;
+        object-fit: contain;
+        bottom: 0;
+        opacity: 0.5;
+      }
+      @media (max-width: 768px) {
+        position: absolute;
+        width: 150% !important; /* Skalowanie dla małych ekranów */
+        height: 100% !important;
+        object-fit: contain;
+        bottom: 0;
+        opacity: 0.5;
+      }
+    }
+
+    .react-parallax-content {
+      .parallax-section {
+        position: relative;
+        height: 100vh;
+        // background-attachment: fixed;
+        // background-position: center;
+        // background-size: cover;
+
+        .parallax-content {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: space-between;
+          padding: 100px 0 100px 80px;
+          z-index: 2;
+
+          .page-number {
+            position: absolute;
+            right: -50px;
+            top: 80px;
+            font-family: "Merriweather", serif;
+            color: #b3b3b324;
+            font-weight: 500;
+            font-size: 500px;
+            line-height: 140px;
+            // display: none;
+          }
+
+          .szyld {
+            position: absolute;
+            right: 20px;
+            top: 150px;
+            font-family: "Merriweather", serif;
+            font-weight: 300;
+            font-size: 48px;
+            line-height: 80px;
+            transform: rotate(90deg) translateX(100%);
+
+            transform-origin: right top;
+          }
+          .szyld-bold {
+            font-size: 76px;
+          }
+
+          .main-text {
+            max-width: 500px;
+            height: 100%;
+            font-family: "Inter", serif;
+            font-weight: 200;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            .grupa {
+              display: flex;
+              flex-direction: column;
+              gap: 20px;
+
+              h2 {
+                font-size: 36px;
+              }
+
+              ul {
+                font-size: 22px;
+                li {
+                  margin-bottom: 15px;
+                  margin-left: 5px;
+                  list-style: none;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Mobile */
+@media (max-width: 425px) {
+  .przewodnikOcena .okladka {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    &::after {
+      content: "";
+      background: transparent;
+    }
+  }
+  .rect-back01 {
+    display: none;
+  }
+  .przewodnikOcena .okladka .okladka-background {
+    position: absolute;
+    right: 0;
+    top: 0;
+    flex: 70%;
+    width: 100%;
+    height: 50%;
+    z-index: 2;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 150px; /* Wysokość gradientu */
+      background: linear-gradient(
+        to bottom,
+        rgba(245, 245, 245, 0) 0%,
+        #ffffff 100%
+      );
+      pointer-events: none; /* Ignoruj kliknięcia */
+      z-index: 3; /* Upewnij się, że gradient jest nad tłem */
+    }
+  }
+
+  .przewodnikOcena .okladka .okladka-text {
+    font-size: 20px;
+    line-height: 36px;
+    left: 0px;
+    bottom: 0%;
+    width: 100%;
+    padding: 30px 50px 50px 50px;
+
+    .okladka-text-bold {
+      font-weight: 600;
+      font-size: 40px;
+      line-height: 46px;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgb(255, 255, 255, 0.5); /* Półprzezroczyste tło */
+      border-radius: 10px; /* Zaokrąglenie rogów, jeśli potrzebne */
+      z-index: -1; /* Umieszczenie tła za tekstem */
+    }
+  }
+
+  .przewodnikOcena .react-parallax .react-parallax-content .cta-section {
+    scroll-snap-align: start;
+
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+
+    .cta-content {
+      max-width: 380px;
+      padding: 40px;
+
+      .headline {
+        font-family: "Merriweather", serif;
+        font-size: 36px;
+        font-weight: 300;
+        margin-bottom: 10px;
+      }
+
+      .main_button_2 {
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-bottom: 10px;
+
+        &:hover {
+          background-color: #e64a19;
+          color: white;
+        }
+      }
+
+      .cta-phone {
+        font-family: "Inter", serif;
+
+        font-size: 28px;
+        font-weight: 300;
+      }
+
+      .cta-info {
+        margin-top: 30px;
+        font-size: 16px;
+      }
+    }
+  }
+
+  .przewodnikOcena
+    .react-parallax
+    .react-parallax-content
+    .parallax-section
+    .parallax-content {
+    padding: 200px 20px 100px 20px;
+    .szyld {
+      position: absolute;
+      right: 20px;
+      top: 50px;
+      font-family: "Merriweather", serif;
+      font-weight: 300;
+      font-size: 28px;
+      line-height: 38px;
+      transform: rotate(90deg) translateX(100%);
+      transform-origin: right top;
+
+      .szyld-bold {
+        font-size: 36px;
+      }
+    }
+    .main-text {
+      font-weight: 200;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .grupa {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        h2 {
+          font-size: 26px;
+        }
+
+        ul {
+          font-size: 18px;
+          li {
+            margin-bottom: 10px;
+            margin-left: 5px;
+            list-style: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Tablet */
+@media (min-width: 426px) and (max-width: 768px) {
+  /* Styl dla tabletów */
+
+  .przewodnikOcena .okladka {
+    flex-direction: column;
+    background-color: white;
+
+    &::after {
+      display: none;
+    }
+    .rect-back01 {
+        display: none;
+      }
+      
+    .okladka-background {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 100%;
+      height: 70%;
+      background-color: white;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 50px; /* Wysokość gradientu */
+        background: linear-gradient(
+          to bottom,
+          rgba(245, 245, 245, 0) 0%,
+          #ffffff 100%
+        );
+        pointer-events: none; /* Ignoruj kliknięcia */
+        z-index: 3; /* Upewnij się, że gradient jest nad tłem */
+      }
+    }
+    .rect-back01 {
+      display: none;
+    }
+
+    .okladka-text {
+      font-size: 18px;
+      line-height: 36px;
+      left: 0px;
+      bottom: 0%;
+      width: 100%;
+      height: 40%;
+      padding: 30px 60px 20px 60px;
+
+      .okladka-text-bold {
+        font-weight: 600;
+        font-size: 36px;
+        line-height: 46px;
+      }
+
+      &::before {
+        display: none;
+      }
+    }
+  }
+  .react-parallax {
+    .react-parallax-bgimage{
+
+    }
+  }
+}
+
+/* Small Desktop */
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Styl dla mniejszych desktopów lub dużych tabletów w trybie poziomym */
+  .przewodnikOcena .okladka {
+    background-color: white;
+    &::after {
+      display: none;
+    }
+    .okladka-background {
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 50px; /* Wysokość gradientu */
+        background: linear-gradient(
+          to bottom,
+          rgba(245, 245, 245, 0) 0%,
+          #ffffff 100%
+        );
+        pointer-events: none; /* Ignoruj kliknięcia */
+        z-index: 3; /* Upewnij się, że gradient jest nad tłem */
+      }
+    }
+    .rect-back01 {
+      display: none;
+    }
+
+    .okladka-text {
+      font-size: 18px;
+      line-height: 36px;
+      left: 0px;
+      bottom: 0%;
+      width: 70%;
+      height: 40%;
+      padding: 30px 100px 20px 100px;
+
+      .okladka-text-bold {
+        font-weight: 600;
+        font-size: 36px;
+        line-height: 46px;
+      }
+
+      &::before {
+        display: none;
+      }
+    }
+  }
+}
+
+/* Medium Desktop */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  /* Styl dla średnich desktopów */
+  .przewodnikOcena .okladka {
+    background-color: white;
+    &::after {
+      display: none;
+    }
+    .okladka-background {
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 50px; /* Wysokość gradientu */
+        background: linear-gradient(
+          to bottom,
+          rgba(245, 245, 245, 0) 0%,
+          #ffffff 100%
+        );
+        pointer-events: none; /* Ignoruj kliknięcia */
+        z-index: 3; /* Upewnij się, że gradient jest nad tłem */
+      }
+    }
+    .rect-back01 {
+      display: none;
+    }
+
+    .okladka-text {
+      font-size: 36px;
+      line-height: 46px;
+      left: 0px;
+      bottom: 0%;
+      width: 70%;
+      height: 50%;
+      padding: 30px 100px 20px 100px;
+
+      .okladka-text-bold {
+        font-weight: 600;
+        font-size: 56px;
+        line-height: 60px;
+      }
+
+      &::before {
+        display: none;
+      }
+    }
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1441px) {
+  /* Styl dla dużych monitorów */
+}

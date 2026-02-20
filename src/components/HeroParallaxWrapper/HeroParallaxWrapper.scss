@@ -1,0 +1,90 @@
+/* HeroParallaxWrapper.scss */
+
+.parallax-wrapper {
+  position: relative;
+  width: 100%;
+
+  /* KLUCZ DO SUKCESU:
+       Wysokość kontenera = Wysokość Hero (100vh) + Wysokość Listy Miast (65vh).
+       Dzięki temu mamy fizyczne miejsce na scrollowanie (65vh),
+       podczas którego Hero będzie "przyklejone". */
+  height: 165vh;
+
+  /* Resetujemy overflow, żeby sticky działało */
+  overflow: visible;
+}
+
+.parallax-hero-container {
+  /* To sprawia, że Main stoi w miejscu */
+  position: -webkit-sticky; /* Dla Safari */
+  position: sticky;
+  top: 0;
+
+  width: 100%;
+  height: 100vh; /* Main musi zajmować cały ekran */
+
+  z-index: 1; /* Warstwa dolna */
+
+  /* Ważne: Flexbox usuwa potencjalne marginesy (np. z h1), które psują układ */
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+}
+
+.parallax-city-overlay {
+  /* Lista miast jest przyklejona do dołu CAŁEGO kontenera (czyli na 145vh) */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  width: 70vw;
+  left: 50%;
+  transform: translateX(-50%); /* Idealne centrowanie w poziomie */
+  height: 65vh; /* Musi się zgadzać z nadmiarem wysokości wrappera */
+
+  z-index: 2; /* Warstwa górna - przykrywa Hero */
+
+  /* Wycentrowanie */
+  display: flex;
+  align-items: flex-end;
+
+  /* KLUCZOWE POPRAWKI DLA NAROŻNIKÓW: */
+  /* 1. Tło musi być przezroczyste, inaczej widać biały prostokąt pod zaokrągleniem */
+  background-color: transparent !important; 
+  
+  /* 2. Usuwamy cień z kontenera (cień jest już w CityListBanner) */
+  box-shadow: none !important; 
+  
+  /* 3. Usuwamy ewentualne obramowania */
+  border: none !important;
+
+  /* Jeśli lista ma tło transparent, to klikalność pod spodem może być problemem,
+       pointer-events zapewnia interakcję z listą */
+  pointer-events: none;
+  box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.1);
+}
+
+/* Przywracamy klikanie wewnątrz samej listy */
+.parallax-city-overlay > * {
+  pointer-events: auto;
+}
+
+/* RESPANSYWNOŚĆ */
+@media (max-width: 1024px) {
+  .parallax-city-overlay {
+    width: 80vw; /* Na tabletach szerzej */
+  }
+}
+
+@media (max-width: 768px) {
+  .parallax-city-overlay {
+    width: 100%; /* Na telefonach wracamy do pełnej szerokości */
+    left: 0;
+    transform: none;
+    height: 65vh;
+  }
+
+  .parallax-city-overlay > * {
+    box-shadow: none; /* Na mobile cień może przeszkadzać lub być mniej widoczny */
+  }
+}

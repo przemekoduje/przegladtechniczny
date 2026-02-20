@@ -1,0 +1,220 @@
+/* WhyImportant.scss - Stylizowany na wzór Scope.scss */
+
+/* --- ZMIENNE (Dopasowane do Scope) --- */
+$primary-orange: #f97316;
+// Kolory tekstów dopasowane do tych z Scope
+$text-dark: #505050;   // Odpowiednik var(--text-dark)
+$text-gray: #6b7280;   // Odpowiednik var(--text-gray)
+$border-color: #e5e7eb; // Odpowiednik var(--border-color)
+
+$bg-alert: #fff1f2;
+$alert-color: #e11d48;
+
+/* GŁÓWNA SEKCJA */
+.why-important-section {
+  background-color: white;
+  padding: 5rem 1rem;
+  font-family: 'Product Sans', sans-serif;
+  /* Opcjonalnie: Jeśli chcesz oddzielić sekcje linią, odkomentuj: */
+  /* border-bottom: 1px solid $border-color; */
+}
+
+.why-container {
+  /* Dopasowano szerokość do scope-container */
+  max-width: 1200px; 
+  margin: 0 auto;
+}
+
+/* NAGŁÓWEK (Identyczny styl jak w Scope) */
+.why-header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+
+  .why-title {
+    font-size: 48px;
+    font-weight: 300; // Zmiana wagi na lżejszą (300) jak w Scope
+    color: $text-dark;
+    margin-bottom: 1rem;
+
+    .highlight {
+      color: $primary-orange;
+      // Usunięto podkreślenie, aby pasowało do czystszego stylu Scope
+    }
+  }
+
+  .why-subtitle {
+    font-size: 22px;
+    color: $text-gray;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+/* GRID KART */
+.why-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* WSPÓLNE STYLE KART (Skopiowane z .scope-card) */
+.why-card {
+  background: #ffffff;
+  /* Styl ramki identyczny jak w Scope */
+  border: 1px solid $border-color;
+  border-radius: 12px;
+  padding: 2.5rem; /* Zachowałem nieco większy padding z oryginalnego Why, dla oddechu */
+  display: flex;
+  flex-direction: column;
+  /* Usunięto początkowy box-shadow i kolorowe border-top */
+  box-shadow: none;
+  border-top: none !important; /* Wymuszenie braku górnej ramki */
+
+  /* Identyczny efekt hover jak w Scope */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Styl nagłówków wewnątrz karty */
+  h3 {
+    font-size: 1.45rem; // Dopasowano rozmiar do Scope h3
+    font-weight: 700;
+    color: $text-dark;
+    margin: 0 0 0.75rem 0;
+  }
+
+  /* Główny tekst w karcie */
+  .main-text {
+    font-size: 18px; // Dopasowano do .description w Scope
+    color: $text-gray;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+
+    strong {
+      color: $text-dark;
+      font-weight: 600;
+    }
+  }
+}
+
+/* Styl ikon */
+.icon-wrapper {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+
+  /* Zachowano kolory tła ikon dla rozróżnienia kart */
+  &.alert {
+    background-color: $bg-alert;
+    color: $alert-color;
+  }
+  &.legal {
+    background-color: #fff7ed;
+    color: $primary-orange;
+  }
+}
+
+/* DOSTOSOWANIE TREŚCI WEWNĘTRZNYCH DO NOWEGO STYLU KARTY */
+
+/* Karta Ubezpieczenia - Cytat Prawny */
+.insurance-card {
+  /* Usunięto border-top */
+
+  .legal-quote {
+    /* Zmieniono styl na lżejszy, pasujący do płaskiej karty */
+    background-color: transparent; // Usunięto tło
+    border-left: none; // Usunięto lewą ramkę
+    border-top: 1px solid $border-color; // Dodano subtelną linię oddzielającą u góry
+    padding: 1.5rem 0 0 0; // Padding tylko z góry
+    border-radius: 0;
+    display: flex;
+    flex-direction: column; // Zmiana na kolumnę dla lepszego układu
+    gap: 0.5rem;
+    margin-top: auto; // Wypycha sekcję na dół karty
+
+    .quote-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 0.5rem;
+    }
+    
+    .quote-icon {
+      color: $alert-color; // Zmiana koloru ikony na ostrzegawczy
+      font-size: 1.2rem;
+    }
+
+    .quote-label {
+      display: block;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: $text-dark;
+      letter-spacing: 0.5px;
+    }
+
+    p {
+      font-style: italic;
+      font-size: 0.95rem;
+      color: $text-gray; // Kolor tekstu szary
+      margin: 0;
+      line-height: 1.5;
+      padding-left: 0; // Usunięto wcięcie
+    }
+  }
+}
+
+/* Karta Prawa - Lista Punktowana */
+.law-card {
+  /* Usunięto border-top */
+
+  .legal-list {
+    /* Stylizowana na wzór .features-list ze Scope */
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid $border-color; // Subtelna linia oddzielająca
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+      font-size: 0.95rem;
+      color: $text-gray;
+      line-height: 1.5;
+      padding-left: 0; // Usunięto stare wcięcie
+
+      // Użycie ikony jako punktora
+      &::before {
+        content: '•'; // Można tu użyć ikony z fontu, np. '\f058' dla checkmarka
+        color: $primary-orange;
+        font-weight: bold;
+        font-size: 1.5rem; // Większy punktor
+        line-height: 1rem;
+        margin-right: 0.75rem;
+        position: static; // Reset pozycji
+      }
+
+      strong {
+        color: $text-dark;
+        font-weight: 600;
+      }
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

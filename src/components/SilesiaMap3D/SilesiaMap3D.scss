@@ -1,0 +1,118 @@
+.map-3d-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Perspektywa jest kluczowa dla efektu 3D */
+    perspective: 1000px;
+  }
+  
+  .map-plane {
+    position: relative;
+    width: 300px; /* Bazowa szerokość */
+    height: 250px;
+    
+    /* TO TWORZY EFEKT IZOMETRYCZNY / QUASI-3D */
+    transform: rotateX(50deg) rotateZ(-20deg) skewY(5deg);
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+  }
+  
+  /* Interakcja - lekkie wyprostowanie po najechaniu */
+  .map-3d-container:hover .map-plane {
+    transform: rotateX(45deg) rotateZ(-15deg) skewY(5deg) scale(1.05);
+  }
+  
+  /* Obrys Mapy SVG */
+  .silesia-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  
+  .map-shape {
+    fill: #F3F4F6; /* Jasnoszary kolor mapy */
+    stroke: #FFFFFF;
+    stroke-width: 2px;
+    /* Cień rzucany przez "blok" mapy */
+    filter: drop-shadow(0px 15px 10px rgba(0,0,0,0.15));
+  }
+  
+  .map-shadow {
+    fill: #D1D5DB; /* Ciemniejszy bok (imituje grubość) */
+    transform: translate(0, 10px); /* Przesunięcie w dół */
+    z-index: -1;
+  }
+  
+  /* Pinezki (Kropki) */
+  .map-pin {
+    position: absolute;
+    transform: translate(-50%, -50%) rotateZ(20deg) rotateX(-50deg); /* Kontra-rotacja, żeby kropki leżały płasko lub stały */
+    width: 12px;
+    height: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .pin-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #B94E48; /* Twój kolor ceglasty */
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+  
+  .main-pin .pin-dot {
+    width: 12px;
+    height: 12px;
+    background-color: #B94E48;
+    border: 2px solid white;
+  }
+  
+  /* Animacja pulsowania */
+  .pin-pulse {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(185, 78, 72, 0.4);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(3); opacity: 0; }
+  }
+  
+  /* Duży Marker (Pinezka Google style) */
+  .big-marker {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    color: #B94E48;
+    /* Ważne: Kontra-rotacja, żeby pinezka stała pionowo na pochylonej mapie! */
+    transform: translate(-50%, -100%) rotateZ(20deg) rotateX(-50deg);
+    filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3));
+    z-index: 10;
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  .marker-shadow {
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 15px;
+    height: 4px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 50%;
+    filter: blur(2px);
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translate(-50%, -100%) rotateZ(20deg) rotateX(-50deg) translateY(0); }
+    50% { transform: translate(-50%, -100%) rotateZ(20deg) rotateX(-50deg) translateY(-10px); }
+  }
