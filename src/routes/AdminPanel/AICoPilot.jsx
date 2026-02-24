@@ -7,10 +7,11 @@ export default function AICoPilot({ keywords: dbKeywords }) {
     const [analytics, setAnalytics] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [isGenerating, setIsGenerating] = useState(false);
+    const [generatedOutline, setGeneratedOutline] = useState("");
 
     const [formData, setFormData] = useState({
         topic: "",
-        customTopic: "",
+
         selectedKeywords: [],
         isSeries: false,
         seriesName: "",
@@ -85,12 +86,65 @@ export default function AICoPilot({ keywords: dbKeywords }) {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const finalTopic = formData.topic === "custom" ? formData.customTopic : formData.topic;
-        const submission = { ...formData, topic: finalTopic };
-        console.log("Krok 1: Dane do generowania draftu:", submission);
-        alert("Dane zebrane! Sprawdź konsolę (F12). W kolejnym kroku podepniemy tu OpenAI.");
+
+        if (generatedOutline) {
+            // STEP 2: Generuj finalny tekst na podstawie poprawionego konspektu HTML
+            setIsGenerating(true);
+            try {
+                const draftFromOutline = httpsCallable(functions, "generateDraftFromOutline");
+                const result = await draftFromOutline({
+                    outlineHtml: generatedOutline,
+                    topic: formData.topic,
+                    selectedKeywords: formData.selectedKeywords,
+                    isSeries: formData.isSeries,
+                    seriesName: formData.seriesName
+                });
+
+                if (result.data.success) {
+                    alert("Szkic wygenerowany! Sprawdź zakładkę 'Moje Szkice', aby go opublikować.");
+                    // Reset formularza
+                    setGeneratedOutline("");
+                    setFormData({
+                        topic: "",
+                        selectedKeywords: [],
+                        isSeries: false,
+                        seriesName: "",
+                        theses: "",
+                        includeBuildingLaw: true,
+                        includeAnecdote: true
+                    });
+                } else {
+                    alert("Błąd podczas generowania finalnego tekstu: " + result.data.error);
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Błąd połączenia z serwerem podczas Kroku 2.");
+            } finally {
+                setIsGenerating(false);
+            }
+            return;
+        }
+
+        const submission = { ...formData };
+
+        setIsGenerating(true);
+        try {
+            const generateOutline = httpsCallable(functions, "generateDraftCoPilot");
+            const result = await generateOutline(submission);
+
+            if (result.data.success) {
+                setGeneratedOutline(result.data.outline);
+            } else {
+                alert("Błąd podczas generowania konspektu: " + result.data.error);
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Błąd połączenia z serwerem.");
+        } finally {
+            setIsGenerating(false);
+        }
     };
 
     const pillars = [
@@ -224,49 +278,19 @@ export default function AICoPilot({ keywords: dbKeywords }) {
                 </div>
 
                 <form onSubmit={handleSubmit} className="co-pilot-form">
-                    <div className="form-group">
-                        <label>Temat główny wpisu</label>
-                        <select
+                    <div className="form-group mb-6">
+                        <label>Wybrany temat do konspektu</label>
+                        <input
+                            type="text"
+                            placeholder="Kliknij w powyzszą sugestię AI, lub wpisz własny tytuł..."
                             value={formData.topic}
-                            onChange={(e) => setFormData(prev => ({ ...prev, topic: e.target.value }))}
+                            onChange={(e) => setFormData(prev => ({ ...prev, topic: e.target.value, isSeries: false, seriesName: "" }))}
+                            className="w-full"
                             required
-                            className="smart-select"
-                        >
-                            <option value="">-- Wybierz temat z sugestii AI lub własny --</option>
-                            {Object.entries(analytics?.topicSuggestions || {}).map(([target, suggestions], idx) => {
-                                const validSuggestions = Array.isArray(suggestions) ? suggestions : [];
-                                if (validSuggestions.length === 0) return null;
-                                return (
-                                    <optgroup key={idx} label={target}>
-                                        {validSuggestions.map((s, i) => {
-                                            const val = `${target} - ${s}`;
-                                            return <option key={`opt-${idx}-${i}`} value={val}>{s}</option>;
-                                        })}
-                                    </optgroup>
-                                );
-                            })}
-                            <option value="custom">Inny (Wpisz własny temat)...</option>
-                        </select>
-
-                        {formData.topic === "custom" && (
-                            <input
-                                type="text"
-                                placeholder="Wpisz własny temat tutaj..."
-                                value={formData.customTopic}
-                                onChange={(e) => setFormData(prev => ({ ...prev, customTopic: e.target.value }))}
-                                className="mt-2"
-                                required
-                            />
-                        )}
-
-                        {formData.topic && formData.topic !== "custom" && (
-                            <div className="selected-topic-preview">
-                                <span className="label">Wybrany temat:</span> {formData.topic}
-                                {formData.isSeries && (
-                                    <div className="series-badge mt-1">
-                                        <Layers size={14} /> Kontynuacja cyklu: <strong>{formData.seriesName}</strong>
-                                    </div>
-                                )}
+                        />
+                        {formData.isSeries && (
+                            <div className="series-badge">
+                                <Layers size={14} /> Kontynuacja cyklu: <strong>{formData.seriesName}</strong>
                             </div>
                         )}
                     </div>
@@ -339,10 +363,71 @@ export default function AICoPilot({ keywords: dbKeywords }) {
                     </div>
 
                     <div className="form-actions">
-                        <button type="submit" className="btn-generate-draft" disabled={isGenerating}>
-                            <Sparkles size={18} />
-                            {isGenerating ? "Generowanie..." : "Krok 1: Generuj Draft"}
-                        </button>
+                        {generatedOutline ? (
+                            <div className="outline-review-container mt-6 p-6 bg-gray-100 rounded-xl border border-gray-200 shadow-inner">
+                                <label className="outline-label flex items-center gap-2 font-bold text-gray-800 mb-4 text-lg">
+                                    <FileText size={22} className="text-orange-500" />
+                                    Konspekt Artykułu (Edytor)
+                                </label>
+
+                                <div className="editor-google-docs-style bg-white rounded-lg shadow-md border border-gray-300 overflow-hidden mb-6">
+                                    {/* Toolbar */}
+                                    <div className="toolbar flex flex-wrap gap-2 p-3 bg-gray-50 border-b border-gray-200">
+                                        <button
+                                            type="button"
+                                            onMouseDown={(e) => { e.preventDefault(); document.execCommand('strikeThrough', false, null); }}
+                                            className="px-3 py-1.5 bg-red-50 text-red-700 rounded border border-red-200 hover:bg-red-100 text-sm font-semibold flex items-center gap-2 transition-colors focus:outline-none"
+                                            title="Zaznacz tekst i kliknij, aby go usunąć ze szkicu"
+                                        >
+                                            <span className="line-through block">Usuń</span> <span className="text-xs font-normal opacity-75">(Skreśl)</span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onMouseDown={(e) => { e.preventDefault(); if (!document.execCommand('hiliteColor', false, '#fef08a')) document.execCommand('backColor', false, '#fef08a'); }}
+                                            className="px-3 py-1.5 bg-yellow-50 text-yellow-800 rounded border border-yellow-200 hover:bg-yellow-100 text-sm font-semibold flex items-center gap-2 transition-colors focus:outline-none"
+                                            title="Zaznacz dopisany przez siebie tekst"
+                                        >
+                                            <span className="bg-yellow-300 px-1 rounded block">Dodaj</span> <span className="text-xs font-normal opacity-75">(Wyróżnij)</span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onMouseDown={(e) => { e.preventDefault(); document.execCommand('bold', false, null); }}
+                                            className="px-3 py-1.5 bg-white text-gray-800 rounded border border-gray-300 hover:bg-gray-100 text-sm font-semibold flex items-center gap-2 transition-colors focus:outline-none"
+                                            title="Pogrub fragmenty"
+                                        >
+                                            <strong className="block">Ważne</strong> <span className="text-xs font-normal opacity-75">(Bold)</span>
+                                        </button>
+                                    </div>
+
+                                    {/* Editable Area (The "Page") */}
+                                    <div className="editor-page-wrapper p-8 bg-white" style={{ minHeight: "500px", maxHeight: "65vh", overflowY: "auto" }}>
+                                        <div
+                                            className="outline-editable-div w-full min-h-full text-gray-900 outline-none style-prose"
+                                            contentEditable
+                                            suppressContentEditableWarning
+                                            onBlur={(e) => setGeneratedOutline(e.currentTarget.innerHTML)}
+                                            dangerouslySetInnerHTML={{ __html: generatedOutline }}
+                                            style={{
+                                                lineHeight: "1.8",
+                                                fontSize: "16px",
+                                                fontFamily: "system-ui, -apple-system, sans-serif"
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Submit Button */}
+                                <button type="submit" disabled={isGenerating} className="btn-generate-draft w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 px-6 rounded-xl flex items-center justify-center gap-3 text-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                                    <Sparkles size={24} className={isGenerating ? "animate-pulse" : ""} />
+                                    <span>{isGenerating ? "Pisanie artykułu przez AI (to może zająć chwilę)..." : "Krok 2/3: Zatwierdź Konspekt i Poproś AI o finalny tekst"}</span>
+                                </button>
+                            </div>
+                        ) : (
+                            <button type="submit" className="btn-generate-draft" disabled={isGenerating}>
+                                <Sparkles size={18} />
+                                {isGenerating ? "Generowanie Konspektu (Proszę czekać...)" : "Krok 1: Generuj Konspekt"}
+                            </button>
+                        )}
                     </div>
                 </form>
             </section>

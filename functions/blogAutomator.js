@@ -328,3 +328,188 @@ exports.generateDraftManual = onCall({ cors: true }, async (request) => {
     return { success: false, error: error.message };
   }
 });
+
+/**
+ * AI Co-Pilot: Outline Generation (Step 1)
+ * Accepts user instructions from the Admin Panel and returns a detailed Markdown outline.
+ */
+exports.generateDraftCoPilot = onCall({ cors: true }, async (request) => {
+  try {
+    const payload = request.data;
+    console.log("[Co-Pilot] Outline generation requested with payload:", payload);
+
+    const {
+      topic,
+      theses,
+      selectedKeywords,
+      includeBuildingLaw,
+      includeAnecdote
+    } = payload;
+
+    if (!topic) {
+      throw new Error("Missing required field: topic");
+    }
+
+    const systemPrompt = "Jesteś asystentem redakcyjnym i strategiem treści dla doświadczonego inżyniera budownictwa. Twoim zadaniem jest stworzenie szczegółowego konspektu artykułu na podstawie wytycznych.";
+
+    let userPromptBuilder = `Oto wytyczne od Głównego Inżyniera:\n\n`;
+    userPromptBuilder += `- Temat: ${topic}\n`;
+    
+    if (selectedKeywords && selectedKeywords.length > 0) {
+      userPromptBuilder += `- Słowa kluczowe do wplecenia: ${selectedKeywords.join(", ")}\n`;
+    }
+    
+    if (theses) {
+      userPromptBuilder += `- Główne tezy inżyniera:\n${theses}\n`;
+    }
+
+    let constraints = [];
+    if (includeBuildingLaw) constraints.push("cytat prawny (Prawo Budowlane / Normy)");
+    if (includeAnecdote) constraints.push("anegdotę z budowy ze Śląska");
+    
+    if (constraints.length > 0) {
+      userPromptBuilder += `- Uwzględnij miejsce na: ${constraints.join(" oraz ")}.\n`;
+    }
+
+    userPromptBuilder += `\nZadanie: Wygeneruj szczegółowy konspekt artykułu. Zwróć go jako rzetelnie sformatowany kod HTML.
+Konspekt musi zawierać:
+1. Propozycję chwytliwego Tytułu w znaczniku <h2>.
+2. Nagłówki sekcji w znacznikach <h3>.
+3. Pod każdym nagłówkiem krótkie wypunktowanie (<ul><li>) tego, co powinno się tam znaleźć.
+4. Wyraźnie zaznacz w konspekcie [MIEJSCE NA TWOJĄ ANEGDOTĘ] lub [MIEJSCE NA CYTAT Z PRAWA] używając np. pogrubienia <strong>, abym wiedział, gdzie mam dopisać swój tekst ekspercki.
+
+Zwróć TYLKO czysty kod HTML (nie dodawaj znaczników \`\`\`html ani \`\`\` wokół kodu). Będzie on od razu wyświetlony w edytorze.`;
+
+    console.log("Calling OpenAI for Co-Pilot outline...");
+    const contentCompletion = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPromptBuilder }
+      ]
+      // No JSON formatting forced here, we want standard markdown text
+    });
+
+    const markdownOutline = contentCompletion.choices[0].message.content.trim();
+    
+    return {
+      success: true,
+      outline: markdownOutline
+    };
+
+  } catch (error) {
+    console.error("[Co-Pilot] Error generating outline:", error);
+    return { success: false, error: error.message };
+  }
+});
+
+// Krok 2: Generowanie pełnego artykułu na podstawie zedytowanego konspektu HTML
+exports.generateDraftFromOutline = onCall(async (request) => {
+  try {
+    const { outlineHtml, topic, selectedKeywords, isSeries, seriesName } = request.data;
+    if (!outlineHtml || !topic) {
+      throw new Error("Missing required fields: outlineHtml or topic");
+    }
+
+    const systemPrompt = `Jesteś doświadczonym Inżynierem Przemkiem, autorem bloga o prawie budowlanym i przeglądach domów.
+Twoim zadaniem jest napisanie WYCZERPUJĄCEGO, merytorycznego i eksperckiego artykułu (min. 800 słów) na podstawie dostarczonego konspektu HTML.
+
+ZASADY:
+1. ZIGNORUJ fragmenty konspektu, które są przekreślone (zawarte w znaczniku <strike> lub <span style="text-decoration: line-through;">).
+2. SZCZEGÓLNIE ROZWIŃ I PODKREŚL fragmenty, które są zaznaczone żółtym tłem (zawarte w znanczniku ze stylem background-color, np. <span style="background-color: rgb(254, 240, 138);">).
+3. Artykuł MUSI być zwrócony w czystym formacie HTML (używaj <h2>, <h3>, <ul>, <li>, <p>).
+4. Słowa kluczowe do naturalnego wplecenia: ${selectedKeywords ? selectedKeywords.join(", ") : "Brak"}.
+5. Jeśli artykuł jest z cyklu, wpleć informację o cyklu do tytułu.
+6. Zwracasz obiekt JSON z następującymi kluczami:
+   - "title": proponowany finalny tytuł artykułu. Jeśli to kontynuacja cyklu, musi zawierać nazwę cyklu.
+   - "content": Krótki lead (max 2 zdania), tzw. SEO description (czysty tekst, zero HTML).
+   - "content2": Właściwa treść. Długi, pełny artykuł w HTML (bez tagu title i body wewnątrz).
+   - "categories": tablica max 2 kategorii (np. ["Prawo budowlane", "Porady"]).
+   - "tags": tablica 4-6 tagów SEO (np. ["odbiór techniczny", "usterki"]).
+   - "facebookPost": Klikalny, chwytliwy post na Facebooka promujący ten artykuł z odpowiednimi emotikonami i wezwaniem do akcji (bez HTML).
+   - "imagePrompt": Krótki prompt graficzny po angielsku do FLUX opisujący zdjęcie (bez tekstu na obrazku).`;
+
+    const userMessage = `Napisz gotowy artykuł na ten temat: ${topic} \n${isSeries ? `(To jest kontynuacja cyklu: ${seriesName} - wymuś kontynuację w tytule!)` : ""}\n\nOto zatwierdzony i zedytowany konspekt HTML:\n\n${outlineHtml}`;
+
+    console.log("Calling OpenAI (gpt-4o) for full article from outline...");
+    const contentCompletion = await openai.chat.completions.create({
+      model: "gpt-4o",
+      response_format: { type: "json_object" },
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userMessage }
+      ]
+    });
+
+    const aiContentData = JSON.parse(contentCompletion.choices[0].message.content);
+    
+    console.log("Generating image with fal.ai Flux Schnell for Co-Pilot...");
+    const finalImagePrompt = aiContentData.imagePrompt + ", bright, minimalist, high quality, highly detailed, photorealistic, 4k, no text";
+    let imageUrl = "https://via.placeholder.com/800x450.png?text=Brak+obrazu";
+    
+    if (process.env.FAL_KEY) {
+      try {
+        const imgResponse = await fetch("https://queue.fal.run/fal-ai/flux/schnell", {
+          method: "POST",
+          headers: {
+            "Authorization": `Key ${process.env.FAL_KEY}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            prompt: finalImagePrompt,
+            image_size: { width: 1024, height: 576 }, // 16:9 ratio
+            num_images: 1,
+            num_inference_steps: 4
+          })
+        });
+
+        const imgData = await imgResponse.json();
+        if (imgData && imgData.images && imgData.images.length > 0) {
+           const tempUrl = imgData.images[0].url;
+           console.log("Fal.ai successful, downloading and uploading to Firebase Storage...");
+           imageUrl = await downloadAndUploadImage(tempUrl);
+        } else {
+           console.warn("Fal.ai didn't return images:", imgData);
+        }
+      } catch (e) {
+        console.error("Error calling Fal.ai for Co-Pilot:", e);
+      }
+    } else {
+      console.warn("FAL_KEY is missing. Using generic placeholder.");
+    }
+
+    const docId = db.collection("pending_posts").doc().id;
+    const now = FieldValue.serverTimestamp();
+
+    const draftData = {
+      title: aiContentData.title,
+      content: aiContentData.content,
+      content2: aiContentData.content2,
+      categories: aiContentData.categories || ["Porady ekspertów"],
+      tags: aiContentData.tags || [],
+      facebookPost: aiContentData.facebookPost || "",
+      imageUrl: imageUrl,
+      imagePrompt: finalImagePrompt,
+      createdAt: now,
+      status: "AI_DRAFT",
+      keywords: selectedKeywords || [],
+      isSeries: isSeries || false,
+      seriesName: seriesName || "",
+      strategyLog: {
+        source: "AI Co-Pilot (Outline Flow)",
+        model: "gpt-4o"
+      }
+    };
+
+    await db.collection("pending_posts").doc(docId).set(draftData);
+
+    return {
+      success: true,
+      pendingPostId: docId
+    };
+
+  } catch (error) {
+    console.error("[Co-Pilot] Error passing from outline to draft:", error);
+    return { success: false, error: error.message };
+  }
+});

@@ -28,7 +28,7 @@ const {
   sendAlertEmail,
   notifyAdminAboutConfirmation,
 } = require("./calendarManager");
-const { generateDraftManual, getBlogAnalytics } = require("./blogAutomator");
+const { generateDraftManual, getBlogAnalytics, generateDraftCoPilot, generateDraftFromOutline } = require("./blogAutomator");
 const { postToPage } = require("./facebookService");
 const { onCall } = require("firebase-functions/v2/https");
 const { getFirestore, FieldValue } = require("firebase-admin/firestore");
@@ -400,6 +400,8 @@ exports.onUserCartCreated = functionsV1.firestore
 exports.generateDraftManual = generateDraftManual;
 // exports.generateDailyPost = generateDailyPost; (Removed for Co-Pilot)
 exports.getBlogAnalytics = getBlogAnalytics;
+exports.generateDraftCoPilot = generateDraftCoPilot;
+exports.generateDraftFromOutline = generateDraftFromOutline;
 
 /**
  * Publishes a pending post to the main posts collection.
