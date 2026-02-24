@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./ctaBanner.scss";
-import CallButton from "../../components/CallButton/CallButton";
+import CallButton from "../../components/callButton/CallButton.jsx";
 import OrderButton from "../../components/OrderButton/OrderButton";
 
 const CtaBanner = ({ customCity }) => {

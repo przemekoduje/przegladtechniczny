@@ -1,13 +1,13 @@
+const admin = require("firebase-admin");
+if (admin.apps.length === 0) {
+  admin.initializeApp();
+}
+
 const functions = require("firebase-functions");
 const functionsV1 = require("firebase-functions/v1");
 const cors = require("cors")({ origin: true });
 const OpenAI = require("openai");
 const path = require("path");
-const admin = require("firebase-admin");
-
-if (admin.apps.length === 0) {
-  admin.initializeApp();
-}
 
 require("dotenv").config({ path: path.resolve(__dirname, ".env") });
 const nodemailer = require("nodemailer");
@@ -28,7 +28,7 @@ const {
   sendAlertEmail,
   notifyAdminAboutConfirmation,
 } = require("./calendarManager");
-const { generateDraftManual, generateDailyPost } = require("./blogAutomator");
+const { generateDraftManual, getBlogAnalytics } = require("./blogAutomator");
 const { postToPage } = require("./facebookService");
 const { onCall } = require("firebase-functions/v2/https");
 const { getFirestore, FieldValue } = require("firebase-admin/firestore");
@@ -329,7 +329,7 @@ exports.onUserCartCreated = functionsV1.firestore
     if (!snap) return null;
     const data = snap.data();
     const docId = context.params.docId;
-    
+
     // Sprawdzamy, czy s\u0105 dane
     if (!data || !data.property) {
       console.log("Brak wymaganych danych w u\u017cytkowniku koszyku, docId:", docId);
@@ -339,10 +339,10 @@ exports.onUserCartCreated = functionsV1.firestore
     const clientEmail = data.userEmail;
     const clientPhone = (data.contact && data.contact.phone && data.contact.phone.trim() !== "") ? data.contact.phone : "Brak telefonu";
     const clientName = (data.contact && data.contact.name && data.contact.name.trim() !== "") ? data.contact.name : "Klient";
-    
+
     const propertyType = data.property.propertyType || "Nieruchomo\u015b\u0107";
     const propertyAddress = data.property.propertyAddress || "Brak adresu";
-    
+
     try {
       // 1. Email do Admina
       await transporter.sendMail({
@@ -385,9 +385,9 @@ exports.onUserCartCreated = functionsV1.firestore
       // 3. MOCK: Wywo\u0142anie zewn\u0119trznego SMS API
       console.log("==== START API SMS MOCK ====");
       console.log(`[SMS do Admina] Na numer: Admin -> "Nowe zg\u0142oszenie: ${propertyType}, ${propertyAddress}. Sprawd\u017a Firebase."`);
-      
+
       if (clientPhone !== "Brak telefonu") {
-          console.log(`[SMS do Klienta] Na numer: ${clientPhone} -> "Czesc ${clientName}! Otrzymalismy zgloszenie dot. ${propertyType}. WKrotce wyslemy Ci oferte na maila. Zespol Przeglad Techniczny"`);
+        console.log(`[SMS do Klienta] Na numer: ${clientPhone} -> "Czesc ${clientName}! Otrzymalismy zgloszenie dot. ${propertyType}. WKrotce wyslemy Ci oferte na maila. Zespol Przeglad Techniczny"`);
       }
       console.log("==== END API SMS MOCK ====");
     } catch (error) {
@@ -398,7 +398,8 @@ exports.onUserCartCreated = functionsV1.firestore
   });
 
 exports.generateDraftManual = generateDraftManual;
-exports.generateDailyPost = generateDailyPost;
+// exports.generateDailyPost = generateDailyPost; (Removed for Co-Pilot)
+exports.getBlogAnalytics = getBlogAnalytics;
 
 /**
  * Publishes a pending post to the main posts collection.
@@ -418,7 +419,7 @@ exports.publishPendingPost = onCall({ cors: true }, async (request) => {
   }
 
   const draftData = draftDoc.data();
-  
+
   // 1. Copy to 'posts'
   const newPost = {
     ...draftData,
@@ -447,7 +448,7 @@ exports.publishPendingPost = onCall({ cors: true }, async (request) => {
         .replace(/\s+/g, "-");
 
       const postUrl = `https://przeglady-domu.online/blogDB/${slug}`;
-      
+
       console.log("Triggering Facebook post...");
       await postToPage(pageId, pageAccessToken, draftData.facebookPost, postUrl);
     } catch (fbError) {
@@ -470,7 +471,7 @@ exports.publishPendingPost = onCall({ cors: true }, async (request) => {
 exports.setAutomationGate = onCall({ cors: true }, async (request) => {
   const { isEnabled } = request.data;
   const db = getFirestore();
-  
+
   await db.collection("settings").doc("blogAutomator").set({
     isNextCycleEnabled: !!isEnabled,
     updatedAt: FieldValue.serverTimestamp()

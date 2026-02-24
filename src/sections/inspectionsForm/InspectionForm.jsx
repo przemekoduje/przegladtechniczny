@@ -7,7 +7,7 @@ import { collection, addDoc, Timestamp } from "firebase/firestore";
 // import { auth } from "../../firebase";
 // import { onAuthStateChanged } from "firebase/auth";
 import { useAuth } from "../../contexts/AuthContext";
-import PopupModal from "../../components/PopModal/PopModal";
+import PopupModal from "../../components/popModal/PopModal.jsx";
 import InfoIcon from "@mui/icons-material/Info";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import HouseIcon from "@mui/icons-material/House";

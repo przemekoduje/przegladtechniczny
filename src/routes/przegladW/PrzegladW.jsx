@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./przegladW.scss";
 import PersonIcon from "@mui/icons-material/Person";
-import Menu from "../../components/Menu/Menu";
+import Menu from "../../components/menu/Menu.jsx";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 

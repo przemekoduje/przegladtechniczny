@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Menu from "../components/Menu/Menu";
+import Menu from "../components/menu/Menu.jsx";
 import "./layout.scss";
 // import BookingAgent from '../components/BookingAgent/BookingAgent'
 

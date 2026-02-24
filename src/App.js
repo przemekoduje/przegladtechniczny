@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState } from "react";
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -9,20 +10,20 @@ import {
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 
 // --- IMPORTY STRON I KOMPONENTÓW ---
-import Home from "./routes/Home/Home.jsx";
-import Login from "./components/Login/Login.jsx";
+import Home from "./routes/home/Home.jsx";
+import Login from "./components/login/Login.jsx";
 import AdminRoute from "./components/AdminRoute/AdminRoute.jsx";
-import SignUp from "./components/SignUp/SignUp.jsx";
-import PrzewodnikOcena from "./routes/Landingi/PrzewodnikOcena/PrzewodnikOcena.jsx";
+import SignUp from "./components/signUp/SignUp.jsx";
+import PrzewodnikOcena from "./routes/landingi/przewodnikOcena/PrzewodnikOcena.jsx";
 import BlogDB from "./routes/BlogDB/BlogDB.jsx";
 import AdminPanel from "./routes/AdminPanel/AdminPanel.jsx";
-import UserDashboard from "./routes/UserDashboard/UserDashboard";
-import PrzegladB from "./routes/PrzegladB/PrzegladB";
-import PrzegladG from "./routes/PrzegladG/PrzegladG";
-import PrzegladE from "./routes/PrzegladE/PrzegladE";
-import PrzegladW from "./routes/PrzegladW/PrzegladW";
+import UserDashboard from "./routes/userDashboard/UserDashboard.jsx";
+import PrzegladB from "./routes/przegladB/PrzegladB.jsx";
+import PrzegladG from "./routes/przegladG/PrzegladG.jsx";
+import PrzegladE from "./routes/przegladE/PrzegladE.jsx";
+import PrzegladW from "./routes/przegladW/PrzegladW.jsx";
 import Layout from "./layouts/Layout.jsx";
-import FormLanding from "./routes/FormLanding/FormLanding";
+import FormLanding from "./routes/formLanding/FormLanding.jsx";
 import Terms from "./routes/legal/Terms.jsx";
 import PrivacyPolicy from "./routes/legal/PrivacyPolicy.jsx";
 import HeroSnapScroller from "./fachowiec/pages/Mobile/HeroSnapScroller/HeroSnapScroller";

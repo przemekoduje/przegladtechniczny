@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./menu.scss";
-import Panel from "../Panel/Panel";
+import Panel from "../panel/Panel";
 // import { auth, onAuthStateChanged } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate, useLocation } from "react-router-dom"; // Dodaj useLocation jeśli planujesz nawigację między stronami
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import CallButton from "../CallButton/CallButton";
+import CallButton from "../callButton/CallButton";
 
 export default function Menu({ isPanelOpen, setIsPanelOpen, isTransparent }) {
   const { currentUser: user, isAdmin } = useAuth();

@@ -59,6 +59,8 @@ import { signOut } from "firebase/auth";
 import ButtonBlot from "../../components/quill/ButtonBlot.js";
 import AnalyticsView from "./AnalyticsView";
 import AIDraftEditor from "./AIDraftEditor";
+import AICoPilot from "./AICoPilot";
+import "./aiCoPilot.scss";
 import { useNavigate } from "react-router-dom";
 
 Quill.register("modules/imageResize", ImageResize);
@@ -615,6 +617,13 @@ export default function AdminPanel() {
             <Tag size={18} /> Słowa kluczowe
           </button>
 
+          <button
+            className={activeTab === "ai-co-pilot" ? "active" : ""}
+            onClick={() => setActiveTab("ai-co-pilot")}
+          >
+            <Zap size={18} color="#f97316" /> AI Co-Pilot
+          </button>
+
           <div style={{ marginTop: "auto", paddingTop: "2rem" }}>
             <button onClick={handleLogout} style={{ color: "#f56565", width: "100%" }}>
               <LogOut size={18} /> Wyloguj się
@@ -632,7 +641,8 @@ export default function AdminPanel() {
                   activeTab === "analytics" ? "Analityka i Statystyki" :
                     activeTab === "ai-drafts" ? "Szkice AI (Blog Automator)" :
                       activeTab === "keywords" ? "Zarządzanie Słowami Kluczowymi" :
-                        editingPost ? "Edycja wpisu" : "Nowy wpis"}
+                        activeTab === "ai-co-pilot" ? "AI Co-Pilot (Etap 1: Analityka)" :
+                          editingPost ? "Edycja wpisu" : "Nowy wpis"}
             </h2>
             <p>
               {activeTab === "requests" ? `Liczba rezerwacji w systemie: ${clientRequests.length}` :
@@ -640,7 +650,8 @@ export default function AdminPanel() {
                   activeTab === "analytics" ? "Przeglądaj dane o ruchu na Twojej stronie" :
                     activeTab === "ai-drafts" ? `AI wygenerowało ${pendingPosts.length} szkiców oczekujących na zatwierdzenie` :
                       activeTab === "keywords" ? `W bazie znajduje się ${keywords.length} słów kluczowych` :
-                        "Wypełnij pola poniżej, aby opublikować wpis"}
+                        activeTab === "ai-co-pilot" ? "Przygotuj wytyczne dla AI, aby wygenerować idealny szkic artykułu" :
+                          "Wypełnij pola poniżej, aby opublikować wpis"}
             </p>
           </div>
           {activeTab === "form" && (
@@ -737,6 +748,8 @@ export default function AdminPanel() {
                 </div>
               )}
             </section>
+          ) : activeTab === "ai-co-pilot" ? (
+            <AICoPilot keywords={keywords} />
           ) : activeTab === "requests" ? (
             <section className="requests-container">
               {clientRequests.length === 0 ? (

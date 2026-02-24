@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MapPin } from "lucide-react";
 import iconMining from "../../assets/mining-risk-icon.png";
-import iconStarowka from "../../assets/risk-icon-starówka.png";
+import iconStarowka from "../../assets/risk-icon-starówka.png";
 import iconZielone from "../../assets/risk-icon-zielone.png";
 import "./localContext.scss";
 import SilesiaMapGL from "../../components/SilesiaMapGL/SilesiaMapGL";
