@@ -14,7 +14,7 @@ import Home from "./routes/Home/Home";
 import Login from "./components/Login/Login";
 import AdminRoute from "./components/AdminRoute/AdminRoute";
 import SignUp from "./components/SignUp/SignUp";
-import PrzewodnikOcena from "./routes/landingi/PrzewodnikOcena/PrzewodnikOcena";
+import PrzewodnikOcena from "./routes/Landingi/PrzewodnikOcena/PrzewodnikOcena";
 import BlogDB from "./routes/BlogDB/BlogDB";
 import AdminPanel from "./routes/AdminPanel/AdminPanel";
 import UserDashboard from "./routes/UserDashboard/UserDashboard";
