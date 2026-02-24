@@ -1,7 +1,7 @@
 import React from 'react';
 import './scope.scss'; // Importujemy plik ze stylami
 import OrderButton from '../../components/OrderButton/OrderButton';
-import CallButton from '../../components/callButton/CallButton.jsx';
+import CallButton from '../../components/CallButton/CallButton';
 
 import iconB2B from '../../assets/roczny-scope-card-icon.png';
 import iconHouse from '../../assets/5-scope-card-icon.png';

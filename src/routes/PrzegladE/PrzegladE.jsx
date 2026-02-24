@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import "./przegladB.scss"; // stylizacja w osobnym pliku
-import Menu from "../../components/menu/Menu.jsx";
+import "./przegladE.scss";
+import PersonIcon from "@mui/icons-material/Person";
+import Menu from "../../components/Menu/Menu";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
-const PrzegladB = ({ user }) => {
+const PrzegladE = ({ user, isPanelOpen, setIsPanelOpen }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [userPhoto, setUserPhoto] = useState("");
   const navigate = useNavigate();
@@ -26,25 +27,25 @@ const PrzegladB = ({ user }) => {
   return (
     <>
       <Helmet>
-        <title>Przegląd Budowlany Gliwice & Śląsk | Roczne i 5-letnie kontrole</title>
-        <meta name="description" content="Szukasz eksperta do przeglądu budowlanego w Gliwicach? Wykonujemy okresowe kontrole budynków zgodnie z art. 62 Prawa Budowlanego. Atrakcyjne ceny i szybkie terminy." />
-        <link rel="canonical" href="https://przeglady-domu.online/przeglad-budowlany" />
+        <title>Przegląd Elektryczny Gliwice & Śląsk | Pomiary i Protokół</title>
+        <meta name="description" content="Okresowe pomiary i przeglądy instalacji elektrycznej w Gliwicach. Protokół do ubezpieczenia i gwarancja bezpieczeństwa. Uprawnienia SEP i szybkie terminy na Śląsku." />
+        <link rel="canonical" href="https://przeglady-domu.online/przeglad-elektryczny" />
       </Helmet>
-      <section className="przeglad-budowlany">
+      <section className="przeglad-elektryczny">
         <div className="container_info">
-          <h1>Przegląd budowlany</h1>
+          <h1>Przegląd instalacji elektrycznej</h1>
+
           <div className="textsAndButton">
             <div className="left">
               <p className="description">
-                Zgodnie z art. 62 ustawy Prawo budowlane, okresowy przegląd
-                budowlany nieruchomości jest obowiązkowy. Skorzystaj z naszej
-                kompleksowej usługi przeglądów i nie ryzykuj problemów z wypłatą
-                odszkodowania przez ubezpieczyciela.
+                Przegląd instalacji elektrycznej to obowiązek wynikający z
+                przepisów prawa budowlanego, ale także gwarancja Twojego
+                bezpieczeństwa. Zleć go naszym specjalistom, by mieć pewność, że
+                instalacja działa sprawnie i bezpiecznie.
               </p>
 
               <button className="main_button"
-                onClick={() => scrollToSection("inspection-form")}
-              >
+                onClick={() => scrollToSection("inspection-form")}>
                 <span>ZAMÓW BEZPŁATNĄ WYCENĘ</span>
                 <div className="btn-icon">
                   <img src={userPhoto} alt="Profil" />
@@ -131,7 +132,6 @@ const PrzegladB = ({ user }) => {
             </span>
           </div>
         </div>
-
         <div className="container_warning">
           <h2>DLACZEGO NIE WARTO RYZYKOWAĆ?</h2>
           <p>
@@ -206,4 +206,4 @@ const PrzegladB = ({ user }) => {
   );
 };
 
-export default PrzegladB;
+export default PrzegladE;

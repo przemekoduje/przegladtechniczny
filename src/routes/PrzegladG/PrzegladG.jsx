@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
-import "./przegladE.scss";
+import "./przegladG.scss"; // Używamy ten sam SCSS
 import PersonIcon from "@mui/icons-material/Person";
-import Menu from "../../components/menu/Menu.jsx";
+import Menu from "../../components/Menu/Menu";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
-const PrzegladE = ({ user, isPanelOpen, setIsPanelOpen }) => {
+const PrzegladG = ({ user, isPanelOpen, setIsPanelOpen }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [userPhoto, setUserPhoto] = useState("");
   const navigate = useNavigate();
 
   const scrollToSection = (id) => {
-
     setTimeout(() => {
       navigate("/", { state: { scrollTo: id } });
     }, 300);
@@ -24,28 +23,32 @@ const PrzegladE = ({ user, isPanelOpen, setIsPanelOpen }) => {
       setUserPhoto("images/user-50.png");
     }
   }, [user]);
+
   return (
     <>
       <Helmet>
-        <title>Przegląd Elektryczny Gliwice & Śląsk | Pomiary i Protokół</title>
-        <meta name="description" content="Okresowe pomiary i przeglądy instalacji elektrycznej w Gliwicach. Protokół do ubezpieczenia i gwarancja bezpieczeństwa. Uprawnienia SEP i szybkie terminy na Śląsku." />
-        <link rel="canonical" href="https://przeglady-domu.online/przeglad-elektryczny" />
+        <title>Przegląd Instalacji Gazowej Gliwice & Śląsk | Szczelność i Bezpieczeństwo</title>
+        <meta name="description" content="Obowiązkowy roczny przegląd gazowy w Gliwicach? Zadbaj o bezpieczeństwo swojej rodziny. Wykonujemy profesjonalne próby szczelności instalacji gazowych na całym Śląsku." />
+        <link rel="canonical" href="https://przeglady-domu.online/przeglad-gazowy" />
       </Helmet>
-      <section className="przeglad-elektryczny">
+      <section className="przeglad-gazowy">
         <div className="container_info">
-          <h1>Przegląd instalacji elektrycznej</h1>
+          <h1>Przegląd instalacji gazowej</h1>
 
           <div className="textsAndButton">
             <div className="left">
               <p className="description">
-                Przegląd instalacji elektrycznej to obowiązek wynikający z
-                przepisów prawa budowlanego, ale także gwarancja Twojego
-                bezpieczeństwa. Zleć go naszym specjalistom, by mieć pewność, że
-                instalacja działa sprawnie i bezpiecznie.
+                Zgodnie z art. 62 ustawy Prawo budowlane regularny przegląd
+                instalacji gazowej jest obowiązkiem każdego właściciela
+                nieruchomości. Skorzystaj z naszego kompleksowego przeglądu
+                instalacji gazowej i zadbaj o bezpieczeństwo swoje oraz
+                bliskich.
               </p>
 
-              <button className="main_button"
-                onClick={() => scrollToSection("inspection-form")}>
+              <button
+                className="main_button"
+                onClick={() => scrollToSection("inspection-form")}
+              >
                 <span>ZAMÓW BEZPŁATNĄ WYCENĘ</span>
                 <div className="btn-icon">
                   <img src={userPhoto} alt="Profil" />
@@ -79,17 +82,22 @@ const PrzegladE = ({ user, isPanelOpen, setIsPanelOpen }) => {
         </div>
         <div className="container_faq">
           <div className="faq faq_one">
-            <p>Czym dokładnie jest przegląd techniczny nieruchomości?</p>
+            <p>
+              Dlaczego przegląd instalacji gazowej jest tak istotny i jak często
+              należy go przeprowadzać?
+            </p>
             <span>
-              Przegląd techniczny nieruchomości to obowiązkowa kontrola stanu
-              technicznego budynku, obejmująca jego konstrukcję, instalacje
-              (gazową, elektryczną) oraz elementy narażone na działanie
-              czynników atmosferycznych i instalacje kominowe. Celem przeglądu
-              jest zapewnienie bezpieczeństwa użytkowników budynku oraz zgodność
-              obiektu z wymogami prawa budowlanego.
+              Przegląd instalacji gazowej jest obowiązkowy i należy
+              przeprowadzać go co najmniej raz w roku (art. 62 ust. 1 pkt 1 lit.
+              c ustawy Prawo budowlane). Ma to na celu wykrycie potencjalnych
+              nieszczelności oraz innych usterek, które mogą prowadzić do
+              wycieków gazu i stanowić zagrożenie dla zdrowia i życia
+              użytkowników budynku.
             </span>
-            <button className="main_button"
-              onClick={() => scrollToSection("inspection-form")}>
+            <button
+              className="main_button"
+              onClick={() => scrollToSection("inspection-form")}
+            >
               <span>ZAMÓW BEZPŁATNĄ WYCENĘ</span>
               <div className="btn-icon">
                 <img src={userPhoto} alt="Profil" />
@@ -151,14 +159,23 @@ const PrzegladE = ({ user, isPanelOpen, setIsPanelOpen }) => {
               <img src="/images/blog01.png" alt="" />
             </div>
             <div className="blog_right">
-              <h3>Na czym polega przegląd budowlany?</h3>
+              <h3>
+                Przeglądy techniczne: instalacja gazowa – obowiązki ustawowe
+                właściciela
+              </h3>
               <p>
-                Regularny przegląd budowlany to gwarancja bezpieczeństwa i
-                długowieczności Twojej nieruchomości. Dowiedz się, jak przebiega
-                taka kontrola i dlaczego warto ją przeprowadzać zgodnie z
-                obowiązującymi przepisami.
+                Ten poradnik ma na celu szczegółowe wyjaśnienie obowiązków
+                ustawowych właściciela domu w zakresie przeglądów instalacji
+                gazowej, abyś mógł świadomie i odpowiedzialnie zarządzać
+                bezpieczeństwem swojego domu.
               </p>
-              <button className="blog_button">Przeczytaj całość</button>
+              <a
+                href="https://przeglady-domu.online/blogDB?openPost=2SRu4Riow0NAGtObFULo"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <button className="blog_button">Przeczytaj całość</button>
+              </a>
             </div>
           </div>
           <div className="blog blog_two">
@@ -206,4 +223,4 @@ const PrzegladE = ({ user, isPanelOpen, setIsPanelOpen }) => {
   );
 };
 
-export default PrzegladE;
+export default PrzegladG;

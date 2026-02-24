@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import "./przegladG.scss"; // Używamy ten sam SCSS
+import "./przegladW.scss";
 import PersonIcon from "@mui/icons-material/Person";
-import Menu from "../../components/menu/Menu.jsx";
+import Menu from "../../components/Menu/Menu";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
-const PrzegladG = ({ user, isPanelOpen, setIsPanelOpen }) => {
+const PrzegladW = ({ user, isPanelOpen, setIsPanelOpen }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [userPhoto, setUserPhoto] = useState("");
   const navigate = useNavigate();
@@ -23,32 +23,28 @@ const PrzegladG = ({ user, isPanelOpen, setIsPanelOpen }) => {
       setUserPhoto("images/user-50.png");
     }
   }, [user]);
-
   return (
     <>
       <Helmet>
-        <title>Przegląd Instalacji Gazowej Gliwice & Śląsk | Szczelność i Bezpieczeństwo</title>
-        <meta name="description" content="Obowiązkowy roczny przegląd gazowy w Gliwicach? Zadbaj o bezpieczeństwo swojej rodziny. Wykonujemy profesjonalne próby szczelności instalacji gazowych na całym Śląsku." />
-        <link rel="canonical" href="https://przeglady-domu.online/przeglad-gazowy" />
+        <title>Przegląd Wentylacyjny Gliwice & Śląsk | Drożność Kominów</title>
+        <meta name="description" content="Profesjonalne przeglądy instalacji wentylacyjnej i kominowej w Gliwicach. Zadbaj o zdrowie i prawidłową cyrkulację powietrza w swoim domu. Śląskie uprawnienia i rzetelność." />
+        <link rel="canonical" href="https://przeglady-domu.online/przeglad-wentylacyjny" />
       </Helmet>
-      <section className="przeglad-gazowy">
+      <section className="przeglad-wentylacyjny">
         <div className="container_info">
-          <h1>Przegląd instalacji gazowej</h1>
+          <h1>Przegląd instalacji wentylacyjnej</h1>
 
           <div className="textsAndButton">
             <div className="left">
               <p className="description">
-                Zgodnie z art. 62 ustawy Prawo budowlane regularny przegląd
-                instalacji gazowej jest obowiązkiem każdego właściciela
-                nieruchomości. Skorzystaj z naszego kompleksowego przeglądu
-                instalacji gazowej i zadbaj o bezpieczeństwo swoje oraz
-                bliskich.
+                Sprawna wentylacja to nie tylko komfort, ale przede wszystkim
+                zdrowie domowników. Zgodnie z przepisami należy wykonywać
+                regularne przeglądy instalacji wentylacyjnej – zadbaj o to z
+                naszą pomocą.
               </p>
 
-              <button
-                className="main_button"
-                onClick={() => scrollToSection("inspection-form")}
-              >
+              <button className="main_button"
+                onClick={() => scrollToSection("inspection-form")}>
                 <span>ZAMÓW BEZPŁATNĄ WYCENĘ</span>
                 <div className="btn-icon">
                   <img src={userPhoto} alt="Profil" />
@@ -82,22 +78,17 @@ const PrzegladG = ({ user, isPanelOpen, setIsPanelOpen }) => {
         </div>
         <div className="container_faq">
           <div className="faq faq_one">
-            <p>
-              Dlaczego przegląd instalacji gazowej jest tak istotny i jak często
-              należy go przeprowadzać?
-            </p>
+            <p>Czym dokładnie jest przegląd techniczny nieruchomości?</p>
             <span>
-              Przegląd instalacji gazowej jest obowiązkowy i należy
-              przeprowadzać go co najmniej raz w roku (art. 62 ust. 1 pkt 1 lit.
-              c ustawy Prawo budowlane). Ma to na celu wykrycie potencjalnych
-              nieszczelności oraz innych usterek, które mogą prowadzić do
-              wycieków gazu i stanowić zagrożenie dla zdrowia i życia
-              użytkowników budynku.
+              Przegląd techniczny nieruchomości to obowiązkowa kontrola stanu
+              technicznego budynku, obejmująca jego konstrukcję, instalacje
+              (gazową, elektryczną) oraz elementy narażone na działanie
+              czynników atmosferycznych i instalacje kominowe. Celem przeglądu
+              jest zapewnienie bezpieczeństwa użytkowników budynku oraz zgodność
+              obiektu z wymogami prawa budowlanego.
             </span>
-            <button
-              className="main_button"
-              onClick={() => scrollToSection("inspection-form")}
-            >
+            <button className="main_button"
+              onClick={() => scrollToSection("inspection-form")}>
               <span>ZAMÓW BEZPŁATNĄ WYCENĘ</span>
               <div className="btn-icon">
                 <img src={userPhoto} alt="Profil" />
@@ -159,23 +150,14 @@ const PrzegladG = ({ user, isPanelOpen, setIsPanelOpen }) => {
               <img src="/images/blog01.png" alt="" />
             </div>
             <div className="blog_right">
-              <h3>
-                Przeglądy techniczne: instalacja gazowa – obowiązki ustawowe
-                właściciela
-              </h3>
+              <h3>Na czym polega przegląd budowlany?</h3>
               <p>
-                Ten poradnik ma na celu szczegółowe wyjaśnienie obowiązków
-                ustawowych właściciela domu w zakresie przeglądów instalacji
-                gazowej, abyś mógł świadomie i odpowiedzialnie zarządzać
-                bezpieczeństwem swojego domu.
+                Regularny przegląd budowlany to gwarancja bezpieczeństwa i
+                długowieczności Twojej nieruchomości. Dowiedz się, jak przebiega
+                taka kontrola i dlaczego warto ją przeprowadzać zgodnie z
+                obowiązującymi przepisami.
               </p>
-              <a
-                href="https://przeglady-domu.online/blogDB?openPost=2SRu4Riow0NAGtObFULo"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <button className="blog_button">Przeczytaj całość</button>
-              </a>
+              <button className="blog_button">Przeczytaj całość</button>
             </div>
           </div>
           <div className="blog blog_two">
@@ -223,4 +205,4 @@ const PrzegladG = ({ user, isPanelOpen, setIsPanelOpen }) => {
   );
 };
 
-export default PrzegladG;
+export default PrzegladW;

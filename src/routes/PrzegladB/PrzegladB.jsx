@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import "./przegladW.scss";
-import PersonIcon from "@mui/icons-material/Person";
-import Menu from "../../components/menu/Menu.jsx";
+import "./przegladB.scss"; // stylizacja w osobnym pliku
+import Menu from "../../components/Menu/Menu";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
-const PrzegladW = ({ user, isPanelOpen, setIsPanelOpen }) => {
+const PrzegladB = ({ user }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [userPhoto, setUserPhoto] = useState("");
   const navigate = useNavigate();
 
   const scrollToSection = (id) => {
+
     setTimeout(() => {
       navigate("/", { state: { scrollTo: id } });
     }, 300);
@@ -26,25 +26,25 @@ const PrzegladW = ({ user, isPanelOpen, setIsPanelOpen }) => {
   return (
     <>
       <Helmet>
-        <title>Przegląd Wentylacyjny Gliwice & Śląsk | Drożność Kominów</title>
-        <meta name="description" content="Profesjonalne przeglądy instalacji wentylacyjnej i kominowej w Gliwicach. Zadbaj o zdrowie i prawidłową cyrkulację powietrza w swoim domu. Śląskie uprawnienia i rzetelność." />
-        <link rel="canonical" href="https://przeglady-domu.online/przeglad-wentylacyjny" />
+        <title>Przegląd Budowlany Gliwice & Śląsk | Roczne i 5-letnie kontrole</title>
+        <meta name="description" content="Szukasz eksperta do przeglądu budowlanego w Gliwicach? Wykonujemy okresowe kontrole budynków zgodnie z art. 62 Prawa Budowlanego. Atrakcyjne ceny i szybkie terminy." />
+        <link rel="canonical" href="https://przeglady-domu.online/przeglad-budowlany" />
       </Helmet>
-      <section className="przeglad-wentylacyjny">
+      <section className="przeglad-budowlany">
         <div className="container_info">
-          <h1>Przegląd instalacji wentylacyjnej</h1>
-
+          <h1>Przegląd budowlany</h1>
           <div className="textsAndButton">
             <div className="left">
               <p className="description">
-                Sprawna wentylacja to nie tylko komfort, ale przede wszystkim
-                zdrowie domowników. Zgodnie z przepisami należy wykonywać
-                regularne przeglądy instalacji wentylacyjnej – zadbaj o to z
-                naszą pomocą.
+                Zgodnie z art. 62 ustawy Prawo budowlane, okresowy przegląd
+                budowlany nieruchomości jest obowiązkowy. Skorzystaj z naszej
+                kompleksowej usługi przeglądów i nie ryzykuj problemów z wypłatą
+                odszkodowania przez ubezpieczyciela.
               </p>
 
               <button className="main_button"
-                onClick={() => scrollToSection("inspection-form")}>
+                onClick={() => scrollToSection("inspection-form")}
+              >
                 <span>ZAMÓW BEZPŁATNĄ WYCENĘ</span>
                 <div className="btn-icon">
                   <img src={userPhoto} alt="Profil" />
@@ -131,6 +131,7 @@ const PrzegladW = ({ user, isPanelOpen, setIsPanelOpen }) => {
             </span>
           </div>
         </div>
+
         <div className="container_warning">
           <h2>DLACZEGO NIE WARTO RYZYKOWAĆ?</h2>
           <p>
@@ -205,4 +206,4 @@ const PrzegladW = ({ user, isPanelOpen, setIsPanelOpen }) => {
   );
 };
 
-export default PrzegladW;
+export default PrzegladB;

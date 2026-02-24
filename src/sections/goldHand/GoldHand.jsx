@@ -1,6 +1,6 @@
 import React from 'react'
 import "./goldHand.scss"
-import CallButton from '../../components/callButton/CallButton.jsx'
+import CallButton from '../../components/CallButton/CallButton'
 
 export default function GoldHand() {
   return (
