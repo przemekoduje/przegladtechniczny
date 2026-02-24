@@ -4,8 +4,8 @@ import "./blogDB.scss";
 import BlogPostDB from "../../components/BlogPostDB/BlogPostDB";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
-import { useNavigate } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import deburr from "lodash/deburr";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CachedIcon from '@mui/icons-material/Cached'; // For spinner
@@ -32,6 +32,13 @@ export default function BlogDB() {
   const [selectedCategory, setSelectedCategory] = useState("Wszystkie");
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Get priority category from URL (e.g., ?cat=elektryka)
+  const priorityCategory = useMemo(() => {
+    const params = new URLSearchParams(location.search);
+    return params.get("cat");
+  }, [location.search]);
 
   const createSlug = (title) =>
     deburr(title)
@@ -85,12 +92,21 @@ export default function BlogDB() {
       result = posts.filter(p => p.categories?.includes(selectedCategory));
     }
 
-    return [...result].sort((a, b) => { // Create a copy before sorting just in case
+    return [...result].sort((a, b) => {
+      // 1. Priority by category from URL (only if viewing "Wszystkie")
+      if (selectedCategory === "Wszystkie" && priorityCategory) {
+        const aHasPriority = a.categories?.includes(priorityCategory);
+        const bHasPriority = b.categories?.includes(priorityCategory);
+        if (aHasPriority && !bHasPriority) return -1;
+        if (!aHasPriority && bHasPriority) return 1;
+      }
+
+      // 2. Default: Sort by date
       const dateA = a.date ? new Date(a.date) : new Date(0);
       const dateB = b.date ? new Date(b.date) : new Date(0);
       return dateB - dateA;
     });
-  }, [selectedCategory, posts]);
+  }, [selectedCategory, posts, priorityCategory]);
 
   // Hero Post (First valid one)
   const validHeroIndex = filteredPosts.findIndex(p => p.src && p.title && p.content);
@@ -102,9 +118,20 @@ export default function BlogDB() {
   return (
     <div className="blog-db-container">
       <Helmet>
-        <title>Blog Techniczny | Przeglądy Domu</title>
-        <meta name="description" content="Porady, nowości i wiedza techniczna o przeglądach budowlanych, instalacjach i bezpieczeństwie domu." />
+        <title>Przeglądy Techniczne Nieruchomości – Wiedza i Porady | Inżynier Przemysław Rakotny</title>
+        <meta name="description" content="Ekspercka baza wiedzy o przeglądach technicznych nieruchomości. Poznaj przepisy, dowiedz się jak dbać o budynek i przygotuj się do kontroli technicznej na Śląsku." />
+        <link rel="canonical" href="https://przeglady-domu.online/blogDB" />
       </Helmet>
+
+      {/* SEO H1 - Hidden or subtly integrated if not visual */}
+      <h1 className="visually-hidden">Przeglądy Techniczne Nieruchomości - Baza Wiedzy</h1>
+
+      {/* Breadcrumbs */}
+      <nav className="blog-breadcrumbs">
+        <Link to="/">Strona Główna</Link>
+        <span className="separator">/</span>
+        <span className="current">Poradniki</span>
+      </nav>
 
       {/* Category Filter Bar */}
       <div className="category-filter-bar">
@@ -137,7 +164,7 @@ export default function BlogDB() {
                   alt={heroPost.title}
                 />
                 <div className="hero-overlay">
-                  <div className="hero-content">
+                  <div className="hero-content-blog">
                     <div className="hero-tags">
                       {heroPost.categories?.map(c => <span key={c} className="tag">{c}</span>)}
                     </div>

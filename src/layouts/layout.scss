@@ -4,20 +4,24 @@
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
+  margin: 0 auto;
   width: 100%;
-  height: 100px; /* Wysokość paska */
+  max-width: 1440px;
+  height: 100px;
   z-index: 999;
-  
+  box-sizing: border-box;
+
   /* Centrowanie zawartości (Menu) */
   display: flex;
-  justify-content: center; 
+  justify-content: center;
   align-items: center;
 
   /* Animacje */
-  transition: transform 0.3s ease-in-out, 
-              background-color 0.3s ease, 
-              box-shadow 0.3s ease,
-              height 0.3s ease;
+  transition: transform 0.3s ease-in-out,
+    background-color 0.3s ease,
+    box-shadow 0.3s ease,
+    height 0.3s ease;
 }
 
 /* --- WIDOCZNOŚĆ (Smart Hide) --- */
@@ -36,16 +40,18 @@
   background-color: transparent;
   box-shadow: none;
   /* Możesz tu zwiększyć wysokość dla efektu "oddechu" na start */
-  height: 100px; 
+  height: 100px;
 }
 
 /* Stan 2: Podczas scrollowania (Szkło / Solidne) */
 .nav-solid {
-  background-color: rgba(255, 255, 255, 0.9); /* Półprzezroczysta biel */
-  backdrop-filter: blur(10px); /* Efekt szkła */
+  background-color: rgba(255, 255, 255, 0.9);
+  /* Półprzezroczysta biel */
+  backdrop-filter: blur(10px);
+  /* Efekt szkła */
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  
+
   /* Lekko zmniejszamy pasek przy scrollu */
-  height: 80px; 
+  height: 80px;
 }

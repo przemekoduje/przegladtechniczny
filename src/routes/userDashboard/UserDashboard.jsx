@@ -247,6 +247,13 @@ export default function UserDashboard({ user }) {
                         </div>
                       ) : (
                         <div className="scheduled-date-container">
+                          <div className="offer-notification" style={{ backgroundColor: '#e9f5ff', borderLeft: '4px solid #007bff', padding: '10px', marginBottom: '15px', borderRadius: '4px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <span style={{ fontSize: '1.2rem' }}>📩</span>
+                            <p style={{ margin: 0, fontSize: '0.9rem', color: '#0056b3', lineHeight: '1.4' }}>
+                              Mamy to! Trwa analiza Twojego zgłoszenia.<br />
+                              <strong>Niebawem wyślemy do Ciebie maila i SMS z przygotowaną ofertą.</strong>
+                            </p>
+                          </div>
                           <button className="btn-propose-inline" onClick={() => handleOpenDateChange(item)}>
                             📅 Zaproponuj termin
                           </button>

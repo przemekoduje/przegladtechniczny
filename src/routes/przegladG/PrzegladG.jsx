@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./przegladG.scss"; // Używamy ten sam SCSS
 import PersonIcon from "@mui/icons-material/Person";
-import Menu from "../../components/menu/Menu";
+import Menu from "../../components/Menu/Menu";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const PrzegladG = ({ user, isPanelOpen, setIsPanelOpen }) => {
   const [isVisible, setIsVisible] = useState(true);
@@ -25,6 +26,11 @@ const PrzegladG = ({ user, isPanelOpen, setIsPanelOpen }) => {
 
   return (
     <>
+      <Helmet>
+        <title>Przegląd Instalacji Gazowej Gliwice & Śląsk | Szczelność i Bezpieczeństwo</title>
+        <meta name="description" content="Obowiązkowy roczny przegląd gazowy w Gliwicach? Zadbaj o bezpieczeństwo swojej rodziny. Wykonujemy profesjonalne próby szczelności instalacji gazowych na całym Śląsku." />
+        <link rel="canonical" href="https://przeglady-domu.online/przeglad-gazowy" />
+      </Helmet>
       <section className="przeglad-gazowy">
         <div className="container_info">
           <h1>Przegląd instalacji gazowej</h1>

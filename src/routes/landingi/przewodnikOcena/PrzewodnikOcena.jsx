@@ -3,7 +3,7 @@ import "./przewodnikOcena.scss";
 import { Parallax } from "react-parallax";
 import "intersection-observer";
 import MainText from "./MainText/MainText";
-import Menu from "../../../components/menu/Menu";
+import Menu from "../../../components/Menu/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
 

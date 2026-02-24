@@ -5,27 +5,41 @@ import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import ImageResize from "quill-image-resize";
 import {
-  FileText,
+  LogOut,
   Plus,
   Trash2,
-  Edit3,
+  ChevronRight,
+  Send,
+  Calendar,
+  Layers,
+  BarChart3,
+  Users,
+  MessageSquare,
+  FileEdit,
+  X,
+  PlusCircle,
+  Clock,
+  ExternalLink,
+  Sparkles,
+  Zap,
   Layout,
+  Inbox,
+  FileText,
+  BarChart,
   ChevronLeft,
-  Image as ImageIcon,
   CheckCircle,
   XCircle,
-  Save,
-  Type,
-  Grid,
-  BarChart,
-  Inbox,
-  Calendar,
+  Image as ImageIcon,
   MapPin,
-  Clock,
-  LogOut,
   Mail,
   User,
-  Phone
+  Phone,
+  Edit3,
+  Type,
+  Grid,
+  Save,
+  Tag,
+  Check
 } from "lucide-react";
 import {
   collection,
@@ -34,12 +48,17 @@ import {
   updateDoc,
   deleteDoc,
   doc,
+  onSnapshot,
+  query,
+  orderBy,
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { db, storage, auth } from "../../firebase";
+import { httpsCallable } from "firebase/functions";
+import { db, storage, auth, functions } from "../../firebase";
 import { signOut } from "firebase/auth";
 import ButtonBlot from "../../components/quill/ButtonBlot.js";
 import AnalyticsView from "./AnalyticsView";
+import AIDraftEditor from "./AIDraftEditor";
 import { useNavigate } from "react-router-dom";
 
 Quill.register("modules/imageResize", ImageResize);
@@ -51,10 +70,20 @@ export default function AdminPanel() {
   const navigate = useNavigate();
 
   const [posts, setPosts] = useState([]);
-  const [clientRequests, setClientRequests] = useState([]); // NOWE ZGŁOSZENIA
-  const [activeTab, setActiveTab] = useState("requests"); // "list" | "form" | "analytics" | "requests"
+  const [clientRequests, setClientRequests] = useState([]);
+  const [pendingPosts, setPendingPosts] = useState([]);
+  const [keywords, setKeywords] = useState([]);
+  const [activeTab, setActiveTab] = useState("requests"); // "list" | "form" | "analytics" | "requests" | "ai-drafts" | "keywords"
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [feedback, setFeedback] = useState(null); // { type: 'success' | 'error', message: '' }
+  const [editingDraft, setEditingDraft] = useState(null); // For AI Draft Editor
+  const [feedback, setFeedback] = useState(null);
+  const [isAutomationEnabled, setIsAutomationEnabled] = useState(false); // Safeguard status
+
+  // Draft Actions with Feedback (Phase 7)
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [modalFeedback, setModalFeedback] = useState("");
+  const [draftToProcess, setDraftToProcess] = useState(null);
+  const [currentActionType, setCurrentActionType] = useState(null); // "publish" | "reject"
 
   // Appointment scheduling
   const [editRequestId, setEditRequestId] = useState(null);
@@ -65,6 +94,7 @@ export default function AdminPanel() {
     content: "",
     content2: "",
     categories: "",
+    tags: "",
     src: null,
     type: "StandardPost",
     w: 1,
@@ -100,7 +130,8 @@ export default function AdminPanel() {
       h: post.h,
       buttonLabel: post.buttonLabel || "",
       buttonClass: post.buttonClass || "",
-      buttonOnClick: post.buttonOnClick || ""
+      buttonOnClick: post.buttonOnClick || "",
+      tags: Array.isArray(post.tags) ? post.tags.join(", ") : ""
     });
     setActiveTab("form");
 
@@ -124,7 +155,8 @@ export default function AdminPanel() {
       h: 1,
       buttonLabel: "",
       buttonClass: "",
-      buttonOnClick: ""
+      buttonOnClick: "",
+      tags: ""
     });
     setEditingPost(null);
     if (quillRef.current) {
@@ -162,6 +194,40 @@ export default function AdminPanel() {
 
     fetchPosts();
     fetchRequests();
+
+    // Real-time listener for pending posts
+    const q = query(collection(db, "pending_posts"), orderBy("createdAt", "desc"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const drafts = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setPendingPosts(drafts);
+    });
+
+    // Listener for automation settings
+    const unsubSettings = onSnapshot(doc(db, "settings", "blogAutomator"), (docSnap) => {
+      if (docSnap.exists()) {
+        setIsAutomationEnabled(docSnap.data().isNextCycleEnabled);
+      } else {
+        setIsAutomationEnabled(false);
+      }
+    });
+
+    // Listener for keywords (Phase 8)
+    const unsubKeywords = onSnapshot(doc(db, "settings", "blogKeywords"), (docSnap) => {
+      if (docSnap.exists()) {
+        setKeywords(docSnap.data().keywords || []);
+      } else {
+        setKeywords([]);
+      }
+    });
+
+    return () => {
+      unsubscribe();
+      unsubSettings();
+      unsubKeywords();
+    };
   }, []);
 
   const handleLogout = async () => {
@@ -239,6 +305,63 @@ export default function AdminPanel() {
     }
   };
 
+  const handlePublishDraft = (draft) => {
+    setDraftToProcess(draft);
+    setModalFeedback("");
+    setCurrentActionType("publish");
+    setShowFeedbackModal(true);
+  };
+
+  const handleDeleteDraft = (draft) => {
+    setDraftToProcess(draft);
+    setModalFeedback("");
+    setCurrentActionType("reject");
+    setShowFeedbackModal(true);
+  };
+
+  const confirmDraftAction = async () => {
+    if (!draftToProcess || !currentActionType) return;
+    setIsSubmitting(true);
+    try {
+      // 1. Save feedback if provided (or just log the action for the AI loop)
+      const { serverTimestamp } = await import("firebase/firestore");
+      await addDoc(collection(db, "blog_feedback"), {
+        feedbackText: modalFeedback.trim() || (currentActionType === "publish" ? "Opublikowano bez dodatkowych uwag." : "Odrzucono bez szczegółowego powodu."),
+        date: serverTimestamp(),
+        draftTitle: draftToProcess.title,
+        action: currentActionType // "publish" or "reject"
+      });
+      console.log(`Feedback for ${currentActionType} saved.`);
+
+      if (currentActionType === "publish") {
+        // PUBLISH LOGIC
+        const updatedData = {
+          ...draftToProcess,
+          status: "published",
+          publishedAt: serverTimestamp(),
+          date: serverTimestamp(),
+        };
+        const { id, ...saveData } = updatedData;
+        await addDoc(collection(db, "posts"), saveData);
+        await deleteDoc(doc(db, "pending_posts", id));
+        showFeedback("success", "Artykuł opublikowany!");
+      } else {
+        // REJECT LOGIC
+        await deleteDoc(doc(db, "pending_posts", draftToProcess.id));
+        showFeedback("success", "Szkic odrzucony.");
+      }
+
+      setShowFeedbackModal(false);
+      setDraftToProcess(null);
+      setCurrentActionType(null);
+    } catch (error) {
+      console.error(`Error during ${currentActionType}:`, error);
+      showFeedback("error", `Błąd podczas akcji ${currentActionType}.`);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const getPreferredDateLabel = (val) => {
     if (val === "pilne") return "jak najszybciej";
     if (val === "miesiac") return "w przyszłym miesiącu";
@@ -280,6 +403,7 @@ export default function AdminPanel() {
         content: form.content,
         content2: form.content2,
         categories: form.categories ? form.categories.split(",").map((cat) => cat.trim()) : [],
+        tags: form.tags ? form.tags.split(",").map((tag) => tag.trim()) : [],
         type: form.type,
         src: imageUrl,
         w: form.w,
@@ -303,6 +427,104 @@ export default function AdminPanel() {
       showFeedback("error", "Błąd zapisu danych.");
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleUpdateDraft = async (id, updatedData) => {
+    try {
+      const draftRef = doc(db, "pending_posts", id);
+      await updateDoc(draftRef, updatedData);
+      showFeedback("success", "Szkic został zaktualizowany.");
+      setEditingDraft(null);
+    } catch (error) {
+      showFeedback("error", "Błąd podczas aktualizacji szkicu.");
+    }
+  };
+
+  const handleManualGeneration = async () => {
+    setIsSubmitting(true);
+    try {
+      const genFunc = httpsCallable(functions, "generateDraftManual");
+      showFeedback("success", "Rozpoczęto generowanie szkicu AI. Może to potrwać około 30-60 sekund...");
+      const result = await genFunc();
+
+      if (result.data.success) {
+        showFeedback("success", "Nowy szkic AI został pomyślnie wygenerowany!");
+      } else {
+        showFeedback("error", `Błąd generowania: ${result.data.error || 'Nieznany błąd'}`);
+      }
+    } catch (error) {
+      console.error("Error manual generation:", error);
+      showFeedback("error", `Błąd generowania: ${error.message}`);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleToggleAutomation = async () => {
+    setIsSubmitting(true);
+    try {
+      const toggleFunc = httpsCallable(functions, "setAutomationGate");
+      await toggleFunc({ isEnabled: !isAutomationEnabled });
+      showFeedback("success", isAutomationEnabled ? "Automatyzacja została wstrzymana." : "Autoryzowano kolejny automatyczny wpis!");
+    } catch (error) {
+      console.error("Error toggling automation:", error);
+      showFeedback("error", "Błąd zmiany ustawień automatyzacji.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleAddKeyword = async (e) => {
+    e.preventDefault();
+    const newKeyword = e.target.keyword.value.trim();
+    if (!newKeyword) return;
+    if (keywords.includes(newKeyword)) {
+      showFeedback("error", "To słowo kluczowe już istnieje.");
+      return;
+    }
+
+    try {
+      const updatedKeywords = [...keywords, newKeyword];
+      await updateDoc(doc(db, "settings", "blogKeywords"), { keywords: updatedKeywords });
+      e.target.reset();
+      showFeedback("success", "Dodano słowo kluczowe.");
+    } catch (error) {
+      // If doc doesn't exist, create it
+      try {
+        await addDoc(collection(db, "settings"), { keywords: [newKeyword] }); // This is wrong, should be doc.set
+      } catch (inner) {
+        const adminRef = doc(db, "settings", "blogKeywords");
+        await updateDoc(adminRef, { keywords: [newKeyword] }).catch(async () => {
+          const { setDoc } = await import("firebase/firestore");
+          // Actually, I can just use setDoc elsewhere or handle it properly
+        });
+      }
+      showFeedback("error", "Błąd podczas dodawania słowa kluczowego.");
+    }
+  };
+
+  // Improved add keyword with proper setDoc handling if needed
+  const handleAddKeywordFixed = async (newKeyword) => {
+    if (!newKeyword) return;
+    try {
+      const { setDoc } = await import("firebase/firestore");
+      const ref = doc(db, "settings", "blogKeywords");
+      await setDoc(ref, { keywords: [...keywords, newKeyword] }, { merge: true });
+      showFeedback("success", "Dodano słowo kluczowe.");
+    } catch (error) {
+      showFeedback("error", "Błąd zapisu słowa.");
+    }
+  };
+
+  const handleDeleteKeyword = async (kw) => {
+    if (!window.confirm(`Czy na pewno usunąć "${kw}"?`)) return;
+    try {
+      const updatedKeywords = keywords.filter(item => item !== kw);
+      await updateDoc(doc(db, "settings", "blogKeywords"), { keywords: updatedKeywords });
+      showFeedback("success", "Usunięto słowo kluczowe.");
+    } catch (error) {
+      showFeedback("error", "Błąd podczas usuwania.");
     }
   };
 
@@ -378,6 +600,21 @@ export default function AdminPanel() {
             <BarChart size={18} /> Analityka
           </button>
 
+          <button
+            className={activeTab === "ai-drafts" ? "active" : ""}
+            onClick={() => setActiveTab("ai-drafts")}
+          >
+            <Sparkles size={18} /> Szkice AI
+            {pendingPosts.length > 0 && <span className="nav-badge">{pendingPosts.length}</span>}
+          </button>
+
+          <button
+            className={activeTab === "keywords" ? "active" : ""}
+            onClick={() => setActiveTab("keywords")}
+          >
+            <Tag size={18} /> Słowa kluczowe
+          </button>
+
           <div style={{ marginTop: "auto", paddingTop: "2rem" }}>
             <button onClick={handleLogout} style={{ color: "#f56565", width: "100%" }}>
               <LogOut size={18} /> Wyloguj się
@@ -393,13 +630,17 @@ export default function AdminPanel() {
               {activeTab === "requests" ? "Zgłoszenia Użytkowników" :
                 activeTab === "list" ? "Baza wpisów blogowych" :
                   activeTab === "analytics" ? "Analityka i Statystyki" :
-                    editingPost ? "Edycja wpisu" : "Nowy wpis"}
+                    activeTab === "ai-drafts" ? "Szkice AI (Blog Automator)" :
+                      activeTab === "keywords" ? "Zarządzanie Słowami Kluczowymi" :
+                        editingPost ? "Edycja wpisu" : "Nowy wpis"}
             </h2>
             <p>
               {activeTab === "requests" ? `Liczba rezerwacji w systemie: ${clientRequests.length}` :
                 activeTab === "list" ? `W systemie znajduje się ${posts.length} wpisów` :
                   activeTab === "analytics" ? "Przeglądaj dane o ruchu na Twojej stronie" :
-                    "Wypełnij pola poniżej, aby opublikować wpis"}
+                    activeTab === "ai-drafts" ? `AI wygenerowało ${pendingPosts.length} szkiców oczekujących na zatwierdzenie` :
+                      activeTab === "keywords" ? `W bazie znajduje się ${keywords.length} słów kluczowych` :
+                        "Wypełnij pola poniżej, aby opublikować wpis"}
             </p>
           </div>
           {activeTab === "form" && (
@@ -419,6 +660,83 @@ export default function AdminPanel() {
         <div className="admin-content">
           {activeTab === "analytics" ? (
             <AnalyticsView />
+          ) : activeTab === "ai-drafts" ? (
+            <section className="drafts-container">
+              <header className="drafts-section-header">
+                <div className="header-info">
+                  <h3>Oczekujące szkice</h3>
+                  <div className={`automation-status ${isAutomationEnabled ? 'status-active' : 'status-locked'}`}>
+                    <div className="status-dot"></div>
+                    <span>{isAutomationEnabled ? 'Automatyzacja: GOTOWA' : 'Automatyzacja: WSTRZYMANA'}</span>
+                  </div>
+                </div>
+
+                <div className="header-actions">
+                  {!isAutomationEnabled && (
+                    <button
+                      className="btn-enable-automation"
+                      onClick={handleToggleAutomation}
+                      disabled={isSubmitting}
+                    >
+                      <Zap size={16} /> Autoryzuj kolejny wpis
+                    </button>
+                  )}
+                  <button
+                    className="btn-trigger-ai"
+                    onClick={handleManualGeneration}
+                    disabled={isSubmitting}
+                  >
+                    <Sparkles size={16} />
+                    {isSubmitting ? "Generowanie..." : "Generuj ręcznie teraz"}
+                  </button>
+                </div>
+              </header>
+
+              {pendingPosts.length === 0 ? (
+                <div className="empty-state">Brak nowych szkiców AI. Sprawdź ponownie rano!</div>
+              ) : (
+                <div className="drafts-grid">
+                  {pendingPosts.map((draft) => (
+                    <div key={draft.id} className="draft-card">
+                      <div className="draft-image">
+                        {draft.src ? <img src={draft.src} alt="" /> : <ImageIcon size={32} />}
+                      </div>
+                      <div className="draft-content">
+                        <h3>{draft.title}</h3>
+                        <div
+                          className="draft-description"
+                          dangerouslySetInnerHTML={{ __html: draft.content }}
+                        />
+                        {draft.content2 && (
+                          <div
+                            className="draft-body-preview"
+                            style={{ fontSize: "0.85rem", color: "#718096", marginTop: "0.5rem", maxHeight: "60px", overflow: "hidden" }}
+                            dangerouslySetInnerHTML={{ __html: draft.content2.substring(0, 150) + "..." }}
+                          />
+                        )}
+                        <div className="draft-meta">
+                          {draft.categories?.map((cat, i) => <span key={i} className="mini-badge">{cat}</span>)}
+                          <span className="date-badge">
+                            {draft.createdAt ? new Date(draft.createdAt.seconds * 1000).toLocaleDateString() : 'Nowy'}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="draft-actions">
+                        <button className="btn-edit" onClick={() => setEditingDraft(draft)}>
+                          <FileEdit size={16} /> Edytuj
+                        </button>
+                        <button className="btn-reject" onClick={() => handleDeleteDraft(draft)}>
+                          <X size={16} /> Odrzuć
+                        </button>
+                        <button className="btn-publish" onClick={() => handlePublishDraft(draft)} disabled={isSubmitting}>
+                          <Check size={16} /> Publikuj
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
           ) : activeTab === "requests" ? (
             <section className="requests-container">
               {clientRequests.length === 0 ? (
@@ -513,6 +831,38 @@ export default function AdminPanel() {
               ))}
               {posts.length === 0 && <div className="empty-state">Brak wpisów w bazie. Dodaj pierwszy post!</div>}
             </section>
+          ) : activeTab === "keywords" ? (
+            <section className="keywords-manager">
+              <div className="keywords-form-box">
+                <form onSubmit={(e) => {
+                  e.preventDefault();
+                  handleAddKeywordFixed(e.target.keyword.value.trim());
+                  e.target.reset();
+                }}>
+                  <input name="keyword" type="text" placeholder="Dodaj nowe słowo kluczowe..." required />
+                  <button type="submit" className="btn-add-keyword">
+                    <PlusCircle size={18} /> Dodaj
+                  </button>
+                </form>
+              </div>
+
+              <div className="keywords-list">
+                {keywords.length === 0 ? (
+                  <p className="empty-state">Brak zdefiniowanych słów kluczowych.</p>
+                ) : (
+                  <div className="kw-tags-grid">
+                    {keywords.map((kw, i) => (
+                      <div key={i} className="kw-tag-item">
+                        <span>{kw}</span>
+                        <button onClick={() => handleDeleteKeyword(kw)} className="btn-del-kw">
+                          <X size={14} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </section>
           ) : (
             <section className="form-container">
               <form onSubmit={handleSubmit} className="modern-form">
@@ -572,6 +922,16 @@ export default function AdminPanel() {
                       <option value="CategoriesPost">Kategoria (CategoriesPost)</option>
                     </select>
                   </div>
+
+                  <div className="form-group full">
+                    <label>Tagi (po przecinku, np. #bezpieczeństwo, #inspekcja)</label>
+                    <input
+                      type="text"
+                      placeholder="np. dach, kontrola, prawo"
+                      value={form.tags}
+                      onChange={(e) => setForm({ ...form, tags: e.target.value })}
+                    />
+                  </div>
                 </div>
 
                 <div className="editor-section">
@@ -592,8 +952,60 @@ export default function AdminPanel() {
               </form>
             </section>
           )}
-        </div>
+
+          {/* Unified Feedback Modal (Phase 7) */}
+          {showFeedbackModal && (
+            <div className="admin-modal-overlay">
+              <div className="admin-modal">
+                <div className="modal-header">
+                  <h3>{currentActionType === "publish" ? "Publikacja artykułu" : "Odrzucenie szkicu"}</h3>
+                  <button onClick={() => setShowFeedbackModal(false)}><X size={20} /></button>
+                </div>
+                <div className="modal-body">
+                  <p>
+                    {currentActionType === "publish"
+                      ? "Gratulacje! Zanim opublikujesz, możesz dodać uwagi dla AI, co najbardziej podobało Ci się w tym tekście lub co warto utrzymać w przyszłości."
+                      : "Podaj powód odrzucenia. Twoje uwagi zostaną wzięte pod uwagę przez AI przy generowaniu kolejnego tekstu."}
+                  </p>
+                  <textarea
+                    placeholder={currentActionType === "publish"
+                      ? "np. Świetny ton, bardzo dobre wypunktowanie instalacji..."
+                      : "np. Zbyt oficjalny język, brak konkretów o dachach, popraw dane o art. 62..."}
+                    value={modalFeedback}
+                    onChange={(e) => setModalFeedback(e.target.value)}
+                    style={{ width: "100%", minHeight: "120px", padding: "12px", borderRadius: "8px", border: "1px solid #edf2f7", marginTop: "1rem" }}
+                  />
+                </div>
+                <div className="modal-footer" style={{ display: "flex", gap: "12px", justifyContent: "flex-end", marginTop: "1.5rem" }}>
+                  <button
+                    className="btn-cancel"
+                    onClick={() => setShowFeedbackModal(false)}
+                    style={{ padding: "10px 20px" }}
+                  >
+                    Anuluj
+                  </button>
+                  <button
+                    className="btn-publish"
+                    onClick={confirmDraftAction}
+                    disabled={isSubmitting}
+                    style={{ background: currentActionType === "publish" ? "#10b981" : "#f56565", padding: "10px 20px" }}
+                  >
+                    {isSubmitting ? "Przetwarzanie..." : (currentActionType === "publish" ? "Publikuj i zapisz uwagi" : "Odrzuć i zapisz uwagi")}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div> {/* admin-content */}
       </main>
+
+      {editingDraft && (
+        <AIDraftEditor
+          draft={editingDraft}
+          onClose={() => setEditingDraft(null)}
+          onSave={handleUpdateDraft}
+        />
+      )}
     </div>
   );
 }

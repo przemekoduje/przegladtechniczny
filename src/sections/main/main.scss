@@ -4,172 +4,211 @@
   position: relative;
   height: 100vh;
   width: 100%;
-  overflow: hidden; // KLUCZOWE: Ucina cień, który wystaje poza ekran
+  overflow: hidden;
   background-color: #ffffff;
 
-  // 1. ZDJĘCIE (Pod spodem)
+  // 1. ZDJĘCIE TŁA
   .hero-bg-image {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url("../../../public/images/v2/hh_desktop6.png"); // Twoja ścieżka
+    background-image: url("../../../public/images/v2/hh_desktop6.png");
     background-size: cover;
     background-position: center right;
     z-index: 1;
   }
 
-  // 2. OKNO MASKI (To co definiuje widoczność zdjęcia)
+  // 2. MASKA (Okno geometryczne)
   .mask-window {
     position: absolute;
     z-index: 2;
-    background-color: transparent; // Środek okna jest przezroczysty (widać zdjęcie)
-
-    // Ustawiamy "okno" po prawej stronie
-    bottom: 75%; // Wyżej niż ekran, żeby ukryć górną krawędź pudełka
-    left: 40%; // Przesunięte w prawo
-    width: 3000px; // Szerokość okna na zdjęcie
-    height: 3000px; // Wysokość okna
-
-    // --- GEOMETRIA KSZTAŁTU ---
-
-    // A. Kąt nachylenia (skos / )
+    background-color: transparent;
+    bottom: 75%;
+    left: 45%;
+    width: 3000px;
+    height: 3000px;
     transform-origin: bottom left;
     transform: rotate(70deg);
-
-    // B. Wyoblenie (Łuk na górze styku bieli i zdjęcia)
-    // Zaokrąglamy LEWY GÓRNY róg tego przezroczystego pudełka
-    border-radius: 70px;
-
-    // C. MAGIA - ODWRÓCENIE KOLORÓW
-    // Tworzymy gigantyczny biały cień (300vmax), który zakrywa wszystko POZA oknem
-    // 0 0 0 (brak przesunięcia i rozmycia) + kolor biały
+    border-radius: 80px;
     box-shadow: 0 0 0 300vmax #ffffff;
   }
 
-  // 3. TREŚĆ (Na wierzchu)
+  // 3. TREŚĆ GŁÓWNA
   .hero-content {
     position: absolute;
-    top: 55%;
-    left: 100px;
-    transform: translateY(-50%);
-    width: 50%;
-    max-width: 800px;
-    z-index: 3;
+    bottom: 0;
+    z-index: 10;
     display: flex;
     flex-direction: column;
+    gap: 5rem;
+    width: 100%;
+    padding: 0 100px 100px;
     align-items: flex-start;
-    gap: 2.5rem;
 
     .hero-title {
       font-family: $font-primary;
-      color: $color-text-main;
+      color: $color-text-dark;
       line-height: 1.1;
-      letter-spacing: -1.5px;
+      letter-spacing: -2px;
       margin: 0;
       display: flex;
       flex-direction: column;
+      align-items: flex-start;
+      letter-spacing: -1px;
+      align-self: flex-start;
 
       .service-name {
-        font-size: clamp(2rem, 4vw, 3rem);
+        font-size: clamp(1.8rem, 2.5vw, 2.5rem);
         font-weight: 300;
-        opacity: 0.9;
+        opacity: 0.8;
       }
 
       .city-name {
-        font-size: clamp(3.5rem, 8vw, 6.5rem);
+        font-size: clamp(3.5rem, 6vw, 6rem);
         font-weight: 700;
         margin-top: -0.5rem;
       }
     }
+
+    .order-button {
+      align-self: flex-start;
+    }
   }
 
+  // 4. STOPKA SEKCJI
   .main-footer {
     position: absolute;
     bottom: 0;
     width: 100%;
     z-index: 5;
+    padding: 0 5%;
   }
 }
 
-/* --- MEDIA QUERIES --- */
+/* --- RESPONSYWNOŚĆ --- */
 
-// Tablet i małe laptopy
-@media (max-width: 1024px) {
+// 769px - 1024px (Large Tablets / Small Laptops)
+@media (min-width: 769px) and (max-width: 1024px) {
   .hero-section {
     .mask-window {
       left: 30%;
-      rotate: 75deg;
+      transform: rotate(75deg);
+      border-radius: 60px;
     }
+
     .hero-content {
-      width: 60%;
+      width: 100%;
+      bottom: 0;
+      gap: 6rem;
+      padding: 0 40px 100px 40px;
+      align-items: flex-start;
+
+      gap: 7rem;
+
+      .hero-title {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+
+        .service-name {
+          font-size: 2.2rem;
+        }
+
+        .city-name {
+          font-size: 4.5rem;
+        }
+      }
+
+      .order-button {
+        max-width: 400px;
+        align-self: flex-start;
+      }
     }
   }
 }
 
-// Telefony i duże tablety portretowe
-@media (max-width: 768px) {
+// 481px - 768px (Tablets / Portrait)
+@media (min-width: 481px) and (max-width: 768px) {
   .hero-section {
+
     .mask-window {
       left: 15%;
       bottom: 80%;
-      border-radius: 40px;
+      border-radius: 50px;
     }
 
     .hero-content {
-      top: 50%;
-      left: 0; // Resetujemy left
-      width: 100%; // Zmienione z 90% na pełną szerokość
-      padding: 0 40px; // Zgodnie z odstępem .menu-container dla tego breakpointu
-      box-sizing: border-box;
-      gap: 2rem;
-      align-items: flex-end; // Wyrównaj do prawej strony zawartość (do białego)
-      text-align: right; // Wyrównaj tekst do prawej
+      width: 100%;
+      bottom: 0;
+      gap: 6rem;
+      padding: 0 40px 100px 40px;
+      align-items: center;
 
       .hero-title {
-        align-items: flex-end;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        letter-spacing: -1px;
+        align-self: flex-start;
+
         .service-name {
-          font-size: 2.5rem; // Zwiększono rozmiar z 1.8
+          font-size: 2.4rem;
+          opacity: 1;
         }
+
         .city-name {
-          font-size: 4.5rem; // Zwiększono z 3.8
+          font-size: 4.2rem;
           margin-top: 0;
         }
       }
 
       .order-button {
-        align-self: center; // Wyśrodkowanie przycisku względem głównego kontenera
-        margin-top: 4rem; // Przesunięcie przycisku w dół
+        max-width: 400px;
+        align-self: center
       }
-    }
-
-    .main-footer {
-       padding-bottom: 20px;
-       justify-content: flex-end;
     }
   }
 }
 
-// Małe telefony
+// 0px - 480px (Smartphones)
 @media (max-width: 480px) {
   .hero-section {
     .mask-window {
-      left: 10%; // Przesunięcie maski jeszcze bardziej w lewo, żeby odsłonić więcej bieli po prawej
+      left: 10%;
+      bottom: 85%;
+      border-radius: 40px;
     }
+
     .hero-content {
-      width: 100%; // Zwiększenie szerokości kontenera
-      padding: 0 20px; // Padding dopasowany do menu-container dla małych ekranów
-      gap: 1.5rem;
-      
+      bottom: 0;
+      right: 50%;
+      transform: translateX(50%); // Centrowanie w poziomie na mobile
+      width: 100%;
+      padding: 0 20px 100px;
+      justify-content: flex-start;
+
       .hero-title {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        letter-spacing: -1px;
+
         .service-name {
-          font-size: 2.2rem; // Znacznie większe
+          font-size: 2.4rem;
+          opacity: 1;
         }
+
         .city-name {
-          font-size: 3.8rem; // Bardzo duże (było 2.8)
-          letter-spacing: -2px;
+          font-size: 4.2rem;
+          margin-top: 0;
         }
+      }
+
+      .order-button {
+        width: 100%;
       }
     }
   }

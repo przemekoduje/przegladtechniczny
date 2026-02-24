@@ -19,6 +19,8 @@ import HeroParallaxWrapper from "../../components/HeroParallaxWrapper/HeroParall
 import { useNavigate } from "react-router-dom";
 import { useSectionTracker } from "../../utils/analytics";
 import CachedIcon from '@mui/icons-material/Cached'; // Stylized loading spinner
+import { Helmet } from "react-helmet-async";
+import LocalBusinessSchema from "../../components/SEO/LocalBusinessSchema";
 
 // Helper to preload a single critical image
 const preloadImage = (src) => {
@@ -30,7 +32,7 @@ const preloadImage = (src) => {
   });
 };
 
-export default function Home() {
+export default function Home({ user }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [isHeroLoaded, setIsHeroLoaded] = useState(false);
@@ -95,13 +97,7 @@ export default function Home() {
     }
   }, [location.state, isHeroLoaded]);
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setCurrentUser(user);
-    });
-
-    return () => unsubscribe();
-  }, []);
+  // Usuwamy lokalny stan user, bo dostajemy go z props (App.js)
 
   // Blokowanie przewijania, gdy panel jest otwarty
   useEffect(() => {
@@ -125,13 +121,32 @@ export default function Home() {
     );
   }
 
+  const scrollToInspectionForm = () => {
+    const formSection = document.getElementById("inspection-form");
+    if (formSection) {
+      formSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="home">
+      <Helmet>
+        <title>Przeglądy Techniczne Nieruchomości Gliwice & Śląsk | Inżynier Przemysław Rakotny</title>
+        <meta name="description" content="Profesjonalne przeglądy techniczne nieruchomości w Gliwicach i na Śląsku. Przeglądy budowlane, gazowe, elektryczne i wentylacyjne. Zamów rzetelną kontrolę budynku już teraz!" />
+        <link rel="canonical" href="https://przeglady-domu.online/" />
+        <meta property="og:title" content="Przeglądy Techniczne Nieruchomości Gliwice & Śląsk" />
+        <meta property="og:description" content="Skorzystaj z usług inżyniera. Wykonujemy pełny zakres przeglądów technicznych nieruchomości na Śląsku. Szybkie terminy i rzetelne protokoły." />
+        <meta property="og:url" content="https://przeglady-domu.online/" />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
+      <LocalBusinessSchema />
+
       {/* SEKCJA 1 i 2 połączone efektem Parallax */}
       <div ref={heroRef}>
         <HeroParallaxWrapper>
           <Main
-            user={currentUser}
+            user={user}
             isPanelOpen={isPanelOpen}
             setIsPanelOpen={setIsPanelOpen}
           />
@@ -140,7 +155,7 @@ export default function Home() {
       </div>
 
       <div ref={scopeRef}>
-        <Scope />
+        <Scope user={user} />
       </div>
 
       <CtaBanner />
@@ -154,7 +169,10 @@ export default function Home() {
       </div>
 
       <div ref={timelineRef}>
-        <InspectionsTimeline />
+        <InspectionsTimeline
+          user={user}
+          onOrderClick={scrollToInspectionForm}
+        />
       </div>
 
       <GoldHand />

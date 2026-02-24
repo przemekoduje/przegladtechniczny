@@ -7,18 +7,21 @@
   font-weight: 400;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'ProductSans';
   src: url('../assets/fonts/ProductSans-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'ProductSans';
   src: url('../assets/fonts/ProductSans-Light.ttf') format('truetype');
   font-weight: 200;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'ProductSans';
   src: url('../assets/fonts/ProductSans-Thin.ttf') format('truetype');
@@ -27,19 +30,23 @@
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
   scroll-behavior: smooth;
+  scrollbar-gutter: stable; // Keeps layout stable and centered regardless of scrollbar presence
 }
 
 body {
   position: relative;
-  scrollbar-width: none;
   font-family: $font-primary;
+  background-color: $color-white; // Margins now match content
+  overflow-x: hidden;
+  width: 100%;
+  margin: 0;
 
   .menu-tooltip {
     z-index: 9999;
@@ -56,6 +63,7 @@ body {
         opacity: 0;
         transform: translateY(5px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -123,14 +131,15 @@ body {
   }
 }
 
-::-webkit-scrollbar {
-  display: none;
-}
+// Basic scrollbar if needed, but no hiding
 
 // App Styles
 .App {
-  max-width: 100vw;
-  margin: auto;
+  max-width: 1440px;
+  margin: 0 auto;
+  background-color: $color-white; // Content area
+  position: relative;
+  overflow: clip; // Fix for centering illusion (prevents internal elements from bleeding into margins) while preserving sticky context
 
   &.full-width {
     max-width: none;
@@ -158,6 +167,7 @@ body {
     &:hover {
       background-color: $color-bg-light;
     }
+
     &:active {
       background-color: $color-white;
       box-shadow: inset 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -191,6 +201,7 @@ body {
       font-style: normal;
       font-size: 20px;
     }
+
     .btn-icon {
       width: 45px;
       height: 45px;
@@ -205,6 +216,7 @@ body {
     &:hover {
       background-color: $color-bg-light;
     }
+
     &:active {
       background-color: $color-white;
       box-shadow: inset 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -231,6 +243,7 @@ body {
     &:hover {
       background-color: $color-accent-hover;
     }
+
     &:active {
       background-color: transparent; // inconsistent with others?
       box-shadow: inset 0px 4px 10px rgba(0, 0, 0, 0.1);

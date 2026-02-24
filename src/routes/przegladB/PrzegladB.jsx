@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./przegladB.scss"; // stylizacja w osobnym pliku
-import Menu from "../../components/menu/Menu";
+import Menu from "../../components/Menu/Menu";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const PrzegladB = ({ user }) => {
   const [isVisible, setIsVisible] = useState(true);
@@ -24,6 +25,11 @@ const PrzegladB = ({ user }) => {
   }, [user]);
   return (
     <>
+      <Helmet>
+        <title>Przegląd Budowlany Gliwice & Śląsk | Roczne i 5-letnie kontrole</title>
+        <meta name="description" content="Szukasz eksperta do przeglądu budowlanego w Gliwicach? Wykonujemy okresowe kontrole budynków zgodnie z art. 62 Prawa Budowlanego. Atrakcyjne ceny i szybkie terminy." />
+        <link rel="canonical" href="https://przeglady-domu.online/przeglad-budowlany" />
+      </Helmet>
       <section className="przeglad-budowlany">
         <div className="container_info">
           <h1>Przegląd budowlany</h1>

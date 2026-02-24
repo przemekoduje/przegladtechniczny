@@ -114,9 +114,6 @@ const Login = () => {
 
   return (
     <div className="login-wrapper">
-      <div className="img-left">
-        <img src="/images/login_background.png" alt="" />
-      </div>
       <div className="login-page">
         <div className="arrowBack" onClick={() => navigate("/")}>
           <ArrowBackIcon style={{ fontSize: "36px" }} />

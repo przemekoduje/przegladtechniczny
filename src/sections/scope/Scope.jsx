@@ -1,5 +1,7 @@
 import React from 'react';
 import './scope.scss'; // Importujemy plik ze stylami
+import OrderButton from '../../components/OrderButton/OrderButton';
+import CallButton from '../../components/CallButton/CallButton';
 
 import iconB2B from '../../assets/roczny-scope-card-icon.png';
 import iconHouse from '../../assets/5-scope-card-icon.png';
@@ -8,7 +10,14 @@ import iconEngineer from '../../assets/doradztwo-scope-card-icon.png';
 import iconDrone from '../../assets/dron-scope-card-icon.png';
 import iconEnergy from '../../assets/energ-scope-card-icon.png';
 
-const Scope = () => {
+const Scope = ({ user }) => {
+  const scrollToInspectionForm = () => {
+    const formSection = document.getElementById("inspection-form");
+    if (formSection) {
+      formSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   const services = [
     {
       title: "Przeglądy roczne (B2B)",
@@ -95,8 +104,8 @@ const Scope = () => {
       <div className="scope-container">
         {/* Nagłówek */}
         <div className="scope-header">
-          <h2>Na czym sie znomy?</h2>
-          <p>U nos mosz wszystko: od przeglądu po dobro rada.</p>
+          <h2>Przeglądy Techniczne Nieruchomości</h2>
+          <p>Pytosz no czym się znomy? U nos mosz wszystko: od rzetelnej kontroli po dobro rada.</p>
         </div>
 
         {/* Lista kafelków */}
@@ -141,7 +150,18 @@ const Scope = () => {
                   <h3>{service.title} - Więcej informacji</h3>
                   <p className="back-description">{service.backContent}</p>
                   {/* Przycisk obracający powrotny (wymaga hover docelowo wiec mozna pominąć button, albo dać cta) */}
-                  <div className="back-cta-placeholder">Skontaktuj się z nami</div>
+                  <div className="back-cta-wrapper">
+                    {index < 3 ? (
+                      <OrderButton
+                        text="Umów przegląd"
+                        onClick={scrollToInspectionForm}
+                        showIcon={false}
+                        padding="10px 20px"
+                      />
+                    ) : (
+                      <CallButton phoneNumber="690029414" />
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

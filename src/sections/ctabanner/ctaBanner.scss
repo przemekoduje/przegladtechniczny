@@ -34,7 +34,8 @@
 
 .cta-subtitle {
   color: rgba(255, 255, 255, 0.9);
-  font-size: 1.125rem; /* Lekko powiększone z 1.1rem dla lepszej czytelności (~18px) */
+  font-size: 1.125rem;
+  /* Lekko powiększone z 1.1rem dla lepszej czytelności (~18px) */
   margin: 0 0 2.5rem 0;
   font-weight: 300;
   /* Opcjonalnie: ograniczenie szerokości tekstu dla lepszej czytelności na szerokich ekranach */
@@ -44,14 +45,34 @@
 /* Kontener na przyciski */
 .cta-buttons-wrapper {
   display: flex;
-  flex-direction: column; /* Mobile First: jeden pod drugim */
-  gap: 1rem;
+  flex-direction: row;
+  /* W jednym wierszu domyślnie */
+  justify-content: center;
+  align-items: stretch;
+  /* Wymuś identyczną wysokość przycisków */
+  gap: 1.5rem;
   width: 100%;
-  /* Konwersja 600px -> 37.5rem */
-  max-width: 37.5rem;
-  /* Zastanów się czy z-index: 50 jest tu na pewno potrzebny. 
-     Jeśli nic na siebie nie nachodzi, można usunąć. */
+  max-width: 100%;
   z-index: 50;
+
+  /* Wymuszamy szerokość przycisków wewnątrz */
+  &>* {
+    width: 280px;
+    flex: 0 0 280px;
+    /* Zapobiega zmianie rozmiaru */
+  }
+
+  /* Tylko w mobile < 480 mają być w jednej kolumnie i na pełną szerokość */
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+    &>* {
+      width: 100%;
+      flex: 1 1 auto;
+    }
+  }
 }
 
 /* Wspólne style przycisków */
@@ -59,7 +80,6 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  /* POPRAWKA: Zwiększony padding dla lepszego dotyku na mobile (było 5px) */
   padding: 0.75rem 1.5rem;
   border-radius: 6px;
   font-weight: 600;
@@ -67,7 +87,10 @@
   font-size: 1rem;
   transition: all 0.2s ease;
   cursor: pointer;
-  border: 2px solid transparent; /* Rezerwujemy miejsce na border, żeby uniknąć skakania przy hover */
+  border: 2px solid transparent;
+  height: 100%;
+  /* Pozwól kontenerowi stretch kontrolować wysokość */
+  box-sizing: border-box;
 }
 
 /* Przycisk biały (Telefon) */
@@ -87,9 +110,6 @@
   background-color: #111827;
   color: #ffffff;
   border-color: #111827;
-  /* POPRAWKA: Usunięto max-height: 50px.
-     Wysokość powinna wynikać z paddingu i wielkości fonta. 
-     Sztywna wysokość psuje przycisk, gdy tekst jest dłuższy lub font większy. */
 }
 
 .btn-dark:hover {
@@ -100,37 +120,26 @@
 /* Ikona w przycisku */
 .icon-placeholder {
   margin-right: 10px;
-  /* Konwersja 20px -> 1.25rem */
   font-size: 1.25rem;
   line-height: 1;
 }
 
 /* Wersja na Tablet i Desktop (>= 768px) */
-@media (min-width: 48rem) { /* 48rem = 768px */
-  
+@media (min-width: 48rem) {
+  /* 48rem = 768px */
+
   .cta-section {
-     /* Na większych ekranach możemy dać trochę więcej oddechu */
     padding: 6rem 2rem;
   }
 
   .cta-title {
-    /* Powiększamy tytuł na desktopie */
-    font-size: 48px; /* 48px */
+    font-size: 48px;
   }
+
   .cta-subtitle {
-    font-size: 22px; /* Lekko powiększone z 1.1rem dla lepszej czytelności (~18px) */
+    font-size: 22px;
   }
 
-  .cta-buttons-wrapper {
-    flex-direction: row; /* Przyciski obok siebie */
-    justify-content: center;
-    width: auto;
-    max-width: none;
-    gap: 1.5rem; /* Większy odstęp */
-  }
-
-  .btn {
-    /* Konwersja 200px -> 12.5rem */
-    min-width: 12.5rem;
-  }
+  /* Usunięto nadmiarowe style .cta-buttons-wrapper i .btn z miedia query, 
+     ponieważ są obsłużone wyżej lub nie wymagają zmian w tym punkcie przerwania */
 }

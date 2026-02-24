@@ -82,9 +82,9 @@ const SilesiaMapGL = ({
                 initialViewState={initialViewState || {
                     // CENTROWANIE - dobrane eksperymentalnie dla GZM
                     longitude: 19.00,
-                    latitude: 50.28,
+                    latitude: 50.25,
 
-                    // ZOOM - Zmniejszony z 8.2 na 7.6, aby zmieścić Tarnowskie Góry (góra) i Tychy (dół)
+                    // ZOOM - Zwiększony, aby mapa lepiej wypełniała kontener i miała mniejsze marginesy
                     zoom: 8.2,
 
                     pitch: 45,

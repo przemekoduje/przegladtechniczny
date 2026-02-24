@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './InspectionsTimeline.scss';
+import OrderButton from '../OrderButton/OrderButton';
 
 const timelineData = [
   {
@@ -66,7 +67,7 @@ const timelineData = [
   }
 ];
 
-const InspectionsTimeline = () => {
+const InspectionsTimeline = ({ user, onOrderClick }) => {
   const [activeId, setActiveId] = useState(null);
 
   const toggleItem = (id) => {
@@ -76,7 +77,7 @@ const InspectionsTimeline = () => {
   return (
     <section className="timeline-section">
       <div className="timeline-header">
-        <h2>Dlaczego przeglądy są ważne?</h2>
+        <h2>Zapamiętaj te terminy!</h2>
         <p>Lista obowiązkowych przeglądów wymaganych do ubezpieczenia domu.</p>
       </div>
 
@@ -95,11 +96,11 @@ const InspectionsTimeline = () => {
               {group.items.map((item, index) => {
                 const isActive = activeId === item.id;
                 // Logika: nieparzyste na lewo, parzyste na prawo (w CSS)
-                const isLeft = index % 2 === 0; 
-                
+                const isLeft = index % 2 === 0;
+
                 return (
-                  <div 
-                    key={item.id} 
+                  <div
+                    key={item.id}
                     className={`timeline-item ${isLeft ? 'left' : 'right'} ${isActive ? 'active' : ''}`}
                   >
                     <div className="timeline-card" onClick={() => toggleItem(item.id)}>
@@ -112,7 +113,7 @@ const InspectionsTimeline = () => {
                           <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </div>
                       </div>
-                      
+
                       <div className={`card-body ${isActive ? 'open' : ''}`}>
                         <div className="card-content">
                           <div className="info-block">
@@ -131,10 +132,18 @@ const InspectionsTimeline = () => {
                             <strong>Podstawa prawna:</strong>
                             <p>{item.details.legal}</p>
                           </div>
-                          
-                          <button className="cta-button">
-                            Zamów darmową wycenę
-                          </button>
+
+                          <div className="timeline-card-order-button">
+                            <OrderButton
+                              text="Umów przegląd"
+                              userAvatar={user?.photoURL}
+                              onClick={(e) => {
+                                e.stopPropagation(); // Zapobiegamy zamknięciu karty
+                                if (onOrderClick) onOrderClick();
+                              }}
+                              padding="4px 4px 4px 24px" // Nieco mniejszy padding dla karty
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>

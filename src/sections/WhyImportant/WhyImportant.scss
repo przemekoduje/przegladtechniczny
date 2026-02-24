@@ -3,8 +3,8 @@
 /* --- ZMIENNE (Dopasowane do Scope) --- */
 $primary-orange: #f97316;
 // Kolory tekstów dopasowane do tych z Scope
-$text-dark: #505050;   // Odpowiednik var(--text-dark)
-$text-gray: #6b7280;   // Odpowiednik var(--text-gray)
+$text-dark: #505050; // Odpowiednik var(--text-dark)
+$text-gray: #6b7280; // Odpowiednik var(--text-gray)
 $border-color: #e5e7eb; // Odpowiednik var(--border-color)
 
 $bg-alert: #fff1f2;
@@ -21,7 +21,7 @@ $alert-color: #e11d48;
 
 .why-container {
   /* Dopasowano szerokość do scope-container */
-  max-width: 1200px; 
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -67,19 +67,22 @@ $alert-color: #e11d48;
   /* Styl ramki identyczny jak w Scope */
   border: 1px solid $border-color;
   border-radius: 12px;
-  padding: 2.5rem; /* Zachowałem nieco większy padding z oryginalnego Why, dla oddechu */
+  padding: 2.5rem;
+  /* Zachowałem nieco większy padding z oryginalnego Why, dla oddechu */
   display: flex;
   flex-direction: column;
   /* Usunięto początkowy box-shadow i kolorowe border-top */
   box-shadow: none;
-  border-top: none !important; /* Wymuszenie braku górnej ramki */
+  // border-top: none !important; /* Wymuszenie braku górnej ramki */
 
   /* Identyczny efekt hover jak w Scope */
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  
+
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border-color: $primary-orange; // Opcjonalnie: zmiana koloru ramki przy hover
+
   }
 
   /* Styl nagłówków wewnątrz karty */
@@ -114,13 +117,19 @@ $alert-color: #e11d48;
   justify-content: center;
   margin-bottom: 1.5rem;
 
+  .why-icon-img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+  }
+
   /* Zachowano kolory tła ikon dla rozróżnienia kart */
   &.alert {
-    background-color: $bg-alert;
+    // background-color: $bg-alert;
     color: $alert-color;
   }
+
   &.legal {
-    background-color: #fff7ed;
     color: $primary-orange;
   }
 }
@@ -149,7 +158,7 @@ $alert-color: #e11d48;
       gap: 8px;
       margin-bottom: 0.5rem;
     }
-    
+
     .quote-icon {
       color: $alert-color; // Zmiana koloru ikony na ostrzegawczy
       font-size: 1.2rem;
@@ -211,7 +220,7 @@ $alert-color: #e11d48;
         color: $text-dark;
         font-weight: 600;
       }
-      
+
       &:last-child {
         margin-bottom: 0;
       }

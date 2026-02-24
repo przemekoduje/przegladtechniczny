@@ -56,13 +56,13 @@ export default function Main({ user, isPanelOpen, setIsPanelOpen, customCity }) 
 
       <div className="hero-content">
         <h1 className="hero-title">
-          <span className="service-name">Przeglądy Budowlane</span>
+          <span className="service-name">Przeglądy Techniczne Nieruchomości</span>
           <span className="city-name">{customCity || "Śląsk"}</span>
         </h1>
 
         {/* --- POPRAWIONA SEKCJA BUTTONA --- */}
         <OrderButton
-          text="Zamów przegląd"
+          text="Umów przegląd"
           userAvatar={user?.photoURL}
           onClick={scrollToInspectionForm}
         />

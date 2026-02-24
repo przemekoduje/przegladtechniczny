@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./menu.scss";
-import Panel from "../panel/Panel";
+import Panel from "../Panel/Panel";
 // import { auth, onAuthStateChanged } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate, useLocation } from "react-router-dom"; // Dodaj useLocation jeśli planujesz nawigację między stronami
 import MenuIcon from "@mui/icons-material/Menu";
-import OrderButton from "../../components/OrderButton/OrderButton";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CallButton from "../CallButton/CallButton";
 
 export default function Menu({ isPanelOpen, setIsPanelOpen, isTransparent }) {
   const { currentUser: user, isAdmin } = useAuth();
@@ -89,15 +90,17 @@ export default function Menu({ isPanelOpen, setIsPanelOpen, isTransparent }) {
           <span onClick={(e) => scrollToSection(e, "scope-container")}>co robimy</span>
           <span onClick={(e) => scrollToSection(e, "h5-QA")}>warto wiedzieć</span>
           <span onClick={handleBlogClick}>poradniki</span>
-          <span onClick={handleDashboardClick}>{user ? "panel klienta" : "zaloguj"}</span>
+          <span className="client-panel-link" onClick={handleDashboardClick}>
+            {user && user.photoURL ? (
+              <img src={user.photoURL} alt="User" className="panel-icon-img avatar" />
+            ) : (
+              <AccountCircleIcon className="panel-icon-img" />
+            )}
+            {user ? "panel klienta" : "zaloguj"}
+          </span>
 
           <div className="mobile-btn-wrapper">
-            <OrderButton
-              showIcon={false}
-              text="Zamów przegląd"
-              padding="12px 40px"
-              onClick={scrollToInspectionForm}
-            />
+            <CallButton phoneNumber="690029414" />
           </div>
         </div>
       </Panel>
@@ -116,17 +119,23 @@ export default function Menu({ isPanelOpen, setIsPanelOpen, isTransparent }) {
             <span onClick={(e) => scrollToSection(e, "scope-container")}>co robimy</span>
             <span onClick={(e) => scrollToSection(e, "h5-QA")}>warto wiedzieć</span>
             <span onClick={handleBlogClick}>poradniki</span>
-            <span onClick={handleDashboardClick}>{user ? "panel klienta" : "zaloguj"}</span>
-            <div onClick={(e) => e.stopPropagation()}>
-              <OrderButton
-                showIcon={false}
-                text="Zamów przegląd"
-                padding="6px 32px 6px 32px"
-                onClick={scrollToInspectionForm}
-              />
+            <div className="call-wrapper" onClick={(e) => e.stopPropagation()}>
+              <CallButton phoneNumber="690029414" />
             </div>
+
+
           </div>
+
         </div>
+
+        <span className="client-panel-link" onClick={handleDashboardClick}>
+          {user && user.photoURL ? (
+            <img src={user.photoURL} alt="User" className="panel-icon-img avatar" />
+          ) : (
+            <AccountCircleIcon className="panel-icon-img" />
+          )}
+        </span>
+
 
         {/* BURGER MOBILE */}
         <div className="menu-burger" onClick={togglePanel}>

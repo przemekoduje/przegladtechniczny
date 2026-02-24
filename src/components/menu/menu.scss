@@ -6,109 +6,212 @@
   // max-width: 1200px; /* Szerokość contentu */
   height: 100%;
   padding: 0 100px;
-  
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  
+
   /* Logo i nawigacja po lewej */
   .logo {
+    width: 100%;
     display: flex;
     align-items: center;
-    gap: 105px;
-    flex: 1;
+    // justify-content: space-between;
+    // gap: 105px;
+    // flex: 1;
     cursor: pointer;
+    gap: 40px;
 
     /* SITEMENU (Desktop) */
     .sitemenu {
       display: flex;
       align-items: center;
-      gap: 20px;
+      justify-content: space-between;
+      gap: 30px;
 
       span {
         display: flex;
+        align-items: center;
+        gap: 8px;
         font-family: $font-secondary;
         font-weight: 300;
         cursor: pointer;
-        transition: color 0.2s;
-        
+        transition: all 0.3s ease;
+        white-space: nowrap;
+
         &:hover {
-           color: $color-primary-green;
+          color: $color-primary-green;
+        }
+
+
+      }
+
+      .call-wrapper {
+        flex: 0 1 210px; // Identyczna szerokość bazowa co panel klienta
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .call_button {
+          width: 100%; // Wypełnia wrapper
+          justify-content: center; // Centruje zawartość
+          white-space: nowrap;
         }
       }
     }
   }
 
+  .client-panel-link {
+    display: flex;
+    justify-content: center; // Centrowanie zawartości
+    align-self: center;
+    border-radius: 50%;
+    background: rgba($color-primary-green, 0.05);
+    border: 1px solid rgba($color-primary-green, 0.2);
+    padding: 8px 8px;
+    color: $color-text-main;
+    font-weight: 500;
+    font-size: 1.2rem;
+    white-space: nowrap; // Zapobiegamy zawijaniu tekstu
+
+    .panel-icon-img {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+
+      &.avatar {
+        border-radius: 50%;
+        object-fit: cover;
+        // border: 1px solid rgba($color-primary-green, 0.3);
+      }
+    }
+
+    &:hover {
+      background: rgba($color-primary-green, 0.1);
+      border-color: $color-primary-green;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+  }
+
   /* BURGER (Desktop - ukryty) */
   .menu-burger {
-    display: none; 
+    display: none;
     cursor: pointer;
     z-index: 101;
   }
 }
 
+
+
 /* --- MEDIA QUERIES --- */
 
-@media (max-width: 765px) {
+@media (min-width: 769px) and (max-width: 1024px) {
   .menu-container {
     padding: 0 40px;
 
     .logo {
-      gap: 0; 
-      
+      gap: 30px;
+    }
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .menu-container {
+    padding: 0 40px;
+
+    .logo {
+
       /* UKRYWAMY linki na mobile */
       .sitemenu {
         display: none;
       }
     }
 
+    .client-panel-link {
+      display: none;
+    }
+
     /* POKAZUJEMY Burgera na mobile */
     .menu-burger {
       display: block;
-      color: $color-text-main; 
+      color: $color-text-main;
     }
   }
 }
 
-@media (max-width: 430px) {
+@media (max-width: 480px) {
   .menu-container {
     padding: 0 20px;
 
-    
+    .logo {
+
+      /* UKRYWAMY linki na mobile */
+      .sitemenu {
+        display: none;
+      }
+    }
+
+    .client-panel-link {
+      display: none;
+    }
+
     /* POKAZUJEMY Burgera na mobile */
     .menu-burger {
       display: block;
-      color: $color-text-main; 
+      color: $color-text-main;
     }
   }
 }
-
 
 /* Styl dla zawartości panelu bocznego (mobile) */
 .mobile-menu-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px; /* Duże odstępy między linkami */
-  
+  gap: 40px;
+
   span {
-      /* UJEDNOLICENIE Z DESKTOPEM */
-      font-family: $font-secondary; /* Ta sama czcionka */
-      font-weight: 300; /* Ta sama waga */
-      font-size: 28px; /* Dużo większy rozmiar na mobile */
-      color: $color-text-main;
-      cursor: pointer;
-      transition: color 0.2s, transform 0.2s;
-      
-      &:hover {
-         color: $color-primary-green;
-         transform: scale(1.05);
+    white-space: nowrap;
+    font-family: $font-secondary;
+    font-weight: 300;
+    font-size: 28px;
+    color: $color-text-main;
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+
+    &:hover {
+      color: $color-primary-green;
+      transform: scale(1.05);
+    }
+
+    &.client-panel-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba($color-primary-green, 0.1);
+      border: 1px solid rgba($color-primary-green, 0.3);
+      padding: 15px 30px;
+      border-radius: 50px;
+      font-weight: 500;
+      font-size: 24px;
+
+      .panel-icon-img {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+
+        &.avatar {
+          border-radius: 50%;
+          object-fit: cover;
+          border: 1px solid rgba($color-primary-green, 0.3);
+        }
       }
+    }
   }
-  
-  /* Przycisk w panelu */
+
   .mobile-btn-wrapper {
     margin-top: 20px;
-    transform: scale(1.2); /* Powiększamy przycisk o 20% względem desktopu */
+    transform: scale(1.2);
   }
 }

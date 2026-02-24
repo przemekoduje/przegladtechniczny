@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { useLocation, Navigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { citiesData } from '../../helpers/citiesData';
+import { useAuth } from '../../contexts/AuthContext';
 
 // Importy Twoich sekcji
 import Main from "../../sections/main/Main";
@@ -18,10 +19,10 @@ import InspectionsTimeline from "../../components/InspectionsTimeline/Inspection
 import GoldHand from "../../sections/goldHand/GoldHand";
 
 const CityLandingPage = () => {
+  const { currentUser: user } = useAuth();
   const location = useLocation();
 
   // 1. Wyciągamy slug ręcznie z URL-a
-  // Usuwamy prefix "/przeglad-budowlany-" i ewentualne slashe
   const citySlug = location.pathname.replace('/przeglad-budowlany-', '').replace('/', '');
 
   // 2. Szukamy danych miasta
@@ -37,6 +38,13 @@ const CityLandingPage = () => {
     return <Navigate to="/" replace />;
   }
 
+  const scrollToInspectionForm = () => {
+    const formSection = document.getElementById("inspection-form");
+    if (formSection) {
+      formSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   // 5. Renderowanie
   return (
     <div className="city-landing-page">
@@ -44,15 +52,18 @@ const CityLandingPage = () => {
         <title>{cityData.seoTitle || `Przegląd Budowlany ${cityData.name} - Inżynier`}</title>
         <meta name="description" content={cityData.seoDescription || `Profesjonalne przeglądy budowlane w mieście ${cityData.name}.`} />
         <meta property="og:title" content={cityData.seoTitle} />
-        {/* Pamiętaj o podmianie domeny na produkcyjną */}
-        <link rel="canonical" href={`https://twojadomena.pl/przeglad-budowlany-${citySlug}`} />
+        <link rel="canonical" href={`https://przeglady-domu.online/przeglad-budowlany-${citySlug}`} />
       </Helmet>
 
-      {/* Hero Section - przekazujemy customCity, aby nagłówek był dynamiczny */}
-      <Main customCity={cityData.name} />
+      <Main customCity={cityData.name} user={user} />
 
-      {/* NOWE SEKCJIE DLA LEPSZEGO SEO/UX */}
-      <Scope />
+      <LocalContext
+        city={cityData.name}
+        description={cityData.localDescription}
+        risks={cityData.risks}
+      />
+
+      <Scope user={user} />
 
       <InspectionForm />
 
@@ -60,14 +71,10 @@ const CityLandingPage = () => {
 
       <WhyImportant />
 
-      {/* Sekcja Lokalna - przekazujemy dane z citiesData */}
-      <LocalContext
-        city={cityData.name}
-        description={cityData.localDescription} // Opis główny
-        risks={cityData.risks}                  // Tablica z ryzykami (ikony)
+      <InspectionsTimeline
+        user={user}
+        onOrderClick={scrollToInspectionForm}
       />
-
-      <InspectionsTimeline />
 
       {(citySlug === "gliwice" || citySlug === "zabrze") && <GoldHand />}
 

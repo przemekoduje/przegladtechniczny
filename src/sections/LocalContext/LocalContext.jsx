@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Pickaxe, Building2, Droplets, MapPin } from "lucide-react";
+import { MapPin } from "lucide-react";
+import iconMining from "../../assets/mining-risk-icon.png";
+import iconStarowka from "../../assets/risk-icon-starówka.png";
+import iconZielone from "../../assets/risk-icon-zielone.png";
 import "./localContext.scss";
 import SilesiaMapGL from "../../components/SilesiaMapGL/SilesiaMapGL";
 
@@ -15,19 +18,19 @@ const LocalContext = ({
 
   risks = [
     {
-      icon: <Building2 />,
+      icon: iconStarowka,
       title: "Poniemieckie Kamienice",
       description:
-        "Specjalizujemy się w ocenie drewnianych stropów i zawilgoconych piwnic w budynkach z cegły (Zatorze, Centrum).",
+        "Specjalizujemy się w ocenie drewnianych stropów i zawilgoconych piwnic in budynkach z cegły (Zatorze, Centrum).",
     },
     {
-      icon: <Pickaxe />,
+      icon: iconMining,
       title: "Szkody Górnicze",
       description:
         "Mimo zamknięcia wielu kopalń, dzielnice jak Sośnica czy Łabędy wciąż wymagają weryfikacji wychyleń budynku.",
     },
     {
-      icon: <Droplets />,
+      icon: iconZielone,
       title: "Wilgoć i Drenaż",
       description:
         "Gliwice leżą na ciężkich gruntach gliniastych. Sprawdzamy czy deweloper wykonał poprawny drenaż opaskowy.",

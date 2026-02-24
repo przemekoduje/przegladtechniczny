@@ -2,12 +2,12 @@ import React, { useMemo, useRef } from 'react';
 import Map, { Source, Layer, Marker } from 'react-map-gl/maplibre';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { citiesData } from '../../helpers/citiesData'; 
+import { citiesData } from '../../helpers/citiesData';
 import './SilesiaMapGL.scss';
 
 // IMPORT PLIKÓW
-import silesiaOutlineData from '../../assets/silesia1.json'; 
-import silesiaCitiesData from '../../assets/silesia2.json';   
+import silesiaOutlineData from '../../assets/silesia1.json';
+import silesiaCitiesData from '../../assets/silesia2.json';
 
 const SilesiaMapGL = ({ hoveredCity, onCityHover, onCityClick }) => {
     const mapRef = useRef(null);
@@ -53,7 +53,7 @@ const SilesiaMapGL = ({ hoveredCity, onCityHover, onCityClick }) => {
             paint: {
                 'fill-color': [
                     'case',
-                    ['==', ['get', 'name'], hoveredCity || ''], 
+                    ['==', ['get', 'name'], hoveredCity || ''],
                     '#B94E48', // Aktywny
                     '#f3f4f6'  // Nieaktywny (Bardzo jasny szary/biały dla kontrastu)
                 ],
@@ -77,14 +77,14 @@ const SilesiaMapGL = ({ hoveredCity, onCityHover, onCityClick }) => {
 
     return (
         <div className="map-gl-wrapper">
-             <Map
+            <Map
                 ref={mapRef}
                 mapLib={maplibregl}
                 initialViewState={{
-                    longitude: 19.02, 
+                    longitude: 19.02,
                     latitude: 50.30,
-                    zoom: 8.8,    
-                    pitch: 45, // Nachylenie dla efektu 3D!
+                    zoom: 8.5,
+                    pitch: 55, // Nachylenie dla efektu 3D!
                     bearing: 0
                 }}
                 style={{ width: '100%', height: '100%' }}
@@ -109,25 +109,25 @@ const SilesiaMapGL = ({ hoveredCity, onCityHover, onCityClick }) => {
                 {citiesData.map((city, index) => {
                     const isActive = hoveredCity === city.name;
                     return (
-                        <Marker 
-                            key={index} 
-                            longitude={city.lng} 
+                        <Marker
+                            key={index}
+                            longitude={city.lng}
                             latitude={city.lat}
                             anchor="center"
-                            onClick={(e) => { 
-                                e.originalEvent.stopPropagation(); 
-                                onCityClick(city.slug); 
+                            onClick={(e) => {
+                                e.originalEvent.stopPropagation();
+                                onCityClick(city.slug);
                             }}
                         >
-                            <div 
+                            <div
                                 className={`gl-marker ${isActive ? 'active' : ''}`}
                                 onMouseEnter={() => onCityHover(city.name)}
                                 onMouseLeave={() => onCityHover(null)}
                             >
-                               <div className="dot"></div>
-                               <div className="pulse-wave"></div>
-                               {/* Tooltip tylko dla aktywnych, żeby nie zasłaniać mapy */}
-                               {isActive && <div className="gl-tooltip">{city.name}</div>}
+                                <div className="dot"></div>
+                                <div className="pulse-wave"></div>
+                                {/* Tooltip tylko dla aktywnych, żeby nie zasłaniać mapy */}
+                                {isActive && <div className="gl-tooltip">{city.name}</div>}
                             </div>
                         </Marker>
                     );

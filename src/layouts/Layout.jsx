@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Menu from "../components/menu/Menu";
+import Menu from "../components/Menu/Menu";
 import "./layout.scss";
 // import BookingAgent from '../components/BookingAgent/BookingAgent'
 
@@ -16,7 +16,11 @@ export default function Layout({ children, user }) {
     setIsTop(scrollTop < 50);
 
     // 2. Smart Hide (chowanie przy scrollu w dół)
-    if (scrollTop > lastScrollTop && scrollTop > 100) {
+    // Na stronie głównej pozwalamy menu zostać dłużej ze względu na efekt parallax
+    const isHome = window.location.pathname === "/";
+    const parallaxThreshold = isHome ? 1500 : 100;
+
+    if (scrollTop > lastScrollTop && scrollTop > parallaxThreshold) {
       setIsVisible(false);
     } else {
       setIsVisible(true);

@@ -1,5 +1,5 @@
 .hero-slide-root {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   position: relative;
   overflow: hidden;
@@ -10,7 +10,7 @@
 .hero-slide-bg {
   position: absolute;
   inset: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   object-fit: cover;
   z-index: 0;
@@ -24,7 +24,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
 }
 .hero-menu {
@@ -47,14 +47,14 @@
 .hero-slide-slider {
   display: flex;
   flex-direction: row;
-  gap: 100vw;
+  gap: 100%;
   scroll-snap-type: x mandatory;
   overflow-x: auto;
   scroll-behavior: smooth;
   pointer-events: auto;
-  padding-left: calc((100vw - 300px) / 2);
-  padding-right: calc((100vw - 300px) / 2);
-  width: 100vw; // konieczne!
+  padding-left: calc((100% - 300px) / 2);
+  padding-right: calc((100% - 300px) / 2);
+  width: 100%; // konieczne!
   box-sizing: border-box;
   margin-top: 60px;
 }

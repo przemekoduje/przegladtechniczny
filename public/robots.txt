@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://przeglady-domu.online/sitemap.xml

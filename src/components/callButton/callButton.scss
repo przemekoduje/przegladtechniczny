@@ -1,63 +1,81 @@
+@import "../../styles/variables.scss";
+
 .call_button {
   text-decoration: none;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-  padding: 5px 5px 5px 25px;
-  background-color: #fdfdfd;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border: none;
-  border-radius: 25px;
+  justify-content: center;
+  gap: 12px;
+  background: rgba($color-primary-green, 0.05);
+  border: 1px solid rgba($color-primary-green, 0.2);
+  padding: 8px 18px;
+  border-radius: 50px;
+  color: $color-text-main;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  max-width: 300px;
-  min-width: 200px;
+  width: auto; // Szerokość kontrolowana przez rodzica (flex-basis w menu.scss)
 
   span {
     text-decoration: none;
-    color: rgb(88, 88, 88);
-    letter-spacing: 1px;
-    font-family: "ProductSans";
-    font-weight: 300;
-    font-style: normal;
-    font-size: 26px;
+    color: inherit;
+    font-family: $font-primary;
+    font-weight: 700;
+    font-size: 18px;
   }
+
   .btn-icon {
-    width: 40px;
-    height: 40px;
-    background-color: #e4e4e4;
-    color: black;
-    border: none;
-    border-radius: 25px;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    color: $color-primary-green;
+    font-size: 20px;
+    order: -1; // Ikona przed tekstem jak w panelu klienta
+
+    svg {
+      font-size: inherit;
+    }
+  }
+
+  &:hover {
+    background: rgba($color-primary-green, 0.1);
+    border-color: $color-primary-green;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   }
 }
 
-@media (max-width: 375px){
+/* --- RESPONSYWNOŚĆ --- */
+
+@media (max-width: 768px) {
   .call_button {
-    padding: 5px 5px 5px 25px;
-    gap: 5px;
+    background: rgba($color-primary-green, 0.1);
+    border: 1px solid rgba($color-primary-green, 0.3);
+    padding: 12px 25px;
+    font-size: 1.1rem;
+
     span {
-      font-size: 18px;
+      font-size: 1.1rem;
     }
-  }
-}
-@media (min-width: 375px) and ( max-width: 425px) {
-  .call_button {
-    gap: 15px;
-    span {
-      font-size:18px;
+
+    .btn-icon {
+      font-size: 24px;
     }
   }
 }
 
-@media (min-width: 425px) and ( max-width: 768px) {
+@media (max-width: 480px) {
   .call_button {
+    padding: 10px 20px;
+    font-size: 1rem;
+
     span {
-      font-size: 20px;
+      font-size: 1rem;
+    }
+
+    .btn-icon {
+      font-size: 22px;
     }
   }
 }

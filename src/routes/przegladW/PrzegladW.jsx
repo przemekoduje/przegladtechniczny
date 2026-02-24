@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./przegladW.scss";
 import PersonIcon from "@mui/icons-material/Person";
-import Menu from "../../components/menu/Menu";
+import Menu from "../../components/Menu/Menu";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const PrzegladW = ({ user, isPanelOpen, setIsPanelOpen }) => {
   const [isVisible, setIsVisible] = useState(true);
@@ -24,6 +25,11 @@ const PrzegladW = ({ user, isPanelOpen, setIsPanelOpen }) => {
   }, [user]);
   return (
     <>
+      <Helmet>
+        <title>Przegląd Wentylacyjny Gliwice & Śląsk | Drożność Kominów</title>
+        <meta name="description" content="Profesjonalne przeglądy instalacji wentylacyjnej i kominowej w Gliwicach. Zadbaj o zdrowie i prawidłową cyrkulację powietrza w swoim domu. Śląskie uprawnienia i rzetelność." />
+        <link rel="canonical" href="https://przeglady-domu.online/przeglad-wentylacyjny" />
+      </Helmet>
       <section className="przeglad-wentylacyjny">
         <div className="container_info">
           <h1>Przegląd instalacji wentylacyjnej</h1>

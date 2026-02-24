@@ -1,248 +1,255 @@
 :root {
-    --primary-orange: #f97316; /* Kolor główny z Twojego projektu */
-    --bg-light: #ffffff;
-    --text-dark: #505050;
-    --text-gray: #6b7280;
-    --border-color: #e5e7eb;
-  }
-  
-  /* Główna sekcja */
-  .scope-section {
-    padding: 4rem 1rem;
-    background-color: white;
-    font-family: "ProductSans", sans-serif;
-    
+  --primary-orange: #f97316;
+  /* Kolor główny z Twojego projektu */
+  --bg-light: #ffffff;
+  --text-dark: #505050;
+  --text-gray: #6b7280;
+  --border-color: #e5e7eb;
+}
 
-  }
-  
-  .scope-container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  /* Nagłówek */
-  .scope-header {
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-  
-  .scope-header h2 {
-    font-size: 48px;
-    font-weight: 300;
-    color: var(--text-dark);
-    margin-bottom: 1rem;
-  }
-  
-  .scope-header p {
-    font-size: 22px;
-    color: var(--text-gray);
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-  /* Grid (Siatka kart) */
-  .scope-grid {
-    display: grid;
-    grid-template-columns: 1fr; /* Domyślnie jedna kolumna (mobile) */
-    gap: 2rem;
-  }
-  
-  
-  /* Karta usługi - Kontener główny (Perspective) */
-  .scope-card {
-    background: transparent;
-    perspective: 1000px; /* Aktywuje przestrzeń 3D dla odwracania */
-    min-height: 480px; // Zapewnia stałą wysokość by karta nie skakała podczas obrotu
-  }
-  
-  /* Wewnętrzny kontener, który będzie się odwracał */
-  .scope-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.6s ease-in-out;
-    transform-style: preserve-3d;
-  }
-  
-  /* Wywołanie odwrócenia po najechaniu na cały kontener */
-  .scope-card:hover .scope-card-inner {
-    transform: rotateY(180deg);
-  }
-  
-  /* Wspólne stylowanie dla przodu i tyłu (np. ramki, cienie, padding) */
-  .scope-card-front, .scope-card-back {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    -webkit-backface-visibility: hidden; /* Wsparcie dla starych Safari */
-    backface-visibility: hidden;
-    background: #ffffff;
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    /* transition: transform 0.2s, box-shadow 0.2s; - przeniesione dla poszczególnych stron jesli trzeba */
-  }
+/* Główna sekcja */
+.scope-section {
+  padding: 4rem 1rem;
+  background-color: white;
+  font-family: "ProductSans", sans-serif;
 
-  /* Cień nakładany na poszczególne ściany */
-  .scope-card:hover .scope-card-front,
-  .scope-card:hover .scope-card-back {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Przód karty */
-  .scope-card-front {
-    /* Domyślnie już widoczne */
-    z-index: 2;
-  }
-  
-  /* Tył karty */
-  .scope-card-back {
-    transform: rotateY(180deg);
-    background-color: #f9fafb; /* Leciutko inny odcień szarości dla rozróżnienia tyłu */
-    color: var(--text-dark);
-    justify-content: center;
-    border: 1px solid #e2e8f0; // jaśniejszy border
 
-    h3 {
-      font-size: 1.25rem !important; // mniejszy tytul z tylu
-      color: var(--primary-orange);
-      margin-bottom: 1rem !important;
-    }
+}
 
-    .back-description {
-      font-size: 15px;
-      line-height: 1.6;
-      color: var(--text-gray);
-      flex: 1;
-    }
+.scope-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
-    .back-cta-placeholder {
-      margin-top: auto;
-      text-align: center;
-      font-weight: 700;
-      color: var(--primary-orange);
-      border-top: 1px solid var(--border-color);
-      padding-top: 15px;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-  }
+/* Nagłówek */
+.scope-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
 
-  /* Styl dla wyróżnionej karty (Popularne) */
-  .scope-card.popular .scope-card-front {
-    border: 2px solid var(--primary-orange);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  }
-  
-  .scope-card.popular .scope-card-back {
-     border: 2px solid rgba(249, 115, 22, 0.5); /* Lżejsza pomarańczowa ramka z tyłu */
-  }
-  
-  /* Badge "Popularne" */
-  .badge {
-    position: absolute;
-    top: -12px;
-    right: 20px;
-    background-color: var(--primary-orange);
-    color: white;
-    font-size: 0.75rem;
-    font-weight: bold;
-    padding: 4px 12px;
-    border-radius: 9999px;
-    text-transform: uppercase;
-    z-index: 10;
-  }
-  
-  /* Ikona główna */
-  .icon-wrapper {
-    margin-bottom: 1.5rem;
-    display: flex;
-    justify-content: flex-start; // Ikona wyrównana do lewej (jak w poprzednim kodzie)
-  
-    // Nowa klasa dla obrazka PNG
-    .service-icon-img {
-      // Ustawiamy maksymalną szerokość i wysokość, 
-      // żeby duże PNG nie rozsadziły kafelka.
-      // Dostosuj te wartości (np. 48px, 64px) do swojego projektu.
-      width: auto; 
-      height: 64px; 
-      max-width: 100%;
-  
-      // Opcjonalnie: jeśli PNG są czarne, a chcesz inny kolor, 
-      // możesz spróbować użyć filtra (ale lepiej mieć PNG w dobrym kolorze)
-      // filter: invert(33%) sepia(99%) saturate(1933%) hue-rotate(206deg) brightness(93%) contrast(108%); // przykładowy niebieski
-    }
-  }
-  
-  .icon-placeholder {
-    font-size: 0.7rem;
-    font-weight: bold;
-  }
-  
-  /* Teksty w karcie głównej */
-  .scope-card-front h3, .scope-card-back h3 {
-    font-size: 1.45rem;
-    font-weight: 700;
-    color: var(--text-dark);
-    margin: 0 0 0.75rem 0;
-  }
-  
-  .scope-card-front .description {
-    font-size: 18px;
-    color: var(--text-gray);
-    line-height: 1.5;
-    margin-bottom: 1.5rem;
-  }
-  
-  /* Lista cech */
-  .features-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 2rem 0;
-    flex-grow: 1; /* Wypycha cenę na dół */
-  }
-  
-  .features-list li {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 0.75rem;
-    font-size: 0.9rem;
-    color: #374151;
-  }
-  
-  /* Ikona check (ptaszka) */
-  .check-icon {
-    color: #22c55e; /* Zielony kolor */
-    margin-right: 0.75rem;
-    font-weight: bold;
-  }
-  
-  /* Cena */
-  .price-tag {
-    margin-top: auto;
-    padding-top: 1rem;
-    border-top: 1px solid var(--border-color);
-    font-size: 1.25rem;
-    font-weight: 700;
+.scope-header h2 {
+  font-size: 48px;
+  font-weight: 300;
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+}
+
+.scope-header p {
+  font-size: 22px;
+  color: var(--text-gray);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Grid (Siatka kart) */
+.scope-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  /* Domyślnie jedna kolumna (mobile) */
+  gap: 2rem;
+}
+
+
+/* Karta usługi - Kontener główny (Perspective) */
+.scope-card {
+  background: transparent;
+  perspective: 1000px;
+  /* Aktywuje przestrzeń 3D dla odwracania */
+  min-height: 480px; // Zapewnia stałą wysokość by karta nie skakała podczas obrotu
+}
+
+/* Wewnętrzny kontener, który będzie się odwracał */
+.scope-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s ease-in-out;
+  transform-style: preserve-3d;
+}
+
+/* Wywołanie odwrócenia po najechaniu na cały kontener */
+.scope-card:hover .scope-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Wspólne stylowanie dla przodu i tyłu (np. ramki, cienie, padding) */
+.scope-card-front,
+.scope-card-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  /* Wsparcie dla starych Safari */
+  backface-visibility: hidden;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  /* transition: transform 0.2s, box-shadow 0.2s; - przeniesione dla poszczególnych stron jesli trzeba */
+}
+
+/* Cień nakładany na poszczególne ściany */
+.scope-card:hover .scope-card-front,
+.scope-card:hover .scope-card-back {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Przód karty */
+.scope-card-front {
+  /* Domyślnie już widoczne */
+  z-index: 2;
+}
+
+/* Tył karty */
+.scope-card-back {
+  transform: rotateY(180deg);
+  background-color: #f9fafb;
+  /* Leciutko inny odcień szarości dla rozróżnienia tyłu */
+  color: var(--text-dark);
+  justify-content: center;
+  border: 1px solid #e2e8f0; // jaśniejszy border
+
+  h3 {
+    font-size: 1.25rem !important; // mniejszy tytul z tylu
     color: var(--primary-orange);
+    margin-bottom: 1rem !important;
   }
+
+  .back-description {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-gray);
+    flex: 1;
+  }
+
+  .back-cta-wrapper {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+  }
+}
+
+/* Styl dla wyróżnionej karty (Popularne) */
+.scope-card.popular .scope-card-front {
+  border: 2px solid var(--primary-orange);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.scope-card.popular .scope-card-back {
+  border: 2px solid rgba(249, 115, 22, 0.5);
+  /* Lżejsza pomarańczowa ramka z tyłu */
+}
+
+/* Badge "Popularne" */
+.badge {
+  position: absolute;
+  top: -12px;
+  right: 20px;
+  background-color: var(--primary-orange);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  z-index: 10;
+}
+
+/* Ikona główna */
+.icon-wrapper {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: flex-start; // Ikona wyrównana do lewej (jak w poprzednim kodzie)
+
+  // Nowa klasa dla obrazka PNG
+  .service-icon-img {
+    // Ustawiamy maksymalną szerokość i wysokość, 
+    // żeby duże PNG nie rozsadziły kafelka.
+    // Dostosuj te wartości (np. 48px, 64px) do swojego projektu.
+    width: auto;
+    height: 64px;
+    max-width: 100%;
+
+    // Opcjonalnie: jeśli PNG są czarne, a chcesz inny kolor, 
+    // możesz spróbować użyć filtra (ale lepiej mieć PNG w dobrym kolorze)
+    // filter: invert(33%) sepia(99%) saturate(1933%) hue-rotate(206deg) brightness(93%) contrast(108%); // przykładowy niebieski
+  }
+}
+
+.icon-placeholder {
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+/* Teksty w karcie głównej */
+.scope-card-front h3,
+.scope-card-back h3 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 0.75rem 0;
+}
+
+.scope-card-front .description {
+  font-size: 18px;
+  color: var(--text-gray);
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+/* Lista cech */
+.features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem 0;
+  flex-grow: 1;
+  /* Wypycha cenę na dół */
+}
+
+.features-list li {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+/* Ikona check (ptaszka) */
+.check-icon {
+  color: #22c55e;
+  /* Zielony kolor */
+  margin-right: 0.75rem;
+  font-weight: bold;
+}
+
+/* Cena */
+.price-tag {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary-orange);
+}
 
 
 
-  /* Responsywność - tablet i desktop */
-  @media (min-width: 768px) {
-    .scope-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
+/* Responsywność - tablet i desktop */
+@media (min-width: 768px) {
+  .scope-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
-  
-  @media (min-width: 1024px) {
-    .scope-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
+}
+
+@media (min-width: 1024px) {
+  .scope-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
+}

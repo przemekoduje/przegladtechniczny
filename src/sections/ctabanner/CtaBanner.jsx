@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./ctaBanner.scss";
-import CallButton from "../../components/callButton/CallButton";
+import CallButton from "../../components/CallButton/CallButton";
 import OrderButton from "../../components/OrderButton/OrderButton";
 
 const CtaBanner = ({ customCity }) => {
@@ -45,7 +45,7 @@ const CtaBanner = ({ customCity }) => {
         <h2 className="cta-title">Potrzebujesz przeglądu budowlanego{customCity ? ` w ${customCity}` : ""}?</h2>
 
         <p className="cta-subtitle">
-          Skontaktuj się z nami i otrzymaj bezpłatną wycenę w 10minut
+          Skontaktuj się z nami i otrzymaj bezpłatną wycenę w 3 minuty
         </p>
 
         <div className="cta-buttons-wrapper">
@@ -54,7 +54,7 @@ const CtaBanner = ({ customCity }) => {
 
           <OrderButton
             showIcon={false}
-            text="Zamów przegląd"
+            text="Umów przegląd"
             padding="6px 32px 6px 32px"
             onClick={scrollToInspectionForm}
           />

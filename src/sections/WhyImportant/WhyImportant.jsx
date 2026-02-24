@@ -1,6 +1,8 @@
 import React from 'react';
-import { ShieldAlert, Scale, Info } from 'lucide-react';
+import { Scale, Info } from 'lucide-react';
 import './WhyImportant.scss';
+import insuranceIcon from '../../assets/why-insurance.png';
+import lawIcon from '../../assets/why-law.png';
 
 const WhyImportant = ({ customCity }) => {
   return (
@@ -20,7 +22,7 @@ const WhyImportant = ({ customCity }) => {
           {/* KARTA 1: UBEZPIECZENIE (Pieniądze) */}
           <div className="why-card insurance-card">
             <div className="icon-wrapper alert">
-              <ShieldAlert size={32} />
+              <img src={insuranceIcon} alt="Ubezpieczenie" className="why-icon-img" />
             </div>
             <h3>Polisa Ubezpieczeniowa</h3>
             <p className="main-text">
@@ -39,7 +41,7 @@ const WhyImportant = ({ customCity }) => {
           {/* KARTA 2: PRAWO (Art. 62) */}
           <div className="why-card law-card">
             <div className="icon-wrapper legal">
-              <Scale size={32} />
+              <img src={lawIcon} alt="prawo" className="why-icon-img" />
             </div>
             <h3>Art. 62 Prawa Budowlanego</h3>
             <p className="main-text">

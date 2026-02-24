@@ -9,7 +9,7 @@ const PrivacyPolicy = () => {
 
       <p>
         Niniejsza polityka prywatności określa zasady przetwarzania danych
-        osobowych użytkowników serwisu przegladtechniczny.eu.
+        osobowych użytkowników serwisu przeglady-domu.online.
       </p>
 
       <h2>1. Administrator danych</h2>

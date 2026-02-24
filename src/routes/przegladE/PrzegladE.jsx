@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./przegladE.scss";
 import PersonIcon from "@mui/icons-material/Person";
-import Menu from "../../components/menu/Menu";
+import Menu from "../../components/Menu/Menu";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const PrzegladE = ({ user, isPanelOpen, setIsPanelOpen }) => {
   const [isVisible, setIsVisible] = useState(true);
@@ -25,6 +26,11 @@ const PrzegladE = ({ user, isPanelOpen, setIsPanelOpen }) => {
   }, [user]);
   return (
     <>
+      <Helmet>
+        <title>Przegląd Elektryczny Gliwice & Śląsk | Pomiary i Protokół</title>
+        <meta name="description" content="Okresowe pomiary i przeglądy instalacji elektrycznej w Gliwicach. Protokół do ubezpieczenia i gwarancja bezpieczeństwa. Uprawnienia SEP i szybkie terminy na Śląsku." />
+        <link rel="canonical" href="https://przeglady-domu.online/przeglad-elektryczny" />
+      </Helmet>
       <section className="przeglad-elektryczny">
         <div className="container_info">
           <h1>Przegląd instalacji elektrycznej</h1>

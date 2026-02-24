@@ -2,18 +2,21 @@
 @import "../../styles/variables.scss";
 
 .panel {
-  position: fixed; /* Zmieniono na fixed, żeby przykrywał wszystko */
+  position: fixed;
+  /* Zmieniono na fixed, żeby przykrywał wszystko */
   top: -100vh;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
-  background-color: rgba(255, 255, 255, 0.98); /* Prawie nieprzezroczyste tło */
+  background-color: rgba(255, 255, 255, 0.98);
+  /* Prawie nieprzezroczyste tło */
   backdrop-filter: blur(10px);
-  z-index: 998; /* Poniżej paska nawigacji (999), ale... */
-  
+  z-index: 998;
+  /* Poniżej paska nawigacji (999), ale... */
+
   /* Jeśli chcesz, żeby panel zakrywał też pasek nawigacji, daj tu z-index: 1000 
      i w Panel.js przenieś go poza strukturę Menu */
-  
+
   transition: top 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   display: flex;
   flex-direction: column;
@@ -25,12 +28,15 @@
   /* Nagłówek panelu z przyciskiem zamknięcia */
   .panel-header {
     width: 100%;
-    height: 100px; /* Taka sama wysokość jak navbar */
+    height: 100px;
+    /* Taka sama wysokość jak navbar */
     display: flex;
     align-items: center;
-    justify-content: flex-end; /* X po prawej */
-    padding: 0 40px; /* Padding zgodny z Menu container */
-    
+    justify-content: flex-end;
+    /* X po prawej */
+    padding: 0 40px;
+    /* Padding zgodny z Menu container */
+
     @media (max-width: 430px) {
       padding: 0 20px;
     }
@@ -42,7 +48,7 @@
       justify-content: center;
       color: $color-text-main;
       transition: transform 0.2s;
-      
+
       &:hover {
         transform: scale(1.1);
         color: $color-primary-green;
@@ -56,8 +62,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* Wycentrowanie pionowe */
+    justify-content: center;
+    /* Wycentrowanie pionowe */
     width: 100%;
-    padding-bottom: 100px; /* Opcjonalnie, żeby nie było za nisko */
+    padding-bottom: 100px;
+    /* Opcjonalnie, żeby nie było za nisko */
   }
 }

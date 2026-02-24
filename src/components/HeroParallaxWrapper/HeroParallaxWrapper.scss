@@ -4,87 +4,68 @@
   position: relative;
   width: 100%;
 
-  /* KLUCZ DO SUKCESU:
-       Wysokość kontenera = Wysokość Hero (100vh) + Wysokość Listy Miast (65vh).
-       Dzięki temu mamy fizyczne miejsce na scrollowanie (65vh),
-       podczas którego Hero będzie "przyklejone". */
-  height: 165vh;
+  /* KLUCZ: 
+     100vh (Hero) 
+     + 100vh (Reveal - nasuwanie się mapy) 
+     + 100vh (Freeze - zastygniecie obu sekcji)
+     = 300vh */
+  height: 300vh;
 
-  /* Resetujemy overflow, żeby sticky działało */
+  background-color: transparent;
   overflow: visible;
 }
 
 .parallax-hero-container {
-  /* To sprawia, że Main stoi w miejscu */
-  position: -webkit-sticky; /* Dla Safari */
+  /* STRONA STARTOWA ZASTYGA NIERUCHOMO */
   position: sticky;
   top: 0;
-
   width: 100%;
-  height: 100vh; /* Main musi zajmować cały ekran */
+  height: 100vh;
+  z-index: 1;
+  /* Pod mapą */
 
-  z-index: 1; /* Warstwa dolna */
-
-  /* Ważne: Flexbox usuwa potencjalne marginesy (np. z h1), które psują układ */
   display: flex;
   flex-direction: column;
-  z-index: 1;
 }
 
 .parallax-city-overlay {
-  /* Lista miast jest przyklejona do dołu CAŁEGO kontenera (czyli na 145vh) */
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  /* MAPA WYSUWA SIĘ I ZASTYGA */
+  position: sticky;
 
-  width: 70vw;
-  left: 50%;
-  transform: translateX(-50%); /* Idealne centrowanie w poziomie */
-  height: 65vh; /* Musi się zgadzać z nadmiarem wysokości wrappera */
+  /* Punkt zastygniecia: 
+     Mapa ma ok 85vh-90vh wysokości. 
+     Ustawiamy top tak, aby dół mapy stykał się z dołem ekranu (100vh).
+     Dla wysokości 90vh -> top: 10vh. */
+  top: 40vh;
 
-  z-index: 2; /* Warstwa górna - przykrywa Hero */
+  width: 100%;
+  /* Na mobile i desktopie pełna szerokość dla efektu "nasuwania" */
 
-  /* Wycentrowanie */
-  display: flex;
-  align-items: flex-end;
+  /* Ponieważ Hero wyżej ma 100vh i jest sticky, ten element 
+     naturalnie startuje od 100vh (czyli tuż pod krawędzią ekranu).
+     Nie potrzebujemy margin-top. */
 
-  /* KLUCZOWE POPRAWKI DLA NAROŻNIKÓW: */
-  /* 1. Tło musi być przezroczyste, inaczej widać biały prostokąt pod zaokrągleniem */
-  background-color: transparent !important; 
-  
-  /* 2. Usuwamy cień z kontenera (cień jest już w CityListBanner) */
-  box-shadow: none !important; 
-  
-  /* 3. Usuwamy ewentualne obramowania */
-  border: none !important;
-
-  /* Jeśli lista ma tło transparent, to klikalność pod spodem może być problemem,
-       pointer-events zapewnia interakcję z listą */
+  height: 60vh;
+  /* Wysokość panelu mapy */
+  z-index: 20;
+  /* Nad Hero i Menu (jeśli menu ma < 20) */
+  background-color: transparent !important;
   pointer-events: none;
-  box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.1);
-}
 
-/* Przywracamy klikanie wewnątrz samej listy */
-.parallax-city-overlay > * {
-  pointer-events: auto;
-}
+  /* Estetyczne zaokrąglenie calej sekcji nasuwającej się */
+  &>* {
+    pointer-events: auto;
+    border-radius: 40px 40px 0 0;
+    box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.15);
+  }
 
-/* RESPANSYWNOŚĆ */
-@media (max-width: 1024px) {
-  .parallax-city-overlay {
-    width: 80vw; /* Na tabletach szerzej */
+  @media (max-width: 768px) {
+    top: 40vh;
+    height: 60vh;
   }
 }
 
-@media (max-width: 768px) {
-  .parallax-city-overlay {
-    width: 100%; /* Na telefonach wracamy do pełnej szerokości */
-    left: 0;
-    transform: none;
-    height: 65vh;
-  }
-
-  .parallax-city-overlay > * {
-    box-shadow: none; /* Na mobile cień może przeszkadzać lub być mniej widoczny */
-  }
+/* Upewnienie się, że Home nie ma overflow: hidden który psuje sticky */
+.home {
+  overflow: visible !important;
 }

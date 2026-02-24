@@ -4,8 +4,8 @@
 $primary-orange: #f97316;
 $bg-light-orange: #fff7ed; // Tło pod ikonami
 $border-color: #e5e7eb;
-$text-dark: #505050;       // Zgodne z Scope
-$text-gray: #6b7280;       // Zgodne z Scope
+$text-dark: #505050; // Zgodne z Scope
+$text-gray: #6b7280; // Zgodne z Scope
 
 .local-context-section {
   background-color: #ffffff;
@@ -45,7 +45,7 @@ $text-gray: #6b7280;       // Zgodne z Scope
   text-transform: uppercase;
   letter-spacing: 1.5px;
   margin-bottom: 1rem;
-  
+
   svg {
     color: $primary-orange;
   }
@@ -61,11 +61,13 @@ $text-gray: #6b7280;       // Zgodne z Scope
   .light {
     display: block; // Na mobile w nowej linii (opcjonalnie) lub inline
     font-weight: 300; // Cieńsza waga dla reszty zdania
-    color: $text-dark; 
+    color: $text-dark;
   }
-  
+
   @media (min-width: 768px) {
-     .light { display: inline; }
+    .light {
+      display: inline;
+    }
   }
 }
 
@@ -85,7 +87,7 @@ $text-gray: #6b7280;       // Zgodne z Scope
   overflow: hidden;
   border: 1px solid $border-color; // Ramka zamiast cienia
   position: relative;
-  
+
   /* Tu przyjdzie Twój komponent mapy */
   background-color: #f9f9f9; // Placeholder tła
 }
@@ -121,12 +123,12 @@ $text-gray: #6b7280;       // Zgodne z Scope
   display: flex;
   justify-content: flex-start;
   width: 100%;
-  
+
   .risk-icon-img {
     height: 64px;
-    width: auto;
-    max-width: 100%;
+    width: 64px;
     object-fit: contain;
+    display: block;
   }
 
   svg {

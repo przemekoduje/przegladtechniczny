@@ -16,7 +16,11 @@ let isCheckingIp = null; // Prevent concurrent checks
 export const checkIsIpIgnored = async () => {
   const cachedStatus = sessionStorage.getItem("is_ip_ignored");
   if (cachedStatus !== null) {
-    return cachedStatus === 'true';
+    const isIgnored = cachedStatus === 'true';
+    if (isIgnored) {
+      window['ga-disable-G-032BEY0YZ9'] = true;
+    }
+    return isIgnored;
   }
 
   if (isCheckingIp) return isCheckingIp;
@@ -41,6 +45,12 @@ export const checkIsIpIgnored = async () => {
 
       const isIgnored = ignoredIps.includes(currentIp);
       sessionStorage.setItem("is_ip_ignored", isIgnored.toString());
+
+      // Blokowanie Google Analytics (gtag) jeśli IP jest ignorowane
+      if (isIgnored) {
+        window['ga-disable-G-032BEY0YZ9'] = true;
+      }
+
       return isIgnored;
     } catch (error) {
       console.warn("Could not check IP exclusion status.", error.message);
