@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./CityListBanner.scss";
-import SilesiaMapGL from "../../components/SilesiaMapGL/SilesiaMapGL";
+import SilesiaMapGL from "../SilesiaMapGL/SilesiaMapGL";
 import { useNavigate } from "react-router-dom";
 import { citiesData } from "../../helpers/citiesData";
 

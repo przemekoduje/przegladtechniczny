@@ -8,6 +8,7 @@ const functionsV1 = require("firebase-functions/v1");
 const cors = require("cors")({ origin: true });
 const OpenAI = require("openai");
 const path = require("path");
+const axios = require("axios");
 
 require("dotenv").config({ path: path.resolve(__dirname, ".env") });
 const nodemailer = require("nodemailer");
@@ -480,4 +481,65 @@ exports.setAutomationGate = onCall({ cors: true }, async (request) => {
   }, { merge: true });
 
   return { success: true };
+});
+
+/**
+ * Triggered when a new lead is created in the "leads" collection.
+ * Sends an SMS notification to the lead's phone number via SMSAPI.pl
+ */
+exports.onLeadCreated = functionsV1.firestore
+  .document("leads/{leadId}")
+  .onCreate(async (snap, context) => {
+    const data = snap.data();
+    const leadId = context.params.leadId;
+    
+    // Ustawienie numeru (bramka SMSAPI przyjmuje telefony bez plusów np 48500xxx)
+    let phone = data.phone || "";
+    phone = phone.replace(/[^0-9]/g, ""); // usuń spaje, myślniki
+    
+    if (phone.length === 9) {
+      phone = "48" + phone; // Dodaj polski prefiks w razie braku
+    }
+
+    if (!phone) {
+      console.log(`Brak numeru telefonu dla leada ${leadId}. Pomijam SMS.`);
+      return snap.ref.update({ smsStatus: "failed_no_phone" });
+    }
+
+    const name = data.name || "Klient";
+    // Nie używamy polskich znaków, żeby SMS był tańszy (wiadomość ECO) i 100% dostarczalny
+    const message = `Czesc ${name}, tu Inz. Przemek Rakotny. Potwierdzam wplyw zapytania o darmowa wycene. Odezwe sie zeby ustalic metraz i szczegoly. Pozdrawiam!`;
+    const smsApiToken = process.env.SMSAPI_TOKEN; // Pobieramy z env
+    
+    if (!smsApiToken) {
+        console.error("BRAK SMSAPI_TOKEN w environment variables (.env). SMS nie wysłany.");
+        return snap.ref.update({ smsStatus: "failed_missing_token" });
+    }
+
+    try {
+      console.log(`Próba wysłania SMS do: ${phone}`);
+      
+      const response = await axios.post(
+        "https://api.smsapi.pl/sms.do",
+        null,
+        {
+          params: {
+            to: phone,
+            message: message,
+            format: "json",
+            from: "Test" // Od kogo (musi być zarejestrowane pole nadawcy w panelu SMSAPI.pl - domyślnie "Test" dla testów)
+          },
+          headers: {
+            "Authorization": `Bearer ${smsApiToken}`
+          }
+        }
+      );
+
+      console.log("Odpowiedź z SMSAPI:", response.data);
+      
+      return snap.ref.update({ smsStatus: "sent" });
+    } catch (error) {
+      console.error("Błąd podczas wysyłania SMS przez SMSAPI:", error?.response?.data || error.message);
+      return snap.ref.update({ smsStatus: "failed_api_error" });
+    }
 });

@@ -27,6 +27,7 @@ import FormLanding from "./routes/FormLanding/FormLanding";
 import Terms from "./routes/legal/Terms.jsx";
 import PrivacyPolicy from "./routes/legal/PrivacyPolicy.jsx";
 import SingleBlogPost from "./routes/SingleBlogPost/SingleBlogPost";
+import ThankYouPage from "./routes/ThankYouPage/ThankYouPage";
 
 // --- NOWE IMPORTY DLA MIAST I LANDINGÓW ---
 import CityLandingPage from "./routes/CityLandingPage/CityLandingPage"; // Twój nowy komponent
@@ -117,6 +118,7 @@ function AppContent() {
         {/* <Route path="/fach" element={<Fachowiec user={user} />} /> */}
         {/* <Route path="/hero" element={<HeroSnapScroller user={user} />} /> */}
         <Route path="/landing" element={<Layout user={user}><AggressiveLanding /></Layout>} />
+        <Route path="/dziekuje" element={<Layout user={user}><ThankYouPage /></Layout>} />
 
         {/* --- BLOG --- */}
         <Route

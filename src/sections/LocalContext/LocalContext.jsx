@@ -5,7 +5,7 @@ import iconMining from "../../assets/mining-risk-icon.png";
 import iconStarowka from "../../assets/risk-icon-starówka.png";
 import iconZielone from "../../assets/risk-icon-zielone.png";
 import "./localContext.scss";
-import SilesiaMapGL from "../../components/SilesiaMapGL/SilesiaMapGL";
+import SilesiaMapGL from "../SilesiaMapGL/SilesiaMapGL";
 
 // WAŻNE:
 // 1. Umieść swój film (np. gliwice_drone.mp4) w folderze: public/videos/

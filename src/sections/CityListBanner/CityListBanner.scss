@@ -58,7 +58,6 @@
 }
 
 .two-columns {
-
   width: auto;
   flex: 1;
   display: flex;
@@ -67,8 +66,6 @@
   justify-content: center;
   gap: 20px;
   /* Zmniejszono odstęp między listą a mapą */
-
-
 
   .cities-columns {
     position: absolute;
@@ -79,9 +76,11 @@
     z-index: 100;
     gap: 20px;
 
-
-
     ul {
+      display: flex;
+      flex-wrap: nowrap;
+      flex-direction: column;
+      gap: 10px;
       list-style: none;
       padding: 0;
       margin: 0;
@@ -94,10 +93,10 @@
 
     li {
       font-family: $font-secondary;
-      font-size: 0.45rem;
+      font-size: 12px;
       font-weight: 300;
       color: #374151;
-      border: 1px solid red;
+      border: 1px solid #e2e8f0;
       display: flex;
       align-items: center;
       padding: 5px 14px;
@@ -105,21 +104,24 @@
       cursor: pointer;
       transition: all 0.2s ease;
 
+        @media (max-width: 1420px) {
+          background-color: #f8fafc;
+          border: 1px solid #e2e8f0;
+          font-size: 0.75rem;
+        }
 
+        &:hover {
+          background-color: #f1f5f9;
+          color: #ef4444;
+        }
 
-      &:hover {
-        background-color: #f1f5f9;
-        color: #ef4444;
-      }
-
-      &.active-city {
-        color: #ef4444;
-        background-color: #fef2f2;
-        font-weight: 500;
+        &.active-city {
+          color: #ef4444;
+          background-color: #fef2f2;
+          font-weight: 500;
+        }
       }
     }
-  }
-
   .city-map-side {
     flex: 2;
     aspect-ratio: 16 / 10;

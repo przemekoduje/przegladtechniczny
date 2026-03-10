@@ -1,0 +1,35 @@
+﻿
+> przegladtechniczny@0.1.0 build
+> react-scripts build
+
+Creating an optimized production build...
+npm : Browserslist: bro
+wsers data (caniuse-lit
+e) is 17 months old. Pl
+ease run:
+At line:1 char:1
++ npm run build > build
+_check.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (Browserslist:   
+  b...ld. Please ru    
+n::String) [], Rem    o
+teException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+  npx update-browsersli
+st-db@latest
+  Why you should do it 
+regularly: https://gith
+ub.com/browserslist/upd
+ate-db#readme
+Failed to compile.
+
+Module not found: Error: Can't resolve '../../components/SilesiaMapGL/SilesiaMapGL' in 'C:\Users\Admin\Desktop\przemokoduje\kodowanie\przegladtechniczny\src\sections\CityListBanner'
+
+

@@ -1,0 +1,10 @@
+
+> przegladtechniczny@0.1.0 build
+> react-scripts build
+
+Creating an optimized production build...
+Failed to compile.
+
+Module not found: Error: Can't resolve '../../components/SilesiaMapGL/SilesiaMapGL' in 'C:\Users\Admin\Desktop\przemokoduje\kodowanie\przegladtechniczny\src\sections\LocalContext'
+
+
