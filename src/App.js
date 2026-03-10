@@ -26,20 +26,19 @@ import Layout from "./layouts/Layout";
 import FormLanding from "./routes/FormLanding/FormLanding";
 import Terms from "./routes/legal/Terms.jsx";
 import PrivacyPolicy from "./routes/legal/PrivacyPolicy.jsx";
-import HeroSnapScroller from "./fachowiec/pages/Mobile/HeroSnapScroller/HeroSnapScroller";
-import Fachowiec from "./fachowiec/pages/Fachowiec";
 import SingleBlogPost from "./routes/SingleBlogPost/SingleBlogPost";
 
-// --- NOWE IMPORTY DLA MIAST ---
+// --- NOWE IMPORTY DLA MIAST I LANDINGÓW ---
 import CityLandingPage from "./routes/CityLandingPage/CityLandingPage"; // Twój nowy komponent
 import { citiesData } from "./helpers/citiesData"; // Dane miast do generowania ścieżek
+import AggressiveLanding from "./routes/AggressiveLanding/AggressiveLanding"; // Sprzedażowy landing page
 
 function AppContent() {
   const { currentUser: user } = useAuth();
   // const [user, setUser] = useState(null); // Managed by AuthProvider
   // const [loadingUser, setLoadingUser] = useState(true); // Managed by AuthProvider
   // const [isPanelOpen, setIsPanelOpen] = useState(false); // Jeśli nieużywane w App.js, można usunąć
-  const [showFlyout, setShowFlyout] = useState(false);
+  // const [showFlyout, setShowFlyout] = useState(false);
 
   const location = useLocation();
 
@@ -57,13 +56,13 @@ function AppContent() {
   ].includes(location.pathname);
 
   // --- EFEKTY (Flyout, Scroll) ---
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setShowFlyout(true);
-      setTimeout(() => setShowFlyout(false), 4000);
-    }, Math.random() * 20000 + 10000);
-    return () => clearInterval(interval);
-  }, []);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setShowFlyout(true);
+  //     setTimeout(() => setShowFlyout(false), 4000);
+  //   }, Math.random() * 20000 + 10000);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   useEffect(() => {
     const locationState = location.state;
@@ -115,8 +114,9 @@ function AppContent() {
 
         {/* --- LANDINGI SPECJALNE --- */}
         <Route path="/przewodnik" element={<PrzewodnikOcena />} />
-        <Route path="/fach" element={<Fachowiec user={user} />} />
-        <Route path="/hero" element={<HeroSnapScroller user={user} />} />
+        {/* <Route path="/fach" element={<Fachowiec user={user} />} /> */}
+        {/* <Route path="/hero" element={<HeroSnapScroller user={user} />} /> */}
+        <Route path="/landing" element={<Layout user={user}><AggressiveLanding /></Layout>} />
 
         {/* --- BLOG --- */}
         <Route

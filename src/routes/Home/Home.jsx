@@ -14,6 +14,7 @@ import CtaBanner from "../../sections/ctabanner/CtaBanner";
 import { Pickaxe, Building, Droplets, MapPin } from "lucide-react";
 import WhyImportant from "../../sections/WhyImportant/WhyImportant";
 import CityListBanner from "../../sections/CityListBanner/CityListBanner";
+import Process from "../../sections/process/Process";
 import InspectionsTimeline from "../../components/InspectionsTimeline/InspectionsTimeline";
 import HeroParallaxWrapper from "../../components/HeroParallaxWrapper/HeroParallaxWrapper";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +22,7 @@ import { useSectionTracker } from "../../utils/analytics";
 import CachedIcon from '@mui/icons-material/Cached'; // Stylized loading spinner
 import { Helmet } from "react-helmet-async";
 import LocalBusinessSchema from "../../components/SEO/LocalBusinessSchema";
+import StickyOrderBar from "../../components/StickyOrderBar/StickyOrderBar";
 
 // Helper to preload a single critical image
 const preloadImage = (src) => {
@@ -169,10 +171,8 @@ export default function Home({ user }) {
       </div>
 
       <div ref={timelineRef}>
-        <InspectionsTimeline
-          user={user}
-          onOrderClick={scrollToInspectionForm}
-        />
+        <InspectionsTimeline />
+        <Process />
       </div>
 
       <GoldHand />
@@ -182,6 +182,7 @@ export default function Home({ user }) {
       </div>
 
       <Footer />
+      <StickyOrderBar />
     </div>
   );
 }

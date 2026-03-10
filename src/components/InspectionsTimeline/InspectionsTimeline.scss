@@ -1,5 +1,7 @@
 /* Timeline.scss - Spójny styl */
 
+@import "../../styles/variables.scss";
+
 /* --- ZMIENNE (Dopasowane do projektu) --- */
 $primary-orange: #f97316; // Główny kolor projektu
 $bg-light: #f9f9f9;
@@ -23,6 +25,7 @@ $timeline-line-color: #e5e7eb; // Jasnoszary dla linii
   margin-bottom: 3.5rem;
 
   h2 {
+    font-family: $font-primary;
     font-size: 48px; // Standaryzowany rozmiar H2
     font-weight: 300; // Standaryzowana waga (lżejsza)
     color: $text-dark;
@@ -30,6 +33,8 @@ $timeline-line-color: #e5e7eb; // Jasnoszary dla linii
   }
 
   p {
+    font-family: $font-secondary;
+
     font-size: 22px; // Standaryzowany rozmiar podtytułu
     color: $text-gray;
     max-width: 600px;
@@ -177,6 +182,7 @@ $timeline-line-color: #e5e7eb; // Jasnoszary dla linii
   }
 
   h3 {
+    font-family: $font-primary;
     flex-grow: 1;
     font-size: 1.15rem; // Nieco większy rozmiar
     font-weight: 700; // Waga zgodna z nagłówkami kart w Scope
@@ -218,6 +224,7 @@ $timeline-line-color: #e5e7eb; // Jasnoszary dla linii
 
 .info-block {
   margin-bottom: 16px;
+  font-family: $font-secondary;
 
   strong {
     display: block;

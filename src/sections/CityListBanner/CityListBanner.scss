@@ -1,3 +1,5 @@
+@import "../../styles/variables.scss";
+
 /* CityListBanner.scss */
 
 .city-list-panel {
@@ -9,7 +11,6 @@
   align-items: center;
   /* Ważne: zawartość na dole panelu */
   box-shadow: none !important;
-  font-family: "ProductSans";
 }
 
 .city-content-container {
@@ -22,7 +23,7 @@
   border-radius: 40px 40px 0 0;
   /* Zaokrąglona tylko góra dla efektu "nasuwania" */
   box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.15);
-  padding: 40px 5% 40px 5%;
+  padding: 30px 2% 20px 2%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -44,6 +45,7 @@
 
 
   h3 {
+    font-family: $font-primary;
     font-size: 26px;
     font-weight: 300;
     line-height: 1.3;
@@ -56,50 +58,46 @@
 }
 
 .two-columns {
-  width: 100%;
+
+  width: auto;
   flex: 1;
   display: flex;
-  align-items: center;
-  /* Mapa i lista w jednej linii */
+  // align-items: stretch;
+  /* Map height matches list height better */
   justify-content: center;
-  gap: 40px;
+  gap: 20px;
+  /* Zmniejszono odstęp między listą a mapą */
 
-  @media (max-width: 1420px) {
-    flex-direction: column;
-    gap: 15px;
-  }
+
 
   .cities-columns {
+    position: absolute;
+    right: 5%;
+    top: 15%;
     flex: 1;
     display: flex;
-    justify-content: space-around;
+    z-index: 100;
     gap: 20px;
 
-    @media (max-width: 1420px) {
-      flex: none;
-      width: 100%;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 6px;
-    }
+
 
     ul {
       list-style: none;
       padding: 0;
       margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
 
-      @media (max-width: 1420px) {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 6px;
-      }
+
     }
 
     li {
-      font-size: 0.95rem;
+      font-family: $font-secondary;
+      font-size: 0.45rem;
       font-weight: 300;
       color: #374151;
+      border: 1px solid red;
       display: flex;
       align-items: center;
       padding: 5px 14px;
@@ -107,11 +105,7 @@
       cursor: pointer;
       transition: all 0.2s ease;
 
-      @media (max-width: 1420px) {
-        background-color: #f8fafc;
-        border: 1px solid #e2e8f0;
-        font-size: 0.75rem;
-      }
+
 
       &:hover {
         background-color: #f1f5f9;
@@ -127,28 +121,21 @@
   }
 
   .city-map-side {
-    flex: 1;
-    height: 100%;
-    // min-height: 250px;
-    max-height: 100%;
+    flex: 2;
+    aspect-ratio: 16 / 10;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
     background: #fdfdfd;
-    border-radius: 30px;
-    padding: 10px;
+    border-radius: 20px;
+    padding: 0;
+    /* Usunięto wewnętrzny padding 10px, żeby mapa mogła zająć całą ramkę */
+    overflow: hidden;
+    /* Ucięcie mapy do zaokrąglonych rogów */
+    z-index: 99;
 
-    @media (max-width: 1420px) {
-      flex: none;
-      width: 100%;
-      // height: 300px;
-      order: -1;
-    }
-
-    @media (max-width: 480px) {
-      height: 250px;
-    }
 
     >* {
       width: 100% !important;
@@ -165,6 +152,6 @@
   margin-right: 8px;
 
   @media (max-width: 1420px) {
-    display: none;
+    // display: none;
   }
 }

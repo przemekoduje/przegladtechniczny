@@ -13,8 +13,6 @@ const CityListBanner = () => {
     "Ruda Śląska",
     "Chorzów",
     "Tarnowskie Góry",
-  ];
-  const citiesRight = [
     "Mikołów",
     "Tychy",
     "Dąbrowa Górnicza",
@@ -24,6 +22,7 @@ const CityListBanner = () => {
     "Pyskowice",
     "Rybnik",
   ];
+
 
   const [hoveredCity, setHoveredCity] = useState(null);
   const navigate = useNavigate();
@@ -76,7 +75,7 @@ const CityListBanner = () => {
           <div className="cities-columns">
             {/* TUTAJ BYŁ BŁĄD - Teraz używamy renderCityItem */}
             <ul>{citiesLeft.map((city, i) => renderCityItem(city, i))}</ul>
-            <ul>{citiesRight.map((city, i) => renderCityItem(city, i))}</ul>
+            {/* <ul>{citiesRight.map((city, i) => renderCityItem(city, i))}</ul> */}
           </div>
 
           {/* PRAWA STRONA: Mapa 3D */}

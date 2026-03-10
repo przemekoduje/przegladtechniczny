@@ -1,5 +1,4 @@
-/* WhyImportant.scss - Stylizowany na wzór Scope.scss */
-
+@import "../../styles/variables.scss";
 /* --- ZMIENNE (Dopasowane do Scope) --- */
 $primary-orange: #f97316;
 // Kolory tekstów dopasowane do tych z Scope
@@ -31,6 +30,7 @@ $alert-color: #e11d48;
   margin-bottom: 3.5rem;
 
   .why-title {
+    font-family: $font-primary;
     font-size: 48px;
     font-weight: 300; // Zmiana wagi na lżejszą (300) jak w Scope
     color: $text-dark;
@@ -43,6 +43,8 @@ $alert-color: #e11d48;
   }
 
   .why-subtitle {
+    font-family: $font-secondary;
+
     font-size: 22px;
     color: $text-gray;
     max-width: 600px;
@@ -87,6 +89,7 @@ $alert-color: #e11d48;
 
   /* Styl nagłówków wewnątrz karty */
   h3 {
+    font-family: $font-primary;
     font-size: 1.45rem; // Dopasowano rozmiar do Scope h3
     font-weight: 700;
     color: $text-dark;
@@ -95,6 +98,8 @@ $alert-color: #e11d48;
 
   /* Główny tekst w karcie */
   .main-text {
+    font-family: $font-secondary;
+
     font-size: 18px; // Dopasowano do .description w Scope
     color: $text-gray;
     line-height: 1.5;
@@ -165,6 +170,7 @@ $alert-color: #e11d48;
     }
 
     .quote-label {
+      font-family: $font-primary;
       display: block;
       font-size: 0.85rem;
       text-transform: uppercase;
@@ -174,6 +180,7 @@ $alert-color: #e11d48;
     }
 
     p {
+      font-family: $font-secondary;
       font-style: italic;
       font-size: 0.95rem;
       color: $text-gray; // Kolor tekstu szary
@@ -202,6 +209,7 @@ $alert-color: #e11d48;
       margin-bottom: 0.75rem;
       font-size: 0.95rem;
       color: $text-gray;
+      font-family: $font-secondary;
       line-height: 1.5;
       padding-left: 0; // Usunięto stare wcięcie
 

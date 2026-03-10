@@ -136,12 +136,15 @@ const InspectionsTimeline = ({ user, onOrderClick }) => {
                           <div className="timeline-card-order-button">
                             <OrderButton
                               text="Umów przegląd"
-                              userAvatar={user?.photoURL}
+                              showIcon={false}
                               onClick={(e) => {
-                                e.stopPropagation(); // Zapobiegamy zamknięciu karty
-                                if (onOrderClick) onOrderClick();
+                                e.stopPropagation(); // Zapobiega zamknięciu karty
+                                const formSection = document.getElementById("inspection-form");
+                                if (formSection) {
+                                  formSection.scrollIntoView({ behavior: "smooth" });
+                                }
                               }}
-                              padding="4px 4px 4px 24px" // Nieco mniejszy padding dla karty
+                              padding="10px 24px"
                             />
                           </div>
                         </div>

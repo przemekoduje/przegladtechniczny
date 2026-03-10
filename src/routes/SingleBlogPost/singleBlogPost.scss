@@ -415,19 +415,19 @@
 }
 
 .post-cta {
-  background: $color-sage-light;
+  background: $color-paper-white;
   padding: 40px;
   border-radius: 20px;
   text-align: center;
   margin: 60px auto 0;
   max-width: 800px;
-  border: 2px solid $color-dark-green;
+  border: 2px solid $color-anthracite;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 
   h3 {
     margin-top: 0;
     margin-bottom: 15px;
-    color: $color-dark-green;
+    color: $color-anthracite;
     font-family: $font-family-primary;
     font-size: 26px;
     font-weight: 700;
@@ -435,7 +435,7 @@
 
   p {
     margin-bottom: 25px;
-    color: $color-dark-green;
+    color: $color-anthracite;
     font-size: 18px;
     font-weight: 500;
     line-height: 1.5;
@@ -444,7 +444,7 @@
   .btn-cta {
     display: inline-block;
     padding: 16px 36px;
-    background: $color-dark-green;
+    background: $color-anthracite;
     color: $color-white;
     text-decoration: none;
     font-weight: 700;
@@ -455,7 +455,7 @@
     &:hover {
       transform: translateY(-3px) scale(1.05);
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-      background: darken($color-dark-green, 5%);
+      background: darken($color-anthracite, 5%);
     }
   }
 }

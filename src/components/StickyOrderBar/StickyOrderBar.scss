@@ -1,0 +1,148 @@
+@import "../../styles/variables.scss";
+
+$bar-height: 80px;
+
+.sticky-order-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(26, 26, 27, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1000;
+    height: $bar-height;
+    display: flex;
+    align-items: center;
+
+    &.visible {
+        transform: translateY(0);
+    }
+
+    .sticky-bar-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
+        padding: 0 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .bar-info {
+            display: flex;
+            flex-direction: column;
+
+            .info-title {
+                font-family: $font-secondary;
+                font-size: 0.8rem;
+                color: $color-signal-orange;
+                letter-spacing: 2px;
+            }
+
+            .info-subtitle {
+                font-size: 1.1rem;
+                font-weight: 600;
+                color: $color-paper-white;
+            }
+        }
+
+        .bar-action {
+            width: 300px;
+            display: flex;
+            justify-content: flex-end;
+
+            .magnetic-cta {
+                background-color: $color-signal-orange;
+                color: $color-white;
+                border: none;
+                padding: 12px 30px;
+                border-radius: 4px;
+                font-family: $font-secondary;
+                font-weight: 700;
+                font-size: 1rem;
+                letter-spacing: 1px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+
+                &:hover {
+                    background-color: lighten($color-signal-orange, 5%);
+                }
+
+                &.pulse {
+                    animation: pulseShadow 2s infinite;
+                }
+            }
+
+            .progress-container {
+                width: 100%;
+                background: rgba(255, 255, 255, 0.05);
+                padding: 10px 15px;
+                border-radius: 4px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+
+                .progress-text {
+                    font-family: $font-secondary;
+                    font-size: 0.75rem;
+                    color: $color-paper-white;
+                    margin-bottom: 6px;
+                    text-align: right;
+                }
+
+                .progress-bar {
+                    width: 100%;
+                    height: 6px;
+                    background: rgba(0, 0, 0, 0.5);
+                    border-radius: 3px;
+                    overflow: hidden;
+
+                    .progress-fill {
+                        height: 100%;
+                        background-color: $color-signal-orange;
+                        transition: width 0.05s linear;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@keyframes pulseShadow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 95, 31, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 15px rgba(255, 95, 31, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 95, 31, 0);
+    }
+}
+
+@media (max-width: 768px) {
+    .sticky-order-bar {
+        .sticky-bar-content {
+            padding: 0 1rem;
+            flex-direction: column;
+            justify-content: center;
+            gap: 10px;
+
+            .bar-info {
+                display: none; // hide text on mobile to save space
+            }
+
+            .bar-action {
+                width: 100%;
+                justify-content: center;
+
+                .magnetic-cta {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

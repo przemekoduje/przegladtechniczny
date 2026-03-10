@@ -55,7 +55,6 @@ const CtaBanner = ({ customCity }) => {
           <OrderButton
             showIcon={false}
             text="Umów przegląd"
-            padding="6px 32px 6px 32px"
             onClick={scrollToInspectionForm}
           />
         </div>

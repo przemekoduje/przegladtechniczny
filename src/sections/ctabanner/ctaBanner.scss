@@ -1,7 +1,4 @@
-/* Jeśli nie masz zdefiniowanych zmiennych globalnie, odkomentuj poniższy blok :root */
-/* :root {
-  --primary-orange: #f97316;
-} */
+@import "../../styles/variables.scss";
 
 .cta-section {
   background-color: var(--primary-orange, #f97316);
@@ -15,7 +12,7 @@
 .cta-container {
   width: 100%;
   /* Konwersja 800px -> 50rem. Elastyczna szerokość maksymalna. */
-  max-width: 50rem;
+  max-width: 70rem;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -24,6 +21,7 @@
 
 /* Typografia */
 .cta-title {
+  font-family: $font-primary;
   color: #ffffff;
   /* Konwersja 38px -> 2.375rem. Duży tekst na mobile. */
   font-size: 2.375rem;
@@ -33,13 +31,13 @@
 }
 
 .cta-subtitle {
+  font-family: $font-secondary;
   color: rgba(255, 255, 255, 0.9);
   font-size: 1.125rem;
   /* Lekko powiększone z 1.1rem dla lepszej czytelności (~18px) */
   margin: 0 0 2.5rem 0;
   font-weight: 300;
   /* Opcjonalnie: ograniczenie szerokości tekstu dla lepszej czytelności na szerokich ekranach */
-  max-width: 35rem;
 }
 
 /* Kontener na przyciski */
@@ -63,7 +61,7 @@
   }
 
   /* Tylko w mobile < 480 mają być w jednej kolumnie i na pełną szerokość */
-  @media (max-width: 480px) {
+  @media (max-width: 580px) {
     flex-direction: column;
     align-items: center;
     gap: 1rem;

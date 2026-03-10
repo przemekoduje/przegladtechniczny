@@ -383,45 +383,86 @@ const InspectionFormSlide = () => {
       title: "Wybierz zakres przeglądów",
       content: (
         <div className="inspection-checklist">
-          {[
+          {(formData.propertyType === "dom jednorodzinny" ? [
             {
               key: "specjalista",
               title: "Odbiór techniczny nieruchomości",
-              desc: " (przez uprawnionego specjalistę)",
-              newPrice: "300 - 500zł",
+              desc: " ",
+              newPrice: "od 500 zł",
             },
-
             {
               key: "budowlany",
               title: "Przegląd budowlany",
               desc: " (raz na 5 lat)",
-              newPrice: "300 – 700zł",
+              newPrice: "od 400 zł",
             },
             {
               key: "gaz",
               title: "Przegląd instalacji gazowej",
               desc: " (co 1 rok)",
-              newPrice: "250 – 350zł",
+              newPrice: "od 250 zł",
             },
             {
               key: "elektryka",
               title: "Przegląd instalacji elektrycznej",
-              desc: " (raz na 5 lat)",
-              newPrice: "450 – 950zł",
+              desc: " ",
+              newPrice: "od 400 zł",
             },
             {
               key: "wentylacja",
               title: "Przegląd wentylacji grawitacyjnej",
               desc: " (co 1 rok)",
-              newPrice: "250 – 450zł",
+              newPrice: "od 200 zł",
             },
-
-          ].map((item) => (
+            {
+              key: "kompletny",
+              title: "Kompletny przegląd 5-cio letni",
+              desc: " ",
+              newPrice: "900 zł",
+            },
+          ] : [
+            {
+              key: "specjalista",
+              title: "Odbiór techniczny nieruchomości",
+              desc: " ",
+              newPrice: "od 500 zł",
+            },
+            {
+              key: "budowlany_5lat",
+              title: "Przegląd budowlany",
+              desc: " (raz na 5 lat)",
+              newPrice: "wyc. ind.",
+            },
+            {
+              key: "budowlany_roczny",
+              title: "Przegląd budowlany",
+              desc: " (co 1 rok)",
+              newPrice: "wyc. ind.",
+            },
+            {
+              key: "gaz",
+              title: "Przegląd instalacji gazowej",
+              desc: " (co 1 rok)",
+              newPrice: "wyc. ind.",
+            },
+            {
+              key: "elektryka",
+              title: "Przegląd instalacji elektrycznej",
+              desc: " ",
+              newPrice: "wyc. ind.",
+            },
+            {
+              key: "kompletny",
+              title: "Kompletny przegląd 5-cio letni",
+              desc: " ",
+              newPrice: "wyc. ind.",
+            },
+          ]).map((item) => (
             <label key={item.key} className="inspection-option">
               <input
                 type="checkbox"
                 name={item.key}
-                checked={formData.inspections[item.key]}
+                checked={formData.inspections[item.key] || false}
                 onChange={(e) =>
                   setFormData((prev) => ({
                     ...prev,

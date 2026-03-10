@@ -1,46 +1,48 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import "./main.scss";
-// import Menu from "../../components/Menu/Menu";
-import MainFooter from "../../components/MainFooter/MainFooter";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import OrderButton from "../../components/OrderButton/OrderButton";
+import MainFooter from "../../components/MainFooter/MainFooter";
+import AnimatedText from "../../components/animations/AnimatedText";
+import MagneticButton from "../../components/animations/MagneticButton";
 
-export default function Main({ user, isPanelOpen, setIsPanelOpen, customCity }) {
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollTop, setLastScrollTop] = useState(0);
+gsap.registerPlugin(ScrollTrigger);
 
-  // USUNIĘTO: const [userPhoto, setUserPhoto]... 
-  // USUNIĘTO: useEffect od userPhoto...
-  // Dlaczego? Bo OrderButton sam sobie poradzi, jeśli dostanie null.
-
-  let scrollTimeout;
-
-  const titleText = customCity
-    ? `Przeglądy Budowlane ${customCity}`
-    : "Przeglądy Budowlane Śląsk";
-
-  const handleScroll = () => {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-    if (scrollTop > lastScrollTop + 10) {
-      setIsVisible(false);
-    } else if (scrollTop < lastScrollTop) {
-      setIsVisible(true);
-    }
-
-    setLastScrollTop(scrollTop);
-
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(() => {
-      setIsVisible(true);
-    }, 300);
-  };
+export default function Main({ user, customCity }) {
+  const sectionRef = useRef(null);
+  const scannerLineRef = useRef(null);
+  const maskLayerRef = useRef(null);
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [lastScrollTop]);
+    // ScrollTrigger for scanner effect
+    const ctx = gsap.context(() => {
+      // Animate mask revealing the "blueprint" image and the laser line moving down
+      gsap.to(maskLayerRef.current, {
+        clipPath: 'inset(0% 0% 0% 0%)',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        }
+      });
+
+      gsap.to(scannerLineRef.current, {
+        top: '100%',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        }
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const scrollToInspectionForm = () => {
     const formSection = document.getElementById("inspection-form");
@@ -50,24 +52,44 @@ export default function Main({ user, isPanelOpen, setIsPanelOpen, customCity }) 
   };
 
   return (
-    <div className="hero-section">
-      <div className="hero-bg-image"></div>
-      <div className="mask-window"></div>
+    <div className="hero-section" ref={sectionRef}>
+      {/* Background Layer (Normal Image) */}
+      <div className="hero-bg-normal"></div>
+
+      {/* Masked Blueprint Layer & Scanner Line */}
+      <div className="hero-bg-blueprint" ref={maskLayerRef}>
+        <div className="blueprint-overlay"></div>
+      </div>
+
+      <div className="scanner-line" ref={scannerLineRef}>
+        <div className="scanner-flare"></div>
+      </div>
 
       <div className="hero-content">
-        <h1 className="hero-title">
-          <span className="service-name">Przeglądy Techniczne Nieruchomości</span>
-          <span className="city-name">{customCity || "Śląsk"}</span>
-        </h1>
+        <div className="hero-title-container">
+          <AnimatedText
+            text="Przeglądy Techniczne Nieruchomości"
+            tag="h2"
+            className="service-name"
+            delay={0.2}
+          />
+          <AnimatedText
+            text={customCity || "Śląsk"}
+            tag="h1"
+            className="city-name"
+            delay={0.6}
+          />
+        </div>
 
-        {/* --- POPRAWIONA SEKCJA BUTTONA --- */}
-        <OrderButton
-          text="Umów przegląd"
-          userAvatar={user?.photoURL}
-          onClick={scrollToInspectionForm}
-        />
-        {/* ---------------------------------- */}
-
+        <MagneticButton>
+          <div className="order-button-wrapper">
+            <OrderButton
+              text="Umów przegląd"
+              userAvatar={user?.photoURL}
+              onClick={scrollToInspectionForm}
+            />
+          </div>
+        </MagneticButton>
       </div>
 
       <div className="main-footer">

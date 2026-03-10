@@ -1,4 +1,4 @@
-/* home5.scss - Mobile First */
+@import "../../styles/variables.scss";
 
 .h5-QA {
   // Domyślne style dla najmniejszych ekranów (mobile)
@@ -9,7 +9,7 @@
   align-items: center;
 
   h2 {
-    font-family: 'ProductSans', serif; // Dodano serif jako fallback
+    font-family: $font-primary;
     font-weight: 300;
     font-style: normal;
     font-size: 32px; // Mniejszy rozmiar czcionki na start
@@ -31,13 +31,14 @@
       width: 100%; // Pełna szerokość elementu
 
       .faq-question {
+        font-family: $font-secondary;
+
         text-align: left; // Wyrównanie do lewej na mobile
         cursor: pointer;
         margin-bottom: 15px;
         font-size: 20px; // Większa czcionka pytania na mobile
         font-weight: 200; // Lżejsza waga na mobile
         padding: 10px 0; // Mniejszy padding, bez tła
-        font-family: 'ProductSans', serif;
         font-style: normal;
         width: 100%; // Pełna szerokość pytania
         background-color: transparent; // Przezroczyste tło na start
@@ -48,13 +49,13 @@
       }
 
       .faq-answer {
+        font-family: $font-secondary;
         max-height: 0;
         opacity: 0;
         overflow: hidden;
         transition: max-height 0.8s ease, opacity 0.8s ease;
         padding-left: 0; // Brak wcięcia na mobile
         margin-left: 15px; // Lekkie wcięcie odpowiedzi na mobile
-        font-family: 'ProductSans', serif;
         font-weight: 300;
         font-style: normal;
         font-size: 18px; // Mniejsza czcionka odpowiedzi na mobile
@@ -86,7 +87,7 @@
           }
         }
       }
-      
+
       // Usunięto style dla .faq-answer.open::before (tło) - niepotrzebne na mobile
     }
   }
@@ -100,21 +101,25 @@
     padding: 60px 30px; // Zwiększony padding
 
     h2 {
-      font-size: 64px; // Większy nagłówek
+      font-size: 48px; // Większy nagłówek
     }
-    
+
     .faq-list {
       .faq-item {
         .faq-question {
-           font-size: 22px; // Trochę większe pytanie
+          font-size: 22px; // Trochę większe pytanie
         }
+
         .faq-answer {
-           font-size: 20px; // Trochę większa odpowiedź
-           margin-left: 20px;
-           width: calc(100% - 20px);
-           .faq-answer-content, p, ul li {
-             line-height: 28px; // Większa interlinia
-           }
+          font-size: 20px; // Trochę większa odpowiedź
+          margin-left: 20px;
+          width: calc(100% - 20px);
+
+          .faq-answer-content,
+          p,
+          ul li {
+            line-height: 28px; // Większa interlinia
+          }
         }
       }
     }
@@ -127,7 +132,7 @@
     padding: 80px 40px; // Oryginalny padding
 
     h2 {
-      font-size: 96px; // Oryginalny rozmiar
+      font-size: 48px; // Oryginalny rozmiar
       letter-spacing: 5px; // Oryginalny letter-spacing
     }
 
@@ -141,6 +146,8 @@
         width: auto; // Szerokość zależna od zawartości (lub ustalona max-width)
 
         .faq-question {
+          font-family: $font-primary;
+
           text-align: center; // Wycentrowanie pytania
           font-size: 28px; // Oryginalny rozmiar (mniejszy niż na mobile/tablet?)
           font-weight: 600; // Oryginalna waga
@@ -150,9 +157,11 @@
         }
 
         .faq-answer {
+          font-family: $font-secondary;
+
           padding-left: 20px; // Oryginalne wcięcie
           margin-left: 0; // Reset marginesu z mobile
-          font-size: 28px; // Oryginalny rozmiar
+          font-size: 22px; // Oryginalny rozmiar
           width: auto; // Reset szerokości
 
           &.open {
@@ -166,16 +175,19 @@
           .faq-answer-content {
             line-height: 35px; // Oryginalna interlinia
           }
-          p, ul li {
+
+          p,
+          ul li {
             line-height: 35px; // Spójna oryginalna interlinia
           }
+
           ul {
-             padding-left: 30px; // Oryginalne wcięcie listy
+            padding-left: 30px; // Oryginalne wcięcie listy
           }
 
           // Przywracamy tło (pseudo-element ::before) tylko na desktopie
           &.open::before {
-            content: "";
+            content: none;
             position: absolute;
             top: 0;
             left: 0;

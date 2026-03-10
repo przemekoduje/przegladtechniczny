@@ -1,51 +1,72 @@
+@import "../../styles/variables.scss";
+
 .goldHand {
   width: 100%;
   background-color: #bcd7ff;
   padding: 40px 40px 40px 346px;
 
   h1 {
-    font-family: "ProductSans";
+    font-family: $font-primary;
     font-weight: 300;
     font-style: normal;
     margin-bottom: 25px;
     color: #4a4a4a;
-    font-size: 96px;
+    font-size: 48px;
   }
+
   p {
-    font-family: "ProductSans";
+    font-family: $font-secondary;
     font-weight: 300;
     font-style: normal;
-    font-size: 28px;
+    font-size: 22px;
     line-height: 38px;
   }
-  .buttons{
+
+  .buttons {
     margin-top: 25px;
 
-    a{
-      text-decoration: none; /* Usunięcie podkreślenia */
-      color: inherit; 
+    a {
+      text-decoration: none;
+      /* Usunięcie podkreślenia */
+      color: inherit;
+    }
+
+    .call_button {
+      background: rgba($color-signal-orange, 0.05);
+      color: $color-text-main;
+
+      .btn-icon {
+        color: $color-signal-orange;
+      }
+
+      &:hover {
+        background: rgba($color-signal-orange, 0.1);
+        color: $color-text-main;
+      }
     }
   }
 }
 
-@media (max-width: 680px) {
+@media (max-width: 768px) {
 
   .goldHand {
-    
+
     padding: 40px 20px;
 
     h1 {
-      
+
       margin-bottom: 25px;
       color: #4a4a4a;
-      font-size: 32px;
+      font-size: 48px;
     }
+
     p {
-      
+
       font-size: 20px;
       line-height: 25px;
     }
-    .buttons{
+
+    .buttons {
       margin-top: 25px;
     }
   }

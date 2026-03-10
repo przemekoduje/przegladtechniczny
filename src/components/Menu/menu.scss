@@ -40,7 +40,7 @@
         white-space: nowrap;
 
         &:hover {
-          color: $color-primary-green;
+          color: $color-signal-orange;
         }
 
 
@@ -54,8 +54,20 @@
 
         .call_button {
           width: 100%; // Wypełnia wrapper
+          min-width: 280px;
           justify-content: center; // Centruje zawartość
           white-space: nowrap;
+          background: rgba($color-signal-orange, 0.05);
+          color: $color-text-main;
+
+          .btn-icon {
+            color: $color-signal-orange;
+          }
+
+          &:hover {
+            background: rgba($color-signal-orange, 0.1);
+            color: $color-text-main; // Utrzymujemy kontrast na hoverze
+          }
         }
       }
     }
@@ -66,8 +78,8 @@
     justify-content: center; // Centrowanie zawartości
     align-self: center;
     border-radius: 50%;
-    background: rgba($color-primary-green, 0.05);
-    border: 1px solid rgba($color-primary-green, 0.2);
+    background: rgba($color-signal-orange, 0.05);
+    border: 1px solid rgba($color-signal-orange, 0.2);
     padding: 8px 8px;
     color: $color-text-main;
     font-weight: 500;
@@ -82,13 +94,13 @@
       &.avatar {
         border-radius: 50%;
         object-fit: cover;
-        // border: 1px solid rgba($color-primary-green, 0.3);
+        // border: 1px solid rgba($color-signal-orange, 0.3);
       }
     }
 
     &:hover {
-      background: rgba($color-primary-green, 0.1);
-      border-color: $color-primary-green;
+      background: rgba($color-signal-orange, 0.1);
+      border-color: $color-signal-orange;
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     }
@@ -181,7 +193,7 @@
     transition: color 0.2s, transform 0.2s;
 
     &:hover {
-      color: $color-primary-green;
+      color: $color-signal-orange;
       transform: scale(1.05);
     }
 
@@ -189,8 +201,8 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      background: rgba($color-primary-green, 0.1);
-      border: 1px solid rgba($color-primary-green, 0.3);
+      background: rgba($color-signal-orange, 0.1);
+      border: 1px solid rgba($color-signal-orange, 0.3);
       padding: 15px 30px;
       border-radius: 50px;
       font-weight: 500;
@@ -204,7 +216,7 @@
         &.avatar {
           border-radius: 50%;
           object-fit: cover;
-          border: 1px solid rgba($color-primary-green, 0.3);
+          border: 1px solid rgba($color-signal-orange, 0.3);
         }
       }
     }

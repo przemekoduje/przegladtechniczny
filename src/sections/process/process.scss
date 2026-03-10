@@ -1,0 +1,183 @@
+@import "../../styles/variables.scss";
+
+.process-section {
+    padding: 8rem 2rem 4rem; // Adjusted padding instead of min-height
+    background-color: $color-anthracite;
+    position: relative;
+
+    // Background pattern for industrial feel
+    background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.process-header {
+    text-align: center;
+    margin-bottom: 6rem;
+    color: $color-paper-white;
+
+    h2 {
+        font-family: $font-primary;
+
+        font-size: 48px;
+        font-weight: 300;
+        letter-spacing: 1px;
+        margin-bottom: 1rem;
+        color: $color-white;
+    }
+
+    p {
+        font-family: $font-secondary;
+        color: rgba(255, 255, 255, 0.7);
+        max-width: 600px;
+        margin: 0 auto;
+        font-size: 22px;
+    }
+}
+
+.process-stack-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    padding-bottom: 20vh; // Reduced from 100vh to remove the huge tail
+}
+
+.process-card {
+    position: sticky;
+    background-color: $color-paper-white;
+    border-radius: 12px;
+    padding: 3rem;
+    margin-bottom: 100px; // Spacing between cards when scrolling
+    box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+    overflow: hidden;
+
+    // The Noise overlay effect
+    .noise-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0.05;
+        pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        z-index: 1;
+    }
+
+    // Inside layout
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    border: 1px solid $color-border-subtle;
+    position: sticky;
+
+    .card-top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid $color-anthracite;
+        padding-bottom: 1rem;
+        position: relative;
+        z-index: 2;
+
+        .step-id {
+            font-family: $font-secondary;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: $color-signal-orange;
+        }
+
+        .step-dots {
+            display: flex;
+            gap: 6px;
+
+            .dot {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background-color: lighten($color-anthracite, 60%);
+
+                &.active {
+                    background-color: $color-signal-orange;
+                    animation: pulse 2s infinite;
+                }
+            }
+        }
+    }
+
+    .card-content {
+        position: relative;
+        z-index: 2;
+
+        h3 {
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            font-weight: 800;
+            color: $color-anthracite;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            letter-spacing: -1px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: lighten($color-anthracite, 20%);
+            line-height: 1.6;
+            max-width: 800px;
+        }
+    }
+
+    .card-footer-data {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-top: 2rem;
+        position: relative;
+        z-index: 2;
+
+        .data-block {
+            background-color: lighten($color-paper-white, 5%);
+            border: 1px solid $color-border-subtle;
+            padding: 1rem;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+
+            .data-label {
+                font-family: $font-secondary;
+                font-size: 0.8rem;
+                color: lighten($color-anthracite, 40%);
+                margin-bottom: 0.5rem;
+            }
+
+            .data-value {
+                font-family: $font-secondary;
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: $color-anthracite;
+            }
+        }
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.5);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .process-section {
+        display: none;
+    }
+}

@@ -5,9 +5,8 @@
   --btn-color: #{$color-sunny-yellow};
   --btn-hover: #{$color-primary-hover};
   --text-color: #{$color-text-main};
-  
-  width: auto;
-  min-width: 280px;
+
+  width: 280px;
   min-height: 60px;
   display: flex;
   align-items: center;

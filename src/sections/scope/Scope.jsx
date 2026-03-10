@@ -1,16 +1,24 @@
-import React from 'react';
-import './scope.scss'; // Importujemy plik ze stylami
+import React, { useState } from 'react';
+import './scope.scss';
 import OrderButton from '../../components/OrderButton/OrderButton';
 import CallButton from '../../components/CallButton/CallButton';
 
-import iconB2B from '../../assets/roczny-scope-card-icon.png';
-import iconHouse from '../../assets/5-scope-card-icon.png';
-import iconGas from '../../assets/instal-scope-card-icon.png';
-import iconEngineer from '../../assets/doradztwo-scope-card-icon.png';
-import iconDrone from '../../assets/dron-scope-card-icon.png';
-import iconEnergy from '../../assets/energ-scope-card-icon.png';
-
 const Scope = ({ user }) => {
+  const [activeServiceHover, setActiveServiceHover] = useState(null);
+  const [activeServiceClick, setActiveServiceClick] = useState(null);
+  const [isMobileModalOpen, setIsMobileModalOpen] = useState(false);
+
+  const handleServiceClick = (id) => {
+    setActiveServiceClick(id);
+    if (window.innerWidth < 1024) {
+      setIsMobileModalOpen(true);
+    }
+  };
+
+  const closeMobileModal = () => {
+    setIsMobileModalOpen(false);
+  };
+
   const scrollToInspectionForm = () => {
     const formSection = document.getElementById("inspection-form");
     if (formSection) {
@@ -20,152 +28,199 @@ const Scope = ({ user }) => {
 
   const services = [
     {
+      id: 'b2b',
       title: "Przeglądy roczne (B2B)",
       description: "Dla zarządców wspólnot, budynków biurowych, przemysłowych i wielkopowierzchniowych",
-      features: [
-        "Wymagane Art. 62 Prawa Budowlanego",
-        "Kontrola instalacji i konstrukcji",
-        "Wpis do Książki Obiektu (KOB)"
-      ],
+      features: ["Wymagane Art. 62 Prawa Budowlanego", "Kontrola instalacji i konstrukcji", "Wpis do KOB"],
       price: "Wycena indywidualna",
-      imageSrc: iconB2B,
-      isPopular: false,
-      backContent: "Nasze przeglądy roczne dla sektora B2B to gwarancja spełnienia wszystkich wymogów prawnych dla dużych obiektów. Przeprowadzamy szczegółowe audyty elementów konstrukcyjnych, instalacji oraz przygotowujemy niezbędną dokumentację, w tym wpisy do KOB. Zapewniamy pełne wsparcie dla zarządców nieruchomości."
+      backContent: "Nasze przeglądy roczne dla sektora B2B to gwarancja spełnienia wszystkich wymogów prawnych dla dużych obiektów."
     },
     {
+      id: 'walls',
       title: "Przeglądy 5-letnie domu",
       description: "Kompleksowy przegląd konstrukcyjno-elektryczny wymagany przez ubezpieczycieli",
-      features: [
-        "Wymagany do wypłaty odszkodowania",
-        "Pomiary elektryczne w cenie",
-        "Sprawdzenie stanu technicznego domu"
-      ],
+      features: ["Wymagany do wypłaty odszkodowania", "Pomiary elektryczne w cenie", "Sprawdzenie stanu technicznego domu"],
       price: "od 300 zł",
-      imageSrc: iconHouse,
-      isPopular: true, // Ta oferta jest najczęściej wybierana przez właścicieli domów
-      backContent: "Przegląd 5-letni domu to nie tylko formalność dla ubezpieczyciela, ale przede wszystkim spokój o bezpieczeństwo twoich bliskich. Wykonujemy pełen zakres badań, od sprawdzenia konstrukcji dachu i ścian, po wnikliwe pomiary instalacji elektrycznej. Otrzymujesz kompletny protokół do ręki."
+      backContent: "Przegląd 5-letni domu to nie tylko formalność dla ubezpieczyciela, ale przede wszystkim spokój o bezpieczeństwo twoich bliskich."
     },
     {
+      id: 'pipes',
       title: "Instalacje: Gaz i Prąd",
       description: "Okresowa kontrola bezpieczeństwa instalacji w Twoim budynku",
-      features: [
-        "Kontrola szczelności instalacji gazowej",
-        "Pomiary elektryczne (odbiorcze/okresowe)",
-        "Protokoły dla gazowni/elektrowni"
-      ],
+      features: ["Kontrola szczelności instalacji gazowej", "Pomiary elektryczne", "Protokoły dla gazowni/elektrowni"],
       price: "od 300 zł",
-      imageSrc: iconGas,
-      isPopular: false,
-      backContent: "Nieszczelna instalacja gazowa lub przestarzała elektryka mogą stanowić bezpośrednie zagrożenie. Wykorzystujemy najwyższej klasy mierniki do wykrywania nawet najmniejszych ubytków gazu oraz nowoczesne analizatory do badana parametrów prądu. Posiadamy wszelkie niezbędne uprawnienia SEP i gazowe."
+      backContent: "Nieszczelna instalacja gazowa lub przestarzała elektryka mogą stanowić bezpośrednie zagrożenie."
     },
     {
+      id: 'foundation',
       title: "Doradztwo i Nadzory",
       description: "Wsparcie inżyniera przy zakupie, budowie lub problemach technicznych",
-      features: [
-        "Przegląd przed zakupem nieruchomości",
-        "Opinie techniczne i ekspertyzy",
-        "Kierownik budowy / Inspektor nadzoru"
-      ],
+      features: ["Przegląd przed zakupem", "Opinie techniczne i ekspertyzy", "Kierownik budowy / Inspektor nadzoru"],
       price: "Wycena indywidualna",
-      imageSrc: iconEngineer,
-      isPopular: false,
-      backContent: "Budowa domu to proces pełen pułapek. Kupno mieszkania z rynku wtórnego również. Jako niezależni Inżynierowie stajemy po stronie Inwestora. Sprawdzimy usterki deweloperskie, poprowadzimy nadzór nad wykonawcą i sporządzimy wymaganą ekspertyzę budowlaną w razie sporów."
+      backContent: "Jako niezależni Inżynierowie stajemy po stronie Inwestora. Sprawdzimy usterki deweloperskie, poprowadzimy nadzór."
     },
     {
+      id: 'roof',
       title: "Termowizja i Dron",
       description: "Nowoczesna diagnostyka budynków i instalacji fotowoltaicznych",
-      features: [
-        "Termowizja paneli PV (wadliwe ogniwa)",
-        "Dane do audytów energetycznych",
-        "Fotogrametria i inspekcje dachów"
-      ],
+      features: ["Termowizja paneli PV", "Dane do audytów energetycznych", "Fotogrametria i inspekcje dachów"],
       price: "Wycena indywidualna",
-      imageSrc: iconDrone,
-      isPopular: false,
-      backContent: "Dzięki zaawansowanym dronom z kamerami termowizyjnymi docieramy tam, gdzie wzrok nie sięga. Szybko ocenimy stan połaci dachowej, zajrzymy do kominów z góry i zmapujemy wszelkie mostki termiczne w elewacji. To potężne narzędzie diagnostyczne dla nowoczesnego inwestora."
+      backContent: "Dzięki zaawansowanym dronom docieramy tam, gdzie wzrok nie sięga. Szybko ocenimy stan połaci dachowej."
     },
     {
+      id: 'energy',
       title: "Energetyka (ŚCHE)",
       description: "Dokumentacja energetyczna wymagana przy sprzedaży, wynajmie lub dotacjach",
-      features: [
-        "Świadectwa Charakterystyki Energetycznej",
-        "Audyty energetyczne (Czyste Powietrze)",
-        "Optymalizacja kosztów ogrzewania"
-      ],
+      features: ["Świadectwa Charakterystyki Energetycznej", "Audyty energetyczne", "Optymalizacja kosztów ogrzewania"],
       price: "Wycena indywidualna",
-      imageSrc: iconEnergy,
-      isPopular: false,
-      backContent: "Sprzedajesz lub wynajmujesz nieruchomość? Potrzebujesz Świadectwa Charakterystyki Energetycznej (ŚCHE). Dodatkowo sporządzamy kompleksowe audyty energetyczne, które pozwalają ubiegać się o dofinansowanie z programów takich jak 'Czyste Powietrze'."
+      backContent: "Sprzedajesz lub wynajmujesz nieruchomość? Potrzebujesz Świadectwa Charakterystyki Energetycznej (ŚCHE)."
     }
   ];
 
+  const activeServiceId = activeServiceClick || activeServiceHover || 'walls'; // default to walls
+  const activeService = services.find(s => s.id === activeServiceId);
+
   return (
     <section className="scope-section" id="scope-container">
-      <div className="scope-container">
-        {/* Nagłówek */}
-        <div className="scope-header">
-          <h2>Przeglądy Techniczne Nieruchomości</h2>
-          <p>Pytosz no czym się znomy? U nos mosz wszystko: od rzetelnej kontroli po dobro rada.</p>
+      <div className="scope-container-blueprint">
+
+        <div className="scope-header-blueprint">
+          <h2>Interaktywny Audyt Budowlany</h2>
+          <p>Najedź na elementy budynku, aby poznać szczegóły naszych usług inżynieryjnych.</p>
         </div>
 
-        {/* Lista kafelków */}
-        <div className="scope-grid">
-          {services.map((service, index) => (
-            <div
-              key={index}
-              className={`scope-card ${service.isPopular ? 'popular' : ''}`}
-            >
-              <div className="scope-card-inner">
-                {/* Przód karty */}
-                <div className="scope-card-front">
-                  {service.isPopular && <span className="badge">Popularne</span>}
+        <div className="audit-layout">
 
-                  <div className="icon-wrapper">
-                    <img
-                      src={service.imageSrc}
-                      alt={service.title}
-                      className="service-icon-img"
-                    />
-                  </div>
+          <div className="audit-svg-container" style={{ background: '#fff' }}>
+            <svg viewBox="0 0 1024 1024" className="interactive-house-svg" preserveAspectRatio="xMidYMid meet">
 
-                  <h3>{service.title}</h3>
-                  <p className="description">{service.description}</p>
+              {/* Background Image - Charcoal Sketch */}
+              <image href={require("../../assets/blueprint-schematic.png")} x="0" y="0" width="1024" height="1024" />
 
-                  <ul className="features-list">
-                    {service.features.map((feature, idx) => (
+              {/* 1. Walls / Przeglądy 5-letnie domu (Main house walls and rooms) */}
+              <g
+                className={`svg-group hover-zone ${activeServiceId === 'walls' ? 'active' : ''}`}
+                onMouseEnter={() => setActiveServiceHover('walls')}
+                onMouseLeave={() => setActiveServiceHover(null)}
+                onClick={() => handleServiceClick('walls')}
+              >
+                <polygon points="120,320 528,320 528,780 120,780" className="svg-hotspot" />
+              </g>
+
+              {/* 2. B2B / Przeglądy roczne (Commercial Right Wing) */}
+              <g
+                className={`svg-group hover-zone ${activeServiceId === 'b2b' ? 'active' : ''}`}
+                onMouseEnter={() => setActiveServiceHover('b2b')}
+                onMouseLeave={() => setActiveServiceHover(null)}
+                onClick={() => handleServiceClick('b2b')}
+              >
+                <polygon points="528,340 910,340 910,780 528,780" className="svg-hotspot" />
+              </g>
+
+              {/* 3. Pipes / Instalacje Gaz i Prąd (Piping lines inside walls and kitchen area) */}
+              <g
+                className={`svg-group hover-zone ${activeServiceId === 'pipes' ? 'active' : ''}`}
+                onMouseEnter={() => setActiveServiceHover('pipes')}
+                onMouseLeave={() => setActiveServiceHover(null)}
+                onClick={() => handleServiceClick('pipes')}
+              >
+                {/* Specific inner hotspots marking "Electrical" and "Plumbing" zones from the sketch */}
+                <rect x="238" y="325" width="280" height="300" className="svg-hotspot" />
+                <rect x="135" y="635" width="375" height="145" className="svg-hotspot" />
+              </g>
+
+              {/* 4. Roof / Termowizja i Dron (Attic & Roof) */}
+              <g
+                className={`svg-group hover-zone ${activeServiceId === 'roof' ? 'active' : ''}`}
+                onMouseEnter={() => setActiveServiceHover('roof')}
+                onMouseLeave={() => setActiveServiceHover(null)}
+                onClick={() => handleServiceClick('roof')}
+              >
+                <polygon points="325,145 100,320 550,320" className="svg-hotspot" />
+                <rect x="290" y="70" width="70" height="85" className="svg-hotspot" /> {/* Chimney */}
+              </g>
+
+              {/* 5. Foundation / Doradztwo i Nadzory (Ground and Piers) */}
+              <g
+                className={`svg-group hover-zone ${activeServiceId === 'foundation' ? 'active' : ''}`}
+                onMouseEnter={() => setActiveServiceHover('foundation')}
+                onMouseLeave={() => setActiveServiceHover(null)}
+                onClick={() => handleServiceClick('foundation')}
+              >
+                <rect x="0" y="780" width="1024" height="150" className="svg-hotspot" />
+              </g>
+
+              {/* 6. Energy / ŚCHE (Thermal Envelope) */}
+              <g
+                className={`svg-group hover-zone ${activeServiceId === 'energy' ? 'active' : ''}`}
+                onMouseEnter={() => setActiveServiceHover('energy')}
+                onMouseLeave={() => setActiveServiceHover(null)}
+                onClick={() => handleServiceClick('energy')}
+              >
+                {/* A glowing envelope tracing the full exterior boundary of both structures */}
+                <path d="M 0 780
+                         L 0 514
+                         L 100 440
+                         L 100 320
+                         L 326 142
+                         L 556 320
+                         L 556 339
+                         L 910 339
+                         L 910 780
+                         Z"
+                  className="svg-hotspot-envelope" />
+              </g>
+
+            </svg>
+          </div>
+
+          {/* RIGHT/MODAL: Active Service Details Panel */}
+          <div className={`audit-details-panel ${isMobileModalOpen ? 'mobile-modal-open' : ''}`}>
+            {activeService && (
+              <div className="blueprint-card" key={activeService.id}>
+
+                {/* Mobile Close Button */}
+                <button className="mobile-close-btn" onClick={closeMobileModal} aria-label="Zamknij popup">
+                  &times;
+                </button>
+
+                <div className="card-header-tech">
+                  <span className="tech-id">DOC-{activeService.id.toUpperCase()}-01</span>
+                  <h3>{activeService.title}</h3>
+                </div>
+
+                <p className="tech-desc">{activeService.description}</p>
+
+                <div className="tech-specs">
+                  <h4>SPECYFIKACJA AUDYTU</h4>
+                  <ul>
+                    {activeService.features.map((feature, idx) => (
                       <li key={idx}>
-                        <span className="check-icon">✓</span>
-                        {feature}
+                        <span className="bracket">✓</span> {feature}
                       </li>
                     ))}
                   </ul>
-
-                  <div className="price-tag">
-                    {service.price}
-                  </div>
                 </div>
 
-                {/* Tył karty */}
-                <div className="scope-card-back">
-                  <h3>{service.title} - Więcej informacji</h3>
-                  <p className="back-description">{service.backContent}</p>
-                  {/* Przycisk obracający powrotny (wymaga hover docelowo wiec mozna pominąć button, albo dać cta) */}
-                  <div className="back-cta-wrapper">
-                    {index < 3 ? (
+                <div className="tech-footer">
+                  <div className="price-tag-tech">ESTYMACJA KOSZTÓW:<br /><span>{activeService.price}</span></div>
+
+                  <div className="action-buttons">
+                    {['b2b', 'walls', 'pipes'].includes(activeService.id) ? (
                       <OrderButton
                         text="Umów przegląd"
                         onClick={scrollToInspectionForm}
                         showIcon={false}
-                        padding="10px 20px"
                       />
                     ) : (
-                      <CallButton phoneNumber="690029414" />
+                      <CallButton />
                     )}
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            )}
+          </div>
+
         </div>
       </div>
     </section>
