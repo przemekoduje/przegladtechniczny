@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./menu.scss";
-import Panel from "../panel/Panel";
+import Panel from "../Panel/Panel";
 // import { auth, onAuthStateChanged } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate, useLocation } from "react-router-dom"; // Dodaj useLocation jeśli planujesz nawigację między stronami

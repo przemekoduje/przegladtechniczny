@@ -4,9 +4,9 @@
     position: relative;
     width: 100%;
     min-height: 100vh;
-    padding: 6rem 1rem 4rem;
+    padding: 10rem 1rem 4rem; // Zwiększony górny padding z 6rem na 10rem dla przestrzeni pod przywróconym Menu
     background-color: #f0fdf4; // Very light pastel green base
-    background-image: 
+    background-image:
         linear-gradient(rgba(56, 189, 248, 0.1) 1px, transparent 1px),
         linear-gradient(90deg, rgba(56, 189, 248, 0.1) 1px, transparent 1px);
     background-size: 30px 30px;
@@ -25,9 +25,36 @@
         opacity: 0.1;
         z-index: 0;
 
-        .house {
-            font-size: 15rem;
-            color: #0f172a;
+        img.logo-watermark {
+            width: 300px;
+            height: auto;
+            object-fit: contain;
+            position: absolute;
+            color: $color-anthracite;
+            opacity: 0.8;
+            filter: grayscale(100%) brightness(5) drop-shadow(0 0 20px rgba(0, 0, 0, 0.1));
+
+            &.house-1 {
+                top: 0px;
+                left: -5%;
+                transform: rotate(-15deg);
+                width: 350px;
+            }
+
+            &.house-2 {
+                top: 50px;
+                right: 10%;
+                transform: rotate(10deg);
+                width: 250px;
+            }
+
+            &.house-3 {
+                top: 200px;
+                left: 20%;
+                transform: rotate(5deg);
+                width: 200px;
+                opacity: 0.5;
+            }
         }
 
         &.top-houses {
@@ -52,7 +79,7 @@
         .aggressive-title {
             text-align: center;
             font-family: $font-primary;
-            font-size: clamp(2rem, 5vw, 3rem);
+            font-size: clamp(4rem, 5vw, 4rem);
             font-weight: 900;
             line-height: 1.1;
             margin: 0;
@@ -88,10 +115,21 @@
                 box-shadow: 4px 4px 0 #334155;
                 margin: 0.5rem 0;
 
-                &.card-blue { background-color: #e0f2fe; }
-                &.card-green { background-color: #dcfce7; }
-                &.card-yellow { background-color: #fef3c7; }
-                &.card-red { background-color: #ffe4e6; }
+                &.card-blue {
+                    background-color: #e0f2fe;
+                }
+
+                &.card-green {
+                    background-color: #dcfce7;
+                }
+
+                &.card-yellow {
+                    background-color: #fef3c7;
+                }
+
+                &.card-red {
+                    background-color: #ffe4e6;
+                }
 
                 .step-content {
                     flex: 1;
@@ -119,7 +157,7 @@
                         border: 3px solid #b91c1c;
                         color: #b91c1c;
                         font-weight: 900;
-                        font-size: 1.2rem;
+                        font-size: 1.6rem;
                         padding: 2px 8px;
                         transform: rotate(-15deg);
                         border-radius: 4px;
@@ -130,16 +168,31 @@
                         position: absolute;
                         bottom: 10px;
                         left: 20px;
-                        color: #ef4444;
-                        opacity: 0.8;
+                        color: #b91c1c; // Zmiana z łagodnego czerwonego na mocny, krwisty z palety Tailwind (red-700)
+                        opacity: 0.9; // Zwiększona widoczność
                         transform: rotate(-10deg);
+
+                        &.grunge-stamp {
+                            position: absolute;
+                            bottom: -15px;
+                            right: 15px; // Przeniesienie na prawo dla naturalnego układu urzędowego stempla
+                            left: auto;
+                            width: 150px;
+                            height: 150px;
+                            transform: rotate(-15deg);
+                            pointer-events: none; // Zapobiega zasłanianiu całej karty przez box SVG
+                            mix-blend-mode: multiply; // KRYTYCZNE: Efekt wtapiania "tuszu" w tło pod spodem
+                            filter: drop-shadow(0 0 5px rgba(185, 28, 28, 0.2));
+                        }
                     }
                 }
 
                 .step-badge {
                     position: absolute;
+                    top: -15px;
                     left: 50%;
-                    transform: translate(-50%, 0); /* Środek karty */
+                    transform: translate(-50%, 0);
+                    /* Środek karty */
                     width: 30px;
                     height: 30px;
                     border-radius: 50%;
@@ -152,10 +205,21 @@
                     font-size: 1rem;
                     z-index: 3;
 
-                    &.badge-blue { background-color: #0369a1; }
-                    &.badge-green { background-color: #16a34a; }
-                    &.badge-yellow { background-color: #b45309; }
-                    &.badge-red { background-color: #b91c1c; }
+                    &.badge-blue {
+                        background-color: #0369a1;
+                    }
+
+                    &.badge-green {
+                        background-color: #16a34a;
+                    }
+
+                    &.badge-yellow {
+                        background-color: #b45309;
+                    }
+
+                    &.badge-red {
+                        background-color: #b91c1c;
+                    }
                 }
 
                 .step-icon {
@@ -173,7 +237,7 @@
                 background-color: #334155;
                 position: relative;
                 color: transparent; // chowa symbol strzalki w kodzie
-                
+
                 &::after {
                     content: "↓";
                     position: absolute;
@@ -184,8 +248,21 @@
                     font-size: 1.2rem;
                 }
 
-                &.flow-arrow-green { background-color: #16a34a; &::after { color: #16a34a; } }
-                &.flow-arrow-red { background-color: #b91c1c; &::after { color: #b91c1c; } }
+                &.flow-arrow-green {
+                    background-color: #16a34a;
+
+                    &::after {
+                        color: #16a34a;
+                    }
+                }
+
+                &.flow-arrow-red {
+                    background-color: #b91c1c;
+
+                    &::after {
+                        color: #b91c1c;
+                    }
+                }
             }
         }
 
@@ -264,7 +341,8 @@
                 .input-group {
                     margin-bottom: 15px;
 
-                    input, textarea {
+                    input,
+                    textarea {
                         width: 100%;
                         padding: 0.8rem 1rem;
                         border: 2px solid #cbd5e1;
@@ -343,7 +421,7 @@
             display: flex;
             align-items: center;
             gap: 1.5rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 
             @media (max-width: 500px) {
                 flex-direction: column;
@@ -351,8 +429,8 @@
             }
 
             .avatar {
-                width: 80px;
-                height: 80px;
+                width: 150px;
+                height: 150px;
                 border-radius: 50%;
                 object-fit: cover;
                 border: 2px solid #166534;
