@@ -1,38 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./ctaBanner.scss";
 import CallButton from "../../components/CallButton/CallButton";
 import OrderButton from "../../components/OrderButton/OrderButton";
 
 const CtaBanner = ({ customCity }) => {
-  const [lastScrollTop, setLastScrollTop] = useState(0);
-  const [isVisible, setIsVisible] = useState(true);
-
-  let scrollTimeout;
-
-  const handleScroll = () => {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-    if (scrollTop > lastScrollTop + 10) {
-      setIsVisible(false);
-    } else if (scrollTop < lastScrollTop) {
-      setIsVisible(true);
-    }
-
-    setLastScrollTop(scrollTop);
-
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(() => {
-      setIsVisible(true);
-    }, 300);
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [lastScrollTop]);
-
   const scrollToInspectionForm = () => {
     const formSection = document.getElementById("inspection-form");
     if (formSection) {

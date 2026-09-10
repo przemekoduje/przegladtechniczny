@@ -40,8 +40,10 @@
   }
 
   @media (max-width: 480px) {
-    padding: 6px 6px 6px 20px !important;
-    font-size: 16px;
+    padding: 4px 6px 4px 18px !important;
+    font-size: 15px;
+    min-height: 48px;
+    width: 240px;
   }
 }
 
@@ -54,10 +56,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
-  background: rgba(255, 255, 255, 0.2);
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.25);
   border-radius: 50%;
+
+  @media (max-width: 480px) {
+    width: 36px;
+    height: 36px;
+
+    .default-icon {
+      width: 18px;
+      height: 18px;
+    }
+  }
 }
 
 .default-icon {

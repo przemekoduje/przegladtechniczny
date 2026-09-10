@@ -31,7 +31,7 @@ $alert-color: #e11d48;
 
   .why-title {
     font-family: $font-primary;
-    font-size: 48px;
+    font-size: clamp(1.75rem, 5vw, 48px);
     font-weight: 300; // Zmiana wagi na lżejszą (300) jak w Scope
     color: $text-dark;
     margin-bottom: 1rem;
@@ -45,7 +45,7 @@ $alert-color: #e11d48;
   .why-subtitle {
     font-family: $font-secondary;
 
-    font-size: 22px;
+    font-size: clamp(0.95rem, 2.5vw, 22px);
     color: $text-gray;
     max-width: 600px;
     margin: 0 auto;
@@ -232,6 +232,28 @@ $alert-color: #e11d48;
       &:last-child {
         margin-bottom: 0;
       }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .why-important-section {
+    padding: 3.5rem 1rem;
+  }
+
+  .why-header {
+    margin-bottom: 2rem;
+  }
+
+  .why-card {
+    padding: 1.5rem 1.25rem;
+
+    h3 {
+      font-size: 1.25rem;
+    }
+
+    .main-text {
+      font-size: 0.95rem;
     }
   }
 }

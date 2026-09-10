@@ -125,11 +125,15 @@ $bar-height: 80px;
 
 @media (max-width: 768px) {
     .sticky-order-bar {
+        height: calc(64px + env(safe-area-inset-bottom, 0px));
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+
         .sticky-bar-content {
             padding: 0 1rem;
             flex-direction: column;
             justify-content: center;
-            gap: 10px;
+            align-items: center;
+            gap: 0;
 
             .bar-info {
                 display: none; // hide text on mobile to save space
@@ -141,6 +145,10 @@ $bar-height: 80px;
 
                 .magnetic-cta {
                     width: 100%;
+                    max-width: 340px;
+                    padding: 10px 20px;
+                    font-size: 0.95rem;
+                    border-radius: 25px;
                 }
             }
         }

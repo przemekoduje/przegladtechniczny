@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./CityListBanner.scss";
 import SilesiaMapGL from "../SilesiaMapGL/SilesiaMapGL";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { citiesData } from "../../helpers/citiesData";
 
 const CityListBanner = () => {
@@ -23,40 +23,44 @@ const CityListBanner = () => {
     "Rybnik",
   ];
 
-
   const [hoveredCity, setHoveredCity] = useState(null);
   const navigate = useNavigate();
 
   const handleCityClick = (slug) => {
-    // console.log("Kliknięto miasto:", slug);
     if (slug) {
       navigate(`/przeglad-budowlany-${slug}`);
       window.scrollTo(0, 0);
     }
   };
 
-  // Ta funkcja była zdefiniowana, ale nieużywana - TERAZ JĄ UŻYJEMY
   const renderCityItem = (cityName, index) => {
-    // 1. Znajdź pełne dane miasta
     const cityData = citiesData.find((c) => c.name === cityName);
     const slug = cityData ? cityData.slug : null;
-
-    // 2. Sprawdź czy aktywne
     const isActive = hoveredCity === cityName;
 
     return (
       <li
         key={index}
         className={isActive ? "active-city" : ""}
-        // INTERAKCJA 1: Hover
         onMouseEnter={() => setHoveredCity(cityName)}
         onMouseLeave={() => setHoveredCity(null)}
-        // INTERAKCJA 2: Click
-        onClick={() => handleCityClick(slug)}
-        style={{ cursor: slug ? "pointer" : "default" }}
       >
-        <span className={`dot ${isActive ? "active-dot" : ""}`}></span>
-        {cityName}
+        {slug ? (
+          <Link
+            to={`/przeglad-budowlany-${slug}`}
+            className="city-nav-link"
+            title={`Przegląd Budowlany ${cityName} – Inżynier z Uprawnieniami`}
+            onClick={() => window.scrollTo(0, 0)}
+          >
+            <span className={`dot ${isActive ? "active-dot" : ""}`}></span>
+            {cityName}
+          </Link>
+        ) : (
+          <span className="city-nav-link">
+            <span className={`dot ${isActive ? "active-dot" : ""}`}></span>
+            {cityName}
+          </span>
+        )}
       </li>
     );
   };

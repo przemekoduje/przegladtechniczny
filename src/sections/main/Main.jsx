@@ -66,30 +66,37 @@ export default function Main({ user, customCity }) {
       </div>
 
       <div className="hero-content">
-        <div className="hero-title-container">
-          <AnimatedText
-            text="Przeglądy Techniczne Nieruchomości"
-            tag="h2"
-            className="service-name"
-            delay={0.2}
-          />
-          <AnimatedText
-            text={customCity || "Śląsk"}
-            tag="h1"
-            className="city-name"
-            delay={0.6}
-          />
-        </div>
-
-        <MagneticButton>
-          <div className="order-button-wrapper">
-            <OrderButton
-              text="Umów przegląd"
-              userAvatar={user?.photoURL}
-              onClick={scrollToInspectionForm}
-            />
+        <div className="hero-header-group">
+          <div className="hero-badge">
+            <span className="badge-dot"></span>
+            <span className="badge-text-full">Przeglądy Budowlane & Techniczne</span>
+            <span className="badge-text-short">Przeglądy Techniczne</span>
           </div>
-        </MagneticButton>
+
+          <h1 className="hero-title-container">
+            <AnimatedText
+              text={customCity ? `${customCity} & Śląsk` : "Gliwice & Śląsk"}
+              tag="span"
+              className="city-name"
+              delay={0.3}
+            />
+          </h1>
+
+          <p className="hero-subtitle">
+            <span className="subtitle-line">Roczne i 5-letnie kontrole budowlane domów oraz instalacji.</span>
+            <span className="subtitle-line subtitle-credentials">Inżynier z uprawnieniami SLK/2122/OWOK/08</span>
+          </p>
+
+          <div className="order-button-wrapper">
+            <MagneticButton>
+              <OrderButton
+                text="Umów przegląd"
+                userAvatar={user?.photoURL}
+                onClick={scrollToInspectionForm}
+              />
+            </MagneticButton>
+          </div>
+        </div>
       </div>
 
       <div className="main-footer">

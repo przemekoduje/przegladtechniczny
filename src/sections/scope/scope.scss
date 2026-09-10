@@ -319,3 +319,34 @@
     transform: translateY(0);
   }
 }
+
+@media (max-width: 768px) {
+  .scope-section {
+    padding: 3.5rem 1rem;
+  }
+
+  .scope-header-blueprint {
+    margin-bottom: 2rem;
+    padding-left: 0;
+    text-align: center;
+
+    h2 {
+      font-size: clamp(1.75rem, 6vw, 2.3rem);
+    }
+
+    p {
+      font-size: 1rem;
+      margin: 0 auto;
+    }
+  }
+
+  .audit-svg-container {
+    padding: 1rem 0.5rem;
+    min-height: 280px;
+    border-radius: 8px;
+
+    .interactive-house-svg {
+      max-height: 340px;
+    }
+  }
+}

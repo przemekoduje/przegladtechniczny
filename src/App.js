@@ -1,11 +1,11 @@
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   useLocation,
+  Navigate,
 } from "react-router-dom";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 
@@ -122,6 +122,22 @@ function AppContent() {
 
         {/* --- BLOG --- */}
         <Route
+          path="/blog"
+          element={
+            <Layout user={user}>
+              <BlogDB />
+            </Layout>
+          }
+        />
+        <Route
+          path="/blog/:slug"
+          element={
+            <Layout user={user}>
+              <SingleBlogPost />
+            </Layout>
+          }
+        />
+        <Route
           path="/blogDB"
           element={
             <Layout user={user}>
@@ -173,15 +189,12 @@ function AppContent() {
         />
 
         {/* --- NOWOŚĆ: DYNAMICZNE LANDINGI DLA MIAST --- */}
-        {/* Generujemy osobny Route dla każdego miasta z citiesData */}
-        {/* Dzięki temu URL to np. /przeglad-budowlany-gliwice */}
         {citiesData.map((city) => (
           <Route
             key={city.slug}
             path={`/przeglad-budowlany-${city.slug}`}
             element={
               <Layout user={user}>
-                {/* Nie musimy przekazywać citySlug, bo CityLandingPage pobierze go z URL lub możemy przekazać go tu jeśli zmienimy logikę */}
                 <CityLandingPage />
               </Layout>
             }
@@ -197,8 +210,13 @@ function AppContent() {
             </Layout>
           }
         />
+        <Route path="/kontakt" element={<Navigate to="/form" replace />} />
+        <Route path="/cennik" element={<Navigate to="/#scope" replace />} />
         <Route path="/regulamin" element={<Terms />} />
         <Route path="/polityka-prywatnosci" element={<PrivacyPolicy />} />
+
+        {/* --- FALLBACK 404 --- */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>
   );

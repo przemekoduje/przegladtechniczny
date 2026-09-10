@@ -1,5 +1,5 @@
 import React from 'react';
-import { Scale, Info } from 'lucide-react';
+import { Info } from 'lucide-react';
 import './WhyImportant.scss';
 import insuranceIcon from '../../assets/why-insurance.png';
 import lawIcon from '../../assets/why-law.png';

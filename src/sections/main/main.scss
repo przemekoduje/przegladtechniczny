@@ -83,39 +83,89 @@
     z-index: 10;
     display: flex;
     flex-direction: column;
-    gap: 4rem;
+    gap: 2.5rem;
     width: 100%;
-    padding: 0 8% 120px;
+    padding: 0 8% 110px;
     align-items: flex-start;
     pointer-events: none; // Let events pass to magnetic button
 
-    .hero-title-container {
-      pointer-events: auto;
+    .hero-header-group {
       display: flex;
-      gap: 1rem;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.25rem;
+      pointer-events: auto;
+      max-width: 850px;
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 16px;
+        background: rgba($color-signal-orange, 0.08);
+        border: 1px solid rgba($color-signal-orange, 0.25);
+        border-radius: 30px;
+        font-family: $font-primary;
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: $color-signal-orange;
+
+        .badge-dot {
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background-color: $color-signal-orange;
+          box-shadow: 0 0 8px rgba($color-signal-orange, 0.9);
+        }
+
+        .badge-text-short {
+          display: none;
+        }
+      }
+    }
+
+    .hero-title-container {
+      display: flex;
       flex-direction: column;
       align-items: flex-start;
       color: $color-anthracite;
-
-      .service-name {
-        max-width: 50%;
-        font-family: $font-secondary; // technical font for intro
-        font-size: 4vw;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        opacity: 0.9;
-        margin-bottom: 0;
-        color: $color-signal-orange;
-      }
+      margin: 0;
 
       .city-name {
         font-family: $font-primary;
-        font-size: clamp(4rem, 7vw, 7.5rem);
+        font-size: clamp(2.8rem, 6vw, 6.2rem);
         font-weight: 800;
-        letter-spacing: -3px;
-        line-height: 1;
+        letter-spacing: -2px;
+        line-height: 1.05;
         text-transform: uppercase;
+        color: #0f172a;
+        display: block;
+        margin: 0;
+      }
+    }
+
+    .hero-subtitle {
+      font-family: $font-primary;
+      font-size: clamp(1rem, 1.3vw, 1.25rem);
+      font-weight: 400;
+      color: #334155;
+      max-width: 620px;
+      line-height: 1.6;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      .subtitle-line {
+        display: block;
+      }
+
+      .subtitle-credentials {
+        font-size: 0.9em;
+        color: #64748b;
+        font-weight: 500;
       }
     }
 
@@ -124,7 +174,8 @@
     }
 
     .order-button-wrapper {
-      margin-top: 1rem;
+      margin-top: 0.5rem;
+      pointer-events: auto;
     }
   }
 
@@ -140,266 +191,181 @@
 
 /* --- RESPONSYWNOŚĆ --- */
 
-@media (max-width: 1024px) and (min-height: 1024px) {
+/* 1. TABLETY I ŚREDNIE EKRANY (max-width: 1024px) */
+@media (max-width: 1024px) {
   .hero-section {
-    .hero-bg-normal {
-      background-size: auto 70%;
-      background-position: right -50px bottom; // Zmień -50px, aby regulować przesunięcie
-    }
-
-    // 2. BLUEPRINT / SCANNED LAYER
+    .hero-bg-normal,
     .hero-bg-blueprint {
       background-size: auto 70%;
-      background-position: right -50px bottom; // Ta sama wartość co wyżej
-
-      .blueprint-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: linear-gradient($color-border-subtle 1px, transparent 1px),
-          linear-gradient(90deg, $color-border-subtle 1px, transparent 1px);
-        background-size: 50px 50px;
-        mix-blend-mode: overlay;
-        opacity: 0.6;
-      }
+      background-position: right -40px bottom;
     }
 
     .hero-content {
-      gap: 5rem;
-      padding: 0 40px 50% 40px;
+      padding: 0 40px 80px;
+      gap: 2rem;
 
       .hero-title-container {
-        .service-name {
-          font-size: 4.5rem;
-        }
-
         .city-name {
-          font-size: 5rem;
+          font-size: clamp(2.4rem, 5vw, 4rem);
         }
       }
     }
   }
 }
 
-@media (max-width: 1024px) and (max-height: 850px) {
+/* 2. SMARTFONY I MAŁE TABLETY (max-width: 768px) */
+@media (max-width: 768px) {
   .hero-section {
-    .hero-bg-normal {
-      background-size: auto 80%;
-      background-position: right -50px bottom; // Zmień -50px, aby regulować przesunięcie
-    }
+    height: 100vh;
+    height: 100dvh;
+    min-height: 560px;
+    position: relative;
+    overflow: hidden;
 
-    // 2. BLUEPRINT / SCANNED LAYER
+    // Zdjęcie inżyniera z narzędziami z dużą ilością przestrzeni nad głową
+    .hero-bg-normal,
     .hero-bg-blueprint {
-      background-size: auto 80%;
-      background-position: right -50px bottom; // Ta sama wartość co wyżej
-
-      .blueprint-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: linear-gradient($color-border-subtle 1px, transparent 1px),
-          linear-gradient(90deg, $color-border-subtle 1px, transparent 1px);
-        background-size: 50px 50px;
-        mix-blend-mode: overlay;
-        opacity: 0.6;
-      }
+      background-size: auto 44%;
+      background-position: right -15px bottom;
+      filter: contrast(1.05);
     }
 
     .hero-content {
-      gap: 5rem;
-      padding: 0 40px 5% 40px;
-
-      .hero-title-container {
-        .service-name {
-          font-size: 3rem;
-        }
-
-        .city-name {
-          font-size: 4rem;
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: 1024px) and (min-height: 851px) and (max-height: 1024px) {
-  .hero-section {
-    .hero-bg-normal {
-      background-size: auto 70%;
-      background-position: right -50px bottom; // Zmień -50px, aby regulować przesunięcie
-    }
-
-    // 2. BLUEPRINT / SCANNED LAYER
-    .hero-bg-blueprint {
-      background-size: auto 70%;
-      background-position: right -50px bottom; // Ta sama wartość co wyżej
-
-      .blueprint-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: linear-gradient($color-border-subtle 1px, transparent 1px),
-          linear-gradient(90deg, $color-border-subtle 1px, transparent 1px);
-        background-size: 50px 50px;
-        mix-blend-mode: overlay;
-        opacity: 0.6;
-      }
-    }
-
-    .hero-content {
-      gap: 5rem;
-      padding: 0 40px 20% 40px;
-
-      .hero-title-container {
-        .service-name {
-          font-size: 4.5rem;
-        }
-
-        .city-name {
-          font-size: 5rem;
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: 768px) and (max-height: 1024px) {
-  .hero-section {
-    .hero-bg-normal {
-
-      background-size: auto 55%;
-      background-position: right -50px bottom; // Zmień -50px, aby regulować przesunięcie
-
-    }
-
-    // 2. BLUEPRINT / SCANNED LAYER
-    .hero-bg-blueprint {
-
-      background-size: auto 55%;
-      background-position: right -50px bottom; // Ta sama wartość co wyżej
-
-    }
-
-    .hero-content {
-      gap: 3rem;
-      padding: 0 40px 50% 40px;
-      align-items: flex-start;
-
-      .hero-title-container {
-        .service-name {
-          font-size: 3.5rem;
-          margin-bottom: 0px;
-        }
-
-        .city-name {
-          font-size: 4.5rem;
-          letter-spacing: -2px;
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: 768px) and (min-height: 651px) and (max-height: 900px) {
-  .hero-section {
-    .hero-bg-normal {
-      background-size: auto 75%;
-      background-position: right -50px bottom;
-    }
-
-    .hero-bg-blueprint {
-      background-size: auto 75%;
-      background-position: right -50px bottom;
-    }
-
-    .hero-content {
-      gap: 3rem;
-      padding: 0 40px 10% 40px;
-
-      .hero-title-container {
-        .service-name {
-          font-size: 3.5rem;
-        }
-
-        .city-name {
-          font-size: 4.5rem;
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: 768px) and (max-height: 650px) {
-  .hero-section {
-    .hero-bg-normal {
-      background-size: auto 75%;
-      background-position: right -50px bottom;
-    }
-
-    .hero-bg-blueprint {
-      background-size: auto 75%;
-      background-position: right -50px bottom;
-    }
-
-    .hero-content {
-      gap: 3rem;
-      padding: 0 40px 10% 40px;
-
-      .hero-title-container {
-        .service-name {
-          font-size: 3.5rem;
-        }
-
-        .city-name {
-          font-size: 4.5rem;
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-section {
-
-    .hero-bg-normal {
-      background-size: auto 55%;
-      background-position: right -50px bottom;
-    }
-
-    .hero-bg-blueprint {
-      background-size: auto 55%;
-      background-position: right -50px bottom;
-    }
-
-    .hero-content {
-      padding: 0 20px 20% 20px;
-      gap: 250px;
+      position: absolute;
+      inset: 0;
       width: 100%;
+      height: 100%;
       display: flex;
       flex-direction: column;
+      justify-content: flex-start;
       align-items: center;
+      text-align: center;
+      padding: calc(64px + 18px) 18px 20px 18px;
+      box-sizing: border-box;
+      gap: 0;
+      pointer-events: none;
 
-      .hero-title-container {
-        .service-name {
-          font-size: 2.7rem;
+      .hero-header-group {
+        width: 100%;
+        max-width: 360px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+        pointer-events: auto;
+
+        .hero-badge {
+          padding: 5px 14px;
+          font-size: 0.72rem;
+          letter-spacing: 1px;
+          margin-bottom: 2px;
+          background: rgba($color-signal-orange, 0.08);
+          border: 1px solid rgba($color-signal-orange, 0.25);
+
+          .badge-text-full {
+            display: none;
+          }
+          .badge-text-short {
+            display: inline;
+          }
         }
 
-        .city-name {
-          font-size: 3.5rem;
+        .hero-title-container {
+          align-items: center;
+          text-align: center;
+          width: 100%;
+          margin: 0;
+
+          .city-name {
+            font-size: clamp(2rem, 7.5vw, 2.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+            color: #0f172a;
+            margin: 0;
+            display: block;
+          }
+        }
+
+        .hero-subtitle {
+          font-size: 0.88rem;
+          line-height: 1.5;
+          color: #475569;
+          max-width: 310px;
+          margin: 2px auto 6px auto;
+          text-align: center;
+          gap: 3px;
+
+          .subtitle-line {
+            display: block;
+          }
+
+          .subtitle-credentials {
+            font-size: 0.8rem;
+            color: #64748b;
+            font-weight: 500;
+          }
+        }
+
+        .order-button-wrapper {
+          margin-top: 10px;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          z-index: 25;
+          pointer-events: auto;
+
+          .order-button {
+            min-height: 48px;
+            width: 240px;
+            font-size: 15px;
+            padding: 4px 8px 4px 18px !important;
+            box-shadow: 0 4px 16px rgba(250, 189, 0, 0.35);
+          }
         }
       }
+    }
+  }
+}
 
-      .order-button-wrapper,
-      .magnetic-wrapper {
-        // width: 100%;
+/* 3. BARDZO MAŁE EKRANY (max-width: 380px np. iPhone SE) */
+@media (max-width: 380px) {
+  .hero-section {
+    .hero-bg-normal,
+    .hero-bg-blueprint {
+      background-size: auto 40%;
+      background-position: right -15px bottom;
+    }
 
+    .hero-content {
+      padding: calc(64px + 10px) 12px 14px 12px;
 
+      .hero-header-group {
+        gap: 8px;
+
+        .hero-badge {
+          padding: 4px 10px;
+          font-size: 0.68rem;
+        }
+
+        .hero-title-container {
+          .city-name {
+            font-size: 1.8rem;
+          }
+        }
+
+        .hero-subtitle {
+          font-size: 0.8rem;
+          max-width: 270px;
+        }
+
+        .order-button-wrapper .order-button {
+          min-height: 46px;
+          width: 220px;
+          font-size: 14px;
+        }
       }
     }
   }

@@ -3,16 +3,13 @@
 .parallax-wrapper {
   position: relative;
   width: 100%;
-
-  /* KLUCZ: 
-     100vh (Hero) 
-     + 100vh (Reveal - nasuwanie się mapy) 
-     + 100vh (Freeze - zastygniecie obu sekcji)
-     = 300vh */
   height: 300vh;
-
   background-color: transparent;
   overflow: visible;
+
+  @media (max-width: 768px) {
+    height: 200vh;
+  }
 }
 
 .parallax-hero-container {
@@ -21,6 +18,7 @@
   top: 0;
   width: 100%;
   height: 100vh;
+  height: 100dvh;
   z-index: 1;
   /* Pod mapą */
 
@@ -31,24 +29,10 @@
 .parallax-city-overlay {
   /* MAPA WYSUWA SIĘ I ZASTYGA */
   position: sticky;
-
-  /* Punkt zastygniecia: 
-     Mapa ma ok 85vh-90vh wysokości. 
-     Ustawiamy top tak, aby dół mapy stykał się z dołem ekranu (100vh).
-     Dla wysokości 90vh -> top: 10vh. */
   top: 40vh;
-
   width: 100%;
-  /* Na mobile i desktopie pełna szerokość dla efektu "nasuwania" */
-
-  /* Ponieważ Hero wyżej ma 100vh i jest sticky, ten element 
-     naturalnie startuje od 100vh (czyli tuż pod krawędzią ekranu).
-     Nie potrzebujemy margin-top. */
-
   height: 60vh;
-  /* Wysokość panelu mapy */
   z-index: 20;
-  /* Nad Hero i Menu (jeśli menu ma < 20) */
   background-color: transparent !important;
   pointer-events: none;
 
@@ -60,8 +44,14 @@
   }
 
   @media (max-width: 768px) {
-    top: 40vh;
-    height: 60vh;
+    top: 12vh;
+    height: 88vh;
+    height: 88dvh;
+
+    &>* {
+      border-radius: 28px 28px 0 0;
+      box-shadow: 0 -12px 35px rgba(0, 0, 0, 0.18);
+    }
   }
 }
 

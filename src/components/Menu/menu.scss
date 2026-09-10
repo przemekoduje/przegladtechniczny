@@ -152,15 +152,22 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .menu-container {
-    padding: 0 20px;
+    padding: 0 16px;
+    height: 100%;
 
     .logo {
+      width: auto !important;
+      flex: 0 0 auto;
 
-      /* UKRYWAMY linki na mobile */
       .sitemenu {
         display: none;
+      }
+
+      img {
+        width: 44px !important;
+        height: auto;
       }
     }
 
@@ -168,10 +175,16 @@
       display: none;
     }
 
-    /* POKAZUJEMY Burgera na mobile */
     .menu-burger {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       color: $color-text-main;
+
+      svg {
+        width: 32px !important;
+        height: 32px !important;
+      }
     }
   }
 }

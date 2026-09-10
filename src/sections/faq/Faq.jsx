@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import "./faq.scss";
 import { faqs } from "./faqs";
 
 const QAItem = ({ faq, index, isSmallScreen }) => {
-  const [isOpen, setIsOpen] = useState(!isSmallScreen); // Domyślnie otwarte na dużych ekranach
+  const [isOpen, setIsOpen] = useState(!isSmallScreen);
 
-  // Efekt aktualizujący `isOpen` przy zmianie rozmiaru ekranu
   useEffect(() => {
     setIsOpen(!isSmallScreen);
   }, [isSmallScreen]);
-  // Funkcja renderująca odpowiedzi
+
   const renderAnswer = (answer) => {
     return answer.map((item, idx) => {
       if (item.type === "text") {
@@ -62,21 +62,46 @@ export default function Faq({ customCity }) {
       setIsSmallScreen(window.innerWidth <= 680);
     };
 
-    // Ustaw początkowy stan
     handleResize();
-
-    // Dodaj nasłuchiwanie zmiany rozmiaru okna
     window.addEventListener("resize", handleResize);
 
     return () => {
-      // Usuń nasłuchiwanie przy odmontowaniu komponentu
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((faq) => {
+      const answerText = faq.answer
+        .map((item) => {
+          if (item.type === "text") return item.content;
+          if (item.type === "list") return item.content.join(" ");
+          return "";
+        })
+        .join(" ");
+
+      return {
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": answerText.replace(/<[^>]*>/g, ""),
+        },
+      };
+    }),
+  };
+
   return (
     <div className="h5-QA" id="h5-QA">
-      <h2>FAQ</h2>
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(faqSchema)}
+        </script>
+      </Helmet>
+
+      <h2>Najczęściej Zadawane Pytania (FAQ) – Przeglądy Budowlane {customCity || "Śląsk"}</h2>
       <div className="faq-list lato-regular">
         {faqs.map((faq, index) => (
           <QAItem

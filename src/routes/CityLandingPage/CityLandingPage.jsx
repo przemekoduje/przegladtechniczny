@@ -1,10 +1,9 @@
-// routes/CityLandingPage/CityLandingPage.jsx
-
 import React, { useEffect } from 'react';
 import { useLocation, Navigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { citiesData } from '../../helpers/citiesData';
 import { useAuth } from '../../contexts/AuthContext';
+import CitySchema from '../../components/SEO/CitySchema';
 
 // Importy Twoich sekcji
 import Main from "../../sections/main/Main";
@@ -45,15 +44,30 @@ const CityLandingPage = () => {
     }
   };
 
+  const pageTitle = cityData.seoTitle || `Przeglądy Budowlane ${cityData.name} - Inżynier z Uprawnieniami`;
+  const pageDesc = cityData.seoDescription || `Profesjonalne okresowe przeglądy budowlane w mieście ${cityData.name} i na Śląsku. Roczne, 5-letnie, kontrole gazowe i elektryczne.`;
+  const pageUrl = `https://przeglady-domu.online/przeglad-budowlany-${citySlug}`;
+
   // 5. Renderowanie
   return (
     <div className="city-landing-page">
       <Helmet>
-        <title>{cityData.seoTitle || `Przegląd Budowlany ${cityData.name} - Inżynier`}</title>
-        <meta name="description" content={cityData.seoDescription || `Profesjonalne przeglądy budowlane w mieście ${cityData.name}.`} />
-        <meta property="og:title" content={cityData.seoTitle} />
-        <link rel="canonical" href={`https://przeglady-domu.online/przeglad-budowlany-${citySlug}`} />
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDesc} />
+        <link rel="canonical" href={pageUrl} />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="pl_PL" />
+        <meta property="og:site_name" content="Przeglądy Techniczne Nieruchomości" />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDesc} />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:image" content="https://przeglady-domu.online/images/v2/hh_desktop6.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDesc} />
       </Helmet>
+
+      <CitySchema cityData={cityData} />
 
       <Main customCity={cityData.name} user={user} />
 

@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./menu.scss";
-import Panel from "../Panel/Panel";
-// import { auth, onAuthStateChanged } from "../../firebase";
+import Panel from "../panel/Panel";
 import { useAuth } from "../../contexts/AuthContext";
-import { useNavigate, useLocation } from "react-router-dom"; // Dodaj useLocation jeśli planujesz nawigację między stronami
+import { useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CallButton from "../CallButton/CallButton";
@@ -52,27 +51,6 @@ export default function Menu({ isPanelOpen, setIsPanelOpen, isTransparent }) {
     }
     setIsPanelOpen(false);
   };
-
-  const scrollToInspectionForm = (e) => {
-    if (e && e.stopPropagation) {
-      e.stopPropagation();
-    }
-    const formSection = document.getElementById("inspection-form");
-    if (formSection) {
-      formSection.scrollIntoView({ behavior: "smooth" });
-      setIsPanelOpen(false);
-    } else {
-      navigate("/", { state: { scrollTo: "inspection-form" } });
-      setIsPanelOpen(false);
-    }
-  };
-
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-  //     setUser(currentUser);
-  //   });
-  //   return () => unsubscribe();
-  // }, []);
 
   const togglePanel = () => {
     setIsPanelOpen(!isPanelOpen);

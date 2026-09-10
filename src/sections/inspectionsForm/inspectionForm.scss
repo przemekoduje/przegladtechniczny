@@ -16,7 +16,8 @@
 
 
   .inspection-form-slide {
-    width: 700px;
+    width: 100%;
+    max-width: 700px;
     background-color: #ffffff;
     border-radius: 32px;
     padding: 60px 50px;
@@ -193,9 +194,9 @@
 
   .summary-section {
     font-family: $font-primary;
-    width: 700px;
+    width: 100%;
+    max-width: 700px;
     margin: 40px auto;
-
 
     h3 {
       margin-bottom: 20px;
@@ -417,22 +418,36 @@
   }
 }
 
-@media (min-width: 427px) and (max-width: 768px) {
+@media (max-width: 768px) {
   .inspection-form-wrapper {
     width: 100%;
     background-color: transparent;
-    padding: 120px 20px 120px 20px;
+    padding: 60px 16px 40px 16px;
 
     .inspection-form-slide {
       width: 100%;
-      height: 100%;
+      height: auto;
+      padding: 36px 20px;
+      border-radius: 24px;
 
       .icon-wrapper {
         margin-bottom: 20px;
+        height: 64px;
+        width: 64px;
+        border-radius: 16px;
+
+        svg {
+          font-size: 36px;
+        }
+      }
+
+      h3 {
+        font-size: clamp(1.4rem, 5vw, 2rem);
+        margin-bottom: 24px;
       }
 
       .form-content {
-        height: 100%;
+        height: auto;
         width: 100%;
         padding: 0;
 
@@ -442,110 +457,18 @@
 
             h2 {
               padding: 0;
-              font-size: 28px;
-            }
-          }
-        }
-      }
-    }
-
-    .summary-section {
-      width: 100%;
-      margin: 80px auto 50px auto;
-      padding: 0 20px;
-
-      h3 {
-        font-family: $font-primary;
-        font-weight: 100;
-        margin-bottom: 20px;
-        font-size: 24px;
-      }
-
-      ul {
-        li {
-          font-family: $font-primary;
-          font-weight: 100;
-
-          strong {
-            font-weight: 700;
-          }
-        }
-      }
-    }
-
-    .consents {
-      width: 100%;
-      font-family: $font-primary;
-      font-weight: 100;
-      padding: 0 20px;
-
-      label {
-        input {
-          margin-right: 10px;
-        }
-      }
-
-      .contactData {
-        font-family: $font-primary;
-
-        .contactData-name,
-        .contactData-phone {
-          label {
-            input {
-              border: 0.5px solid black;
-              border-radius: 20px;
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-
-@media (max-width: 425px) {
-  .inspection-form-wrapper {
-    width: 100%;
-    background-color: transparent;
-    padding: 100px 25px 30px 25px;
-
-    .inspection-form-slide {
-      width: 100%;
-      height: 100%;
-
-
-      .icon-wrapper {
-        margin-bottom: 20px;
-        height: 60px;
-        width: 60px;
-        border-radius: 10px;
-
-        svg {
-          font-size: 40px;
-        }
-      }
-
-      .form-content {
-        height: 100%;
-        width: 100%;
-        padding: 0;
-
-        .form-steps {
-          .info-content {
-            width: 100%;
-
-            h2 {
-              margin-bottom: 15px;
-              font-size: 18px;
+              margin-bottom: 16px;
+              font-size: clamp(1.25rem, 4.5vw, 1.75rem);
             }
 
             ul {
-              gap: 10px;
+              gap: 12px;
 
               li {
-                font-size: 14px;
-                padding: 10px 15px;
-                min-height: 80px;
+                font-size: 15px;
+                padding: 14px 16px;
+                min-height: auto;
+                border-radius: 12px;
               }
             }
           }
@@ -555,20 +478,20 @@
 
     .summary-section {
       width: 100%;
-      margin: 40px auto 0;
-      padding: 0 20px;
+      margin: 40px auto 30px auto;
+      padding: 0;
 
       h3 {
         font-family: $font-primary;
-        font-weight: 400;
+        font-weight: 500;
         margin-bottom: 20px;
-        font-size: 24px;
+        font-size: 22px;
       }
 
       ul {
         li {
           font-family: $font-primary;
-          font-weight: 100;
+          font-weight: 400;
 
           strong {
             font-weight: 700;
@@ -580,15 +503,17 @@
     .consents {
       width: 100%;
       font-family: $font-primary;
-      font-weight: 100;
-      padding: 20px 20px;
+      font-weight: 400;
+      padding: 10px 0;
 
       label {
+        font-size: 13px;
+        line-height: 1.5;
+
         input {
           margin-right: 10px;
         }
       }
-
 
       .contactData {
         font-family: $font-primary;
@@ -597,8 +522,9 @@
         .contactData-phone {
           label {
             input {
-              border: 0.5px solid black;
-              border-radius: 20px;
+              border: 1px solid #cbd5e1;
+              border-radius: 12px;
+              padding: 12px 16px;
             }
           }
         }
@@ -606,7 +532,11 @@
     }
 
     .form-navigation {
-      margin-top: 20px;
+      margin-top: 24px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
     }
   }
 }

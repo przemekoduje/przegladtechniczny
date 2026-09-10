@@ -1,23 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "./home.scss";
 import Main from "../../sections/main/Main";
-import Explanations from "../../sections/explanations/Explanations";
-import InspectionForm from "../../sections/inspectionsForm/InspectionForm";
 import GoldHand from "../../sections/goldHand/GoldHand";
 import Faq from "../../sections/faq/Faq";
 import Footer from "../../sections/footer/Footer";
-import { auth } from "../../firebase.js";
 import InspectionFormSlide from "../../sections/inspectionsForm/InspectionForm";
 import { useLocation } from "react-router-dom";
 import Scope from "../../sections/scope/Scope";
 import CtaBanner from "../../sections/ctabanner/CtaBanner";
-import { Pickaxe, Building, Droplets, MapPin } from "lucide-react";
 import WhyImportant from "../../sections/WhyImportant/WhyImportant";
 import CityListBanner from "../../sections/CityListBanner/CityListBanner";
 import Process from "../../sections/process/Process";
 import InspectionsTimeline from "../../components/InspectionsTimeline/InspectionsTimeline";
 import HeroParallaxWrapper from "../../components/HeroParallaxWrapper/HeroParallaxWrapper";
-import { useNavigate } from "react-router-dom";
 import { useSectionTracker } from "../../utils/analytics";
 import CachedIcon from '@mui/icons-material/Cached'; // Stylized loading spinner
 import { Helmet } from "react-helmet-async";
@@ -35,7 +30,6 @@ const preloadImage = (src) => {
 };
 
 export default function Home({ user }) {
-  const [currentUser, setCurrentUser] = useState(null);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [isHeroLoaded, setIsHeroLoaded] = useState(false);
 
@@ -114,24 +108,15 @@ export default function Home({ user }) {
     };
   }, [isPanelOpen]);
 
-  if (!isHeroLoaded) {
-    return (
-      <div className="home-preloader">
-        <CachedIcon className="spinner-icon" />
-        <p>Inicjowanie aplikacji...</p>
-      </div>
-    );
-  }
-
-  const scrollToInspectionForm = () => {
-    const formSection = document.getElementById("inspection-form");
-    if (formSection) {
-      formSection.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
     <div className="home">
+      {!isHeroLoaded && (
+        <div className="home-preloader-overlay" aria-hidden="true">
+          <CachedIcon className="spinner-icon" />
+          <p>Inicjowanie aplikacji...</p>
+        </div>
+      )}
+
       <Helmet>
         <title>Przeglądy Techniczne Nieruchomości Gliwice & Śląsk | Inżynier Przemysław Rakotny</title>
         <meta name="description" content="Profesjonalne przeglądy techniczne nieruchomości w Gliwicach i na Śląsku. Przeglądy budowlane, gazowe, elektryczne i wentylacyjne. Zamów rzetelną kontrolę budynku już teraz!" />

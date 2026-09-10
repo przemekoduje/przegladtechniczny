@@ -81,7 +81,7 @@ const Scope = ({ user }) => {
   const activeService = services.find(s => s.id === activeServiceId);
 
   return (
-    <section className="scope-section" id="scope-container">
+    <section className="scope-section" id="scope">
       <div className="scope-container-blueprint">
 
         <div className="scope-header-blueprint">

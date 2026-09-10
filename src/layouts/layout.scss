@@ -46,12 +46,29 @@
 /* Stan 2: Podczas scrollowania (Szkło / Solidne) */
 .nav-solid {
   background-color: rgba(255, 255, 255, 0.9);
-  /* Półprzezroczysta biel */
   backdrop-filter: blur(10px);
-  /* Efekt szkła */
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-
-  /* Lekko zmniejszamy pasek przy scrollu */
   height: 80px;
+}
+
+/* Mobile & Tablet Navbar */
+@media (max-width: 768px) {
+  .navbar-fixed {
+    height: 64px !important;
+
+    &.nav-transparent {
+      height: 64px !important;
+      background-color: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+    }
+
+    &.nav-solid {
+      height: 60px !important;
+      background-color: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    }
+  }
 }
