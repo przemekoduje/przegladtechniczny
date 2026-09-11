@@ -120,7 +120,7 @@ export default function BlogDB() {
       <Helmet>
         <title>Przeglądy Techniczne Nieruchomości – Wiedza i Porady | Inżynier Przemysław Rakotny</title>
         <meta name="description" content="Ekspercka baza wiedzy o przeglądach technicznych nieruchomości. Poznaj przepisy, dowiedz się jak dbać o budynek i przygotuj się do kontroli technicznej na Śląsku." />
-        <link rel="canonical" href="https://przeglady-domu.online/blogDB" />
+        <link rel="canonical" href="https://przeglady-domu.com/blogDB" />
       </Helmet>
 
       {/* SEO H1 - Hidden or subtly integrated if not visual */}

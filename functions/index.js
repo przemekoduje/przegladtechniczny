@@ -450,7 +450,7 @@ exports.publishPendingPost = onCall({ cors: true }, async (request) => {
         .replace(/[^a-z0-9\s]/gi, "")
         .replace(/\s+/g, "-");
 
-      const postUrl = `https://przeglady-domu.online/blogDB/${slug}`;
+      const postUrl = `https://przeglady-domu.com/blogDB/${slug}`;
 
       console.log("Triggering Facebook post...");
       await postToPage(pageId, pageAccessToken, draftData.facebookPost, postUrl);

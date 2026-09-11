@@ -7,12 +7,12 @@ const LocalBusinessSchema = () => {
         "@graph": [
             {
                 "@type": ["ProfessionalService", "LocalBusiness"],
-                "@id": "https://przeglady-domu.online/#business",
+                "@id": "https://przeglady-domu.com/#business",
                 "name": "Przeglądy Techniczne Nieruchomości – Inżynier Przemysław Rakotny",
-                "image": "https://przeglady-domu.online/images/v2/hh_desktop6.png",
-                "url": "https://przeglady-domu.online/",
+                "image": "https://przeglady-domu.com/images/v2/hh_desktop6.png",
+                "url": "https://przeglady-domu.com/",
                 "telephone": "+48690029414",
-                "email": "kontakt@przeglady-domu.online",
+                "email": "kontakt@przeglady-domu.com",
                 "priceRange": "$$",
                 "address": {
                     "@type": "PostalAddress",

@@ -46,7 +46,7 @@ const CityLandingPage = () => {
 
   const pageTitle = cityData.seoTitle || `Przeglądy Budowlane ${cityData.name} - Inżynier z Uprawnieniami`;
   const pageDesc = cityData.seoDescription || `Profesjonalne okresowe przeglądy budowlane w mieście ${cityData.name} i na Śląsku. Roczne, 5-letnie, kontrole gazowe i elektryczne.`;
-  const pageUrl = `https://przeglady-domu.online/przeglad-budowlany-${citySlug}`;
+  const pageUrl = `https://przeglady-domu.com/przeglad-budowlany-${citySlug}`;
 
   // 5. Renderowanie
   return (
@@ -61,7 +61,7 @@ const CityLandingPage = () => {
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={pageDesc} />
         <meta property="og:url" content={pageUrl} />
-        <meta property="og:image" content="https://przeglady-domu.online/images/v2/hh_desktop6.png" />
+        <meta property="og:image" content="https://przeglady-domu.com/images/v2/hh_desktop6.png" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={pageDesc} />

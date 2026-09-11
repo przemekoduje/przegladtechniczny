@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 const CitySchema = ({ cityData }) => {
   if (!cityData) return null;
 
-  const pageUrl = `https://przeglady-domu.online/przeglad-budowlany-${cityData.slug}`;
+  const pageUrl = `https://przeglady-domu.com/przeglad-budowlany-${cityData.slug}`;
 
   const schemaData = {
     "@context": "https://schema.org",
@@ -16,7 +16,7 @@ const CitySchema = ({ cityData }) => {
         "url": pageUrl,
         "telephone": "+48690029414",
         "priceRange": "$$",
-        "image": "https://przeglady-domu.online/images/v2/hh_desktop6.png",
+        "image": "https://przeglady-domu.com/images/v2/hh_desktop6.png",
         "description": cityData.seoDescription || `Inżynierskie przeglądy techniczne i budowlane w mieście ${cityData.name}. Uprawnienia budowlane SLK/2122/OWOK/08.`,
         "address": {
           "@type": "PostalAddress",
@@ -109,13 +109,13 @@ const CitySchema = ({ cityData }) => {
             "@type": "ListItem",
             "position": 1,
             "name": "Strona Główna",
-            "item": "https://przeglady-domu.online/"
+            "item": "https://przeglady-domu.com/"
           },
           {
             "@type": "ListItem",
             "position": 2,
             "name": "Przeglądy Budowlane",
-            "item": "https://przeglady-domu.online/przeglad-budowlany"
+            "item": "https://przeglady-domu.com/przeglad-budowlany"
           },
           {
             "@type": "ListItem",

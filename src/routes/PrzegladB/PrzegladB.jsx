@@ -28,7 +28,7 @@ const PrzegladB = ({ user }) => {
       <Helmet>
         <title>Przegląd Budowlany Gliwice & Śląsk | Roczne i 5-letnie kontrole</title>
         <meta name="description" content="Szukasz eksperta do przeglądu budowlanego w Gliwicach? Wykonujemy okresowe kontrole budynków zgodnie z art. 62 Prawa Budowlanego. Atrakcyjne ceny i szybkie terminy." />
-        <link rel="canonical" href="https://przeglady-domu.online/przeglad-budowlany" />
+        <link rel="canonical" href="https://przeglady-domu.com/przeglad-budowlany" />
       </Helmet>
       <section className="przeglad-budowlany">
         <div className="container_info">

@@ -9,7 +9,7 @@ const PrivacyPolicy = () => {
 
       <p>
         Niniejsza polityka prywatności określa zasady przetwarzania danych
-        osobowych użytkowników serwisu przeglady-domu.online.
+        osobowych użytkowników serwisu przeglady-domu.com.
       </p>
 
       <h2>1. Administrator danych</h2>

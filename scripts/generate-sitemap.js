@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const DOMAIN = 'https://przeglady-domu.online';
+const DOMAIN = 'https://przeglady-domu.com';
 const CITIES_DATA_PATH = path.join(__dirname, '../src/helpers/citiesData.js');
 const SITEMAP_PATH = path.join(__dirname, '../public/sitemap.xml');
 

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://przeglady-domu.online/sitemap.xml
+Sitemap: https://przeglady-domu.com/sitemap.xml

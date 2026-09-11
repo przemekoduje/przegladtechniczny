@@ -15,7 +15,7 @@ export default function Footer() {
     <footer className='footer' role="contentinfo">
       <div className="texts">
         <div className="footer-header">
-          <span className="footer-logo">przeglady-domu.online</span>
+          <span className="footer-logo">przeglady-domu.com</span>
           <p className="footer-tagline">
             Inżynierskie przeglądy techniczne nieruchomości – Gliwice, Katowice i cała Aglomeracja Śląska
           </p>

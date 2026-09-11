@@ -9,12 +9,12 @@ const Terms = () => {
 
       <h2>1. Postanowienia ogólne</h2>
       <p>
-        Korzystanie z serwisu przeglady-domu.online oznacza akceptację
+        Korzystanie z serwisu przeglady-domu.com oznacza akceptację
         niniejszego regulaminu.
       </p>
       <p>
         Niniejszy Regulamin określa zasady korzystania z serwisu
-        przeglady-domu.online, w tym składania zapytań dotyczących przeglądów
+        przeglady-domu.com, w tym składania zapytań dotyczących przeglądów
         technicznych nieruchomości. Właścicielem i administratorem serwisu jest:
         Przemysław Rakotny, e-mail: przemek.rakotny@gmail.com
       </p>

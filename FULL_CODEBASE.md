@@ -1815,7 +1815,7 @@ exports.publishPendingPost = onCall({ cors: true }, async (request) => {
         .replace(/[^a-z0-9\s]/gi, "")
         .replace(/\s+/g, "-");
 
-      const postUrl = `https://przeglady-domu.online/blogDB/${slug}`;
+      const postUrl = `https://przeglady-domu.com/blogDB/${slug}`;
 
       console.log("Triggering Facebook post...");
       await postToPage(pageId, pageAccessToken, draftData.facebookPost, postUrl);
@@ -2174,19 +2174,19 @@ module.exports = { determineNextAction, STATES };
       name="description"
       content="Profesjonalne przeglądy techniczne nieruchomości w Gliwicach, Katowicach i na całym Śląsku. Kontrole roczne i 5-letnie budynków, instalacji gazowych, elektrycznych i wentylacji. Uprawnienia budowlane."
     />
-    <link rel="canonical" href="https://przeglady-domu.online/" />
+    <link rel="canonical" href="https://przeglady-domu.com/" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pl_PL" />
     <meta property="og:site_name" content="Przeglądy Techniczne Nieruchomości Śląsk" />
-    <meta property="og:url" content="https://przeglady-domu.online/" />
+    <meta property="og:url" content="https://przeglady-domu.com/" />
     <meta property="og:title" content="Przeglądy Techniczne Nieruchomości Gliwice & Śląsk | Inżynier z Uprawnieniami" />
     <meta
       property="og:description"
       content="Kompleksowe okresowe przeglądy budowlane (1-roczne i 5-letnie), gazowe i elektryczne. Działamy w Gliwicach, Katowicach i całej aglomeracji śląskiej. Zamów kontrolę inżynierską."
     />
-    <meta property="og:image" content="https://przeglady-domu.online/images/v2/hh_desktop6.png" />
+    <meta property="og:image" content="https://przeglady-domu.com/images/v2/hh_desktop6.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Przegląd Techniczny Budynku na Śląsku" />
@@ -2198,7 +2198,7 @@ module.exports = { determineNextAction, STATES };
       name="twitter:description"
       content="Profesjonalne przeglądy budowlane 5-letnie i roczne. Uprawnienia budowlane SLK/2122/OWOK/08. Gliwice, Katowice, Zabrze, Śląsk."
     />
-    <meta name="twitter:image" content="https://przeglady-domu.online/images/v2/hh_desktop6.png" />
+    <meta name="twitter:image" content="https://przeglady-domu.com/images/v2/hh_desktop6.png" />
   </head>
   <body>
     <noscript>
@@ -2207,7 +2207,7 @@ module.exports = { determineNextAction, STATES };
         <p>
           Świadczymy usługi okresowych przeglądów technicznych budynków (rocznych i 5-letnich),
           instalacji gazowych, elektrycznych oraz wentylacji. Skontaktuj się z inżynierem:
-          <strong>tel. 690 029 414</strong>, e-mail: kontakt@przeglady-domu.online.
+          <strong>tel. 690 029 414</strong>, e-mail: kontakt@przeglady-domu.com.
         </p>
       </div>
     </noscript>
@@ -2222,7 +2222,7 @@ module.exports = { determineNextAction, STATES };
 User-agent: *
 Allow: /
 
-Sitemap: https://przeglady-domu.online/sitemap.xml
+Sitemap: https://przeglady-domu.com/sitemap.xml
 ```
 
 ## File: `src/App.js` <a id="file-src-app-js"></a>
@@ -8381,7 +8381,7 @@ export default function BlogDB() {
       <Helmet>
         <title>Przeglądy Techniczne Nieruchomości – Wiedza i Porady | Inżynier Przemysław Rakotny</title>
         <meta name="description" content="Ekspercka baza wiedzy o przeglądach technicznych nieruchomości. Poznaj przepisy, dowiedz się jak dbać o budynek i przygotuj się do kontroli technicznej na Śląsku." />
-        <link rel="canonical" href="https://przeglady-domu.online/blogDB" />
+        <link rel="canonical" href="https://przeglady-domu.com/blogDB" />
       </Helmet>
 
       {/* SEO H1 - Hidden or subtly integrated if not visual */}
@@ -8882,7 +8882,7 @@ const CityLandingPage = () => {
 
   const pageTitle = cityData.seoTitle || `Przeglądy Budowlane ${cityData.name} - Inżynier z Uprawnieniami`;
   const pageDesc = cityData.seoDescription || `Profesjonalne okresowe przeglądy budowlane w mieście ${cityData.name} i na Śląsku. Roczne, 5-letnie, kontrole gazowe i elektryczne.`;
-  const pageUrl = `https://przeglady-domu.online/przeglad-budowlany-${citySlug}`;
+  const pageUrl = `https://przeglady-domu.com/przeglad-budowlany-${citySlug}`;
 
   // 5. Renderowanie
   return (
@@ -8897,7 +8897,7 @@ const CityLandingPage = () => {
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={pageDesc} />
         <meta property="og:url" content={pageUrl} />
-        <meta property="og:image" content="https://przeglady-domu.online/images/v2/hh_desktop6.png" />
+        <meta property="og:image" content="https://przeglady-domu.com/images/v2/hh_desktop6.png" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={pageDesc} />
@@ -9084,10 +9084,10 @@ export default function Home({ user }) {
       <Helmet>
         <title>Przeglądy Techniczne Nieruchomości Gliwice & Śląsk | Inżynier Przemysław Rakotny</title>
         <meta name="description" content="Profesjonalne przeglądy techniczne nieruchomości w Gliwicach i na Śląsku. Przeglądy budowlane, gazowe, elektryczne i wentylacyjne. Zamów rzetelną kontrolę budynku już teraz!" />
-        <link rel="canonical" href="https://przeglady-domu.online/" />
+        <link rel="canonical" href="https://przeglady-domu.com/" />
         <meta property="og:title" content="Przeglądy Techniczne Nieruchomości Gliwice & Śląsk" />
         <meta property="og:description" content="Skorzystaj z usług inżyniera. Wykonujemy pełny zakres przeglądów technicznych nieruchomości na Śląsku. Szybkie terminy i rzetelne protokoły." />
-        <meta property="og:url" content="https://przeglady-domu.online/" />
+        <meta property="og:url" content="https://przeglady-domu.com/" />
         <meta property="og:type" content="website" />
       </Helmet>
 
@@ -10319,7 +10319,7 @@ const PrzegladB = ({ user }) => {
       <Helmet>
         <title>Przegląd Budowlany Gliwice & Śląsk | Roczne i 5-letnie kontrole</title>
         <meta name="description" content="Szukasz eksperta do przeglądu budowlanego w Gliwicach? Wykonujemy okresowe kontrole budynków zgodnie z art. 62 Prawa Budowlanego. Atrakcyjne ceny i szybkie terminy." />
-        <link rel="canonical" href="https://przeglady-domu.online/przeglad-budowlany" />
+        <link rel="canonical" href="https://przeglady-domu.com/przeglad-budowlany" />
       </Helmet>
       <section className="przeglad-budowlany">
         <div className="container_info">
@@ -10832,7 +10832,7 @@ const PrzegladE = ({ user, isPanelOpen, setIsPanelOpen }) => {
       <Helmet>
         <title>Przegląd Elektryczny Gliwice & Śląsk | Pomiary i Protokół</title>
         <meta name="description" content="Okresowe pomiary i przeglądy instalacji elektrycznej w Gliwicach. Protokół do ubezpieczenia i gwarancja bezpieczeństwa. Uprawnienia SEP i szybkie terminy na Śląsku." />
-        <link rel="canonical" href="https://przeglady-domu.online/przeglad-elektryczny" />
+        <link rel="canonical" href="https://przeglady-domu.com/przeglad-elektryczny" />
       </Helmet>
       <section className="przeglad-elektryczny">
         <div className="container_info">
@@ -11344,7 +11344,7 @@ const PrzegladG = ({ user, isPanelOpen, setIsPanelOpen }) => {
       <Helmet>
         <title>Przegląd Instalacji Gazowej Gliwice & Śląsk | Szczelność i Bezpieczeństwo</title>
         <meta name="description" content="Obowiązkowy roczny przegląd gazowy w Gliwicach? Zadbaj o bezpieczeństwo swojej rodziny. Wykonujemy profesjonalne próby szczelności instalacji gazowych na całym Śląsku." />
-        <link rel="canonical" href="https://przeglady-domu.online/przeglad-gazowy" />
+        <link rel="canonical" href="https://przeglady-domu.com/przeglad-gazowy" />
       </Helmet>
       <section className="przeglad-gazowy">
         <div className="container_info">
@@ -11485,7 +11485,7 @@ const PrzegladG = ({ user, isPanelOpen, setIsPanelOpen }) => {
                 bezpieczeństwem swojego domu.
               </p>
               <a
-                href="https://przeglady-domu.online/blogDB?openPost=2SRu4Riow0NAGtObFULo"
+                href="https://przeglady-domu.com/blogDB?openPost=2SRu4Riow0NAGtObFULo"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -11872,7 +11872,7 @@ const PrzegladW = ({ user, isPanelOpen, setIsPanelOpen }) => {
       <Helmet>
         <title>Przegląd Wentylacyjny Gliwice & Śląsk | Drożność Kominów</title>
         <meta name="description" content="Profesjonalne przeglądy instalacji wentylacyjnej i kominowej w Gliwicach. Zadbaj o zdrowie i prawidłową cyrkulację powietrza w swoim domu. Śląskie uprawnienia i rzetelność." />
-        <link rel="canonical" href="https://przeglady-domu.online/przeglad-wentylacyjny" />
+        <link rel="canonical" href="https://przeglady-domu.com/przeglad-wentylacyjny" />
       </Helmet>
       <section className="przeglad-wentylacyjny">
         <div className="container_info">
@@ -12497,18 +12497,18 @@ export default function SingleBlogPost() {
             <Helmet>
                 <title>{post.title} | Przeglądy Techniczne Nieruchomości</title>
                 <meta name="description" content={post.content?.replace(/(<([^>]+)>)/gi, "").slice(0, 160)} />
-                <link rel="canonical" href={`https://przeglady-domu.online/blogDB/${slug}`} />
+                <link rel="canonical" href={`https://przeglady-domu.com/blogDB/${slug}`} />
 
                 {/* Open Graph / Facebook */}
                 <meta property="og:type" content="article" />
-                <meta property="og:url" content={`https://przeglady-domu.online/blogDB/${slug}`} />
+                <meta property="og:url" content={`https://przeglady-domu.com/blogDB/${slug}`} />
                 <meta property="og:title" content={`${post.title} | Przeglądy Techniczne Nieruchomości`} />
                 <meta property="og:description" content={post.content?.replace(/(<([^>]+)>)/gi, "").slice(0, 160)} />
                 <meta property="og:image" content={post.src} />
 
                 {/* Twitter */}
                 <meta property="twitter:card" content="summary_large_image" />
-                <meta property="twitter:url" content={`https://przeglady-domu.online/blogDB/${slug}`} />
+                <meta property="twitter:url" content={`https://przeglady-domu.com/blogDB/${slug}`} />
                 <meta property="twitter:title" content={`${post.title} | Przeglądy Techniczne Nieruchomości`} />
                 <meta property="twitter:description" content={post.content?.replace(/(<([^>]+)>)/gi, "").slice(0, 160)} />
                 <meta property="twitter:image" content={post.src} />
@@ -12528,7 +12528,7 @@ export default function SingleBlogPost() {
                             "author": [{
                                 "@type": "Person",
                                 "name": "Przemek Rakotny",
-                                "url": "https://przeglady-domu.online/o-mnie"
+                                "url": "https://przeglady-domu.com/o-mnie"
                             }]
                         }
                     `}
@@ -14155,7 +14155,7 @@ const PrivacyPolicy = () => {
 
       <p>
         Niniejsza polityka prywatności określa zasady przetwarzania danych
-        osobowych użytkowników serwisu przeglady-domu.online.
+        osobowych użytkowników serwisu przeglady-domu.com.
       </p>
 
       <h2>1. Administrator danych</h2>
@@ -14253,12 +14253,12 @@ const Terms = () => {
 
       <h2>1. Postanowienia ogólne</h2>
       <p>
-        Korzystanie z serwisu przeglady-domu.online oznacza akceptację
+        Korzystanie z serwisu przeglady-domu.com oznacza akceptację
         niniejszego regulaminu.
       </p>
       <p>
         Niniejszy Regulamin określa zasady korzystania z serwisu
-        przeglady-domu.online, w tym składania zapytań dotyczących przeglądów
+        przeglady-domu.com, w tym składania zapytań dotyczących przeglądów
         technicznych nieruchomości. Właścicielem i administratorem serwisu jest:
         Przemysław Rakotny, e-mail: przemek.rakotny@gmail.com
       </p>
@@ -16591,7 +16591,7 @@ export default function Footer() {
     <footer className='footer' role="contentinfo">
       <div className="texts">
         <div className="footer-header">
-          <span className="footer-logo">przeglady-domu.online</span>
+          <span className="footer-logo">przeglady-domu.com</span>
           <p className="footer-tagline">
             Inżynierskie przeglądy techniczne nieruchomości – Gliwice, Katowice i cała Aglomeracja Śląska
           </p>
@@ -23392,7 +23392,7 @@ import { Helmet } from 'react-helmet-async';
 const CitySchema = ({ cityData }) => {
   if (!cityData) return null;
 
-  const pageUrl = `https://przeglady-domu.online/przeglad-budowlany-${cityData.slug}`;
+  const pageUrl = `https://przeglady-domu.com/przeglad-budowlany-${cityData.slug}`;
 
   const schemaData = {
     "@context": "https://schema.org",
@@ -23404,7 +23404,7 @@ const CitySchema = ({ cityData }) => {
         "url": pageUrl,
         "telephone": "+48690029414",
         "priceRange": "$$",
-        "image": "https://przeglady-domu.online/images/v2/hh_desktop6.png",
+        "image": "https://przeglady-domu.com/images/v2/hh_desktop6.png",
         "description": cityData.seoDescription || `Inżynierskie przeglądy techniczne i budowlane w mieście ${cityData.name}. Uprawnienia budowlane SLK/2122/OWOK/08.`,
         "address": {
           "@type": "PostalAddress",
@@ -23497,13 +23497,13 @@ const CitySchema = ({ cityData }) => {
             "@type": "ListItem",
             "position": 1,
             "name": "Strona Główna",
-            "item": "https://przeglady-domu.online/"
+            "item": "https://przeglady-domu.com/"
           },
           {
             "@type": "ListItem",
             "position": 2,
             "name": "Przeglądy Budowlane",
-            "item": "https://przeglady-domu.online/przeglad-budowlany"
+            "item": "https://przeglady-domu.com/przeglad-budowlany"
           },
           {
             "@type": "ListItem",
@@ -23540,12 +23540,12 @@ const LocalBusinessSchema = () => {
         "@graph": [
             {
                 "@type": ["ProfessionalService", "LocalBusiness"],
-                "@id": "https://przeglady-domu.online/#business",
+                "@id": "https://przeglady-domu.com/#business",
                 "name": "Przeglądy Techniczne Nieruchomości – Inżynier Przemysław Rakotny",
-                "image": "https://przeglady-domu.online/images/v2/hh_desktop6.png",
-                "url": "https://przeglady-domu.online/",
+                "image": "https://przeglady-domu.com/images/v2/hh_desktop6.png",
+                "url": "https://przeglady-domu.com/",
                 "telephone": "+48690029414",
-                "email": "kontakt@przeglady-domu.online",
+                "email": "kontakt@przeglady-domu.com",
                 "priceRange": "$$",
                 "address": {
                     "@type": "PostalAddress",
@@ -26955,7 +26955,7 @@ main();
 const fs = require('fs');
 const path = require('path');
 
-const DOMAIN = 'https://przeglady-domu.online';
+const DOMAIN = 'https://przeglady-domu.com';
 const CITIES_DATA_PATH = path.join(__dirname, '../src/helpers/citiesData.js');
 const SITEMAP_PATH = path.join(__dirname, '../public/sitemap.xml');
 

@@ -29,7 +29,7 @@ const PrzegladG = ({ user, isPanelOpen, setIsPanelOpen }) => {
       <Helmet>
         <title>Przegląd Instalacji Gazowej Gliwice & Śląsk | Szczelność i Bezpieczeństwo</title>
         <meta name="description" content="Obowiązkowy roczny przegląd gazowy w Gliwicach? Zadbaj o bezpieczeństwo swojej rodziny. Wykonujemy profesjonalne próby szczelności instalacji gazowych na całym Śląsku." />
-        <link rel="canonical" href="https://przeglady-domu.online/przeglad-gazowy" />
+        <link rel="canonical" href="https://przeglady-domu.com/przeglad-gazowy" />
       </Helmet>
       <section className="przeglad-gazowy">
         <div className="container_info">
@@ -170,7 +170,7 @@ const PrzegladG = ({ user, isPanelOpen, setIsPanelOpen }) => {
                 bezpieczeństwem swojego domu.
               </p>
               <a
-                href="https://przeglady-domu.online/blogDB?openPost=2SRu4Riow0NAGtObFULo"
+                href="https://przeglady-domu.com/blogDB?openPost=2SRu4Riow0NAGtObFULo"
                 target="_blank"
                 rel="noopener noreferrer"
               >

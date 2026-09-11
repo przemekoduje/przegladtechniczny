@@ -29,7 +29,7 @@ const PrzegladE = ({ user, isPanelOpen, setIsPanelOpen }) => {
       <Helmet>
         <title>Przegląd Elektryczny Gliwice & Śląsk | Pomiary i Protokół</title>
         <meta name="description" content="Okresowe pomiary i przeglądy instalacji elektrycznej w Gliwicach. Protokół do ubezpieczenia i gwarancja bezpieczeństwa. Uprawnienia SEP i szybkie terminy na Śląsku." />
-        <link rel="canonical" href="https://przeglady-domu.online/przeglad-elektryczny" />
+        <link rel="canonical" href="https://przeglady-domu.com/przeglad-elektryczny" />
       </Helmet>
       <section className="przeglad-elektryczny">
         <div className="container_info">

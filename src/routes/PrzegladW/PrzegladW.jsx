@@ -28,7 +28,7 @@ const PrzegladW = ({ user, isPanelOpen, setIsPanelOpen }) => {
       <Helmet>
         <title>Przegląd Wentylacyjny Gliwice & Śląsk | Drożność Kominów</title>
         <meta name="description" content="Profesjonalne przeglądy instalacji wentylacyjnej i kominowej w Gliwicach. Zadbaj o zdrowie i prawidłową cyrkulację powietrza w swoim domu. Śląskie uprawnienia i rzetelność." />
-        <link rel="canonical" href="https://przeglady-domu.online/przeglad-wentylacyjny" />
+        <link rel="canonical" href="https://przeglady-domu.com/przeglad-wentylacyjny" />
       </Helmet>
       <section className="przeglad-wentylacyjny">
         <div className="container_info">

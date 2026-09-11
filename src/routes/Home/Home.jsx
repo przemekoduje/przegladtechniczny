@@ -120,10 +120,10 @@ export default function Home({ user }) {
       <Helmet>
         <title>Przeglądy Techniczne Nieruchomości Gliwice & Śląsk | Inżynier Przemysław Rakotny</title>
         <meta name="description" content="Profesjonalne przeglądy techniczne nieruchomości w Gliwicach i na Śląsku. Przeglądy budowlane, gazowe, elektryczne i wentylacyjne. Zamów rzetelną kontrolę budynku już teraz!" />
-        <link rel="canonical" href="https://przeglady-domu.online/" />
+        <link rel="canonical" href="https://przeglady-domu.com/" />
         <meta property="og:title" content="Przeglądy Techniczne Nieruchomości Gliwice & Śląsk" />
         <meta property="og:description" content="Skorzystaj z usług inżyniera. Wykonujemy pełny zakres przeglądów technicznych nieruchomości na Śląsku. Szybkie terminy i rzetelne protokoły." />
-        <meta property="og:url" content="https://przeglady-domu.online/" />
+        <meta property="og:url" content="https://przeglady-domu.com/" />
         <meta property="og:type" content="website" />
       </Helmet>
 
