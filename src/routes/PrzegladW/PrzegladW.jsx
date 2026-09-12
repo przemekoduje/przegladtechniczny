@@ -4,6 +4,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import Menu from "../../components/Menu/Menu";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import ServiceBlogSection from "../../components/ServiceBlogSection/ServiceBlogSection";
 
 const PrzegladW = ({ user, isPanelOpen, setIsPanelOpen }) => {
   const [isVisible, setIsVisible] = useState(true);
@@ -148,62 +149,7 @@ const PrzegladW = ({ user, isPanelOpen, setIsPanelOpen }) => {
             pełnej ochrony ubezpieczeniowej.
           </p>
         </div>
-        <div className="container_blog">
-          <div className="blog blog_one">
-            <div className="blog_left">
-              <img src="/images/blog01.png" alt="" />
-            </div>
-            <div className="blog_right">
-              <h3>Na czym polega przegląd budowlany?</h3>
-              <p>
-                Regularny przegląd budowlany to gwarancja bezpieczeństwa i
-                długowieczności Twojej nieruchomości. Dowiedz się, jak przebiega
-                taka kontrola i dlaczego warto ją przeprowadzać zgodnie z
-                obowiązującymi przepisami.
-              </p>
-              <button className="blog_button">Przeczytaj całość</button>
-            </div>
-          </div>
-          <div className="blog blog_two">
-            <div className="blog_left">
-              <img src="/images/blog02.png" alt="" />
-            </div>
-            <div className="blog_right">
-              <h3>
-                Przepisy dotyczące modernizacji instalacji gazowej w Polsce
-              </h3>
-              <p>
-                Prawo budowlane pozostawia duże pole do indywidualnej
-                interpretacji, szczególnie jeśli chodzi o instalacje budowlane.
-                Wprowadzono rozróżnienie na remont, przebudowę i instalację
-                nową, co oznacza, że każdy rodzaj pracy może podlegać innym
-                wymaganiom formalnym i technicznym.
-              </p>
-              <button className="blog_button">Przeczytaj całość</button>
-            </div>
-          </div>
-
-          <div className="blog blog_three">
-            <div className="blog_left">
-              <img src="/images/went4.png" alt="" />
-            </div>
-            <div className="blog_right">
-              <h3>
-                Zmiany w przepisach prawa dotyczących montażu nawiewników
-                okiennych, szczególnie w kuchniach z kuchenką gazową
-              </h3>
-              <p>
-                Montaż nawiewników okiennych stał się kluczowym elementem
-                przepisów dotyczących prawidłowej wentylacji budynków
-                mieszkalnych. Jest to szczególnie istotne w kuchniach
-                wyposażonych w urządzenia gazowe, gdzie odpowiedni dopływ
-                świeżego powietrza warunkuje prawidłowe i bezpieczne spalanie
-                gazu.
-              </p>
-              <button className="blog_button">Przeczytaj całość</button>
-            </div>
-          </div>
-        </div>
+        <ServiceBlogSection topic="wentylacyjny" />
       </section>
     </>
   );

@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./przegladG.scss"; // Używamy ten sam SCSS
 import PersonIcon from "@mui/icons-material/Person";
 import Menu from "../../components/Menu/Menu";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import ServiceBlogSection from "../../components/ServiceBlogSection/ServiceBlogSection";
 
 const PrzegladG = ({ user, isPanelOpen, setIsPanelOpen }) => {
   const [isVisible, setIsVisible] = useState(true);
@@ -157,67 +158,7 @@ const PrzegladG = ({ user, isPanelOpen, setIsPanelOpen }) => {
             pełnej ochrony ubezpieczeniowej.
           </p>
         </div>
-        <div className="container_blog">
-          <div className="blog blog_one">
-            <div className="blog_left">
-              <img src="/images/blog01.png" alt="" />
-            </div>
-            <div className="blog_right">
-              <h3>
-                Przeglądy techniczne: instalacja gazowa – obowiązki ustawowe
-                właściciela
-              </h3>
-              <p>
-                Ten poradnik ma na celu szczegółowe wyjaśnienie obowiązków
-                ustawowych właściciela domu w zakresie przeglądów instalacji
-                gazowej, abyś mógł świadomie i odpowiedzialnie zarządzać
-                bezpieczeństwem swojego domu.
-              </p>
-              <Link to="/blog?openPost=2SRu4Riow0NAGtObFULo">
-                <button className="blog_button">Przeczytaj całość</button>
-              </Link>
-            </div>
-          </div>
-          <div className="blog blog_two">
-            <div className="blog_left">
-              <img src="/images/blog02.png" alt="" />
-            </div>
-            <div className="blog_right">
-              <h3>
-                Przepisy dotyczące modernizacji instalacji gazowej w Polsce
-              </h3>
-              <p>
-                Prawo budowlane pozostawia duże pole do indywidualnej
-                interpretacji, szczególnie jeśli chodzi o instalacje budowlane.
-                Wprowadzono rozróżnienie na remont, przebudowę i instalację
-                nową, co oznacza, że każdy rodzaj pracy może podlegać innym
-                wymaganiom formalnym i technicznym.
-              </p>
-              <button className="blog_button">Przeczytaj całość</button>
-            </div>
-          </div>
-
-          <div className="blog blog_three">
-            <div className="blog_left">
-              <img src="/images/went4.png" alt="" />
-            </div>
-            <div className="blog_right">
-              <h3>
-                Zmiany w przepisach prawa dotyczących montażu nawiewników
-                okiennych, szczególnie w kuchniach z kuchenką gazową
-              </h3>
-              <p>
-                Montaż nawiewników okiennych stał się kluczowym elementem
-                przepisów dotyczących prawidłowej wentylacji budynków
-                mieszkalnych. Jest to szczególnie istotne w kuchniach
-                wyposażonych w urządzenia gazowe, gdzie odpowiedni dopływ
-                świeżego powietrza warunkuje prawidłowe i bezpieczne spalanie
-                gazu.
-              </p>
-              <button className="blog_button">Przeczytaj całość</button>
-            </div>
-          </div>
-        </div>
+        <ServiceBlogSection topic="gazowy" />
       </section>
     </>
   );
