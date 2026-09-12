@@ -40,6 +40,18 @@ function BlogSlugRedirect() {
   return <Navigate to={`/blog/${slug}`} replace />;
 }
 
+function ScrollToTop() {
+  const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    if (!hash) {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash]);
+
+  return null;
+}
+
 function AppContent() {
   const { currentUser: user } = useAuth();
   // const [user, setUser] = useState(null); // Managed by AuthProvider
@@ -86,6 +98,7 @@ function AppContent() {
 
   return (
     <div className={`App ${isFullWidthPage ? "full-width" : ""}`}>
+      <ScrollToTop />
       <Routes>
         {/* --- STRONA GŁÓWNA --- */}
         <Route

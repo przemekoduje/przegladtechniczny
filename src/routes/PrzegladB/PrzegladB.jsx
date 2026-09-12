@@ -17,6 +17,10 @@ const PrzegladB = ({ user }) => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     if (user) {
       setUserPhoto(user.photoURL || "images/user-50.png");
     } else {
@@ -45,7 +49,7 @@ const PrzegladB = ({ user }) => {
               <button className="main_button"
                 onClick={() => scrollToSection("inspection-form")}
               >
-                <span>ZAMÓW BEZPŁATNĄ WYCENĘ</span>
+                <span>Umów przegląd</span>
                 <div className="btn-icon">
                   <img src={userPhoto} alt="Profil" />
                 </div>
@@ -89,7 +93,7 @@ const PrzegladB = ({ user }) => {
             </span>
             <button className="main_button"
               onClick={() => scrollToSection("inspection-form")}>
-              <span>ZAMÓW BEZPŁATNĄ WYCENĘ</span>
+              <span>Umów przegląd</span>
               <div className="btn-icon">
                 <img src={userPhoto} alt="Profil" />
               </div>

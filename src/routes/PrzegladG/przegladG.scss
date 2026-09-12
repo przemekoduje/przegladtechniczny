@@ -149,20 +149,24 @@
   .container_warning {
     background-color: #bcd7ff;
     width: 100%;
-    margin-left: calc(-50vw + 50%);
-    padding: 60px 120px;
+    margin-left: 0;
+    box-sizing: border-box;
+    padding: 70px 60px;
 
     h2 {
-      font-size: 64px;
+      font-size: clamp(32px, 4vw, 56px);
       font-family: "ProductSans";
       font-weight: 400;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
+      color: #0f172a;
     }
     p {
-      font-size: 32px;
+      font-size: clamp(18px, 1.8vw, 26px);
       max-width: 1000px;
       font-family: "ProductSans";
       font-weight: 100;
+      line-height: 1.55;
+      color: #1e293b;
     }
   }
   .container_blog {
@@ -260,13 +264,14 @@
     }
 
     .container_warning {
-      padding: 60px 40px;
+      padding: 50px 24px;
       margin-left: 0;
       h2 {
-        font-size: 42px;
+        font-size: 28px;
+        margin-bottom: 20px;
       }
       p {
-        font-size: 22px;
+        font-size: 17px;
       }
     }
 
