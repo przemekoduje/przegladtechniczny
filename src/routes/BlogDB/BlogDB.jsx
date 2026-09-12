@@ -1,10 +1,9 @@
 // Aktualizacja pliku BlogDB.jsx na Firebase
 import React, { useEffect, useMemo, useState } from "react";
 import "./blogDB.scss";
-import BlogPostDB from "../../components/BlogPostDB/BlogPostDB";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import deburr from "lodash/deburr";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -31,7 +30,6 @@ export default function BlogDB() {
   const [posts, setPosts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("Wszystkie");
   const [imagesLoaded, setImagesLoaded] = useState(false);
-  const navigate = useNavigate();
   const location = useLocation();
 
   // Get priority category from URL (e.g., ?cat=elektryka)
@@ -75,10 +73,6 @@ export default function BlogDB() {
     fetchDataAndImages();
   }, []);
 
-  const openPost = (post) => {
-    navigate(`/blogDB/${createSlug(post.title)}`);
-  };
-
   // Categories logic
   const uniqueCategories = useMemo(() => {
     const all = posts.flatMap(p => p.categories || []);
@@ -120,7 +114,7 @@ export default function BlogDB() {
       <Helmet>
         <title>Przeglądy Techniczne Nieruchomości – Wiedza i Porady | Inżynier Przemysław Rakotny</title>
         <meta name="description" content="Ekspercka baza wiedzy o przeglądach technicznych nieruchomości. Poznaj przepisy, dowiedz się jak dbać o budynek i przygotuj się do kontroli technicznej na Śląsku." />
-        <link rel="canonical" href="https://przeglady-domu.com/blogDB" />
+        <link rel="canonical" href="https://przeglady-domu.com/blog" />
       </Helmet>
 
       {/* SEO H1 - Hidden or subtly integrated if not visual */}
@@ -157,32 +151,43 @@ export default function BlogDB() {
         <div className="blog-content">
           {/* Hero Section */}
           {heroPost && (
-            <section className="hero-post-section" onClick={() => openPost(heroPost)}>
-              <div className="hero-image-wrapper">
-                <img
-                  src={heroPost.src || "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=1200"}
-                  alt={heroPost.title}
-                />
-                <div className="hero-overlay">
-                  <div className="hero-content-blog">
-                    <div className="hero-tags">
-                      {heroPost.categories?.map(c => <span key={c} className="tag">{c}</span>)}
+            <Link
+              to={`/blog/${createSlug(heroPost.title)}`}
+              className="hero-post-link"
+              style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
+            >
+              <section className="hero-post-section">
+                <div className="hero-image-wrapper">
+                  <img
+                    src={heroPost.src || "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=1200"}
+                    alt={heroPost.title}
+                  />
+                  <div className="hero-overlay">
+                    <div className="hero-content-blog">
+                      <div className="hero-tags">
+                        {heroPost.categories?.map(c => <span key={c} className="tag">{c}</span>)}
+                      </div>
+                      <h1>{heroPost.title}</h1>
+                      <p>{heroPost.content?.replace(/(<([^>]+)>)/gi, "").slice(0, 200)}...</p>
+                      <button className="read-more-btn" type="button">
+                        Czytaj dalej <ArrowForwardIcon />
+                      </button>
                     </div>
-                    <h1>{heroPost.title}</h1>
-                    <p>{heroPost.content?.replace(/(<([^>]+)>)/gi, "").slice(0, 200)}...</p>
-                    <button className="read-more-btn">
-                      Czytaj dalej <ArrowForwardIcon />
-                    </button>
                   </div>
                 </div>
-              </div>
-            </section>
+              </section>
+            </Link>
           )}
 
           {/* Grid Section */}
           <section className="posts-grid">
             {gridPosts.map((post) => (
-              <div key={post.id} className="grid-post-card" onClick={() => openPost(post)}>
+              <Link
+                key={post.id}
+                to={`/blog/${createSlug(post.title)}`}
+                className="grid-post-card"
+                style={{ textDecoration: 'none', color: 'inherit' }}
+              >
                 <div className="card-image">
                   <img
                     src={post.src || "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=600"}
@@ -198,7 +203,7 @@ export default function BlogDB() {
                   <p>{post.content?.replace(/(<([^>]+)>)/gi, "").slice(0, 100)}...</p>
                   <span className="read-link">Czytaj więcej</span>
                 </div>
-              </div>
+              </Link>
             ))}
           </section>
         </div>

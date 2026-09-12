@@ -14,7 +14,6 @@ import Process from "../../sections/process/Process";
 import InspectionsTimeline from "../../components/InspectionsTimeline/InspectionsTimeline";
 import HeroParallaxWrapper from "../../components/HeroParallaxWrapper/HeroParallaxWrapper";
 import { useSectionTracker } from "../../utils/analytics";
-import CachedIcon from '@mui/icons-material/Cached'; // Stylized loading spinner
 import { Helmet } from "react-helmet-async";
 import LocalBusinessSchema from "../../components/SEO/LocalBusinessSchema";
 import StickyOrderBar from "../../components/StickyOrderBar/StickyOrderBar";
@@ -31,7 +30,6 @@ const preloadImage = (src) => {
 
 export default function Home({ user }) {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [isHeroLoaded, setIsHeroLoaded] = useState(false);
 
   // Analityka - Śledzenie czasu na sekcjach
   const heroRef = useSectionTracker("hero_section");
@@ -43,57 +41,35 @@ export default function Home({ user }) {
 
   const location = useLocation();
 
-  // Hero Image Preloader
+  // Preload optimized hero image in background without blocking DOM render
   useEffect(() => {
-    const loadHeroContent = async () => {
-      // Obraz tła zdefiniowany w main.scss (.hero-bg-image) to:
-      // ../../../public/images/v2/hh_desktop6.png -> /images/v2/hh_desktop6.png jako public root URL.
-      const heroImageUrl = "/images/v2/hh_desktop6.png";
-
-      try {
-        const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 8000));
-        await Promise.race([preloadImage(heroImageUrl), timeoutPromise]);
-      } catch (error) {
-        console.error("Failed to preload hero image:", error);
-      } finally {
-        setIsHeroLoaded(true);
-      }
-    };
-
-    loadHeroContent();
+    const heroImageUrl = "/images/v2/hh_desktop6.webp";
+    preloadImage(heroImageUrl);
   }, []);
 
   useEffect(() => {
-    // Only attempt scrolling after hero is loaded so layout is complete
-    if (isHeroLoaded) {
-      if (location.hash) {
-        // Small delay to allow layout to stabilize
-        setTimeout(() => {
-          const id = location.hash.replace("#", "");
-          const element = document.getElementById(id);
-          if (element) {
-            element.scrollIntoView({ behavior: "smooth", block: "start" });
-          }
-        }, 800);
-      } else if (!location.state?.scrollTo) {
-        window.scrollTo(0, 0);
-      }
+    if (location.hash) {
+      setTimeout(() => {
+        const id = location.hash.replace("#", "");
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 300);
+    } else if (!location.state?.scrollTo) {
+      window.scrollTo(0, 0);
     }
-  }, [location.hash, isHeroLoaded]);
+  }, [location.hash]);
 
   useEffect(() => {
-    if (isHeroLoaded) {
-      const scrollToId = location.state?.scrollTo;
-      if (scrollToId) {
-        const el = document.getElementById(scrollToId);
-        if (el) {
-          setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 200);
-        }
+    const scrollToId = location.state?.scrollTo;
+    if (scrollToId) {
+      const el = document.getElementById(scrollToId);
+      if (el) {
+        setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 200);
       }
     }
-  }, [location.state, isHeroLoaded]);
-
-  // Usuwamy lokalny stan user, bo dostajemy go z props (App.js)
+  }, [location.state]);
 
   // Blokowanie przewijania, gdy panel jest otwarty
   useEffect(() => {
@@ -110,12 +86,6 @@ export default function Home({ user }) {
 
   return (
     <div className="home">
-      {!isHeroLoaded && (
-        <div className="home-preloader-overlay" aria-hidden="true">
-          <CachedIcon className="spinner-icon" />
-          <p>Inicjowanie aplikacji...</p>
-        </div>
-      )}
 
       <Helmet>
         <title>Przeglądy Techniczne Nieruchomości Gliwice & Śląsk | Inżynier Przemysław Rakotny</title>

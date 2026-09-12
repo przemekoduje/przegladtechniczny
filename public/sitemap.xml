@@ -1,196 +1,351 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
   <url>
     <loc>https://przeglady-domu.com/</loc>
-    <lastmod>2026-09-11T11:15:00.730Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przewodnik</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przeglad-budowlany</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przeglad-gazowy</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przeglad-elektryczny</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przeglad-wentylacyjny</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/blog</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://przeglady-domu.com/kontakt</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://przeglady-domu.com/cennik</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/form</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/regulamin</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/polityka-prywatnosci</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przeglad-budowlany-katowice</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przeglad-budowlany-gliwice</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przeglad-budowlany-zabrze</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przeglad-budowlany-bytom</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przeglad-budowlany-ruda-slaska</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przeglad-budowlany-chorzow</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przeglad-budowlany-swietochlowice</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przeglad-budowlany-siemianowice-slaskie</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przeglad-budowlany-piekary-slaskie</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przeglad-budowlany-tychy</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przeglad-budowlany-myslowice</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przeglad-budowlany-sosnowiec</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przeglad-budowlany-dabrowa-gornicza</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przeglad-budowlany-czeladz</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przeglad-budowlany-orzesze</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przeglad-budowlany-jaworzno</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przeglad-budowlany-mikolow</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przeglad-budowlany-tarnowskie-gory</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przeglad-budowlany-pyskowice</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://przeglady-domu.com/przeglad-budowlany-Rybnik</loc>
-    <lastmod>2026-09-11T11:15:00.731Z</lastmod>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/przeglady-techniczne-instalacja-gazowa-obowiazki-ustawowe-wlasciciela</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/plan-zagospodarowania-przestrzennego-klucz-do-spokojnego-zycia-w-nowym-domu</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/ocena-istniejacej-instalacji-elektrycznej-pod-katem-bezpieczenstwa-uzytkowania</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/jak-przeglad-wentylacji-moze-poprawic-zdrowie-mieszkancow-twojego-budynku</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/jak-interpretowac-i-nie-przeoczyc-waznych-zapisow-w-swiadectwie-energetycznym-przy-zakupie-mieszkania-lub-domu</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/na-czym-polega-przeglad-budowlany</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/przeglad-5letni-domu-a-ubezpieczenie-jak-nie-stracic-odszkodowania-po-pozarze</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/coroczny-przeglad-instalacji-gazowej-dlaczego-moze-uratowac-zycie</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/czy-przeglad-techniczny-budynku-jest-obowiazkowy-w-2025-roku</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/kupujesz-dom-oto-15-rzeczy-o-ktorych-nie-mozesz-zapomniec-zanim-sie-ostatecznie-zdecydujesz-aby-pozniej-mieszkac-i-spac-spokojnie-cz-515-dlaczego-warto-zasiegnac-opinii-sasiadow-przed-zakupem-domu</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/kupujesz-dom-oto-15-rzeczy-o-ktorych-nie-mozesz-zapomniec-zanim-sie-ostatecznie-zdecydujesz-aby-pozniej-mieszkac-i-spac-spokojnie-czesc-315-uzytkowanie-wieczyste-i-oplaty-przeksztalceniowe-</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/jak-czytac-dane-ze-swiadectwa-energetycznego</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/ocena-stanu-technicznego-instalacji-wentylacyjnych</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/nawiewniki-okienne-w-polsce-kompleksowy-przewodnik</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/ubezpieczenia-a-koszty-eksploatacji-budynkow-co-warto-wiedziec</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/kompletny-przewodnik-przeglad-5letni-domu-jednorodzinnego-od-a-do-z</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/pekniecia-w-konstrukcjach-zelbetowych-przyczyny-diagnostyka-i-naprawa</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/kupujesz-dom-oto-15-rzeczy-o-ktorych-nie-mozesz-zapomniec-zanim-sie-ostatecznie-zdecydujesz-aby-pozniej-mieszkac-i-spac-spokojnie-czesc-415-stan-techniczny-budynku</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/brak-przegladow-technicznych-budynku-konsekwencje-prawne-i-ubezpieczeniowe</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/kupujesz-dom-oto-15-rzeczy-o-ktorych-nie-mozesz-zapomniec-zanim-sie-ostatecznie-zdecydujesz-aby-pozniej-mieszkac-i-spac-spokojnie-czesc-215-pozwoleniu-na-budowe-i-uzytkowanie-odbior-budynku-i-dokumentacja-techniczna</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/od-piwnicy-po-dach-technologie-ktore-robia-roznice-w-energetyce-budynkow</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/przepisy-dotyczace-modernizacji-instalacji-gazowej-w-polsce</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/zmiany-w-przepisach-prawa-dotyczacych-montazu-nawiewnikow-okiennych-szczegolnie-w-kuchniach-z-kuchenka-gazowa</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/dom-bez-niespodzianek-10-awarii-ktorym-mozesz-z-latwoscia-zapobiec</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/ile-kosztuje-przeglad-5letni-domu-w-2026-roku-cennik-i-ukryte-pulapki</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/przeglady-techniczne-instalacja-elektryczna-w-budynkach-mieszkalnych-przepisy-procedura-i-dokumentacja</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/przeglady-techniczne-przeglad-kominiarski-w-budynkach-mieszkalnych</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://przeglady-domu.com/blog/-kupujesz-dom-oto-15-rzeczy-o-ktorych-nie-mozesz-zapomniec-zanim-sie-ostatecznie-zdecydujesz-aby-pozniej-mieszkac-i-spac-spokojnie-czesc-115-ksiega-wieczysta</loc>
+    <lastmod>2026-09-12T16:16:37.074Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>

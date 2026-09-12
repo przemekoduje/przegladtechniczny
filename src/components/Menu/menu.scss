@@ -29,7 +29,7 @@
       justify-content: space-between;
       gap: 30px;
 
-      span {
+      span, a {
         display: flex;
         align-items: center;
         gap: 8px;
@@ -38,12 +38,12 @@
         cursor: pointer;
         transition: all 0.3s ease;
         white-space: nowrap;
+        text-decoration: none;
+        color: inherit;
 
         &:hover {
           color: $color-signal-orange;
         }
-
-
       }
 
       .call-wrapper {
@@ -196,12 +196,13 @@
   align-items: center;
   gap: 40px;
 
-  span {
+  span, a {
     white-space: nowrap;
     font-family: $font-secondary;
     font-weight: 300;
     font-size: 28px;
     color: $color-text-main;
+    text-decoration: none;
     cursor: pointer;
     transition: color 0.2s, transform 0.2s;
 

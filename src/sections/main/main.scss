@@ -14,7 +14,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url("../../assets/heading_pic.png");
+    background-image: url("../../assets/heading_pic.webp");
     background-size: auto 80%;
     background-position: right -50px bottom; // Zmień -50px, aby regulować przesunięcie
     background-repeat: no-repeat;
@@ -29,7 +29,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url("../../assets/heading_pic.png");
+    background-image: url("../../assets/heading_pic.webp");
     background-size: auto 80%;
     background-position: right -50px bottom; // Ta sama wartość co wyżej
     background-repeat: no-repeat;
@@ -148,15 +148,6 @@
       }
     }
 
-    .hero-subtitle-expert {
-      font-family: $font-primary;
-      font-size: clamp(1.2rem, 1.8vw, 2rem);
-      font-weight: 500;
-      color: #334155;
-      margin: 0;
-      letter-spacing: -0.5px;
-      text-align: center;
-    }
 
     .hero-description-lines {
       font-family: $font-primary;
@@ -299,14 +290,6 @@
           }
         }
 
-        .hero-subtitle-expert {
-          font-size: 1.1rem;
-          line-height: 1.3;
-          color: #1e293b;
-          max-width: 320px;
-          margin: 4px auto 6px auto;
-          text-align: center;
-        }
 
         .hero-description-lines {
           font-size: 0.85rem;
@@ -368,10 +351,6 @@
           }
         }
 
-        .hero-subtitle-expert {
-          font-size: 0.95rem;
-          max-width: 270px;
-        }
 
         .hero-description-lines {
           font-size: 0.75rem;

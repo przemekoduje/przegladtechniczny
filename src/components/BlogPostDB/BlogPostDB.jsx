@@ -23,7 +23,7 @@ const BlogPostDB = ({
   const fallbackSrc = "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=800";
 
   const handleTitleClick = (event) => {
-    navigate(`/blogDB?openPost=${id}`);
+    navigate(`/blog?openPost=${id}`);
     event.stopPropagation();
     event.preventDefault();
     if (onTitleClick) {

@@ -2,7 +2,7 @@ import React from "react";
 import "./menu.scss";
 import Panel from "../panel/Panel";
 import { useAuth } from "../../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CallButton from "../CallButton/CallButton";
@@ -11,9 +11,6 @@ export default function Menu({ isPanelOpen, setIsPanelOpen, isTransparent }) {
   const { currentUser: user, isAdmin } = useAuth();
   // const [user, setUser] = useState(null);
   const navigate = useNavigate();
-
-  // --- BRAKUJĄCA FUNKCJA ---
-  // const location = useLocation(); // Already imported in line 6
 
   const scrollToSection = (e, id) => {
     e.stopPropagation();
@@ -31,13 +28,6 @@ export default function Menu({ isPanelOpen, setIsPanelOpen, isTransparent }) {
       navigate("/", { state: { scrollTo: id } });
       setIsPanelOpen(false);
     }
-  };
-  // -------------------------
-
-  const handleBlogClick = (e) => {
-    e.stopPropagation();
-    navigate("/blogDB");
-    setIsPanelOpen(false);
   };
 
   const handleDashboardClick = (e) => {
@@ -65,9 +55,9 @@ export default function Menu({ isPanelOpen, setIsPanelOpen, isTransparent }) {
       >
         <div className="mobile-menu-content">
           {/* LINKI MOBILE */}
-          <span onClick={(e) => scrollToSection(e, "scope-container")}>co robimy</span>
-          <span onClick={(e) => scrollToSection(e, "h5-QA")}>warto wiedzieć</span>
-          <span onClick={handleBlogClick}>poradniki</span>
+          <Link to="/#scope" onClick={(e) => scrollToSection(e, "scope")}>co robimy</Link>
+          <Link to="/#h5-QA" onClick={(e) => scrollToSection(e, "h5-QA")}>warto wiedzieć</Link>
+          <Link to="/blog" onClick={() => setIsPanelOpen(false)}>poradniki</Link>
           <span className="client-panel-link" onClick={handleDashboardClick}>
             {user && user.photoURL ? (
               <img src={user.photoURL} alt="User" className="panel-icon-img avatar" />
@@ -85,24 +75,24 @@ export default function Menu({ isPanelOpen, setIsPanelOpen, isTransparent }) {
 
       {/* Kontener menu - szerokość i układ */}
       <div className="menu-container">
-        <div className="logo" onClick={() => navigate("/")}>
-          <img
-            src="/images/v2/logo_check.png?v=3"
-            alt="Logo"
-            style={{ width: "60px" }}
-          />
+        <div className="logo">
+          <Link to="/" aria-label="Przeglądy Techniczne Nieruchomości - Strona Główna">
+            <img
+              src="/images/v2/logo_check.png?v=3"
+              alt="Przeglądy Techniczne Nieruchomości Śląsk – Inżynier Przemysław Rakotny"
+              style={{ width: "60px" }}
+            />
+          </Link>
 
           {/* LINKI DESKTOP */}
-          <div className="sitemenu">
-            <span onClick={(e) => scrollToSection(e, "scope-container")}>co robimy</span>
-            <span onClick={(e) => scrollToSection(e, "h5-QA")}>warto wiedzieć</span>
-            <span onClick={handleBlogClick}>poradniki</span>
+          <nav className="sitemenu">
+            <Link to="/#scope" onClick={(e) => scrollToSection(e, "scope")}>co robimy</Link>
+            <Link to="/#h5-QA" onClick={(e) => scrollToSection(e, "h5-QA")}>warto wiedzieć</Link>
+            <Link to="/blog" onClick={() => setIsPanelOpen(false)}>poradniki</Link>
             <div className="call-wrapper" onClick={(e) => e.stopPropagation()}>
               <CallButton phoneNumber="690029414" />
             </div>
-
-
-          </div>
+          </nav>
 
         </div>
 

@@ -6,6 +6,7 @@ import {
   Route,
   useLocation,
   Navigate,
+  useParams,
 } from "react-router-dom";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 
@@ -33,6 +34,11 @@ import ThankYouPage from "./routes/ThankYouPage/ThankYouPage";
 import CityLandingPage from "./routes/CityLandingPage/CityLandingPage"; // Twój nowy komponent
 import { citiesData } from "./helpers/citiesData"; // Dane miast do generowania ścieżek
 import AggressiveLanding from "./routes/AggressiveLanding/AggressiveLanding"; // Sprzedażowy landing page
+
+function BlogSlugRedirect() {
+  const { slug } = useParams();
+  return <Navigate to={`/blog/${slug}`} replace />;
+}
 
 function AppContent() {
   const { currentUser: user } = useAuth();
@@ -137,22 +143,9 @@ function AppContent() {
             </Layout>
           }
         />
-        <Route
-          path="/blogDB"
-          element={
-            <Layout user={user}>
-              <BlogDB />
-            </Layout>
-          }
-        />
-        <Route
-          path="/blogDB/:slug"
-          element={
-            <Layout user={user}>
-              <SingleBlogPost />
-            </Layout>
-          }
-        />
+        {/* Redirect legacy /blogDB URLs to canonical /blog */}
+        <Route path="/blogDB" element={<Navigate to="/blog" replace />} />
+        <Route path="/blogDB/:slug" element={<BlogSlugRedirect />} />
 
         {/* --- USŁUGI GŁÓWNE --- */}
         <Route

@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, Suspense, lazy } from "react";
 import { useNavigate } from "react-router-dom";
 import { MapPin } from "lucide-react";
 import iconMining from "../../assets/mining-risk-icon.png";
 import iconStarowka from "../../assets/risk-icon-starówka.png";
 import iconZielone from "../../assets/risk-icon-zielone.png";
 import "./localContext.scss";
-import SilesiaMapGL from "../SilesiaMapGL/SilesiaMapGL";
+
+const SilesiaMapGL = lazy(() => import("../SilesiaMapGL/SilesiaMapGL"));
 
 // WAŻNE:
 // 1. Umieść swój film (np. gliwice_drone.mp4) w folderze: public/videos/
@@ -67,19 +68,21 @@ const LocalContext = ({
           </div>
 
           <div className="local-map-visual">
-            <SilesiaMapGL
-              hoveredCity={hoveredCityMap || city} // Podświetlamy hover, a jak brak to obecne miasto
-              onCityHover={setHoveredCityMap}
-              onCityClick={handleCityClick}
-              interactive={true} // Włączamy interakcję (klik, hover)
-              initialViewState={{
-                longitude: 18.90, // Lekko przesunięte, żeby pasowało do układu
-                latitude: 50.28,
-                zoom: 8.5,
-                pitch: 45,
-                bearing: 0
-              }}
-            />
+            <Suspense fallback={<div className="map-loading-placeholder" style={{ minHeight: "260px", width: "100%" }}></div>}>
+              <SilesiaMapGL
+                hoveredCity={hoveredCityMap || city} // Podświetlamy hover, a jak brak to obecne miasto
+                onCityHover={setHoveredCityMap}
+                onCityClick={handleCityClick}
+                interactive={true} // Włączamy interakcję (klik, hover)
+                initialViewState={{
+                  longitude: 18.90, // Lekko przesunięte, żeby pasowało do układu
+                  latitude: 50.28,
+                  zoom: 8.5,
+                  pitch: 45,
+                  bearing: 0
+                }}
+              />
+            </Suspense>
           </div>
         </div>
 

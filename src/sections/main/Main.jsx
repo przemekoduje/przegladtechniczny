@@ -82,14 +82,9 @@ export default function Main({ user, customCity }) {
             />
           </h1>
 
-          <h2 className="hero-subtitle-expert">
-            Twój Ekspert w Kontrolach Budowlanych
-          </h2>
-
           <div className="hero-description-lines">
             <p className="desc-line">Roczne i 5-letnie kontrole.</p>
             <p className="desc-line credentials">Inżynier z uprawnieniami SLK/2122/OWOK/08.</p>
-            <p className="desc-line">Zaufaj doświadczeniu.</p>
           </div>
 
           <div className="order-button-wrapper">

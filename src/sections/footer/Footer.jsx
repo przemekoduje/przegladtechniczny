@@ -4,13 +4,6 @@ import { citiesData } from '../../helpers/citiesData';
 import "./footer.scss";
 
 export default function Footer() {
-  const topCities = [
-    "Gliwice", "Katowice", "Zabrze", "Bytom", "Ruda Śląska",
-    "Chorzów", "Tarnowskie Góry", "Mikołów", "Tychy",
-    "Dąbrowa Górnicza", "Jaworzno", "Sosnowiec", "Piekary Śląskie",
-    "Pyskowice", "Rybnik"
-  ];
-
   return (
     <footer className='footer' role="contentinfo">
       <div className="texts">
@@ -39,7 +32,7 @@ export default function Footer() {
                 <Link to="/przeglad-wentylacyjny">Kontrola Wentylacji i Kominów</Link>
               </li>
               <li>
-                <Link to="/blogDB">Baza Wiedzy i Blog Inżyniera</Link>
+                <Link to="/blog">Baza Wiedzy i Blog Inżyniera</Link>
               </li>
               <li>
                 <Link to="/form">Formularz Zamówienia Przeglądu</Link>
@@ -51,20 +44,16 @@ export default function Footer() {
           <div className="footer-col footer-col-wide">
             <h4 className="footer-col-title">Obszar Działania (Województwo Śląskie)</h4>
             <ul className="footer-cities-grid">
-              {topCities.map((cityName) => {
-                const city = citiesData.find((c) => c.name === cityName);
-                const slug = city ? city.slug : cityName.toLowerCase().replace(/ą/g, 'a').replace(/ć/g, 'c').replace(/ę/g, 'e').replace(/ł/g, 'l').replace(/ń/g, 'n').replace(/ó/g, 'o').replace(/ś/g, 's').replace(/ź/g, 'z').replace(/ż/g, 'z');
-                return (
-                  <li key={cityName}>
-                    <Link
-                      to={`/przeglad-budowlany-${slug}`}
-                      title={`Przegląd budowlany w mieście ${cityName}`}
-                    >
-                      {cityName}
-                    </Link>
-                  </li>
-                );
-              })}
+              {citiesData.map((city) => (
+                <li key={city.slug}>
+                  <Link
+                    to={`/przeglad-budowlany-${city.slug}`}
+                    title={`Przegląd budowlany w mieście ${city.name}`}
+                  >
+                    {city.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 

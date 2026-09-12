@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './scope.scss';
 import OrderButton from '../../components/OrderButton/OrderButton';
 import CallButton from '../../components/CallButton/CallButton';
@@ -33,7 +34,9 @@ const Scope = ({ user }) => {
       description: "Dla zarządców wspólnot, budynków biurowych, przemysłowych i wielkopowierzchniowych",
       features: ["Wymagane Art. 62 Prawa Budowlanego", "Kontrola instalacji i konstrukcji", "Wpis do KOB"],
       price: "Wycena indywidualna",
-      backContent: "Nasze przeglądy roczne dla sektora B2B to gwarancja spełnienia wszystkich wymogów prawnych dla dużych obiektów."
+      backContent: "Nasze przeglądy roczne dla sektora B2B to gwarancja spełnienia wszystkich wymogów prawnych dla dużych obiektów.",
+      link: "/przeglad-budowlany",
+      linkText: "Szczegóły przeglądów budowlanych"
     },
     {
       id: 'walls',
@@ -41,7 +44,9 @@ const Scope = ({ user }) => {
       description: "Kompleksowy przegląd konstrukcyjno-elektryczny wymagany przez ubezpieczycieli",
       features: ["Wymagany do wypłaty odszkodowania", "Pomiary elektryczne w cenie", "Sprawdzenie stanu technicznego domu"],
       price: "od 300 zł",
-      backContent: "Przegląd 5-letni domu to nie tylko formalność dla ubezpieczyciela, ale przede wszystkim spokój o bezpieczeństwo twoich bliskich."
+      backContent: "Przegląd 5-letni domu to nie tylko formalność dla ubezpieczyciela, ale przede wszystkim spokój o bezpieczeństwo twoich bliskich.",
+      link: "/przeglad-budowlany",
+      linkText: "Szczegóły przeglądu 5-letniego i rocznego"
     },
     {
       id: 'pipes',
@@ -49,7 +54,9 @@ const Scope = ({ user }) => {
       description: "Okresowa kontrola bezpieczeństwa instalacji w Twoim budynku",
       features: ["Kontrola szczelności instalacji gazowej", "Pomiary elektryczne", "Protokoły dla gazowni/elektrowni"],
       price: "od 300 zł",
-      backContent: "Nieszczelna instalacja gazowa lub przestarzała elektryka mogą stanowić bezpośrednie zagrożenie."
+      backContent: "Nieszczelna instalacja gazowa lub przestarzała elektryka mogą stanowić bezpośrednie zagrożenie.",
+      link: "/przeglad-gazowy",
+      linkText: "Szczegóły przeglądu gazowego i elektrycznego"
     },
     {
       id: 'foundation',
@@ -65,7 +72,9 @@ const Scope = ({ user }) => {
       description: "Nowoczesna diagnostyka budynków i instalacji fotowoltaicznych",
       features: ["Termowizja paneli PV", "Dane do audytów energetycznych", "Fotogrametria i inspekcje dachów"],
       price: "Wycena indywidualna",
-      backContent: "Dzięki zaawansowanym dronom docieramy tam, gdzie wzrok nie sięga. Szybko ocenimy stan połaci dachowej."
+      backContent: "Dzięki zaawansowanym dronom docieramy tam, gdzie wzrok nie sięga. Szybko ocenimy stan połaci dachowej.",
+      link: "/przeglad-wentylacyjny",
+      linkText: "Szczegóły kontroli wentylacji i kominów"
     },
     {
       id: 'energy',
@@ -216,6 +225,26 @@ const Scope = ({ user }) => {
                       <CallButton />
                     )}
                   </div>
+
+                  {activeService.link && (
+                    <Link
+                      to={activeService.link}
+                      className="tech-service-link"
+                      title={activeService.linkText}
+                      style={{
+                        color: "#f97316",
+                        fontSize: "0.95rem",
+                        textDecoration: "none",
+                        fontWeight: "500",
+                        marginTop: "8px",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "6px",
+                      }}
+                    >
+                      {activeService.linkText} &rarr;
+                    </Link>
+                  )}
                 </div>
               </div>
             )}

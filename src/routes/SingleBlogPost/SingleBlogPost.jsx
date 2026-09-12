@@ -135,25 +135,25 @@ export default function SingleBlogPost() {
             <nav className="post-breadcrumbs">
                 <Link to="/">Główna</Link>
                 <span className="separator">/</span>
-                <Link to="/blogDB">Poradniki</Link>
+                <Link to="/blog">Poradniki</Link>
                 <span className="separator">/</span>
                 <span className="current">{post.title}</span>
             </nav>
             <Helmet>
                 <title>{post.title} | Przeglądy Techniczne Nieruchomości</title>
                 <meta name="description" content={post.content?.replace(/(<([^>]+)>)/gi, "").slice(0, 160)} />
-                <link rel="canonical" href={`https://przeglady-domu.com/blogDB/${slug}`} />
+                <link rel="canonical" href={`https://przeglady-domu.com/blog/${slug}`} />
 
                 {/* Open Graph / Facebook */}
                 <meta property="og:type" content="article" />
-                <meta property="og:url" content={`https://przeglady-domu.com/blogDB/${slug}`} />
+                <meta property="og:url" content={`https://przeglady-domu.com/blog/${slug}`} />
                 <meta property="og:title" content={`${post.title} | Przeglądy Techniczne Nieruchomości`} />
                 <meta property="og:description" content={post.content?.replace(/(<([^>]+)>)/gi, "").slice(0, 160)} />
                 <meta property="og:image" content={post.src} />
 
                 {/* Twitter */}
                 <meta property="twitter:card" content="summary_large_image" />
-                <meta property="twitter:url" content={`https://przeglady-domu.com/blogDB/${slug}`} />
+                <meta property="twitter:url" content={`https://przeglady-domu.com/blog/${slug}`} />
                 <meta property="twitter:title" content={`${post.title} | Przeglądy Techniczne Nieruchomości`} />
                 <meta property="twitter:description" content={post.content?.replace(/(<([^>]+)>)/gi, "").slice(0, 160)} />
                 <meta property="twitter:image" content={post.src} />
@@ -295,10 +295,15 @@ export default function SingleBlogPost() {
                         })
                         .slice(0, 3)
                         .map(p => (
-                            <div key={p.id} className="read-next-card" onClick={() => navigate(`/blogDB/${createSlug(p.title)}`)}>
+                            <Link
+                                key={p.id}
+                                to={`/blog/${createSlug(p.title)}`}
+                                className="read-next-card"
+                                style={{ textDecoration: 'none', color: 'inherit' }}
+                            >
                                 <img src={p.src} alt={p.title} />
                                 <h4>{p.title}</h4>
-                            </div>
+                            </Link>
                         ))}
                 </div>
             </div>

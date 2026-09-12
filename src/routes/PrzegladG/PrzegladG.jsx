@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./przegladG.scss"; // Używamy ten sam SCSS
 import PersonIcon from "@mui/icons-material/Person";
 import Menu from "../../components/Menu/Menu";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
 const PrzegladG = ({ user, isPanelOpen, setIsPanelOpen }) => {
@@ -169,13 +169,9 @@ const PrzegladG = ({ user, isPanelOpen, setIsPanelOpen }) => {
                 gazowej, abyś mógł świadomie i odpowiedzialnie zarządzać
                 bezpieczeństwem swojego domu.
               </p>
-              <a
-                href="https://przeglady-domu.com/blogDB?openPost=2SRu4Riow0NAGtObFULo"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <Link to="/blog?openPost=2SRu4Riow0NAGtObFULo">
                 <button className="blog_button">Przeczytaj całość</button>
-              </a>
+              </Link>
             </div>
           </div>
           <div className="blog blog_two">

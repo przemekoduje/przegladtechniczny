@@ -1,27 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, Suspense, lazy } from "react";
 import "./CityListBanner.scss";
-import SilesiaMapGL from "../SilesiaMapGL/SilesiaMapGL";
 import { useNavigate, Link } from "react-router-dom";
 import { citiesData } from "../../helpers/citiesData";
 
+const SilesiaMapGL = lazy(() => import("../SilesiaMapGL/SilesiaMapGL"));
+
 const CityListBanner = () => {
-  const citiesLeft = [
-    "Gliwice",
-    "Zabrze",
-    "Katowice",
-    "Bytom",
-    "Ruda Śląska",
-    "Chorzów",
-    "Tarnowskie Góry",
-    "Mikołów",
-    "Tychy",
-    "Dąbrowa Górnicza",
-    "Jaworzno",
-    "Sosnowiec",
-    "Piekary Śląskie",
-    "Pyskowice",
-    "Rybnik",
-  ];
+  // Use all 20 cities from citiesData
+  const allCities = citiesData.map((c) => c.name);
 
   const [hoveredCity, setHoveredCity] = useState(null);
   const navigate = useNavigate();
@@ -77,18 +63,18 @@ const CityListBanner = () => {
         </div>
         <div className="two-columns">
           <div className="cities-columns">
-            {/* TUTAJ BYŁ BŁĄD - Teraz używamy renderCityItem */}
-            <ul>{citiesLeft.map((city, i) => renderCityItem(city, i))}</ul>
-            {/* <ul>{citiesRight.map((city, i) => renderCityItem(city, i))}</ul> */}
+            <ul>{allCities.map((city, i) => renderCityItem(city, i))}</ul>
           </div>
 
           {/* PRAWA STRONA: Mapa 3D */}
           <div className="city-map-side">
-            <SilesiaMapGL
-              hoveredCity={hoveredCity}
-              onCityHover={setHoveredCity}
-              onCityClick={handleCityClick}
-            />
+            <Suspense fallback={<div className="map-loading-placeholder" style={{ minHeight: "260px", width: "100%" }}></div>}>
+              <SilesiaMapGL
+                hoveredCity={hoveredCity}
+                onCityHover={setHoveredCity}
+                onCityClick={handleCityClick}
+              />
+            </Suspense>
           </div>
         </div>
       </div>
